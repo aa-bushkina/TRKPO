@@ -64,6 +64,11 @@ public class Participant extends Person implements Comparable<Participant> {
                 ", phone='" + phone +
                 ", gender='" + gender +
                 ", birthday=" + birthday +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", hips=" + hips +
+                ", waist=" + waist +
+                ", breast=" + breast +
                 '}';
     }
 
