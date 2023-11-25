@@ -1,0 +1,25 @@
+@import url('./main-layout.css');
+@import url('./views/person-form-view.css');
+@import url('lumo-css-framework/all-classes.css');
+@import url('line-awesome/dist/line-awesome/css/line-awesome.min.css');
+@import url('@fontsource/ubuntu');
+
+html {
+    --lumo-font-size: 1rem;
+    --lumo-font-size-xxxl: 3rem;
+    --lumo-font-size-xxl: 2.25rem;
+    --lumo-font-size-xl: 1.75rem;
+    --lumo-font-size-l: 1.375rem;
+    --lumo-font-size-m: 1.125rem;
+    --lumo-font-size-s: 1rem;
+    --lumo-font-size-xs: 0.875rem;
+    --lumo-font-size-xxs: 0.8125rem;
+    --lumo-base-color: rgb(212, 211, 211);
+    --lumo-body-text-color: rgb(79, 60, 78);
+    --lumo-primary-text-color: rgb(18, 11, 24);
+    --lumo-primary-color: rgb(110, 132, 163);
+    --lumo-primary-color-50pct: rgb(115, 147, 173);
+    --lumo-primary-color-10pct: rgba(102, 139, 152, 0.1);
+    --lumo-font-family: Ubuntu;
+
+}
