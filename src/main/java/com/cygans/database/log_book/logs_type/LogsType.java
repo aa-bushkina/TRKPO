@@ -1,4 +1,4 @@
-package com.cygans.database.question.question_status;
+package com.cygans.database.log_book.logs_type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,28 +9,28 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "question_status")
-public class QuestionStatus implements Serializable {
+@Table(name = "logs_type")
+public class LogsType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "type")
+    private String type;
 
     public Long getId() {
         return id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public QuestionStatus(String status) {
-        this.status = status;
+    public LogsType(String type) {
+        this.type = type;
     }
 
-    public QuestionStatus() {}
+    public LogsType() {}
 
 }

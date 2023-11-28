@@ -1,6 +1,5 @@
 package com.cygans.database.question.question_status;
 
-
 import org.springframework.data.repository.CrudRepository;
 
 public interface QuestionStatusRepository extends CrudRepository<QuestionStatus, Long> {

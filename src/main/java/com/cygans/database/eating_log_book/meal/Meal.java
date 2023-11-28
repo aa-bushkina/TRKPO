@@ -1,4 +1,4 @@
-package com.cygans.database.question.question_status;
+package com.cygans.database.eating_log_book.meal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,28 +9,29 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "question_status")
-public class QuestionStatus implements Serializable {
+@Table(name = "meal")
+public class Meal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "type")
+    private String type;
 
     public Long getId() {
         return id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public QuestionStatus(String status) {
-        this.status = status;
+    public Meal(String type) {
+        this.type = type;
     }
 
-    public QuestionStatus() {}
+    public Meal() {
+    }
 
 }

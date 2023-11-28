@@ -11,6 +11,14 @@ public class MentorService {
     @Autowired
     MentorRepository repository;
 
+    public String bulkcreate() {
+        // save a single Mentor
+//        repository.save(new Mentor("Yifei","Jin","jinjennifer@sohu.com","warwick","flat46","W8","London","34234432","Female",LocalDate.of(2002,3,8),Long.fromString("58864138-61ab-49c5-97ef-c98f8c981b0e")));
+//        repository.save(new Mentor("Ming","Li","liming@sohu.com","flat1","room1","SW& $AX","London","12345","Male", LocalDate.of(2001,1,1), Long.fromString("111d2815-54fb-4396-94fb-9a071393c336")));
+//        repository.save(new Mentor("Hong","Xiao","xiaohong@sohu.com","flat2","room3","SW& $AX2","London","12345","Male", LocalDate.of(2001,1,1),Long.fromString("222d2815-54fb-4396-94fb-9a071393c336")));
+        return "Mentor created";
+    }
+
     public void updateLastname(Long loginInfoId, String lastname) {
         Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
         mentor.setLastName(lastname);

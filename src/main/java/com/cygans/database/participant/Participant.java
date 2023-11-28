@@ -1,7 +1,7 @@
 package com.cygans.database.participant;
 
 
-import com.cygans.database.person.Person;
+import com.cygans.database.Person;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class Participant extends Person implements Comparable<Participant> {
     @Column(name = "height")
     private Integer height;
+
     @Column(name = "weight")
     private Integer weight;
     @Column(name = "hips")
@@ -54,22 +55,53 @@ public class Participant extends Person implements Comparable<Participant> {
 
     }
 
+    public String getLogbooktype() {
+        return ""; //logbooktype;
+    }
+
+    public void setLogbooktype(String logbooktype) {
+        //this.logbooktype = logbooktype;
+    }
+
     @Override
     public String toString() {
         return "Participant{" +
                 "id=" + id +
-                ", firstName='" + firstname +
-                ", lastName='" + lastname +
-                ", login='" + login +
-                ", phone='" + phone +
-                ", gender='" + gender +
-                ", birthday=" + birthday +
-                ", height=" + height +
-                ", weight=" + weight +
-                ", hips=" + hips +
-                ", waist=" + waist +
-                ", breast=" + breast +
+                ", firstName='" + firstname + ',' +
+                ", lastName='" + lastname + ',' +
+                ", email='" + login + ',' +
+                ", Phone='" + phone + ',' +
+                ", Gender='" + gender + ',' +
+                ", Birthday=" + birthday +
                 '}';
+    }
+
+    public void setRapidInsulin(boolean rapidInsulin) {
+        //rapidinsulin = rapidInsulin;
+    }
+
+    public void setShortInsulin(boolean shortInsulin) {
+        //shortinsulin = shortInsulin;
+    }
+
+
+    public void setIntermediateInsulin(boolean intermediateInsulin) {
+        //intermediateinsulin = intermediateInsulin;
+    }
+
+
+    public void setLongInsulin(boolean longInsulin) {
+        //longinsulin = longInsulin;
+    }
+
+
+    public void setDiabetesType(String diabetesType) {
+        //diabetestype = diabetesType;
+    }
+
+
+    public void setInjectionMethod(String injectionMethod) {
+        //injectionmethod = injectionMethod;
     }
 
     public Integer getHeight() {

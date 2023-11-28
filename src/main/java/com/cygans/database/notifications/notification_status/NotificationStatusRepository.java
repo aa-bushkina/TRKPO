@@ -8,4 +8,3 @@ public interface NotificationStatusRepository extends CrudRepository<Notificatio
     @Override
     <S extends NotificationStatus> S save(S s);
 }
-
