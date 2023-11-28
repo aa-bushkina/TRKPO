@@ -8,11 +8,14 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
@@ -30,8 +33,7 @@ public class ParticipantNotificationView extends VerticalLayout {
     private final Participant participant;
     private final NotificationService notificationService;
     private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService
-            notificationStatusService;
+    private final NotificationStatusService notificationStatusService;
 
     public ParticipantNotificationView(NotificationService notificationService,
                                        LoginInfoService loginInfoService,
@@ -50,8 +52,7 @@ public class ParticipantNotificationView extends VerticalLayout {
         vl.setPadding(true);
         vl.setMargin(true);
         vl.setAlignItems(Alignment.CENTER);
-        //Раскомментировать, когда появистя Toolbar
-//        add(new H5(" "), vl, grid, new Toolbar(ToolbarType.PARTICIPANT_PAGES));
+        add(new H5(" "), vl, grid, new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         setPadding(true);
         setMargin(true);
     }
@@ -81,8 +82,7 @@ public class ParticipantNotificationView extends VerticalLayout {
         button.addClickListener(click -> {
             VaadinSession.getCurrent().setAttribute("NotificationID", notification.getNotificationId());
             notification.setNotificationStatusId(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
-            //Раскомментировать, когда появится ParticipantNotificationDetailsView
-//            button.getUI().ifPresent(ui -> ui.navigate(ParticipantNotificationDetailsView.class));
+            button.getUI().ifPresent(ui -> ui.navigate(ParticipantNotificationDetailsView.class)); //change navigation class
         });
         return button;
     }

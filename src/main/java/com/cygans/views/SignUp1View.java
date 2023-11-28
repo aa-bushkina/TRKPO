@@ -2,6 +2,8 @@ package com.cygans.views;
 
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.signup.MentorSignUp2View;
 import com.cygans.views.participant.signup.ParticipantSignUp2View;
 import com.vaadin.flow.component.button.Button;
@@ -41,6 +43,7 @@ public class SignUp1View extends Div {
 
     public SignUp1View(LoginInfoService loginInfoService) {
         this.loginInfoService = loginInfoService;
+        add(new Toolbar(ToolbarType.LOGIN));
 
         mainLayoutSetUp();
         firstNameSetUp();

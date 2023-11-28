@@ -18,6 +18,8 @@ import com.cygans.database.sport_db.SportLogBookService;
 import com.cygans.database.sport_db.intensity.IntensityService;
 import com.cygans.database.sport_db.intensity.IntensityType;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -51,8 +53,7 @@ public class SportLogbookView extends Div {
     private TextArea comments;
     private Button submitButton = new Button("Добавить");
     private H3 title = new H3("Спортивная активность");
-    //Раскомментировать, когда появитсья Toolbar
-//    private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
+    private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
     private Long participantId;
     private final SportLogBookService sportLogBookService;
     private final LogService logService;
@@ -92,8 +93,7 @@ public class SportLogbookView extends Div {
                                 .getId())
                 .getId();
         init();
-        //Раскомментировать, когда появитсья Toolbar
-//        add(menu);
+        add(menu);
         add(createFields());
     }
 
@@ -165,8 +165,7 @@ public class SportLogbookView extends Div {
                     activity.getValue(),
                     comments.getValue());
             sportLogBookService.saveComprehensiveLog(sportLogBook);
-            //Раскомментировать, когда появится ParticipantConfirmationView
-            //            submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
+            submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
             if (participantMentorService.checkParticipant(participantId)) {
                 Notifications notification = new Notifications(
                         participantId,
