@@ -1,5 +1,7 @@
 package com.cygans.views.participant.logbooks;
 
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.ParticipantHomeView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -11,6 +13,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Upload Successful")
 @Route(value = "participant/upload-confirmation")
+
 public class ParticipantConfirmationView extends VerticalLayout {
     private final Button OKButton;
 
@@ -27,7 +30,6 @@ public class ParticipantConfirmationView extends VerticalLayout {
                         ui.navigate(ParticipantHomeView.class)));
         setMargin(true);
         setHorizontalComponentAlignment(Alignment.CENTER, header, tick, OKButton);
-        //Раскомментироовать, когда появится Toolbar
-//        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), header, tick, OKButton);
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), header, tick, OKButton);
     }
 }

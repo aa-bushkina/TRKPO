@@ -1,5 +1,7 @@
 package com.cygans.views.participant;
 
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -35,8 +37,7 @@ public class ParticipantHomeView extends VerticalLayout {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         authentication.getName();
-        //Раскомментировать, когда появится Toolbar
-//        add(new Toolbar(ToolbarType.PARTICIPANT_HOME));
+        add(new Toolbar(ToolbarType.PARTICIPANT_HOME));
 
         datePicker = new DatePicker("Дата");
         Locale locale = new Locale("ru", "RU");

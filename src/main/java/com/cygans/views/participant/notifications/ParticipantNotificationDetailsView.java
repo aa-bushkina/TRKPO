@@ -8,9 +8,12 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -55,8 +58,8 @@ public class ParticipantNotificationDetailsView extends Div {
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         vl.setSpacing(true);
-// Раскомментировать, когда появится Toolbar
-//        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), new H3(" "), vl);
+
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), new H3(" "), vl);
 
         if (!notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
             notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
@@ -121,10 +124,9 @@ public class ParticipantNotificationDetailsView extends Div {
                 notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
                         notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
             }
-            //Раскомментировать, когда появится ParticipantNotificationView
-//            agreeBut.getUI().ifPresent(ui ->
-//                    ui.navigate(ParticipantNotificationView.class)
-//            );
+            agreeBut.getUI().ifPresent(ui ->
+                    ui.navigate(ParticipantNotificationView.class)
+            );
         });
         backBut.addClickListener(e -> {
             if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
@@ -133,10 +135,9 @@ public class ParticipantNotificationDetailsView extends Div {
                 notificationService.updateNotificationType(thisNotification.getNotificationId(),
                         notificationTypeService.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR));
             }
-            //Раскомментировать, когда появится ParticipantNotificationView
-//            backBut.getUI().ifPresent(ui ->
-//                    ui.navigate(ParticipantNotificationView.class)
-//            );
+            backBut.getUI().ifPresent(ui ->
+                    ui.navigate(ParticipantNotificationView.class)
+            );
         });
     }
 }

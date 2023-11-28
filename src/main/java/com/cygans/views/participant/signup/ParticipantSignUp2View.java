@@ -1,6 +1,8 @@
 package com.cygans.views.participant.signup;
 
 import com.cygans.views.SignUp1View;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -37,6 +39,8 @@ public class ParticipantSignUp2View extends Div {
     private Button nextBtn, previousBtn;
 
     public ParticipantSignUp2View() {
+        add(new Toolbar(ToolbarType.LOGIN));
+
         this.gender = new RadioButtonGroup<>();
         this.datePicker = new DatePicker("Дата рождения");
         this.phone = new TextField("Номер телефона");

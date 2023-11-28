@@ -8,6 +8,9 @@ import com.cygans.security.db.authorities.Authorities;
 import com.cygans.security.db.authorities.AuthoritiesService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
+import com.cygans.views.util.Control;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -53,8 +56,7 @@ public class ParticipantSignUp3View extends Div {
         this.loginInfoService = loginInfoService;
         this.authoritiesService = authoritiesService;
         this.participantService = participantService;
-        //Расскоментировать в create-front-11
-        //add(new Toolbar(ToolbarType.LOGIN));
+        add(new Toolbar(ToolbarType.LOGIN));
 
         heightSetUp();
         weightSetUp();
@@ -213,8 +215,7 @@ public class ParticipantSignUp3View extends Div {
                 participantService.saveParticipant(participant);
 
                 getUI().get().getSession().close();
-                //Расскоментировать в create-front-11
-//                nextBtn.getUI().ifPresent(ui -> ui.navigate(Control.class));
+                nextBtn.getUI().ifPresent(ui -> ui.navigate(Control.class));
             }
         });
     }

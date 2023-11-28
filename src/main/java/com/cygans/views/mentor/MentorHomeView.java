@@ -11,6 +11,8 @@ import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -66,7 +68,7 @@ public class MentorHomeView extends VerticalLayout {
         add.setSize("50px");
         addBtn.setWidth("55px");
         addBtn.setHeight("55px");
-        // Раскомментировать, когда появится MentorAddParticipantView
+        // TODO Раскомментировать, когда появится MentorAddParticipantView
 //        addBtn.addClickListener(e ->
 //                addBtn.getUI().ifPresent(ui ->
 //                        ui.navigate(MentorAddParticipantView.class))
@@ -84,9 +86,8 @@ public class MentorHomeView extends VerticalLayout {
         vl.add(hl);
         vl.setPadding(true);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
-        // Раскомментировать, когда появится Toolbar
-//        Toolbar menu = new Toolbar(ToolbarType.MENTOR_HOME);
-//        add(vl, grid, menu);
+        Toolbar menu = new Toolbar(ToolbarType.MENTOR_HOME);
+        add(vl, grid, menu);
         setPadding(true);
         setMargin(true);
 
@@ -118,7 +119,7 @@ public class MentorHomeView extends VerticalLayout {
                 .setFlexGrow(0);
         Grid.Column<Participant> deleteColumn = grid.addComponentColumn(participant ->
                 new CustomButton("Удалить", participant.getId())).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
-//          Раскомментировать, когда появится MentorParticipantDataView
+//        TODO  Раскомментировать, когда появится MentorParticipantDataView
 //        grid.addSelectionListener(
 //                selection -> {
 //                    VaadinSession.getCurrent()

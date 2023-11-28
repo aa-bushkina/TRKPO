@@ -8,6 +8,9 @@ import com.cygans.security.db.authorities.AuthoritiesService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.SignUp1View;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
+import com.cygans.views.util.Control;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -58,6 +61,7 @@ public class MentorSignUp2View extends Div {
         this.authoritiesService = authoritiesService;
         this.loginInfoService = loginInfoService;
         this.mentorService = mentorService;
+        add(new Toolbar(ToolbarType.LOGIN));
 
         this.sex = new RadioButtonGroup<>();
         this.datePicker = new DatePicker("Дата рождения");
@@ -186,11 +190,10 @@ public class MentorSignUp2View extends Div {
                 );
                 mentorService.saveMentor(mentor);
 
-                //TODO раскоментить после добавлнеия класса Control
-//                getUI().get().getSession().close();
-//                nextBtn.getUI().ifPresent(ui ->
-//                        ui.navigate(Control.class)
-//                );
+                getUI().get().getSession().close();
+                nextBtn.getUI().ifPresent(ui ->
+                        ui.navigate(Control.class)
+                );
             }
         });
     }
