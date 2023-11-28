@@ -1,6 +1,6 @@
 package com.cygans.database.mentor;
 
-import com.cygans.database.person.Person;
+import com.cygans.database.Person;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "mentor")
 public class Mentor extends Person {
+
     public Mentor(
             String firstName,
             String lastName,
@@ -27,19 +28,10 @@ public class Mentor extends Person {
         this.loginInfoId = loginInfoId;
     }
 
-    public Mentor() {
-    }
+    public Mentor() {}
 
     @Override
     public String toString() {
-        return "Mentor {" +
-                "id=" + id +
-                ", firstName='" + firstname +
-                ", lastName='" + lastname +
-                ", login='" + login +
-                ", phone='" + phone +
-                ", gender='" + gender +
-                ", birthday=" + birthday +
-                '}';
+        return String.format("Mentor[id=%d, firstName='%s', lastName='%s']", id, firstname, lastname);
     }
 }

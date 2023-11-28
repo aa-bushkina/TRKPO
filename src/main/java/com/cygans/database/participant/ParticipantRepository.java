@@ -6,7 +6,6 @@ import java.util.List;
 
 
 public interface ParticipantRepository extends CrudRepository<Participant, Long> {
-
     Participant getParticipantByLogin(String email);
 
     Participant getParticipantById(Long id);
