@@ -22,8 +22,8 @@ public class AuthoritiesService extends CrudService<Authorities, Integer> {
         repository.save(authorities);
     }
 
-    public Long getAuthoritiesId(String authorities) {
-        return repository.getAuthoritiesByAuthority(authorities).getId();
+    public Long getAuthoritiesIdByUsername(String username) {
+        return repository.getAuthoritiesByUsername(username).getId();
     }
 
 }
