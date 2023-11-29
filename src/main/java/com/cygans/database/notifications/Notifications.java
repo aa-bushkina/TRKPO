@@ -57,24 +57,12 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         return id;
     }
 
-    public void setNotificationId(Long id) {
-        this.id = id;
-    }
-
     public Long getParticipantId() {
         return participantId;
     }
 
-    public void setParticipantId(Long id) {
-        this.participantId = id;
-    }
-
     public Long getMentorId() {
         return mentorId;
-    }
-
-    public void setMentorId(Long id) {
-        this.mentorId = id;
     }
 
     public void setQuestionId(Long id) {
@@ -113,10 +101,6 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         return date.toLocalDate();
     }
 
-    public void setDateNoTime(LocalDateTime date) {
-        this.date = date;
-    }
-
     public Long getNotificationStatusId() {
         return notificationStatusId;
     }
@@ -151,6 +135,7 @@ public class Notifications implements Serializable, Comparable<Notifications> {
 
     @Override
     public int compareTo(Notifications that) {
+        //show the nearest notification at front
         return -1 * this.date.compareTo(that.date);
     }
 }

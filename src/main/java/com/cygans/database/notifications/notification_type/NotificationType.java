@@ -17,27 +17,17 @@ public class NotificationType implements Serializable {
     @Column(name = "type")
     private String type;
 
-    public NotificationType(String type) {
-        this.type = type;
-    }
-
-    public NotificationType() {}
-
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public NotificationType(String type) {
         this.type = type;
     }
 
+    public NotificationType() {}
 }
-
