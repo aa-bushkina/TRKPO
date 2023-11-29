@@ -1,4 +1,4 @@
-package com.cygans.views.participant.settings;
+package com.cygans.views.mentor.settings;
 
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
@@ -20,18 +20,18 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @PageTitle("Change Password")
-@Route(value = "participant/change-password")
+@Route(value = "mentor/change-password")
 
-public class ParticipantSettings2View extends HorizontalLayout {
+public class MentorSettings2View extends HorizontalLayout {
     PasswordField oldPassword, newPassword, confirmPassword;
     Button confirmButton, cancelButton;
     VerticalLayout mainLayout;
     private final LoginInfoService loginInfoService;
 
-    public ParticipantSettings2View(LoginInfoService loginInfoService) {
+    public MentorSettings2View(LoginInfoService loginInfoService) {
         this.loginInfoService = loginInfoService;
-        //Раскомментировать, когда будет Toolbar
-//        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
+        //раскомментировать, когда будет Toolbar
+//        add(new Toolbar(ToolbarType.MENTOR_PAGES));
         mainLayoutInit();
         oldPasswordInit();
         confirmPasswordInit();
@@ -88,20 +88,20 @@ public class ParticipantSettings2View extends HorizontalLayout {
                             if (!confirmPassword.isInvalid()) {
                                 loginInfoService.updateUserPassword(authentication.getName(), newPassword.getValue());
                                 authentication = new UsernamePasswordAuthenticationToken(loginInfo.getLogin(), newPassword.getValue(),
-                                        AuthorityUtils.createAuthorityList(RoleEnum.PARTICIPANT.getValue()));
+                                        AuthorityUtils.createAuthorityList(RoleEnum.MENTOR.getValue()));
                                 SecurityContextHolder.getContext().setAuthentication(authentication);
                                 Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-                                confirmButton.getUI().ifPresent(ui -> ui.navigate(ParticipantSettings1View.class));
+                                confirmButton.getUI().ifPresent(ui -> ui.navigate(MentorSettings1View.class));
                             } else {
-                                Notification notification = Notification.show("Введенные пароли отличаются",3000, Notification.Position.TOP_CENTER);
+                                Notification notification = Notification.show("Введенные пароли отличаются", 3000, Notification.Position.TOP_CENTER);
                                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                             }
                         } else {
-                            Notification notification = Notification.show("Неверный пароль",3000, Notification.Position.TOP_CENTER);
+                            Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
                             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         }
                     } else {
-                        Notification notification = Notification.show("Неверный пароль",3000, Notification.Position.TOP_CENTER);
+                        Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }
                 }
@@ -113,7 +113,7 @@ public class ParticipantSettings2View extends HorizontalLayout {
         cancelButton.getElement().getStyle().set("margin-right", "auto");
         cancelButton.addClickListener(e ->
                 cancelButton.getUI().ifPresent(ui ->
-                        ui.navigate(ParticipantSettings1View.class)
+                        ui.navigate(MentorSettings1View.class)
                 )
         );
     }
