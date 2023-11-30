@@ -36,9 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Vaadin handles CSRF internally
         http.csrf().disable()
-                // Allow access to some pages for non-logged-in users
                 .authorizeRequests().antMatchers("/login", "/signUp", "/SignUp1", "/participantSignUp2", "/participantSignUp3", "/mentorSignUp2").permitAll()
                 .and().authorizeRequests().antMatchers("/participant/*").hasAuthority(RoleEnum.PARTICIPANT.getValue())
                 .and().authorizeRequests().antMatchers("/mentor/*").hasAuthority(RoleEnum.MENTOR.getValue())
