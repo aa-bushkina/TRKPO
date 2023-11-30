@@ -70,11 +70,11 @@ public class ParticipantHistoryView extends VerticalLayout {
         download.setSize("50px");
         downloadBut.setHeight("60px");
         downloadBut.setWidth("60px");
-//        downloadBut.addClickListener(e ->
-//                downloadBut.getUI().ifPresent(ui ->
-//                        ui.navigate(ParticipantDownloadView.class)
-//                )
-//        );
+        downloadBut.addClickListener(e ->
+                downloadBut.getUI().ifPresent(ui ->
+                        ui.navigate(ParticipantDownloadView.class)
+                )
+        );
         hl.add(new H3("История записей"), downloadBut);
         hl.setAlignItems(Alignment.BASELINE);
 
