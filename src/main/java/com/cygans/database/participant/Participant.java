@@ -76,34 +76,6 @@ public class Participant extends Person implements Comparable<Participant> {
                 '}';
     }
 
-    public void setRapidInsulin(boolean rapidInsulin) {
-        //rapidinsulin = rapidInsulin;
-    }
-
-    public void setShortInsulin(boolean shortInsulin) {
-        //shortinsulin = shortInsulin;
-    }
-
-
-    public void setIntermediateInsulin(boolean intermediateInsulin) {
-        //intermediateinsulin = intermediateInsulin;
-    }
-
-
-    public void setLongInsulin(boolean longInsulin) {
-        //longinsulin = longInsulin;
-    }
-
-
-    public void setDiabetesType(String diabetesType) {
-        //diabetestype = diabetesType;
-    }
-
-
-    public void setInjectionMethod(String injectionMethod) {
-        //injectionmethod = injectionMethod;
-    }
-
     public Integer getHeight() {
         return height;
     }

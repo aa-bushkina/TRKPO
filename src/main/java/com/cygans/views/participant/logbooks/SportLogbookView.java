@@ -102,16 +102,6 @@ public class SportLogbookView extends Div {
         this.activity = new TextField("Вид деятельности");
         this.comments = new TextArea("Комментарии");
         this.duration = new TextField("Продолжительность (в минутах)");
-
-        Div bloodGlucoseUnit = new Div();
-        bloodGlucoseUnit.setText("mmol/L");
-
-        Div carbsUnit = new Div();
-        carbsUnit.setText("g");
-
-        Div insulinDoseUnit = new Div();
-        insulinDoseUnit.setText("unit(s)");
-
         intensity.setItems(IntensityType.LOWER.getText(), IntensityType.MIDDLE.getText(), IntensityType.HIGH.getText());
     }
 

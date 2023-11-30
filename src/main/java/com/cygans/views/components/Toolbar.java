@@ -3,7 +3,13 @@ package com.cygans.views.components;
 import com.cygans.security.SecurityService;
 import com.cygans.views.StartView;
 import com.cygans.views.mentor.MentorHomeView;
+import com.cygans.views.mentor.notifications.MentorNotificationView;
+import com.cygans.views.mentor.settings.MentorSettings1View;
 import com.cygans.views.participant.ParticipantHomeView;
+import com.cygans.views.participant.history.ParticipantHistoryView;
+import com.cygans.views.participant.notifications.ParticipantNotificationView;
+import com.cygans.views.participant.questions.ParticipantQuestionsView;
+import com.cygans.views.participant.settings.ParticipantSettings1View;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -66,42 +72,41 @@ public class Toolbar extends AppLayout {
             );
         }
 
-        //TODO раскоментить при добавлении страниц
-//        if (Objects.equals(toolbarType, ToolbarType.PARTICIPANT_HOME)) {
-//            horizontalLayout.add(notificationBtn, historyBtn, questionsBtn, settingsBtn, logoutBtn);
-//            historyBtn.addClickListener(e ->
-//                    historyBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(ParticipantHistoryView.class)
-//                    )
-//            );
-//            questionsBtn.addClickListener(e ->
-//                    questionsBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(ParticipantQuestionsView.class)
-//                    )
-//            );
-//            settingsBtn.addClickListener(e ->
-//                    settingsBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(ParticipantSettings1View.class)
-//                    )
-//            );
-//            notificationBtn.addClickListener(e ->
-//                    notificationBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(ParticipantNotificationView.class)
-//                    )
-//            );
-//        } else if (Objects.equals(toolbarType, ToolbarType.MENTOR_HOME)) {
-//            horizontalLayout.add(notificationBtn, settingsBtn, logoutBtn);
-//            settingsBtn.addClickListener(e ->
-//                    settingsBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(MentorSettings1View.class)
-//                    )
-//            );
-//            notificationBtn.addClickListener(e ->
-//                    notificationBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(MentorNotificationView.class)
-//                    )
-//            );
-//        }
+        if (Objects.equals(toolbarType, ToolbarType.PARTICIPANT_HOME)) {
+            horizontalLayout.add(notificationBtn, historyBtn, questionsBtn, settingsBtn, logoutBtn);
+            historyBtn.addClickListener(e ->
+                    historyBtn.getUI().ifPresent(ui ->
+                            ui.navigate(ParticipantHistoryView.class)
+                    )
+            );
+            questionsBtn.addClickListener(e ->
+                    questionsBtn.getUI().ifPresent(ui ->
+                            ui.navigate(ParticipantQuestionsView.class)
+                    )
+            );
+            settingsBtn.addClickListener(e ->
+                    settingsBtn.getUI().ifPresent(ui ->
+                            ui.navigate(ParticipantSettings1View.class)
+                    )
+            );
+            notificationBtn.addClickListener(e ->
+                    notificationBtn.getUI().ifPresent(ui ->
+                            ui.navigate(ParticipantNotificationView.class)
+                    )
+            );
+        } else if (Objects.equals(toolbarType, ToolbarType.MENTOR_HOME)) {
+            horizontalLayout.add(notificationBtn, settingsBtn, logoutBtn);
+            settingsBtn.addClickListener(e ->
+                    settingsBtn.getUI().ifPresent(ui ->
+                            ui.navigate(MentorSettings1View.class)
+                    )
+            );
+            notificationBtn.addClickListener(e ->
+                    notificationBtn.getUI().ifPresent(ui ->
+                            ui.navigate(MentorNotificationView.class)
+                    )
+            );
+        }
 
         horizontalLayout.setPadding(false);
         horizontalLayout.setSpacing(false);
