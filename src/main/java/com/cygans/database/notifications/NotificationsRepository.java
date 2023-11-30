@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface NotificationRepository extends CrudRepository<Notifications, Long> {
+public interface NotificationsRepository extends CrudRepository<Notifications, Long> {
 
     List<Notifications> getNotificationsByParticipantId(Long id);
 

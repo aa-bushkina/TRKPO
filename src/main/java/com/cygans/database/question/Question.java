@@ -32,6 +32,8 @@ public class Question implements Serializable {
     @Column(name = "question_status_id")
     private Long statusId;
 
+    public Question() {
+    }
 
     public Question(Long participantId,
                     LocalDate date,
@@ -42,8 +44,6 @@ public class Question implements Serializable {
         this.question = question;
         this.statusId = statusId;
     }
-
-    public Question() {}
 
     public Long getId() {
         return id;

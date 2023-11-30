@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db;
+package com.cygans.database.sport_log_book;
 
 import com.cygans.database.Logbook;
 
@@ -30,7 +30,12 @@ public class SportLogBook extends Logbook implements Comparable<SportLogBook> {
     @Column(name = "comments", length = 300)
     private String comments;
 
-    public SportLogBook(long logBookId, long intensityId, int duration, LocalDateTime timeType, String activity, String comments) {
+    public SportLogBook(long logBookId,
+                        long intensityId,
+                        int duration,
+                        LocalDateTime timeType,
+                        String activity,
+                        String comments) {
         this.logBookId = logBookId;
         this.intensityId = intensityId;
         this.duration = duration;
@@ -70,10 +75,6 @@ public class SportLogBook extends Logbook implements Comparable<SportLogBook> {
         return timeType;
     }
 
-    public void setTimeType(LocalDateTime timeType) {
-        this.timeType = timeType;
-    }
-
     public String getActivity() {
         return activity;
     }
@@ -91,7 +92,20 @@ public class SportLogBook extends Logbook implements Comparable<SportLogBook> {
     }
 
     @Override
-    public int compareTo(SportLogBook o) {
-        return 0;
+    public int compareTo(SportLogBook that) {
+        return this.timeType.compareTo(that.timeType);
+    }
+
+    @Override
+    public String toString() {
+        return "Sport logbook{" +
+                "id=" + id +
+                ",logBookId=" + logBookId +
+                ", timeType=" + timeType +
+                ", intensityId=" + intensityId +
+                ", duration=" + duration +
+                ", activity=" + activity +
+                ", comments=" + comments +
+                "}";
     }
 }

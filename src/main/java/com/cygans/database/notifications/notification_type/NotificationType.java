@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+
 @Entity
 @Table(name = "notification_type")
 public class NotificationType implements Serializable {
@@ -17,6 +18,13 @@ public class NotificationType implements Serializable {
     @Column(name = "type")
     private String type;
 
+    public NotificationType() {
+    }
+
+    public NotificationType(String type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }
@@ -24,10 +32,4 @@ public class NotificationType implements Serializable {
     public String getType() {
         return type;
     }
-
-    public NotificationType(String type) {
-        this.type = type;
-    }
-
-    public NotificationType() {}
 }

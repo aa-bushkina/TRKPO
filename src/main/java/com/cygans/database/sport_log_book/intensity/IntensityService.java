@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db.intensity;
+package com.cygans.database.sport_log_book.intensity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,9 +26,4 @@ public class IntensityService {
       System.out.println("Что-то идет не так, почистите таблицу intensity!!! В ней должно быть только 3 заранее добавленные записи!!!");
     }
   }
-
-  public String findIntensityById(Long id) {
-    return intensityRepository.findIntensityById(id).getType();
-  }
-
 }

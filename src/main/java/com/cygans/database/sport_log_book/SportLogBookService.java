@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db;
+package com.cygans.database.sport_log_book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

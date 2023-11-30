@@ -1,8 +1,8 @@
 package com.cygans.views.mentor.notifications;
 
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.NotificationService;
 import com.cygans.database.notifications.Notifications;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -33,17 +33,17 @@ public class MentorNotificationView extends VerticalLayout {
     private ListDataProvider<Notifications> dataProvider;
     private Grid.Column<Notifications> firstNameColumn;
     private Grid.Column<Notifications> lastNameColumn;
-    private final NotificationService notificationService;
+    private final NotificationsService NotificationsService;
     private final NotificationTypeService notificationTypeService;
     private final ParticipantService participantService;
     private final Long mentorId;
 
-    public MentorNotificationView(NotificationService notificationService,
+    public MentorNotificationView(NotificationsService NotificationsService,
                                   NotificationTypeService notificationTypeService,
                                   LoginInfoService loginInfoService,
                                   ParticipantService participantService,
                                   MentorService mentorService) {
-        this.notificationService = notificationService;
+        this.NotificationsService = NotificationsService;
         this.notificationTypeService = notificationTypeService;
         this.participantService = participantService;
         mentorId = mentorService
@@ -71,7 +71,7 @@ public class MentorNotificationView extends VerticalLayout {
         grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeight("100%");
-        dataProvider = new ListDataProvider<>(notificationService.getMentorNotificationlist(mentorId));
+        dataProvider = new ListDataProvider<>(NotificationsService.getMentorNotificationlist(mentorId));
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
 

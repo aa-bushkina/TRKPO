@@ -5,7 +5,7 @@ import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.sport_db.SportLogBookService;
+import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;

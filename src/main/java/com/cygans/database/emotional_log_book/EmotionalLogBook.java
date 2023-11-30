@@ -13,22 +13,25 @@ import java.time.LocalDateTime;
 @Table(name = "emotional_log_book")
 public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLogBook> {
 
-    @Column(name="log_book_id")
+    @Column(name = "log_book_id")
     private Long logBookId;
 
-    @Column(name="time_type")
+    @Column(name = "time_type")
     private LocalDateTime timeType;
 
-    @Column(name="description", length = 1000)
+    @Column(name = "description", length = 1000)
     private String description;
 
-    public EmotionalLogBook(Long logBookId, LocalDateTime timeType, String description) {
+    public EmotionalLogBook(Long logBookId,
+                            LocalDateTime timeType,
+                            String description) {
         this.logBookId = logBookId;
         this.timeType = timeType;
         this.description = description;
     }
 
-    public EmotionalLogBook() {}
+    public EmotionalLogBook() {
+    }
 
     public Long getLogBookId() {
         return logBookId;
@@ -37,13 +40,11 @@ public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLog
     public void setLogBookId(Long logBookId) {
         this.logBookId = logBookId;
     }
-
-    public LocalDateTime getTimeType() {
-        return timeType;
-    }
-
     public void setTimeType(LocalDateTime time) {
         this.timeType = time;
+    }
+    public LocalDateTime getTimeType() {
+        return timeType;
     }
 
     public String getDescription() {
@@ -55,21 +56,18 @@ public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLog
     }
 
     @Override
-    //Compare record time of single logs
-    public int compareTo(EmotionalLogBook that){
-        int returnint=2;
-//        int thisindex=this.getTime();
-//        int thatindex=that.getTime();
-//        if(thisindex<thatindex) returnint=-1;
-//        if(thisindex==thatindex) returnint=0;
-//        if(thisindex>thatindex) returnint=1;
-        return returnint;
+    public int compareTo(EmotionalLogBook that) {
+        return this.timeType.compareTo(that.timeType);
     }
+
     @Override
     public String toString() {
-        return "Simple" +
-                "," + description +
-                "," + "-";
+        return "Emotional logbook{" +
+                "id=" + id +
+                ", logBookId=" + logBookId +
+                ", timeType=" + timeType +
+                ", description=" + description +
+                "}";
     }
 }
 

@@ -109,10 +109,6 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         this.notificationStatusId = statusId;
     }
 
-    public String getShortMessage() {
-        return shortMessage;
-    }
-
     public void setShortMessage(String shortMessage) {
         this.shortMessage = shortMessage;
     }
@@ -135,7 +131,6 @@ public class Notifications implements Serializable, Comparable<Notifications> {
 
     @Override
     public int compareTo(Notifications that) {
-        //show the nearest notification at front
         return -1 * this.date.compareTo(that.date);
     }
 }

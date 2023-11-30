@@ -5,10 +5,10 @@ import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.notifications.NotificationService;
-import com.cygans.database.sport_db.SportLogBook;
-import com.cygans.database.sport_db.SportLogBookService;
-import com.cygans.database.sport_db.intensity.IntensityService;
+import com.cygans.database.notifications.NotificationsService;
+import com.cygans.database.sport_log_book.SportLogBook;
+import com.cygans.database.sport_log_book.SportLogBookService;
+import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.history.ParticipantHistoryView;
@@ -43,7 +43,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private final EatingLogBookService eatingLogBookService;
     private final MealService mealService;
     private final IntensityService intensityService;
-    private final NotificationService notificationService;
+    private final NotificationsService NotificationsService;
 
 
     public MentorParticipantsLogbookView(EmotionalLogBookService emotionalLogBookService,
@@ -51,12 +51,12 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
                                          EatingLogBookService eatingLogBookService,
                                          MealService mealService,
                                          IntensityService intensityService,
-                                         NotificationService notificationService) {
+                                         NotificationsService NotificationsService) {
         removeAll();
         backInit();
 
         this.emotionalLogBookService = emotionalLogBookService;
-        this.notificationService = notificationService;
+        this.NotificationsService = NotificationsService;
         this.sportLogBookService = sportLogBookService;
         this.eatingLogBookService = eatingLogBookService;
         this.mealService = mealService;
@@ -73,8 +73,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
             showSportLogBookView();
         }
 
-        if (notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-            addAnswerField(notificationService.getNotificationByLogBookId(logBookId).getReplyMessage());
+        if (NotificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
+            addAnswerField(NotificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
             formLayout.add(answerField);
         }
 

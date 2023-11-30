@@ -9,7 +9,6 @@ import com.cygans.views.participant.ParticipantHomeView;
 import com.cygans.views.participant.history.ParticipantHistoryView;
 import com.cygans.views.participant.notifications.ParticipantNotificationView;
 import com.cygans.views.participant.questions.ParticipantQuestionsView;
-//import com.cygans.views.participant.settings.ParticipantSettings1View;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;

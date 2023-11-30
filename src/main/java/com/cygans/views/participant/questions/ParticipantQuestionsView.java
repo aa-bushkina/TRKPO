@@ -1,7 +1,7 @@
 package com.cygans.views.participant.questions;
 
-import com.cygans.database.notifications.NotificationService;
 import com.cygans.database.notifications.Notifications;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
@@ -61,7 +61,7 @@ public class ParticipantQuestionsView extends Div {
 
     public ParticipantQuestionsView(LoginInfoService loginInfoService,
                                     QuestionService questionService,
-                                    NotificationService notificationService,
+                                    NotificationsService NotificationsService,
                                     ParticipantService participantService,
                                     ParticipantMentorService participantMentorService,
                                     NotificationTypeService notificationTypeService,
@@ -122,7 +122,7 @@ public class ParticipantQuestionsView extends Div {
                         completeMsg = completeMsg + " ," + textArea.getValue();
 
                         notification.setAllMessage(completeMsg);
-                        notificationService.saveNotification(notification);
+                        NotificationsService.saveNotification(notification);
 
                         UI.getCurrent().getPage().reload();
                     }

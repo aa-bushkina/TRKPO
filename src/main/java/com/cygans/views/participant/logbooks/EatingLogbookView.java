@@ -8,8 +8,8 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.notifications.NotificationService;
 import com.cygans.database.notifications.Notifications;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
@@ -61,7 +61,7 @@ public class EatingLogbookView extends Div {
     private final LogsTypeService logsTypeService;
     private final ParticipantService participantService;
     private final ParticipantMentorService participantMentorService;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
 
@@ -72,7 +72,7 @@ public class EatingLogbookView extends Div {
                              LogsTypeService logsTypeService,
                              ParticipantService participantService,
                              ParticipantMentorService participantMentorService,
-                             NotificationService notificationService,
+                             NotificationsService notificationsService,
                              NotificationTypeService notificationTypeService,
                              NotificationStatusService notificationStatusService) {
         this.eatingLogBookService = eatingLogBookService;
@@ -81,7 +81,7 @@ public class EatingLogbookView extends Div {
         this.logsTypeService = logsTypeService;
         this.participantService = participantService;
         this.participantMentorService = participantMentorService;
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.notificationTypeService = notificationTypeService;
         this.notificationStatusService = notificationStatusService;
 
@@ -227,7 +227,7 @@ public class EatingLogbookView extends Div {
                                     "Содержание: " + description.getValue() + "\n"
                     );
                     notification.setLogBookId(log.getId());
-                    notificationService.saveNotification(notification);
+                    notificationsService.saveNotification(notification);
                 }
 
             }

@@ -1,7 +1,7 @@
 package com.cygans.views.participant.notifications;
 
-import com.cygans.database.notifications.NotificationService;
 import com.cygans.database.notifications.Notifications;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
@@ -34,21 +34,21 @@ public class ParticipantNotificationDetailsView extends Div {
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
     private final ParticipantService participantService;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final ParticipantMentorService participantMentorService;
     private final Notifications thisNotification;
 
     public ParticipantNotificationDetailsView(ParticipantMentorService participantMentorService,
-                                              NotificationService notificationService,
+                                              NotificationsService notificationsService,
                                               NotificationTypeService notificationTypeService,
                                               ParticipantService participantService,
                                               NotificationStatusService notificationStatusService) {
         this.notificationTypeService = notificationTypeService;
         this.notificationStatusService = notificationStatusService;
         this.participantService = participantService;
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.participantMentorService = participantMentorService;
-        thisNotification = notificationService.getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID"));
+        thisNotification = notificationsService.getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID"));
 
         backInit();
         setStyles();
@@ -62,7 +62,7 @@ public class ParticipantNotificationDetailsView extends Div {
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), new H3(" "), vl);
 
         if (!notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-            notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
+            notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
                     notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
         }
     }
@@ -113,15 +113,15 @@ public class ParticipantNotificationDetailsView extends Div {
         agreeBut.addClickListener(e -> {
             Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
             participantMentorService.create(thisNotification.getParticipantId(), thisNotification.getMentorId());
-            notificationService.resolveRequest(thisNotification.getNotificationId());
-            notificationService.reply(thisNotification.getNotificationId(),
+            notificationsService.resolveRequest(thisNotification.getNotificationId());
+            notificationsService.reply(thisNotification.getNotificationId(),
                     participantService.getFirstname(thisNotification.getParticipantId()) + " "
                             + participantService.getLastname(thisNotification.getParticipantId())
                             + " принял запрос на менторство.");
-            notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
+            notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
                     notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
             if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-                notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
+                notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
                         notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
             }
             agreeBut.getUI().ifPresent(ui ->
@@ -130,9 +130,9 @@ public class ParticipantNotificationDetailsView extends Div {
         });
         backBut.addClickListener(e -> {
             if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-                notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
+                notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
                         notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
-                notificationService.updateNotificationType(thisNotification.getNotificationId(),
+                notificationsService.updateNotificationType(thisNotification.getNotificationId(),
                         notificationTypeService.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR));
             }
             backBut.getUI().ifPresent(ui ->

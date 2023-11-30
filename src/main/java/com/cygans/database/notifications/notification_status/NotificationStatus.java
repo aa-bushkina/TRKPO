@@ -17,11 +17,11 @@ public class NotificationStatus implements Serializable {
     @Column(name = "status")
     private String status;
 
-    public NotificationStatus(String status) {
-        this.status = status;
+    public NotificationStatus() {
     }
 
-    public NotificationStatus() {
+    public NotificationStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {

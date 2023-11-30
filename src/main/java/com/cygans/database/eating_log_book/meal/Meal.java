@@ -19,6 +19,13 @@ public class Meal implements Serializable {
     @Column(name = "type")
     private String type;
 
+    public Meal() {
+    }
+
+    public Meal(String type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,12 +33,4 @@ public class Meal implements Serializable {
     public String getType() {
         return type;
     }
-
-    public Meal(String type) {
-        this.type = type;
-    }
-
-    public Meal() {
-    }
-
 }
