@@ -2,6 +2,9 @@ package com.cygans.views.participant;
 
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
+import com.cygans.views.participant.logbooks.EatingLogbookView;
+import com.cygans.views.participant.logbooks.EmotionalLogbookView;
+import com.cygans.views.participant.logbooks.SportLogbookView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -58,24 +61,23 @@ public class ParticipantHomeView extends VerticalLayout {
 
         add(new H2("Добавить запись"));
 
-        //Расскоментировать, когда появится EmotionalLogbookView SportLogbookView EatingLogbookView
-//        updateBtn.addClickListener(e -> {
-//                    VaadinSession.getCurrent().setAttribute("date", datePicker.getValue());
-//                    if (logbookType.getValue().equals("Эмоциональное состояние")) {
-//                        updateBtn.getUI().ifPresent(ui ->
-//                                ui.navigate(EmotionalLogbookView.class)
-//                        );
-//                    } else if (logbookType.getValue().equals("Спортивная активность")) {
-//                        updateBtn.getUI().ifPresent(ui ->
-//                                ui.navigate(SportLogbookView.class)
-//                        );
-//                    } else if (logbookType.getValue().equals("Приём пищи")) {
-//                        updateBtn.getUI().ifPresent(ui ->
-//                                ui.navigate(EatingLogbookView.class)
-//                        );
-//                    }
-//                }
-//        );
+        updateBtn.addClickListener(e -> {
+                    VaadinSession.getCurrent().setAttribute("date", datePicker.getValue());
+                    if (logbookType.getValue().equals("Эмоциональное состояние")) {
+                        updateBtn.getUI().ifPresent(ui ->
+                                ui.navigate(EmotionalLogbookView.class)
+                        );
+                    } else if (logbookType.getValue().equals("Спортивная активность")) {
+                        updateBtn.getUI().ifPresent(ui ->
+                                ui.navigate(SportLogbookView.class)
+                        );
+                    } else if (logbookType.getValue().equals("Приём пищи")) {
+                        updateBtn.getUI().ifPresent(ui ->
+                                ui.navigate(EatingLogbookView.class)
+                        );
+                    }
+                }
+        );
 
         setAlignItems(Alignment.CENTER);
         add(datePicker, logbookType, updateBtn);

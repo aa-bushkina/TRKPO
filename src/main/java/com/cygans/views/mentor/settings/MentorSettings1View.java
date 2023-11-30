@@ -3,6 +3,8 @@ package com.cygans.views.mentor.settings;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -64,8 +66,7 @@ public class MentorSettings1View extends HorizontalLayout {
         formLayout.setColspan(genderSelect, 1);
         buttons.add(changePassword, changeSetting, save, cancel);
         mainLayout.add(new H1(" "), new H2("Настройки"), buttons, formLayout);
-        //раскомментировать, когда будет Toolbar
-//        add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
+        add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
     }
 
     private void init(Mentor mentor) {
