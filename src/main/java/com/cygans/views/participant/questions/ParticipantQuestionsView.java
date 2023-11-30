@@ -80,7 +80,6 @@ public class ParticipantQuestionsView extends Div {
         submit.setWidth("30%");
         submit.setHeight("50px");
 
-        configSearch();
         configureHV();
         identifyClick();
 
@@ -142,25 +141,6 @@ public class ParticipantQuestionsView extends Div {
         add(verticalLayout);
     }
 
-    private void configSearch() {
-//        period.setMax(LocalDate.now());
-//        period.setLocale(new Locale("ru", "RU"));
-//        searchPanel.add(period, viewDataBtn);
-//        searchPanel.setAlignItems(FlexComponent.Alignment.BASELINE);
-//        period.addValueChangeListener(e -> checkDate = e.getValue());
-//        viewDataBtn.addClickListener(view -> {
-//            Log logBook = logService.findByDateAndParticipantId(checkDate, participantId);
-//            String logbookType;
-//            VaadinSession.getCurrent().setAttribute("CheckDate", checkDate);
-//            if (logBook != null) {
-//                logbookType = logsTypeService.getLogTypeById(logBook.getLogTypeId());
-//                VaadinSession.getCurrent().setAttribute("LogbookType", logbookType);
-//                viewDataBtn.getUI().ifPresent((ui -> ui.navigate(ParticipantLogbookView.class)));
-//            } else
-//                Notification.show("Нет записей", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-//        });
-    }
-
     private void configureHV() {
         historyList.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         historyList.setHeight("100%");
@@ -181,7 +161,6 @@ public class ParticipantQuestionsView extends Div {
         List<Question> allQuestions = questionService.getAllParticipantQuestion(participantId);
         Collections.reverse(allQuestions);
        historyList.setDataProvider(new ListDataProvider<>(allQuestions));
-        //historyList.setItems(new ListDataProvider<>(Collections.reverse(questionService.getAllParticipantQuestion(participantId))));
     }
 
     public Span buildStatusBadge(Question question) {
