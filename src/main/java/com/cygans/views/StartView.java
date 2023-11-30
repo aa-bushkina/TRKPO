@@ -74,7 +74,6 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        // Сообщаем об ошибке ауентификации
         if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()

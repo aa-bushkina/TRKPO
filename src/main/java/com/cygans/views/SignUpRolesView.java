@@ -18,8 +18,7 @@ public class SignUpRolesView extends VerticalLayout {
     private final Button mentorButton;
 
     public SignUpRolesView() {
-        Toolbar menu = new Toolbar(ToolbarType.LOGIN);
-        add(menu);
+        add(new Toolbar(ToolbarType.LOGIN));
         H2 header = new H2("Выберите тип аккаунта:");
         participantButton = new Button("Участник марафона");
         participantButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

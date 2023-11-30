@@ -26,6 +26,5 @@ public class AccessDenialView extends Div {
         vl.add(errorMsg, homeBut);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         add(vl);
-
     }
 }
