@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db.intensity;
+package com.cygans.database.sport_log_book.intensity;
 
 public enum IntensityType {
 

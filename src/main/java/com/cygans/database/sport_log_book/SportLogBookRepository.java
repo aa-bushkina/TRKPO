@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db;
+package com.cygans.database.sport_log_book;
 
 import org.springframework.data.repository.CrudRepository;
 

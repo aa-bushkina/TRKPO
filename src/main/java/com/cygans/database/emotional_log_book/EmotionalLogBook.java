@@ -62,6 +62,7 @@ public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLog
     public String toString() {
         return "Emotional logbook{" +
                 "id=" + id +
+                ", logBookId=" + logBookId +
                 ", timeType=" + timeType +
                 ", description=" + description +
                 "}";

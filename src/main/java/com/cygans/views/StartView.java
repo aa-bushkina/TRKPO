@@ -5,7 +5,7 @@ import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.question.question_status.QuestionStatusService;
-import com.cygans.database.sport_db.intensity.IntensityService;
+import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;

@@ -13,10 +13,10 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.database.sport_db.SportLogBook;
-import com.cygans.database.sport_db.SportLogBookService;
-import com.cygans.database.sport_db.intensity.IntensityService;
-import com.cygans.database.sport_db.intensity.IntensityType;
+import com.cygans.database.sport_log_book.SportLogBook;
+import com.cygans.database.sport_log_book.SportLogBookService;
+import com.cygans.database.sport_log_book.intensity.IntensityService;
+import com.cygans.database.sport_log_book.intensity.IntensityType;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;

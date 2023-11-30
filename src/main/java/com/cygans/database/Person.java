@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @MappedSuperclass
-public abstract class Person implements Serializable{
+public abstract class Person implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -87,8 +87,8 @@ public abstract class Person implements Serializable{
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
+
     public Long getLoginInfoId() {
         return loginInfoId;
     }
-
 }

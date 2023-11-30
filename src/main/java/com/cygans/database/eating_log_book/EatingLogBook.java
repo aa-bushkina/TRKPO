@@ -95,6 +95,7 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     public String toString() {
         return "Eating logbook{" +
                 "id=" + id +
+                ", logBookId=" + logBookId +
                 ", timeEat=" + timeEat +
                 ", description=" + description +
                 ", mealId=" + mealId +
