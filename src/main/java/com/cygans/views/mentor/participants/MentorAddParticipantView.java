@@ -2,7 +2,7 @@ package com.cygans.views.mentor.participants;
 
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
@@ -46,7 +46,7 @@ public class MentorAddParticipantView extends Div {
                                     ParticipantMentorService participantMentorService,
                                     ParticipantService participantService,
                                     LoginInfoService loginInfoService,
-                                    NotificationService notificationService,
+                                    NotificationsService notificationsService,
                                     NotificationTypeService notificationTypeService,
                                     NotificationStatusService notificationStatusService) {
 
@@ -66,7 +66,7 @@ public class MentorAddParticipantView extends Div {
 
                     if (participantId == null) {
                         Notification.show("Участник не найден", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (notificationService.getNotificationWithAnswerNotSeenList(participantId)
+                    } else if (notificationsService.getNotificationWithAnswerNotSeenList(participantId)
                             .stream()
                             .anyMatch(notification -> notification.getMentorId().equals(mentorId)
                                     && notification.getNotificationTypeId().equals(notificationTypeService.getNotificationTypeId(TypeOfNotification.ADD_REQUEST)))) {
@@ -99,7 +99,7 @@ public class MentorAddParticipantView extends Div {
                                         "Дата: " + n.getDate().toLocalDate() + "\n" +
                                         "Время: " + n.getDate().toLocalTime() + "\n"
                         );
-                        notificationService.saveNotification(n);
+                        notificationsService.saveNotification(n);
 
                         UI.getCurrent().getPage().reload();
                     }

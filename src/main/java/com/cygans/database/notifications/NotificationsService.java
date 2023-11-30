@@ -8,28 +8,28 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class NotificationService {
+public class NotificationsService {
     @Autowired
-    private NotificationRepository notificationRepository;
+    private NotificationsRepository notificationsRepository;
     @Autowired
     private NotificationStatusRepository notificationStatusRepository;
 
     public void resolveRequest(long id) {
-        Notifications notification = notificationRepository.getNotificationById(id);
+        Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setNotificationStatusId(notificationStatusRepository.findNotificationStatusByStatus(StatusOfNotification.ANSWERED_NOT_SEEN.getValue()).getId());
-        notificationRepository.save(notification);
+        notificationsRepository.save(notification);
     }
 
     public void reply(long id, String msg) {
-        Notifications notification = notificationRepository.getNotificationById(id);
+        Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setReplyMessage(msg);
-        notificationRepository.save(notification);
+        notificationsRepository.save(notification);
     }
 
 
     public List<Notifications> getMentorNotificationlist(Long mentorId) {
         Long status = notificationStatusRepository.findNotificationStatusByStatus(StatusOfNotification.NO_ANSWER.getValue()).getId();
-        return notificationRepository.getNotificationByMentorId(mentorId)
+        return notificationsRepository.getNotificationByMentorId(mentorId)
                 .stream()
                 .filter(notifications -> notifications.getNotificationStatusId().equals(status))
                 .sorted()
@@ -37,7 +37,7 @@ public class NotificationService {
     }
 
     public List<Notifications> getNotificationWithAnswerNotSeenList(Long participantId) {
-        return notificationRepository
+        return notificationsRepository
                 .getNotificationsByParticipantId(participantId)
                 .stream()
                 .filter(notification -> notification.getNotificationStatusId()
@@ -48,28 +48,28 @@ public class NotificationService {
     }
 
     public Notifications getNotificationById(long id) {
-        return notificationRepository.getNotificationById(id);
+        return notificationsRepository.getNotificationById(id);
     }
 
     public Notifications getNotificationByLogBookId(long id) {
-        return notificationRepository.getNotificationByLogBookId(id);
+        return notificationsRepository.getNotificationByLogBookId(id);
     }
 
     public void updateNotificationStatus(Long id, Long statusId) {
-        Notifications notification = notificationRepository.getNotificationById(id);
+        Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setNotificationStatusId(statusId);
-        notificationRepository.save(notification);
+        notificationsRepository.save(notification);
     }
 
     public void updateNotificationType(Long id, Long typeId) {
-        Notifications notification = notificationRepository.getNotificationById(id);
+        Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setNotificationTypeId(typeId);
-        notificationRepository.save(notification);
+        notificationsRepository.save(notification);
     }
 
 
     public void saveNotification(Notifications notification) {
-        notificationRepository.save(notification);
+        notificationsRepository.save(notification);
     }
 
 }

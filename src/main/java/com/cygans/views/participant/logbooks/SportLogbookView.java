@@ -5,7 +5,7 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
@@ -60,7 +60,7 @@ public class SportLogbookView extends Div {
     private final IntensityService intensityService;
     private final LogsTypeService logsTypeService;
     private final ParticipantMentorService participantMentorService;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final NotificationTypeService notificationTypeService;
     private final ParticipantService participantService;
     private final NotificationStatusService notificationStatusService;
@@ -72,7 +72,7 @@ public class SportLogbookView extends Div {
                             IntensityService intensityService,
                             LogsTypeService logsTypeService,
                             ParticipantMentorService participantMentorService,
-                            NotificationService notificationService,
+                            NotificationsService notificationsService,
                             NotificationTypeService notificationTypeService,
                             ParticipantService participantService,
                             NotificationStatusService notificationStatusService) {
@@ -81,7 +81,7 @@ public class SportLogbookView extends Div {
         this.intensityService = intensityService;
         this.logsTypeService = logsTypeService;
         this.participantMentorService = participantMentorService;
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.notificationTypeService = notificationTypeService;
         this.participantService = participantService;
         this.notificationStatusService = notificationStatusService;
@@ -186,7 +186,7 @@ public class SportLogbookView extends Div {
                                 "Описание: " + comments.getValue()
                 );
                 notification.setLogBookId(log.getId());
-                notificationService.saveNotification(notification);
+                notificationsService.saveNotification(notification);
             }
         });
 

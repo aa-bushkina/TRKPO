@@ -2,7 +2,7 @@ package com.cygans.views.mentor;
 
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
@@ -47,7 +47,7 @@ public class MentorHomeView extends VerticalLayout {
     private final Button addBtn = new Button(add);
     private final ParticipantMentorService participantMentorService;
     private final Mentor mentor;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final NotificationStatusService notificationStatusService;
 
 
@@ -55,7 +55,7 @@ public class MentorHomeView extends VerticalLayout {
                           ParticipantMentorService participantMentorService,
                           MentorService mentorService,
                           NotificationTypeService notificationTypeService,
-                          NotificationService notificationService,
+                          NotificationsService notificationsService,
                           NotificationStatusService notificationStatusService) {
         this.notificationStatusService = notificationStatusService;
         this.participantMentorService = participantMentorService;
@@ -63,7 +63,7 @@ public class MentorHomeView extends VerticalLayout {
 
         Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         mentor = mentorService.getMentorByLoginInfoId(loginInfoId);
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
 
         add.setSize("50px");
         addBtn.setWidth("55px");
@@ -183,7 +183,7 @@ public class MentorHomeView extends VerticalLayout {
                                 "Дата: " + notification.getDate().toLocalDate() + "\n" +
                                 "Время: " + notification.getDate().toLocalTime() + "\n"
                 );
-                notificationService.saveNotification(notification);
+                notificationsService.saveNotification(notification);
             });
         }
     }

@@ -6,7 +6,7 @@ import com.cygans.database.eating_log_book.MealType;
 import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
@@ -56,7 +56,7 @@ public class ParticipantLogbookView extends VerticalLayout {
   private final EatingLogBookService eatingLogBookService;
   private final MealService mealService;
   private final IntensityService intensityService;
-  private final NotificationService notificationService;
+  private final NotificationsService notificationsService;
 
 
   public ParticipantLogbookView(EmotionalLogBookService emotionalLogBookService,
@@ -64,12 +64,12 @@ public class ParticipantLogbookView extends VerticalLayout {
                                 EatingLogBookService eatingLogBookService,
                                 MealService mealService,
                                 IntensityService intensityService,
-                                NotificationService notificationService) {
+                                NotificationsService notificationsService) {
     removeAll();
     init();
 
     this.emotionalLogBookService = emotionalLogBookService;
-    this.notificationService = notificationService;
+    this.notificationsService = notificationsService;
     this.sportLogBookService = sportLogBookService;
     this.eatingLogBookService = eatingLogBookService;
     this.mealService = mealService;
@@ -87,8 +87,8 @@ public class ParticipantLogbookView extends VerticalLayout {
     }
 
 
-    if (notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-      addAnswerField(notificationService.getNotificationByLogBookId(logBookId).getReplyMessage());
+    if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
+      addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
       formLayout.add(answerField);
     }
 
@@ -269,7 +269,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     hourFoodTextInit(hourFoodText);
     minuteFoodTextInit(minuteFoodText);
     if (eatingLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);
@@ -349,7 +349,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     durationInit(durationText);
 
     if (sportLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);
@@ -403,7 +403,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     emotionalDescText = emotionalLogBookService.findByLogBookId(logBookId).getDescription();
     emotionalDescInit(emotionalDescText);
     if (emotionalLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);

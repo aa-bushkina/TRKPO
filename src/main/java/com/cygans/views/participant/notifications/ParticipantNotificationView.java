@@ -1,6 +1,6 @@
 package com.cygans.views.participant.notifications;
 
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
@@ -31,16 +31,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class ParticipantNotificationView extends VerticalLayout {
     private Grid<Notifications> grid;
     private final Participant participant;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
 
-    public ParticipantNotificationView(NotificationService notificationService,
+    public ParticipantNotificationView(NotificationsService notificationsService,
                                        LoginInfoService loginInfoService,
                                        ParticipantService participantService,
                                        NotificationTypeService notificationTypeService,
                                        NotificationStatusService notificationStatusService) {
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.notificationStatusService = notificationStatusService;
         this.notificationTypeService = notificationTypeService;
         Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
@@ -61,7 +61,7 @@ public class ParticipantNotificationView extends VerticalLayout {
         grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setAllRowsVisible(true);
-        grid.setDataProvider(new ListDataProvider<>(notificationService.getNotificationWithAnswerNotSeenList(participant.getId())));
+        grid.setDataProvider(new ListDataProvider<>(notificationsService.getNotificationWithAnswerNotSeenList(participant.getId())));
         grid.setAllRowsVisible(true);
         grid.addColumn(Notifications::getDateNoTime, "Date")
                 .setHeader("Дата")

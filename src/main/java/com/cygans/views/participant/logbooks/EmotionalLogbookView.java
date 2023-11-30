@@ -6,7 +6,7 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
@@ -46,7 +46,7 @@ public class EmotionalLogbookView extends Div {
     private final TextArea emotionalText = new TextArea();
     private final Long participantId;
     private final EmotionalLogBookService emotionalLogBookService;
-    private final NotificationService notificationService;
+    private final NotificationsService notificationsService;
     private final ParticipantService participantService;
     private final ParticipantMentorService participantMentorService;
     private final LogService logService;
@@ -56,7 +56,7 @@ public class EmotionalLogbookView extends Div {
 
     public EmotionalLogbookView(LoginInfoService loginInfoService,
                                 EmotionalLogBookService emotionalLogBookService,
-                                NotificationService notificationService,
+                                NotificationsService notificationsService,
                                 ParticipantService participantService,
                                 ParticipantMentorService participantMentorService,
                                 LogService logService,
@@ -65,7 +65,7 @@ public class EmotionalLogbookView extends Div {
                                 NotificationStatusService notificationStatusService) {
         this.notificationStatusService = notificationStatusService;
         this.emotionalLogBookService = emotionalLogBookService;
-        this.notificationService = notificationService;
+        this.notificationsService = notificationsService;
         this.participantService = participantService;
         this.participantMentorService = participantMentorService;
         this.logService = logService;
@@ -141,7 +141,7 @@ public class EmotionalLogbookView extends Div {
                                 "Содержание: " + emotionalText
                 );
                 notification.setLogBookId(log.getId());
-                notificationService.saveNotification(notification);
+                notificationsService.saveNotification(notification);
             }
             submitButton.getUI().ifPresent(ui ->
                     ui.navigate(ParticipantConfirmationView.class)

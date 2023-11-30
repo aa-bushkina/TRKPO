@@ -135,7 +135,6 @@ public class Notifications implements Serializable, Comparable<Notifications> {
 
     @Override
     public int compareTo(Notifications that) {
-        //show the nearest notification at front
         return -1 * this.date.compareTo(that.date);
     }
 }
