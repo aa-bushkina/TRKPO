@@ -3,6 +3,8 @@ package com.cygans.views.mentor.settings;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
@@ -30,8 +32,7 @@ public class MentorSettings2View extends HorizontalLayout {
 
     public MentorSettings2View(LoginInfoService loginInfoService) {
         this.loginInfoService = loginInfoService;
-        //раскомментировать, когда будет Toolbar
-//        add(new Toolbar(ToolbarType.MENTOR_PAGES));
+        add(new Toolbar(ToolbarType.MENTOR_PAGES));
         mainLayoutInit();
         oldPasswordInit();
         confirmPasswordInit();
