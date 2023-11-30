@@ -31,11 +31,8 @@ import com.vaadin.flow.server.VaadinSession;
 @PageTitle("Participant Sign Up")
 @Route(value = "participantSignUp1")
 public class SignUp1View extends Div {
-    TextField firstName;
-    TextField lastName;
-    TextField login;
-    PasswordField password;
-    PasswordField confirmPassword;
+    TextField firstName, lastName, login;
+    PasswordField password, confirmPassword;
     Button nextBtn;
     FormLayout formLayout;
     VerticalLayout mainLayout;
@@ -77,32 +74,23 @@ public class SignUp1View extends Div {
         nextBtn.getElement().getStyle().set("margin-left", "auto");
         nextBtn.addClickListener(e -> {
             if (firstName.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (lastName.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (loginInfoService.findByLogin(login.getValue()) != null) {
-                Notification notification = Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат пароля", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверный формат пароля", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (confirmPassword.isEmpty()) {
-                Notification notification = Notification.show("Необходимо повторно ввести пароль", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо повторно ввести пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (!password.getValue().equals(confirmPassword.getValue())) {
-                Notification notification = Notification.show("Пароли не совпадают", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Пароли не совпадают", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 VaadinSession.getCurrent().setAttribute("FirstName", firstName.getValue());
                 VaadinSession.getCurrent().setAttribute("LastName", lastName.getValue());
