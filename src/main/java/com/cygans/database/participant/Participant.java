@@ -60,6 +60,26 @@ public class Participant extends Person implements Comparable<Participant> {
         //this.logbooktype = logbooktype;
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public Integer getHips() {
+        return hips;
+    }
+
+    public Integer getWaist() {
+        return waist;
+    }
+
+    public Integer getBreast() {
+        return breast;
+    }
+
     public void setHeight(Integer height) {
         this.height = height;
     }

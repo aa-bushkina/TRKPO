@@ -13,6 +13,8 @@ import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
+import com.cygans.views.mentor.participants.MentorAddParticipantView;
+import com.cygans.views.mentor.participants.MentorParticipantDataView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
@@ -68,11 +70,10 @@ public class MentorHomeView extends VerticalLayout {
         add.setSize("50px");
         addBtn.setWidth("55px");
         addBtn.setHeight("55px");
-        // TODO Раскомментировать, когда появится MentorAddParticipantView
-//        addBtn.addClickListener(e ->
-//                addBtn.getUI().ifPresent(ui ->
-//                        ui.navigate(MentorAddParticipantView.class))
-//        );
+        addBtn.addClickListener(e ->
+                addBtn.getUI().ifPresent(ui ->
+                        ui.navigate(MentorAddParticipantView.class))
+        );
 
         HorizontalLayout hl = new HorizontalLayout();
         H3 title = new H3("Мои участники");
@@ -119,13 +120,12 @@ public class MentorHomeView extends VerticalLayout {
                 .setFlexGrow(0);
         Grid.Column<Participant> deleteColumn = grid.addComponentColumn(participant ->
                 new CustomButton("Удалить", participant.getId())).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
-//        TODO  Раскомментировать, когда появится MentorParticipantDataView
-//        grid.addSelectionListener(
-//                selection -> {
-//                    VaadinSession.getCurrent()
-//                            .setAttribute("PatientID", selection.getFirstSelectedItem().get().getLoginInfoId());
-//                    grid.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class));
-//                });
+        grid.addSelectionListener(
+                selection -> {
+                    VaadinSession.getCurrent()
+                            .setAttribute("PatientID", selection.getFirstSelectedItem().get().getLoginInfoId());
+                    grid.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class));
+                });
 
         HeaderRow filterRow = grid.appendHeaderRow();
         TextField firstNameFilter = new TextField();
