@@ -19,14 +19,6 @@ public class ParticipantMentorService {
         participantMentorRepository.save(new ParticipantMentor(participantId, mentorId));
     }
 
-    public String search(long id) {
-        return participantMentorRepository.findById(id).toString();
-    }
-
-    public List<ParticipantMentor> getMentorParticipantsList(Long mentorId){
-        return participantMentorRepository.getAllByMentorId(mentorId);
-    }
-
     public List<Participant> getParticipantsByMentor(Long mentorId) {
         List<ParticipantMentor> participantMentorList = participantMentorRepository.getAllByMentorId(mentorId);
         List<Participant> participants = new ArrayList<>();
@@ -34,14 +26,6 @@ public class ParticipantMentorService {
             participants.add(participantService.getParticipantById(log.getParticipantId()));
         }
         return participants;
-    }
-
-    public void updateParticipantId(long id, Long participantId) {
-        participantMentorRepository.getMentorParticipantById(id).setParticipantId(participantId);
-    }
-
-    public void updateMentorId(long id, Long mentorId) {
-        participantMentorRepository.getMentorParticipantById(id).setMentorId(mentorId);
     }
 
     public boolean exist(Long participantId) {

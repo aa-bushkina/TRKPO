@@ -49,15 +49,6 @@ public class Participant extends Person implements Comparable<Participant> {
     }
 
     public Participant() {
-
-    }
-
-    public String getLogbooktype() {
-        return ""; //logbooktype;
-    }
-
-    public void setLogbooktype(String logbooktype) {
-        //this.logbooktype = logbooktype;
     }
 
     public Integer getHeight() {

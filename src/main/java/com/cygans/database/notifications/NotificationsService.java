@@ -67,7 +67,6 @@ public class NotificationsService {
         notificationsRepository.save(notification);
     }
 
-
     public void saveNotification(Notifications notification) {
         notificationsRepository.save(notification);
     }

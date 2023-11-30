@@ -11,8 +11,6 @@ public interface ParticipantMentorRepository extends CrudRepository<ParticipantM
 
     ParticipantMentor findByParticipantId(Long participantId);
 
-    ParticipantMentor getMentorParticipantById(long id);
-
     @Override
     void delete(ParticipantMentor participantMentor);
 
