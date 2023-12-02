@@ -45,7 +45,7 @@ import java.util.ArrayList;
 
 
 @PageTitle("Add eating logbook")
-@Route(value = "participant/eating-logbook-entry-upload")
+@Route(value = "participant/eating-logbook")
 public class EatingLogbookView extends Div {
     private ComboBox<String> hourPicker;
     private ComboBox<String> minutePicker;
@@ -147,7 +147,7 @@ public class EatingLogbookView extends Div {
         descr.setText("d");
 
         Div type = new Div();
-        descr.setText("d");
+        type.setText("d");
     }
 
     private void setClearButtonVisible() {
