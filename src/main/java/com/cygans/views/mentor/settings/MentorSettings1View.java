@@ -64,7 +64,7 @@ public class MentorSettings1View extends HorizontalLayout {
         formLayout.setColspan(loginField, 1);
         formLayout.setColspan(phoneField, 1);
         formLayout.setColspan(genderSelect, 1);
-        buttons.add(changePassword, changeSetting, save, cancel);
+        buttons.add(changePassword, changeSetting, cancel, save);
         mainLayout.add(new H1(" "), new H2("Настройки"), buttons, formLayout);
         add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
     }
@@ -164,7 +164,7 @@ public class MentorSettings1View extends HorizontalLayout {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-left", "1em");
+        save.getElement().getStyle().set("margin-left", "18em");
         save.addClickListener(e -> {
             if (firstnameField.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER);
@@ -214,7 +214,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void cancelInit() {
         cancel = new Button("Отменить");
         cancel.setVisible(false);
-        cancel.getElement().getStyle().set("margin-left", "auto");
+        cancel.getElement().getStyle().set("margin-right", "auto");
         cancel.addClickListener(e -> {
             firstnameField.setValue(firstname);
             lastnameField.setValue(lastname);

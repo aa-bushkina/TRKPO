@@ -222,7 +222,6 @@ public class ParticipantSignUp3View extends Div {
 
     private void previousBtnInit() {
         previousBtn = new Button("Назад", new Icon(VaadinIcon.ARROW_LEFT));
-        previousBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         previousBtn.getElement().getStyle().set("margin-right", "auto");
         previousBtn.addClickListener(e -> {
             setSession();

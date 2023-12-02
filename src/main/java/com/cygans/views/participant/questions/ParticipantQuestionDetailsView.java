@@ -38,7 +38,7 @@ public class ParticipantQuestionDetailsView extends Div {
     private Long questionId;
 
     private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
-    private Button Back = new Button("Назад");
+    private final Button Back = new Button("Назад");
     private final TextArea msg = new TextArea("Сообщение:");
     private final TextArea replyMsg = new TextArea();
     private final Button agreeBut = new Button("Принять");
