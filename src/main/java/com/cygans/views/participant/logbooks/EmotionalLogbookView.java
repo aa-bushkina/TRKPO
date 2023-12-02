@@ -13,6 +13,7 @@ import com.cygans.database.notifications.notification_status.StatusOfNotificatio
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
@@ -124,25 +125,28 @@ public class EmotionalLogbookView extends Div {
                     emotionalText.getValue()
             );
             emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
+            Long participantMentorId = null;
             if (participantMentorService.checkParticipant(participantId)) {
-                Notifications notification = new Notifications(
-                        participantId,
-                        participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId(), // Mentor uid
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-                );
-                notification.setShortMessage("Новая запись о эмоциональном состоянии");
-                notification.setAllMessage(
-                        participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                                + " добавил(-а) запись о свочем эмоциональном состоянии.\n" +
-                                "\n" +
-                                "Дата: " + notification.getDate().toLocalDate() + "\n" +
-                                "Время: " + notification.getDate().toLocalTime() + "\n" +
-                                "Содержание: " + emotionalText
-                );
-                notification.setLogBookId(log.getId());
-                notificationsService.saveNotification(notification);
+                participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
             }
+            Notifications notification = new Notifications(
+                    participantId,
+                    participantMentorId,
+                    notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
+                    notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
+            );
+            notification.setShortMessage("Новая запись о эмоциональном состоянии");
+            notification.setAllMessage(
+                    participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
+                            + " добавил(-а) запись о свочем эмоциональном состоянии.\n" +
+                            "\n" +
+                            "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                            "Время: " + notification.getDate().toLocalTime() + "\n" +
+                            "Содержание: " + emotionalText
+            );
+            notification.setLogBookId(log.getId());
+            notificationsService.saveNotification(notification);
+
             submitButton.getUI().ifPresent(ui ->
                     ui.navigate(ParticipantConfirmationView.class)
             );
