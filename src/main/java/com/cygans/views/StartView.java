@@ -44,6 +44,7 @@ import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -68,7 +69,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private LogsTypeService logsTypeService;
     private IntensityService intensityService;
     private MealService mealService;
-
+    private DateTimeFormatter formatter;
     private long createParticipant(String name, String surname, String login, String passwd, String phone)
     {
         Authorities authorities = new Authorities(login, RoleEnum.PARTICIPANT.getValue());
@@ -146,7 +147,13 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         }
 
         if (participantService.isNeedToAddHardcodedUser()) {
-          createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
+          partId =  createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
+
+          addLogbookToEmotional(partId, "Нужна для смерть для того чтобы ценить жизнь? Думала об этом весь день", "2023-11-07");
+          addLogbookToEmotional(partId, "Весь день думала о пельменях и бургерах. Мне хорошо.", "2023-11-08");
+          addLogbookToEmotional(partId, "Пока читала книгу о похудении съела роллы", "2023-11-09");
+
+
           createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
           createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
           createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
@@ -160,27 +167,27 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
     }
 
-    private void addLogbookToEmotional(long participantId, String text)
+    private void addLogbookToEmotional(long participantId, String text,String date)
     {
-        Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText()));
+        Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText()));
         logService.saveLog(log);
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(), LocalDateTime.now(), text);
         emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
     }
 
 
-    private void addLogbookToSport(long participantId, String intes, int duration, String active, String comments)
+    private void addLogbookToSport(long participantId, String intes, int duration, String active, String comments,String date)
     {
-      Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
+      Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
       logService.saveLog(log);
       SportLogBook sportLogBook = new SportLogBook(log.getId(),
         intensityService.getIntensityId(intes), duration, LocalDateTime.now(), active, comments);
       sportLogBookService.saveSportLog(sportLogBook);
     }
 
-  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType)
+  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType,String date)
   {
-    Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
+    Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
     logService.saveLog(log);
     EatingLogBook eatingLogBook = new EatingLogBook(
       log.getId(), timeEat, description,
@@ -203,6 +210,8 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      EatingLogBookService eatingLogBookService,
                      SportLogBookService sportLogBookService,
                      LogService logService) {
+
+        this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.logsTypeService = logsTypeService;
         this.logService = logService;
