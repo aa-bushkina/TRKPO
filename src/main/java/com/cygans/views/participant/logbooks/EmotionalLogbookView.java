@@ -39,7 +39,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @PageTitle("Add Emotional Logbook Entry")
-@Route(value = "participant/emotional-logbook-entry-upload")
+@Route(value = "participant/emotional-logbook")
 public class EmotionalLogbookView extends Div {
     private final H3 title = new H3("Эмоциональное состояние");
     private final Button submitButton = new Button("Добавить");

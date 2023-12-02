@@ -45,16 +45,15 @@ import java.time.LocalDateTime;
 
 
 @PageTitle("Add sport logbook")
-@Route(value = "participant/comprehensive-logbook-entry-upload")
+@Route(value = "participant/sport-logbook")
 public class SportLogbookView extends Div {
     private ComboBox<String> intensity;
     private TextField duration;
     private TextField activity;
     private TextArea comments;
-    private Button submitButton = new Button("Добавить");
-    private H3 title = new H3("Спортивная активность");
-    private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
-    private Long participantId;
+    private final Button submitButton = new Button("Добавить");
+    private final H3 title = new H3("Спортивная активность");
+    private final Long participantId;
     private final SportLogBookService sportLogBookService;
     private final LogService logService;
     private final IntensityService intensityService;
@@ -93,7 +92,7 @@ public class SportLogbookView extends Div {
                                 .getId())
                 .getId();
         init();
-        add(menu);
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         add(createFields());
     }
 
@@ -106,11 +105,11 @@ public class SportLogbookView extends Div {
     }
 
     private Component createFields() {
+        this.duration.setPlaceholder("15");
         var formLayout = new FormLayout();
         formLayout.add(
                 duration, intensity, activity, comments
         );
-
 
         this.comments.setWidth("80%");
         this.comments.setHeight("200px");
@@ -119,29 +118,34 @@ public class SportLogbookView extends Div {
         submitButton.setWidth("12%");
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submitButton.addClickListener(e -> {
-            if (intensity.isEmpty()) {
-                Notification notification = Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                return;
-            }
-            if (activity.isEmpty()) {
-                Notification notification = Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                return;
-            }
             if (duration.getValue().isEmpty()) {
-                Notification notification = Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
             if (Integer.parseInt(duration.getValue()) < 0) {
-                Notification notification = Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
             if (Integer.parseInt(duration.getValue()) > 1440) {
-                Notification notification = Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                return;
+            }
+            if (duration.isInvalid()) {
+                Notification.show("Введите продолжительность вашей активности в минутах", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                return;
+            }
+            if (intensity.isEmpty() || intensity.isInvalid()) {
+                Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                return;
+            }
+            if (activity.isEmpty() || activity.isInvalid()) {
+                Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
             Log log = new Log(participantId,
