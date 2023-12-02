@@ -1,6 +1,13 @@
 package com.cygans.views;
 
+import com.cygans.database.eating_log_book.EatingLogBook;
+import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.eating_log_book.meal.MealService;
+import com.cygans.database.emotional_log_book.EmotionalLogBook;
+import com.cygans.database.emotional_log_book.EmotionalLogBookService;
+import com.cygans.database.log_book.Log;
+import com.cygans.database.log_book.LogService;
+import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
@@ -10,6 +17,8 @@ import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.database.question.question_status.QuestionStatusService;
+import com.cygans.database.sport_log_book.SportLogBook;
+import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.authorities.Authorities;
@@ -33,6 +42,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.sql.SQLOutput;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 /**
@@ -50,6 +61,13 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private MentorService mentorService;
     private ParticipantService participantService;
     private ParticipantMentorService participantMentorService;
+    private EatingLogBookService eatingLogBookService;
+    private SportLogBookService sportLogBookService;
+    private EmotionalLogBookService emotionalLogBookService;
+    private LogService logService;
+    private LogsTypeService logsTypeService;
+    private IntensityService intensityService;
+    private MealService mealService;
 
     private long createParticipant(String name, String surname, String login, String passwd, String phone)
     {
@@ -113,7 +131,6 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
          return hardcode_mentor.getId();
     }
 
-
     private void createHardcodedUsers()
     {
         long mentId = -1;
@@ -143,6 +160,34 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
     }
 
+    private void addLogbookToEmotional(long participantId, String text)
+    {
+        Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText()));
+        logService.saveLog(log);
+        EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(), LocalDateTime.now(), text);
+        emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
+    }
+
+
+    private void addLogbookToSport(long participantId, String intes, int duration, String active, String comments)
+    {
+      Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
+      logService.saveLog(log);
+      SportLogBook sportLogBook = new SportLogBook(log.getId(),
+        intensityService.getIntensityId(intes), duration, LocalDateTime.now(), active, comments);
+      sportLogBookService.saveSportLog(sportLogBook);
+    }
+
+  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType)
+  {
+    Log log = new Log(participantId, LocalDate.now(), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
+    logService.saveLog(log);
+    EatingLogBook eatingLogBook = new EatingLogBook(
+      log.getId(), timeEat, description,
+      mealService.getMealId(mealType), LocalDateTime.now());
+    eatingLogBookService.saveEatingLog(eatingLogBook);
+  }
+
     public StartView(NotificationTypeService notificationTypeService,
                      QuestionStatusService questionStatusService,
                      NotificationStatusService notificationStatusService,
@@ -153,13 +198,24 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      LoginInfoService loginInfoService,
                      MentorService mentorService,
                      ParticipantService participantService,
-                     ParticipantMentorService participantMentorService) {
+                     ParticipantMentorService participantMentorService,
+                     EmotionalLogBookService emotionalLogBookService,
+                     EatingLogBookService eatingLogBookService,
+                     SportLogBookService sportLogBookService,
+                     LogService logService) {
 
+        this.logsTypeService = logsTypeService;
+        this.logService = logService;
         this.authoritiesService = authoritiesService;
         this.loginInfoService = loginInfoService;
         this.mentorService = mentorService;
         this.participantService = participantService;
         this.participantMentorService = participantMentorService;
+        this.eatingLogBookService = eatingLogBookService;
+        this.sportLogBookService = sportLogBookService;
+        this.emotionalLogBookService = emotionalLogBookService;
+        this.mealService = mealService;
+        this.intensityService = intensityService;
 
         notificationTypeService.fill();
         questionStatusService.fill();
@@ -167,7 +223,6 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         mealService.fill();
         intensityService.fill();
         logsTypeService.fill();
-
         createHardcodedUsers();
 
 

@@ -158,7 +158,7 @@ public class SportLogbookView extends Div {
                     LocalDateTime.now(),
                     activity.getValue(),
                     comments.getValue());
-            sportLogBookService.saveComprehensiveLog(sportLogBook);
+            sportLogBookService.saveSportLog(sportLogBook);
             submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
             Long participantMentorId = null;
             if (participantMentorService.checkParticipant(participantId)) {
