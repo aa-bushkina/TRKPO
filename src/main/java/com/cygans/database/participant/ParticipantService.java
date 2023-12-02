@@ -1,14 +1,28 @@
 package com.cygans.database.participant;
 
+import com.cygans.database.mentor.Mentor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ParticipantService {
     @Autowired
     ParticipantRepository repository;
+
+    public Boolean isNeedToAddHardcodedUser()
+    {
+        List<Participant> participantList= repository.findAll();
+        for (Participant participant : participantList) {
+            if (Objects.equals(participant.getFirstName(), "Катерина")) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public String getFirstname(Long participantId) {
         return repository.getParticipantById(participantId).getFirstName();

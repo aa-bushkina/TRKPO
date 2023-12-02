@@ -6,6 +6,8 @@ import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
+import com.cygans.database.participant.Participant;
+import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.question.question_status.QuestionStatusService;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.RoleEnum;
@@ -21,12 +23,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 
 
@@ -38,10 +42,12 @@ import java.time.LocalDate;
 public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
     private final Button signUpBtn;
+    private Boolean isFirstTime = true;
 
     private AuthoritiesService authoritiesService;
     private LoginInfoService loginInfoService;
     private MentorService mentorService;
+    private ParticipantService participantService;
     private void createHardcodedUsers()
     {
         if (mentorService.isNeedToAddHardcodedUser())
@@ -71,6 +77,39 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
             mentorService.saveMentor(hardcode_mentor);
         }
 
+        if (participantService.isNeedToAddHardcodedUser())
+        {
+
+        Authorities authorities = new Authorities("1", RoleEnum.PARTICIPANT.getValue());
+        authoritiesService.saveAuthorities(authorities);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken("1", "1",
+          AuthorityUtils.createAuthorityList(RoleEnum.PARTICIPANT.getValue()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        LoginInfo loginInfo = new LoginInfo(
+          "1",
+          "1",
+          authoritiesService.getAuthoritiesIdByUsername("1"), (byte) 1);
+        loginInfoService.saveLoginInfo(loginInfo);
+
+        Participant participant = new Participant(
+          "Катерина",
+          "Валеева",
+          "1",
+          "89373678125",
+          "Жен",
+          LocalDate.now(),
+            123,
+            123,
+            123,
+            123,
+            123,
+          loginInfoService.findByLogin("1").getId()
+        );
+
+        participantService.saveParticipant(participant);
+        }
 
     }
 
@@ -82,11 +121,13 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      LogsTypeService logsTypeService,
                      AuthoritiesService authoritiesService,
                      LoginInfoService loginInfoService,
-                     MentorService mentorService) {
+                     MentorService mentorService,
+                     ParticipantService participantService) {
 
         this.authoritiesService = authoritiesService;
         this.loginInfoService = loginInfoService;
         this.mentorService = mentorService;
+        this.participantService = participantService;
 
         notificationTypeService.fill();
         questionStatusService.fill();
@@ -96,6 +137,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         logsTypeService.fill();
 
         createHardcodedUsers();
+
 
         Image logo = new Image("images/GC_logo.png", "logo");
         logo.setWidth("100px");
