@@ -31,10 +31,9 @@ import java.util.Locale;
 @Route(value = "/participant/start-page")
 @RolesAllowed("PARTICIPANT")
 public class ParticipantHomeView extends VerticalLayout {
-    private ComboBox<String> logbookType;
-    private DatePicker datePicker;
-    private Icon update;
-    private Button updateBtn;
+    private final ComboBox<String> logbookType;
+    private final DatePicker datePicker;
+    private final Button updateBtn;
 
     public ParticipantHomeView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,10 +47,11 @@ public class ParticipantHomeView extends VerticalLayout {
         datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
         datePicker.setMax(LocalDate.now());
         logbookType = new ComboBox<>();
+        logbookType.setWidth("25%");
         logbookType.setLabel("Тип записи");
         logbookType.setItems("Эмоциональное состояние", "Спортивная активность", "Приём пищи");
 
-        update = new Icon(VaadinIcon.UPLOAD);
+        Icon update = new Icon(VaadinIcon.UPLOAD);
         update.setSize("15%");
         updateBtn = new Button(update);
         updateBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
