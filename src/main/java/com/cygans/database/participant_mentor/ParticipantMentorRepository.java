@@ -7,6 +7,8 @@ import java.util.List;
 public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor,Long> {
     ParticipantMentor getMentorParticipantByParticipantId(Long participantId);
 
+    List<ParticipantMentor> findAll();
+
     List<ParticipantMentor> getAllByMentorId(Long mentorId);
 
     ParticipantMentor findByParticipantId(Long participantId);

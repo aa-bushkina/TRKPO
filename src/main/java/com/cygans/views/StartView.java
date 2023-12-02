@@ -8,6 +8,7 @@ import com.cygans.database.notifications.notification_status.NotificationStatusS
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.database.question.question_status.QuestionStatusService;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.RoleEnum;
@@ -48,8 +49,11 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private LoginInfoService loginInfoService;
     private MentorService mentorService;
     private ParticipantService participantService;
+    private ParticipantMentorService participantMentorService;
     private void createHardcodedUsers()
     {
+        long mentId = -1;
+        long partId = -1;
         if (mentorService.isNeedToAddHardcodedUser())
         {
             Authorities hardcode_authorities = new Authorities("2", RoleEnum.MENTOR.getValue());
@@ -75,6 +79,8 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
               loginInfoService.findByLogin("2").getId()
             );
             mentorService.saveMentor(hardcode_mentor);
+            mentId = hardcode_mentor.getId();
+            System.out.println("Mentor created\n");
         }
 
         if (participantService.isNeedToAddHardcodedUser())
@@ -109,6 +115,14 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         );
 
         participantService.saveParticipant(participant);
+        partId = participant.getId();
+            System.out.println("Participant created\n");
+        }
+
+        if (participantMentorService.isNeedToConnectUsers(mentId, partId))
+        {
+            participantMentorService.create(partId, mentId);
+            System.out.println("Users connected to each other\n");
         }
 
     }
@@ -122,12 +136,14 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      AuthoritiesService authoritiesService,
                      LoginInfoService loginInfoService,
                      MentorService mentorService,
-                     ParticipantService participantService) {
+                     ParticipantService participantService,
+                     ParticipantMentorService participantMentorService) {
 
         this.authoritiesService = authoritiesService;
         this.loginInfoService = loginInfoService;
         this.mentorService = mentorService;
         this.participantService = participantService;
+        this.participantMentorService = participantMentorService;
 
         notificationTypeService.fill();
         questionStatusService.fill();
