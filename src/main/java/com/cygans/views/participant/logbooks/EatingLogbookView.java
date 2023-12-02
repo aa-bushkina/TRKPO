@@ -46,7 +46,7 @@ import java.util.ArrayList;
 
 @PageTitle("Add eating logbook")
 @Route(value = "participant/eating-logbook")
-public class EatingLogbookView extends Div {
+public class EatingLogbookView extends VerticalLayout {
     private ComboBox<String> hourPicker;
     private ComboBox<String> minutePicker;
     private TextArea description;
@@ -96,15 +96,12 @@ public class EatingLogbookView extends Div {
         init();
         Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
         add(menu);
-        //add(menuBar());
         add(createFields());
     }
 
     private void init() {
-
         this.hourPicker = new ComboBox<>("Часы");
         this.minutePicker = new ComboBox<>("Минуты");
-
 
         setTimePicker();
 
@@ -118,7 +115,6 @@ public class EatingLogbookView extends Div {
     }
 
     private void setTimePicker() {
-
         ArrayList<String> h = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             h.add("0" + i);
@@ -246,7 +242,5 @@ public class EatingLogbookView extends Div {
 
         return horizontalLayout;
     }
-
-
 }
 
