@@ -50,75 +50,91 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private MentorService mentorService;
     private ParticipantService participantService;
     private ParticipantMentorService participantMentorService;
-    private void createHardcodedUsers()
+
+    private long createParticipant(String name, String surname, String login, String passwd, String phone)
     {
-        long mentId = -1;
-        long partId = -1;
-        if (mentorService.isNeedToAddHardcodedUser())
-        {
-            Authorities hardcode_authorities = new Authorities("2", RoleEnum.MENTOR.getValue());
-            authoritiesService.saveAuthorities(hardcode_authorities);
-            Authentication hardcode_authentication = new UsernamePasswordAuthenticationToken(
-              "2",
-              "2",
-              AuthorityUtils.createAuthorityList(RoleEnum.MENTOR.getValue()));
-            SecurityContextHolder.getContext().setAuthentication(hardcode_authentication);
-            LoginInfo hardcode_login_info = new LoginInfo(
-              "2",
-              "2",
-              authoritiesService.getAuthoritiesIdByUsername("2"), (byte) 1);
-            loginInfoService.saveLoginInfo(hardcode_login_info);
-
-            Mentor hardcode_mentor = new Mentor(
-              "Валентин",
-              "Азбукович",
-              "2",
-              "89005553535",
-              "Жен",
-              LocalDate.now(),
-              loginInfoService.findByLogin("2").getId()
-            );
-            mentorService.saveMentor(hardcode_mentor);
-            mentId = hardcode_mentor.getId();
-            System.out.println("Mentor created\n");
-        }
-
-        if (participantService.isNeedToAddHardcodedUser())
-        {
-
-        Authorities authorities = new Authorities("1", RoleEnum.PARTICIPANT.getValue());
+        Authorities authorities = new Authorities(login, RoleEnum.PARTICIPANT.getValue());
         authoritiesService.saveAuthorities(authorities);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken("1", "1",
+        Authentication authentication = new UsernamePasswordAuthenticationToken(login,  passwd,
           AuthorityUtils.createAuthorityList(RoleEnum.PARTICIPANT.getValue()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         LoginInfo loginInfo = new LoginInfo(
-          "1",
-          "1",
-          authoritiesService.getAuthoritiesIdByUsername("1"), (byte) 1);
+          login, passwd,
+          authoritiesService.getAuthoritiesIdByUsername(login), (byte) 1);
         loginInfoService.saveLoginInfo(loginInfo);
 
         Participant participant = new Participant(
-          "Катерина",
-          "Валеева",
-          "1",
-          "89373678125",
+          name,
+          surname,
+          login,
+          phone,
           "Жен",
           LocalDate.now(),
-            123,
-            123,
-            123,
-            123,
-            123,
-          loginInfoService.findByLogin("1").getId()
+          123,
+          123,
+          123,
+          123,
+          123,
+          loginInfoService.findByLogin(login).getId()
         );
-
         participantService.saveParticipant(participant);
-        partId = participant.getId();
-            System.out.println("Participant created\n");
+        System.out.println("Participant created\n");
+        return participant.getId();
+    }
+
+    private long createMentor(String name, String surname, String login, String passwd, String phone)
+    {
+        Authorities hardcode_authorities = new Authorities(login, RoleEnum.MENTOR.getValue());
+        authoritiesService.saveAuthorities(hardcode_authorities);
+        Authentication hardcode_authentication = new UsernamePasswordAuthenticationToken(
+          login,
+          passwd,
+          AuthorityUtils.createAuthorityList(RoleEnum.MENTOR.getValue()));
+        SecurityContextHolder.getContext().setAuthentication(hardcode_authentication);
+        LoginInfo hardcode_login_info = new LoginInfo(
+          login,
+          passwd,
+          authoritiesService.getAuthoritiesIdByUsername(login), (byte) 1);
+        loginInfoService.saveLoginInfo(hardcode_login_info);
+
+        Mentor hardcode_mentor = new Mentor(
+          name,
+          surname,
+          login,
+          phone,
+          "Жен",
+          LocalDate.now(),
+          loginInfoService.findByLogin(login).getId()
+        );
+        mentorService.saveMentor(hardcode_mentor);
+        System.out.println("Mentor created\n");
+         return hardcode_mentor.getId();
+    }
+
+
+    private void createHardcodedUsers()
+    {
+        long mentId = -1;
+        long partId = -1;
+
+        if (mentorService.isNeedToAddHardcodedUser())
+        {
+            createMentor("Ванька","Головин", "vanya", "Vanvanvan", "89137197445");
+            createMentor("Лёшка","Бойкин", "alexPro", "fox21century", "89137197445");
+            createMentor("Илюшка","Работин", "ilya", "reddead", "89137197445");
+            createMentor("Фиона","Павлова", "phionPAV", "alpachino", "89137197445");
+            mentId = createMentor("2","2", "2", "2", "2");
         }
 
+        if (participantService.isNeedToAddHardcodedUser()) {
+          createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
+          createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
+          createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
+          createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
+          partId = createParticipant("1", "1", "1", "1", "1");
+        }
         if (participantMentorService.isNeedToConnectUsers(mentId, partId))
         {
             participantMentorService.create(partId, mentId);

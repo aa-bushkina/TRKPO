@@ -15,13 +15,7 @@ public class MentorService {
 
     public Boolean isNeedToAddHardcodedUser()
     {
-      List<Mentor> mentorList= repository.findAll();
-      for (Mentor mentor : mentorList) {
-        if (Objects.equals(mentor.getFirstName(), "Валентин")) {
-          return false;
-        }
-      }
-      return true;
+        return repository.findAll().size() == 0;
     }
 
     public void updateLastname(Long loginInfoId, String lastname) {
