@@ -32,13 +32,13 @@ import java.util.Locale;
 @Route(value = "mentor/download")
 
 public class MentorParticipantDownloadView extends VerticalLayout {
-    private final DatePicker PrintStartDate = new DatePicker("Дата начала:"); //calendar to choose start date
-    private final DatePicker PrintEndDate = new DatePicker("Дата конца:"); //calendar to choose end date
-    private LocalDate StartDate = LocalDate.now().minusDays(4);
-    private LocalDate EndDate = LocalDate.now();
+    private final DatePicker printStartDate = new DatePicker("Дата начала:"); //calendar to choose start date
+    private final DatePicker printEndDate = new DatePicker("Дата конца:"); //calendar to choose end date
+    private LocalDate startDate = LocalDate.now().minusDays(4);
+    private LocalDate endDate = LocalDate.now();
     private String exportData;
-    private final Long patientUid;
-    private final LogService Logdata;
+    private final Long patientId;
+    private final LogService logData;
     private final ParticipantService participantService;
 
 
@@ -46,26 +46,25 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                                          SportLogBookService sportLogBookService,
                                          EatingLogBookService eatingLogBookService,
                                          ParticipantService participantService,
-                                         LogService logdata,
+                                         LogService logData,
                                          ParticipantService participantService1,
                                          LoginInfoService loginInfoService) {
-        Logdata = logdata;
+        this.logData = logData;
         this.participantService = participantService1;
 
-        patientUid = (Long) VaadinSession.getCurrent().getAttribute("PatientID");
+        patientId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
 
-        Toolbar menu = new Toolbar(ToolbarType.MENTOR_PAGES);
-        add(menu);
+        add(new Toolbar(ToolbarType.MENTOR_PAGES));
         Locale locale = new Locale("ru", "RU");
-        PrintStartDate.setLocale(locale);
-        PrintStartDate.setValue(LocalDate.now(ZoneId.systemDefault()));
-        PrintStartDate.setHelperText("Формат: ДД.ММ.ГГГГ");
-        PrintEndDate.setLocale(locale);
-        PrintEndDate.setValue(LocalDate.now(ZoneId.systemDefault()));
-        PrintEndDate.setHelperText("Формат: ДД.ММ.ГГГГ");
+        printStartDate.setLocale(locale);
+        printStartDate.setValue(LocalDate.now(ZoneId.systemDefault()));
+        printStartDate.setHelperText("Формат: ДД.ММ.ГГГГ");
+        printEndDate.setLocale(locale);
+        printEndDate.setValue(LocalDate.now(ZoneId.systemDefault()));
+        printEndDate.setHelperText("Формат: ДД.ММ.ГГГГ");
 
-        PrintStartDate.addValueChangeListener(e -> PrintEndDate.setMin(e.getValue()));
-        PrintEndDate.addValueChangeListener(e -> EndDate = PrintEndDate.getValue());
+        printStartDate.addValueChangeListener(e -> printEndDate.setMin(e.getValue()));
+        printEndDate.addValueChangeListener(e -> endDate = printEndDate.getValue());
 
         Button exportData1 = new Button("Скачать");
         exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -78,48 +77,48 @@ public class MentorParticipantDownloadView extends VerticalLayout {
 
         buttonWrapper.wrapComponent(exportData1);
         exportData1.addFocusListener(event -> {
-            StartDate = PrintStartDate.getValue();
-            EndDate = PrintEndDate.getValue();
+            startDate = printStartDate.getValue();
+            endDate = printEndDate.getValue();
         });
 
-        HorizontalLayout StartEndDate = new HorizontalLayout(PrintStartDate, PrintEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(patientUid).getFirstName() + " " + participantService.getParticipantById(patientUid).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
+        HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
+        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(patientId).getFirstName() + " " + participantService.getParticipantById(patientId).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
 
     public String OutputData() {
         //TODO сделать нормльный вывод
-        String finaloutput =
-                "Start date" + "," + StartDate.toString() + "," + "End date" + "," + EndDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(patientUid) + "\n" +
+        StringBuilder finaloutput =
+                new StringBuilder("Start date" + "," + startDate.toString() + "," + "End date" + "," + endDate.toString() + "\n" +
+                        "Participant name" + "," + participantService.searchParticipantName(patientId) + "\n" +
                         "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
-                        "\n";
+                        "\n");
 
         List<Log> PatientData;
-        PatientData = Logdata.findLogBooksBetweenDate(StartDate, EndDate, patientUid);
+        PatientData = logData.findLogBooksBetweenDate(startDate, endDate, patientId);
 
         for (Log eachdata : PatientData) {
             if (eachdata.getLogTypeId() == 1) {
                 String simplestring = EmotionalOut(eachdata.getDate());
-                finaloutput += simplestring + "\n";
+                finaloutput.append(simplestring).append("\n");
 
             }
 
             if (eachdata.getLogTypeId() == 2) {
                 String comprehensivestring = SportOut(eachdata.getDate());
-                finaloutput += comprehensivestring + "\n";
+                finaloutput.append(comprehensivestring).append("\n");
             }
 
             if (eachdata.getLogTypeId() == 3) {
                 String intensivestring = EatingOut(eachdata.getDate());
-                finaloutput += intensivestring + "\n";
+                finaloutput.append(intensivestring).append("\n");
             }
         }
 
-        return finaloutput;
+        return finaloutput.toString();
     }
 
     public String EmotionalOut(LocalDate checkdate) {

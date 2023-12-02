@@ -40,9 +40,6 @@ public class ParticipantDownloadView extends VerticalLayout {
     private LocalDate EndDate = LocalDate.now();
     private String exportData;
     private final Long patientId;
-    private final EmotionalLogBookService emotionalLogBookService;
-    private final SportLogBookService sportLogBookService;
-    private final EatingLogBookService eatingLogBookService;
     private final LogService logService;
     private final ParticipantService participantService;
 
@@ -53,16 +50,13 @@ public class ParticipantDownloadView extends VerticalLayout {
                                    LogService logService,
                                    ParticipantService patientData,
                                    LoginInfoService loginInfoService) {
-        this.emotionalLogBookService = emotionalLogBookService;
-        this.sportLogBookService = sportLogBookService;
-        this.eatingLogBookService = eatingLogBookService;
         this.logService = logService;
         this.participantService = participantService;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
-        LoginInfo loginInfo = loginInfoService.findByLogin(authentication.getName()); //return loginInfo
-        patientId = loginInfo.getId();
+        LoginInfo loginInfo = loginInfoService.findByLogin(authentication.getName());
+        patientId = participantService.getParticipantByLoginInfoId(loginInfo.getId()).getId();
 
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         Locale locale = new Locale("ru", "RU");
