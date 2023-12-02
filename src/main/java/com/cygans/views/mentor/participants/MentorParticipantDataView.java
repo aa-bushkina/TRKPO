@@ -31,18 +31,15 @@ import java.util.Optional;
 @PageTitle("View Patients Data History")
 @Route(value = "mentor/view-patient-history")
 public class MentorParticipantDataView extends VerticalLayout {
-    private Long participantId;
-    private Toolbar menu = new Toolbar(ToolbarType.MENTOR_PAGES);
-    private H3 space = new H3(" ");
-    private H3 title = new H3("История записей");;
-    private Icon download = new Icon(VaadinIcon.DOWNLOAD);
-    private HorizontalLayout SearchPanel =new HorizontalLayout();
-    private DatePicker SelectbyHand = new DatePicker("Период с");
-    private Button downloadBut = new Button(download);
-    private Button ViewData =new Button("Показать");
-    private Grid<ParticipantPersonData> Historylist =new Grid<>(ParticipantPersonData.class,false);
-    private ArrayList<ParticipantPersonData> HistoryDataShown =new ArrayList<>();
-    private LocalDate today = LocalDate.now();
+    private final Long participantId;
+    private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
+    private final HorizontalLayout SearchPanel = new HorizontalLayout();
+    private final DatePicker SelectbyHand = new DatePicker("Период с");
+    private final Button downloadBut = new Button(download);
+    private final Button ViewData = new Button("Показать");
+    private final Grid<ParticipantPersonData> Historylist = new Grid<>(ParticipantPersonData.class, false);
+    private final ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
+    private final LocalDate today = LocalDate.now();
     private LocalDate checkDate;
     private final LogService logService;
     private final LogsTypeService logsTypeService;
@@ -50,11 +47,10 @@ public class MentorParticipantDataView extends VerticalLayout {
 
     public MentorParticipantDataView(LogService logService,
                                      LogsTypeService logsTypeService,
-                                     ParticipantService participantService){
-
+                                     ParticipantService participantService) {
         this.logService = logService;
         this.logsTypeService = logsTypeService;
-        participantId = participantService.getParticipantByLoginInfoId((Long)VaadinSession.getCurrent().getAttribute("PatientID")).getId();
+        participantId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
 
         configSearch();
         setupShownData();
@@ -69,14 +65,15 @@ public class MentorParticipantDataView extends VerticalLayout {
                         ui.navigate(MentorParticipantDownloadView.class)
                 )
         );
-        hl.add(title,downloadBut);
+        hl.add(new H3("История записей"), downloadBut);
         hl.setAlignItems(Alignment.BASELINE);
+        H3 space = new H3(" ");
         add(space,
                 hl,
                 SearchPanel,
                 Historylist);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        add(menu);
+        add(new Toolbar(ToolbarType.MENTOR_PAGES));
     }
 
     private void configSearch() {
@@ -84,28 +81,29 @@ public class MentorParticipantDataView extends VerticalLayout {
         SelectbyHand.setLocale(new Locale("ru", "RU"));
         SearchPanel.add(SelectbyHand, ViewData);
         SearchPanel.setAlignItems(Alignment.BASELINE);
-        SelectbyHand.addValueChangeListener(e-> checkDate=e.getValue());
-        ViewData.addClickListener(view-> {
+        SelectbyHand.addValueChangeListener(e -> checkDate = e.getValue());
+        ViewData.addClickListener(view -> {
             List<Log> logBook = logService.findLogBooksBetweenDate(checkDate, today, participantId);
-            if(!logBook.isEmpty()) {
-                for (Log log: logBook) {
+            if (!logBook.isEmpty()) {
+                for (Log log : logBook) {
                     ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(log.getDate());;
+                    addData.setDate(log.getDate());
+                    ;
                     addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
                     addData.setLogBookId(log.getId());
 //                    addData.setCompleteLogBook(true);
                     HistoryDataShown.add(addData);
                 }
-            }
-            else Notification.show("Не ", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else
+                Notification.show("Не ", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
 
     }
 
-    private void setupShownData(){
+    private void setupShownData() {
         List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
-        for(int day = 0; day < 30; day++){
-            for(Log log : logbook) {
+        for (int day = 0; day < 30; day++) {
+            for (Log log : logbook) {
                 if (log.getDate().isEqual(today.minusDays(day))) {
                     ParticipantPersonData addData = new ParticipantPersonData();
                     addData.setDate(today.minusDays(day));
@@ -123,18 +121,17 @@ public class MentorParticipantDataView extends VerticalLayout {
         Historylist.addColumn(ParticipantPersonData::getDate).setHeader("Дата");
         Historylist.addColumn(ParticipantPersonData::getLogBookType).setHeader("Тип записи");
         Historylist.setItems(HistoryDataShown);
-        Historylist.getColumns().forEach(col->col.setAutoWidth(true));
+        Historylist.getColumns().forEach(col -> col.setAutoWidth(true));
         Historylist.setAllRowsVisible(true);
     }
 
     private void identifyclick() {
-        Historylist.addSelectionListener(selection-> {
+        Historylist.addSelectionListener(selection -> {
             Optional<ParticipantPersonData> optionalPersonData = selection.getFirstSelectedItem();
             VaadinSession.getCurrent().setAttribute("CheckDate", optionalPersonData.get().getDate());
             VaadinSession.getCurrent().setAttribute("LogbookType", optionalPersonData.get().getLogBookType());
             VaadinSession.getCurrent().setAttribute("LogbookId", optionalPersonData.get().getLogBookId());
-            Historylist.getUI().ifPresent(ui->ui.navigate(MentorParticipantsLogbookView.class));
+            Historylist.getUI().ifPresent(ui -> ui.navigate(MentorParticipantsLogbookView.class));
         });
     }
-
 }
