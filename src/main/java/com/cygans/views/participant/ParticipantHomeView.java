@@ -63,7 +63,13 @@ public class ParticipantHomeView extends VerticalLayout {
 
         updateBtn.addClickListener(e -> {
                     VaadinSession.getCurrent().setAttribute("date", datePicker.getValue());
-                    if (logbookType.getValue().equals("Эмоциональное состояние")) {
+                    if (datePicker.isEmpty() || datePicker.isInvalid()) {
+                        Notification.show("Выберите дату из календаря", 3000, Notification.Position.TOP_CENTER)
+                                .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (logbookType.isEmpty() || logbookType.isInvalid()) {
+                        Notification.show("Выберите тип записи", 3000, Notification.Position.TOP_CENTER)
+                                .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (logbookType.getValue().equals("Эмоциональное состояние")) {
                         updateBtn.getUI().ifPresent(ui ->
                                 ui.navigate(EmotionalLogbookView.class)
                         );
