@@ -15,13 +15,7 @@ public class ParticipantService {
 
     public Boolean isNeedToAddHardcodedUser()
     {
-        List<Participant> participantList= repository.findAll();
-        for (Participant participant : participantList) {
-            if (Objects.equals(participant.getFirstName(), "Катерина")) {
-                return false;
-            }
-        }
-        return true;
+        return repository.findAll().size() == 0;
     }
 
     public String getFirstname(Long participantId) {
