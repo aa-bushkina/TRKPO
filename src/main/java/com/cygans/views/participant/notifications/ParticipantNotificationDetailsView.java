@@ -53,7 +53,7 @@ public class ParticipantNotificationDetailsView extends Div {
         backInit();
         setStyles();
         setNavigation();
-        HorizontalLayout buttons = new HorizontalLayout(agreeBut, backBut);
+        HorizontalLayout buttons = new HorizontalLayout(backBut, agreeBut);
 
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
