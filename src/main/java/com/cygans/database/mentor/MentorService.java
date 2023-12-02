@@ -4,12 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
 public class MentorService {
     @Autowired
     MentorRepository repository;
+
+    public Boolean isNeedToAddHardcodedUser()
+    {
+      List<Mentor> mentorList= repository.findAll();
+      for (Mentor mentor : mentorList) {
+        if (mentor.getFirstName() == "Валентин") {
+          return false;
+        }
+      }
+      return true;
+    }
 
     public void updateLastname(Long loginInfoId, String lastname) {
         Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
