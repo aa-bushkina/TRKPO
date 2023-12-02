@@ -11,6 +11,7 @@ import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
+import com.cygans.views.mentor.participants.MentorParticipantDataView;
 import com.cygans.views.participant.history.ParticipantHistoryView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -95,7 +96,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
         ;
         back_button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         back_button.getElement().getStyle().set("margin-right", "auto");
-        back_button.addClickListener(click -> back_button.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
+        back_button.addClickListener(click -> back_button.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class)));
     }
 
     private void addAnswerField(String answer) {
