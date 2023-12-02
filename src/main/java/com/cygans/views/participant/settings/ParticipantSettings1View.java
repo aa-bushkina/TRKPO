@@ -1,8 +1,9 @@
 package com.cygans.views.participant.settings;
 
 
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
-import com.cygans.database.participant.ParticipantService;
+import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
@@ -20,7 +21,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -38,15 +38,11 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private TextField loginField, phoneField, heightField, weightField, breastField, waistField, hipsField;
     private Select<String> genderSelect;
     private Button changeSetting, save, cancel, changePassword;
-    private final ParticipantService participantService;
+    private SettingsController settingsController;
 
-    public ParticipantSettings1View(LoginInfoService loginInfoService,
-                                    ParticipantService participantService) {
-        this.participantService = participantService;
-        Long loginInfoId = loginInfoService.getRepository()
-                .findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())
-                .getId();
-        init(participantService.getParticipantByLoginInfoId(loginInfoId));
+    public ParticipantSettings1View(SettingsController settingsController, LoginInfoService loginInfoService) {
+        this.settingsController = settingsController;
+        init();
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstnameField, lastnameField,
@@ -89,7 +85,8 @@ public class ParticipantSettings1View extends HorizontalLayout {
         setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
-    private void init(Participant participant) {
+    private void init() {
+        Participant participant = settingsController.getAuthoritiesParticipant();
         firstname = participant.getFirstName();
         lastname = participant.getLastName();
         login = participant.getLogin();
@@ -289,30 +286,18 @@ public class ParticipantSettings1View extends HorizontalLayout {
                 Notification notification = Notification.show("Неверный формат обхвата бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                firstname = firstnameField.getValue();
-                lastname = lastnameField.getValue();
-                login = loginField.getValue();
-                phone = phoneField.getValue();
-                birth = birthSelect.getValue();
-                gender = genderSelect.getValue();
-                height = Integer.valueOf(heightField.getValue());
-                weight = Integer.valueOf(weightField.getValue());
-                breast = Integer.valueOf(breastField.getValue());
-                waist = Integer.valueOf(waistField.getValue());
-                hips = Integer.valueOf(hipsField.getValue());
-
-                participantService.updateParticipantFirstName(uid, firstname);
-                participantService.updateParticipantLastName(uid, lastname);
-                participantService.updateParticipantLogin(uid, login);
-                participantService.updateParticipantPhone(uid, phone);
-                participantService.updateParticipantBirthday(uid, birth);
-                participantService.updateParticipantGender(uid, gender);
-                participantService.updateParticipantHeight(uid, height);
-                participantService.updateParticipantWeight(uid, weight);
-                participantService.updateParticipantBreast(uid, breast);
-                participantService.updateParticipantWaist(uid, waist);
-                participantService.updateParticipantHips(uid, hips);
-
+                settingsController.updateInfoUser(RoleEnum.PARTICIPANT,
+                        firstnameField.getValue(),
+                        lastnameField.getValue(),
+                        loginField.getValue(),
+                        phoneField.getValue(),
+                        birthSelect.getValue(),
+                        genderSelect.getValue(),
+                        Integer.valueOf(heightField.getValue()),
+                        Integer.valueOf(weightField.getValue()),
+                        Integer.valueOf(breastField.getValue()),
+                        Integer.valueOf(waistField.getValue()),
+                        Integer.valueOf(hipsField.getValue()));
                 allSetReadOnly(true);
                 changeSetting.setVisible(true);
                 changePassword.setVisible(true);

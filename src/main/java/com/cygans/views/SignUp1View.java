@@ -1,7 +1,7 @@
 package com.cygans.views;
 
+import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.signup.MentorSignUp2View;
@@ -31,15 +31,15 @@ import com.vaadin.flow.server.VaadinSession;
 @PageTitle("Participant Sign Up")
 @Route(value = "participantSignUp1")
 public class SignUp1View extends Div {
-    TextField firstName, lastName, login;
-    PasswordField password, confirmPassword;
-    Button nextBtn;
-    FormLayout formLayout;
-    VerticalLayout mainLayout;
-    private final LoginInfoService loginInfoService;
+    private TextField firstName, lastName, login;
+    private PasswordField password, confirmPassword;
+    private Button nextBtn;
+    private FormLayout formLayout;
+    private VerticalLayout mainLayout;
+    private final RegistrationAndLoginController registrationAndLoginController;
 
-    public SignUp1View(LoginInfoService loginInfoService) {
-        this.loginInfoService = loginInfoService;
+    public SignUp1View(RegistrationAndLoginController registrationAndLoginController) {
+        this.registrationAndLoginController = registrationAndLoginController;
         add(new Toolbar(ToolbarType.LOGIN));
 
         mainLayoutSetUp();
@@ -81,7 +81,7 @@ public class SignUp1View extends Div {
                 Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isInvalid()) {
                 Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } else if (loginInfoService.findByLogin(login.getValue()) != null) {
+            } else if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
                 Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isEmpty()) {
                 Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -165,7 +165,7 @@ public class SignUp1View extends Div {
         login.setPlaceholder("Логин");
         login.setClearButtonVisible(true);
         login.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
-        if (loginInfoService.findByLogin(login.getValue()) != null) {
+        if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
             login.setErrorMessage("Аккаунт с таким логином уже существует");
         }
         if (VaadinSession.getCurrent().getAttribute("Login") != null) {

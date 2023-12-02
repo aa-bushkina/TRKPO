@@ -37,13 +37,12 @@ import java.util.Locale;
 @PageTitle("Mentor Sign Up")
 @Route(value = "mentorSignUp2")
 public class MentorSignUp2View extends Div {
-    private final RegistrationAndLoginController registrationAndLoginController;
     private final RadioButtonGroup<String> sex;
     private final TextField phone;
     private final DatePicker datePicker;
     private FormLayout formLayout;
     private Button nextBtn, previousBtn;
-
+    private final RegistrationAndLoginController registrationAndLoginController;
 
     public MentorSignUp2View(RegistrationAndLoginController registrationAndLoginController) {
         this.registrationAndLoginController = registrationAndLoginController;
