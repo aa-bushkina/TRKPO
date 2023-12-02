@@ -1,12 +1,15 @@
 package com.cygans.database.participant_mentor;
 
+import com.cygans.database.mentor.Mentor;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ParticipantMentorService {
@@ -14,6 +17,16 @@ public class ParticipantMentorService {
     ParticipantMentorRepository participantMentorRepository;
     @Autowired
     ParticipantService participantService;
+
+    public Boolean isNeedToConnectUsers(long mentId, long partId)
+    {
+        List<ParticipantMentor> participantMentorList= participantMentorRepository.findAll();
+        for (ParticipantMentor participantMentor : participantMentorList) {
+            if (participantMentor.getMentorId() == mentId && participantMentor.getParticipantId() == partId)
+                return false;
+        }
+        return true;
+    }
 
     public void create(Long participantId, Long mentorId) {
         participantMentorRepository.save(new ParticipantMentor(participantId, mentorId));
