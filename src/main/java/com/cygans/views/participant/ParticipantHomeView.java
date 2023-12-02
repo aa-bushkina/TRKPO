@@ -31,10 +31,9 @@ import java.util.Locale;
 @Route(value = "/participant/start-page")
 @RolesAllowed("PARTICIPANT")
 public class ParticipantHomeView extends VerticalLayout {
-    private ComboBox<String> logbookType;
-    private DatePicker datePicker;
-    private Icon update;
-    private Button updateBtn;
+    private final ComboBox<String> logbookType;
+    private final DatePicker datePicker;
+    private final Button updateBtn;
 
     public ParticipantHomeView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -48,10 +47,11 @@ public class ParticipantHomeView extends VerticalLayout {
         datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
         datePicker.setMax(LocalDate.now());
         logbookType = new ComboBox<>();
+        logbookType.setWidth("25%");
         logbookType.setLabel("Тип записи");
         logbookType.setItems("Эмоциональное состояние", "Спортивная активность", "Приём пищи");
 
-        update = new Icon(VaadinIcon.UPLOAD);
+        Icon update = new Icon(VaadinIcon.UPLOAD);
         update.setSize("15%");
         updateBtn = new Button(update);
         updateBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -63,7 +63,13 @@ public class ParticipantHomeView extends VerticalLayout {
 
         updateBtn.addClickListener(e -> {
                     VaadinSession.getCurrent().setAttribute("date", datePicker.getValue());
-                    if (logbookType.getValue().equals("Эмоциональное состояние")) {
+                    if (datePicker.isEmpty() || datePicker.isInvalid()) {
+                        Notification.show("Выберите дату из календаря", 3000, Notification.Position.TOP_CENTER)
+                                .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (logbookType.isEmpty() || logbookType.isInvalid()) {
+                        Notification.show("Выберите тип записи", 3000, Notification.Position.TOP_CENTER)
+                                .addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    } else if (logbookType.getValue().equals("Эмоциональное состояние")) {
                         updateBtn.getUI().ifPresent(ui ->
                                 ui.navigate(EmotionalLogbookView.class)
                         );
