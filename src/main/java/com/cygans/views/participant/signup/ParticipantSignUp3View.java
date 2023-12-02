@@ -1,13 +1,9 @@
 package com.cygans.views.participant.signup;
 
 
-import com.cygans.database.participant.Participant;
-import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.controllers.RegistrationAndLoginController;
+
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.authorities.Authorities;
-import com.cygans.security.db.authorities.AuthoritiesService;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.util.Control;
@@ -26,12 +22,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.LocalDate;
 
 
 /**
@@ -46,16 +36,10 @@ public class ParticipantSignUp3View extends Div {
     private TextField waist;
     private TextField hips;
     private Button nextBtn, previousBtn;
-    private final LoginInfoService loginInfoService;
-    private final AuthoritiesService authoritiesService;
-    private final ParticipantService participantService;
+    private RegistrationAndLoginController registrationAndLoginController;
 
-    public ParticipantSignUp3View(LoginInfoService loginInfoService,
-                                  AuthoritiesService authoritiesService,
-                                  ParticipantService participantService) {
-        this.loginInfoService = loginInfoService;
-        this.authoritiesService = authoritiesService;
-        this.participantService = participantService;
+    public ParticipantSignUp3View(RegistrationAndLoginController registrationAndLoginController) {
+        this.registrationAndLoginController = registrationAndLoginController;
         add(new Toolbar(ToolbarType.LOGIN));
 
         heightSetUp();
@@ -181,39 +165,7 @@ public class ParticipantSignUp3View extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();
-
-                Authorities authorities = new Authorities((String) VaadinSession.getCurrent().getAttribute("Login"), RoleEnum.PARTICIPANT.getValue());
-                authoritiesService.saveAuthorities(authorities);
-
-                Authentication authentication = new UsernamePasswordAuthenticationToken(VaadinSession.getCurrent().getAttribute("Login"), VaadinSession.getCurrent().getAttribute("Password"),
-                        AuthorityUtils.createAuthorityList(RoleEnum.PARTICIPANT.getValue()));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-                LoginInfo loginInfo = new LoginInfo(
-                        (String) VaadinSession.getCurrent().getAttribute("Login"),
-                        (String) VaadinSession.getCurrent().getAttribute("Password"),
-                        authoritiesService.getAuthoritiesIdByUsername((String) VaadinSession.getCurrent().getAttribute("Login")),
-                        (byte) 1
-                );
-                loginInfoService.saveLoginInfo(loginInfo);
-
-                Participant participant = new Participant(
-                        (String) VaadinSession.getCurrent().getAttribute("FirstName"),
-                        (String) VaadinSession.getCurrent().getAttribute("LastName"),
-                        (String) VaadinSession.getCurrent().getAttribute("Login"),
-                        (String) VaadinSession.getCurrent().getAttribute("Phone"),
-                        (String) VaadinSession.getCurrent().getAttribute("Gender"),
-                        (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
-                        Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("Height")),
-                        Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("Weight")),
-                        Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("Breast")),
-                        Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("Waist")),
-                        Integer.valueOf((String) VaadinSession.getCurrent().getAttribute("Hip")),
-                        loginInfoService.findByLogin((String) VaadinSession.getCurrent().getAttribute("Login")).getId()
-                );
-                participantService.saveParticipant(participant);
-
+                registrationAndLoginController.registrationUser(RoleEnum.PARTICIPANT);
                 getUI().get().getSession().close();
                 nextBtn.getUI().ifPresent(ui -> ui.navigate(Control.class));
             }

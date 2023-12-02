@@ -1,12 +1,8 @@
 package com.cygans.views.mentor.signup;
 
-import com.cygans.database.mentor.Mentor;
+import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.database.mentor.MentorService;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.authorities.Authorities;
-import com.cygans.security.db.authorities.AuthoritiesService;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.SignUp1View;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
@@ -29,10 +25,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -45,22 +37,15 @@ import java.util.Locale;
 @PageTitle("Mentor Sign Up")
 @Route(value = "mentorSignUp2")
 public class MentorSignUp2View extends Div {
-    private final AuthoritiesService authoritiesService;
-    private final LoginInfoService loginInfoService;
-    private final MentorService mentorService;
     private final RadioButtonGroup<String> sex;
     private final TextField phone;
     private final DatePicker datePicker;
     private FormLayout formLayout;
     private Button nextBtn, previousBtn;
+    private final RegistrationAndLoginController registrationAndLoginController;
 
-
-    public MentorSignUp2View(AuthoritiesService authoritiesService,
-                             LoginInfoService loginInfoService,
-                             MentorService mentorService) {
-        this.authoritiesService = authoritiesService;
-        this.loginInfoService = loginInfoService;
-        this.mentorService = mentorService;
+    public MentorSignUp2View(RegistrationAndLoginController registrationAndLoginController) {
+        this.registrationAndLoginController = registrationAndLoginController;
         add(new Toolbar(ToolbarType.LOGIN));
 
         this.sex = new RadioButtonGroup<>();
@@ -162,35 +147,7 @@ public class MentorSignUp2View extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();
-
-                Authorities authorities = new Authorities((String) VaadinSession.getCurrent().getAttribute("Login"), RoleEnum.MENTOR.getValue());
-                authoritiesService.saveAuthorities(authorities);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(
-                        VaadinSession.getCurrent().getAttribute("Login"),
-                        VaadinSession.getCurrent().getAttribute("Password"),
-                        AuthorityUtils.createAuthorityList(RoleEnum.MENTOR.getValue()));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-                LoginInfo loginInfo = new LoginInfo(
-                        (String) VaadinSession.getCurrent().getAttribute("Login"),
-                        (String) VaadinSession.getCurrent().getAttribute("Password"),
-                        authoritiesService.getAuthoritiesIdByUsername((String) VaadinSession.getCurrent().getAttribute("Login")),
-                        (byte) 1
-                );
-                loginInfoService.saveLoginInfo(loginInfo);
-
-                Mentor mentor = new Mentor(
-                        (String) VaadinSession.getCurrent().getAttribute("FirstName"),
-                        (String) VaadinSession.getCurrent().getAttribute("LastName"),
-                        (String) VaadinSession.getCurrent().getAttribute("Login"),
-                        (String) VaadinSession.getCurrent().getAttribute("Phone"),
-                        (String) VaadinSession.getCurrent().getAttribute("Gender"),
-                        (LocalDate) VaadinSession.getCurrent().getAttribute("Date"),
-                        loginInfoService.findByLogin((String) VaadinSession.getCurrent().getAttribute("Login")).getId()
-                );
-                mentorService.saveMentor(mentor);
-
+                registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
                 getUI().get().getSession().close();
                 nextBtn.getUI().ifPresent(ui ->
                         ui.navigate(Control.class)

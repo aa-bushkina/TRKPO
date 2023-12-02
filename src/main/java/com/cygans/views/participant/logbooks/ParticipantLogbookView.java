@@ -22,6 +22,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -92,17 +93,18 @@ public class ParticipantLogbookView extends VerticalLayout {
             formLayout.add(answerField);
         }
 
-        buttons.setWidth(mainLayout.getWidth());
-        mainLayout.add(
-                new H2(logBookType),
-                new H3("Запись от " + selectDate),
-                formLayout,
-                buttons
-        );
-        mainLayout.setMaxWidth("600px");
-        mainLayout.setPadding(false);
-        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
-    }
+    buttons.setWidth(mainLayout.getWidth());
+    mainLayout.add(
+            new H2(logBookType),
+            new H3("Запись от " + selectDate),
+            formLayout,
+            buttons
+    );
+    mainLayout.setMaxWidth("600px");
+    mainLayout.setPadding(false);
+    setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
+    add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
+  }
 
     private void init() {
         saveSetUp();

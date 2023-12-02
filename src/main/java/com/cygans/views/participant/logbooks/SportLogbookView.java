@@ -160,28 +160,31 @@ public class SportLogbookView extends Div {
                     comments.getValue());
             sportLogBookService.saveComprehensiveLog(sportLogBook);
             submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
+            Long participantMentorId = null;
             if (participantMentorService.checkParticipant(participantId)) {
-                Notifications notification = new Notifications(
-                        participantId,
-                        participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-                );
-                notification.setShortMessage("Новая запись о спортивной активности");
-                notification.setAllMessage(
-                        participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                                + " добавил(-а) запись о своей спортивной активности.\n" +
-                                "\n" +
-                                "Дата: " + notification.getDate().toLocalDate() + "\n" +
-                                "Время: " + notification.getDate().toLocalTime() + "\n" +
-                                "Интенсивность: " + intensityService.getIntensityId(intensity.getValue()) + "\n" +
-                                "Активность: " + activity.getValue() + "\n" +
-                                "Продолжительность: " + Integer.parseInt(duration.getValue()) + " минут\n" +
-                                "Описание: " + comments.getValue()
-                );
-                notification.setLogBookId(log.getId());
-                notificationsService.saveNotification(notification);
+                participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
             }
+            Notifications notification = new Notifications(
+                    participantId,
+                    participantMentorId,
+                    notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
+                    notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
+            );
+            notification.setShortMessage("Новая запись о спортивной активности");
+            notification.setAllMessage(
+                    participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
+                            + " добавил(-а) запись о своей спортивной активности.\n" +
+                            "\n" +
+                            "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                            "Время: " + notification.getDate().toLocalTime() + "\n" +
+                            "Интенсивность: " + intensityService.getIntensityId(intensity.getValue()) + "\n" +
+                            "Активность: " + activity.getValue() + "\n" +
+                            "Продолжительность: " + Integer.parseInt(duration.getValue()) + " минут\n" +
+                            "Описание: " + comments.getValue()
+            );
+            notification.setLogBookId(log.getId());
+            notificationsService.saveNotification(notification);
+
         });
 
 

@@ -1,8 +1,8 @@
 package com.cygans.views.mentor.settings;
 
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.mentor.Mentor;
-import com.cygans.database.mentor.MentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.security.db.RoleEnum;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -19,7 +19,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -30,25 +29,23 @@ import java.util.Locale;
 @Route(value = "/mentor/settings")
 
 public class MentorSettings1View extends HorizontalLayout {
-    String firstname;
-    String lastname;
-    String login;
-    String phone;
-    LocalDate birth;
-    String gender;
-    TextField firstnameField, lastnameField, phoneField, loginField;
-    DatePicker birthSelect;
-    Select<String> genderSelect;
-    Button changeSetting, save, cancel, changePassword;
-    VerticalLayout mainLayout;
-    HorizontalLayout buttons;
-    private final MentorService mentorService;
+    private String firstname;
+    private String lastname;
+    private String login;
+    private String phone;
+    private LocalDate birth;
+    private String gender;
+    private TextField firstnameField, lastnameField, phoneField, loginField;
+    private DatePicker birthSelect;
+    private Select<String> genderSelect;
+    private Button changeSetting, save, cancel, changePassword;
+    private VerticalLayout mainLayout;
+    private HorizontalLayout buttons;
+    private SettingsController settingsController;
 
-
-    public MentorSettings1View(MentorService mentorService, LoginInfoService loginInfoService) {
-        this.mentorService = mentorService;
-        Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
-        init(mentorService.getMentorByLoginInfoId(loginInfoId));
+    public MentorSettings1View(SettingsController settingsController) {
+        this.settingsController = settingsController;
+        init();
         setJustifyContentMode(JustifyContentMode.CENTER);
         FormLayout formLayout = new FormLayout();
         formLayout.add(firstnameField, lastnameField,
@@ -69,7 +66,8 @@ public class MentorSettings1View extends HorizontalLayout {
         add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
     }
 
-    private void init(Mentor mentor) {
+    private void init() {
+        Mentor mentor = settingsController.getAuthoritiesMentor();
         firstname = mentor.getFirstName();
         lastname = mentor.getLastName();
         login = mentor.getLogin();
@@ -188,19 +186,18 @@ public class MentorSettings1View extends HorizontalLayout {
                 Notification notification = Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                firstname = firstnameField.getValue();
-                lastname = lastnameField.getValue();
-                login = loginField.getValue();
-                phone = phoneField.getValue();
-                birth = birthSelect.getValue();
-                gender = genderSelect.getValue();
-                mentorService.updateFirstname(id, firstname);
-                mentorService.updateLastname(id, lastname);
-                mentorService.updateLogin(id, login);
-                mentorService.updatePhone(id, phone);
-                mentorService.updateBirthday(id, birth);
-                mentorService.updateGender(id, gender);
-
+                settingsController.updateInfoUser(RoleEnum.MENTOR,
+                        firstnameField.getValue(),
+                        lastnameField.getValue(),
+                        loginField.getValue(),
+                        phoneField.getValue(),
+                        birthSelect.getValue(),
+                        genderSelect.getValue(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null);
                 allSetReadOnly(true);
                 changeSetting.setVisible(true);
                 changePassword.setVisible(true);

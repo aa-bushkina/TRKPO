@@ -1,5 +1,6 @@
 package com.cygans.views.participant.settings;
 
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -25,13 +26,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route(value = "participant/change-password")
 
 public class ParticipantSettings2View extends HorizontalLayout {
-    PasswordField oldPassword, newPassword, confirmPassword;
-    Button confirmButton, cancelButton;
-    VerticalLayout mainLayout;
-    private final LoginInfoService loginInfoService;
+    private PasswordField oldPassword, newPassword, confirmPassword;
+    private Button confirmButton, cancelButton;
+    private VerticalLayout mainLayout;
+    private final SettingsController settingsController;
 
-    public ParticipantSettings2View(LoginInfoService loginInfoService) {
-        this.loginInfoService = loginInfoService;
+    public ParticipantSettings2View(SettingsController settingsController) {
+        this.settingsController = settingsController;
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         mainLayoutInit();
         oldPasswordInit();
@@ -81,16 +82,10 @@ public class ParticipantSettings2View extends HorizontalLayout {
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "1em");
         confirmButton.addClickListener(e -> {
-                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    LoginInfo loginInfo = loginInfoService.findByLogin(authentication.getName());
-
-                    if (loginInfo.checkPassword(oldPassword.getValue())) {
+                    if (settingsController.checkEqualsPassword(oldPassword.getValue())) {
                         if (!newPassword.isInvalid()) {
                             if (!confirmPassword.isInvalid()) {
-                                loginInfoService.updateUserPassword(authentication.getName(), newPassword.getValue());
-                                authentication = new UsernamePasswordAuthenticationToken(loginInfo.getLogin(), newPassword.getValue(),
-                                        AuthorityUtils.createAuthorityList(RoleEnum.PARTICIPANT.getValue()));
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                                settingsController.changePassword(newPassword.getValue(), RoleEnum.PARTICIPANT);
                                 Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
                                 confirmButton.getUI().ifPresent(ui -> ui.navigate(ParticipantSettings1View.class));
                             } else {
