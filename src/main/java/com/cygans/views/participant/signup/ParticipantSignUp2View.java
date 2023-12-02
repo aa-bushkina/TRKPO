@@ -107,6 +107,7 @@ public class ParticipantSignUp2View extends Div {
         LocalDate now = LocalDate.now(ZoneId.systemDefault());
         datePicker.setMax(now);
         datePicker.setMin(now.minusYears(100));
+        datePicker.setLocale(new Locale("ru", "RU"));
         datePicker.setPlaceholder("ДД.ММ.ГГГГ");
         datePicker.setInitialPosition(now.minusYears(30));
         datePicker.setErrorMessage("Неверный формат даты рождения");
