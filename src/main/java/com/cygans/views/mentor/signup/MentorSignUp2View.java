@@ -159,8 +159,7 @@ public class MentorSignUp2View extends Div {
 
     private void previousBtnInit() {
         previousBtn = new Button("Назад", new Icon(VaadinIcon.ARROW_LEFT));
-        previousBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        previousBtn.getElement().getStyle().set("margin-right", "auto");
+        previousBtn.getElement().getStyle().set("margin-right", "0");
         previousBtn.addClickListener(e -> {
             setSession();
             previousBtn.getUI().ifPresent(ui -> ui.navigate(SignUp1View.class));
