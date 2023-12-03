@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -121,6 +123,7 @@ public class LogController {
 
     public List<ParticipantPersonData> convertListLogToParticipantPersonData(List<Log> logBook) {
         List<ParticipantPersonData> participantPersonData = new ArrayList<>();
+
         for (Log log : logBook) {
             ParticipantPersonData addData = new ParticipantPersonData();
             addData.setDate(log.getDate());
@@ -128,6 +131,8 @@ public class LogController {
             addData.setLogBookId(log.getId());
             participantPersonData.add(addData);
         }
+        participantPersonData.sort(Comparator.comparing(ParticipantPersonData::getDate).reversed());
+
         return participantPersonData;
     }
 
@@ -206,4 +211,9 @@ public class LogController {
         return sportLogBookService.findByLogBookId(logBookId);
     }
 
+    public List<String> getAllLogsTypes() {
+        var allTypes = logsTypeService.getAllLogsTypes();
+        allTypes.add(0, "Все");
+        return allTypes;
+    }
 }

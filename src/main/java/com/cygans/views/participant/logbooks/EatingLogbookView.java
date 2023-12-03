@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 @PageTitle("Add eating logbook")
 @Route(value = "participant/eating-logbook")
-public class EatingLogbookView extends VerticalLayout {
+public class EatingLogbookView extends Div {
     private ComboBox<String> hourPicker;
     private ComboBox<String> minutePicker;
     private TextArea description;
@@ -76,8 +76,7 @@ public class EatingLogbookView extends VerticalLayout {
         ).getId();
 
         init();
-        Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
-        add(menu);
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         add(createFields());
     }
 
@@ -200,8 +199,6 @@ public class EatingLogbookView extends VerticalLayout {
                 );
                 notification.setLogBookId(logId);
                 notificationsService.saveNotification(notification);
-
-
             }
         })
         ;

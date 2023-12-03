@@ -85,7 +85,6 @@ public class SportLogbookView extends Div {
     }
 
     private Component createFields() {
-        this.duration.setPlaceholder("15");
         var formLayout = new FormLayout();
         formLayout.add(
                 duration, intensity, activity, comments
