@@ -141,86 +141,115 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
     private void createHardcodedUsers()
     {
-        long mentId = -1;
-        long partId = -1;
+      long mentid = -1;
+      long partid = -1;
+        long mentId_0 = -1;
+        long mentId_1 = -1;
+        long mentId_2 = -1;
+        long mentId_3 = -1;
+        long partId_0 = -1;
+        long partId_1 = -1;
+        long partId_2 = -1;
+        long partId_3 = -1;
 
         if (mentorService.isNeedToAddHardcodedUser())
         {
-            createMentor("Ванька","Головин", "vanya", "Vanvanvan", "89137197445");
-            createMentor("Лёшка","Бойкин", "alexPro", "fox21century", "89137197445");
-            createMentor("Илюшка","Работин", "ilya", "reddead", "89137197445");
-            createMentor("Фиона","Павлова", "phionPAV", "alpachino", "89137197445");
-            mentId = createMentor("2","2", "2", "2", "2");
+          mentId_0 = createMentor("Ванька","Головин", "vanya", "Vanvanvan", "89137197445");
+          mentId_1 = createMentor("Лёшка","Бойкин", "alexPro", "fox21century", "89137197445");
+          mentId_2 = createMentor("Илюшка","Работин", "ilya", "reddead", "89137197445");
+          mentId_3 = createMentor("Фиона","Павлова", "phionPAV", "alpachino", "89137197445");
+          mentid = createMentor("2","2", "2", "2", "2");
         }
-
+        boolean f = false;
         if (participantService.isNeedToAddHardcodedUser()) {
-          partId = createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
-          addLogbookToEmotional(partId, "Нужна для смерть для того чтобы ценить жизнь? Думала об этом весь день", "2023-11-07");
-          addLogbookToEmotional(partId, "Весь день думала о пельменях и бургерах. Мне хорошо.", "2023-11-08");
-          addLogbookToEmotional(partId, "Пока читала книгу о похудении съела роллы", "2023-11-09");
-          addLogbookToEmotional(partId, "Сегодня был трудный день на работе", "2023-11-10");
-          addLogbookToEmotional(partId, "Встретила старого друга, вспоминали старые времена", "2023-11-11");
-          addLogbookToEmotional(partId, "Провела вечер в кино, отлично отдохнула", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(4, 30), "Поела картошку с борщом. Запила квасом.", "Ужин", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(12, 0), "Съела салат с курицей на обед", "Обед", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(20, 0), "Попробовала новый рецепт пасты", "Ужин", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(10, 0), "Поела фрукты и орехи", "Другое", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(16, 0), "Заварила зеленый чай с печеньем", "Другое", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(22, 0), "Попробовала экзотический фрукт", "Другое", "2023-11-12");
-          addLogbookToSport(partId, "Высокая", 60, "Бег на свежем воздухе", "Пробежал 5 км", "2023-11-10");
-          addLogbookToSport(partId, "Средняя", 45, "Йога в зале", "Фокус на дыхании и растяжке", "2023-11-12");
-          addLogbookToSport(partId, "Низкая", 30, "Прогулка в парке", "На свежем воздухе", "2023-11-13");
-
-          partId = createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
-          addLogbookToEmotional(partId, "Сегодняшний день начался с утренней пробежки", "2023-11-10");
-          addLogbookToEmotional(partId, "Попробовал новый рецепт пасты, получилось вкусно", "2023-11-11");
-          addLogbookToEmotional(partId, "Вечером посетил тренировку по йоге", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(6, 0), "Поел омлет с тостами на завтрак", "Завтрак", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(13, 30), "Обедал рыбным супом и рисом", "Обед", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(19, 0), "Ужинал пиццей и салатом", "Ужин", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(11, 30), "Поел белокачанную капусту", "Другое", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(17, 30), "Попил свежевыжатый сок", "Другое", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(20, 45), "Пробовал разные виды сыра", "Другое", "2023-11-12");
-          addLogbookToSport(partId, "Средняя", 40, "Велосипедная прогулка", "По городскому парку", "2023-11-10");
-          addLogbookToSport(partId, "Высокая", 55, "Тренировка в зале", "Силовые упражнения", "2023-11-12");
-          addLogbookToSport(partId, "Низкая", 25, "Утренняя зарядка", "Простые упражнения", "2023-11-13");
-
-          partId = createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
-          addLogbookToEmotional(partId, "Сегодня посетила выставку искусства", "2023-11-10");
-          addLogbookToEmotional(partId, "Провела время с семьей, готовили ужин вместе", "2023-11-11");
-          addLogbookToEmotional(partId, "Смотрела любимый фильм вечером", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(8, 0), "Поела йогурт с фруктами на завтрак", "Завтрак", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(14, 0), "Обедала супом с гренками", "Обед", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(18, 30), "Ужинала рыбой и овощами", "Ужин", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(9, 30), "Поела мед и овсянку", "Другое", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(15, 0), "Пробовала азиатские сладости", "Другое", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(19, 45), "Готовила экспериментальный десерт", "Другое", "2023-11-12");
-          addLogbookToSport(partId, "Низкая", 30, "Плавание в бассейне", "Расслабляющая тренировка", "2023-11-10");
-          addLogbookToSport(partId, "Средняя", 50, "Танцы в студии", "Энергичные танцы под музыку", "2023-11-12");
-          addLogbookToSport(partId, "Высокая", 65, "Бег по пляжу", "Интенсивная тренировка", "2023-11-13");
-
-          partId = createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
-          addLogbookToEmotional(partId, "Сегодня успешно провел переговоры", "2023-11-10");
-          addLogbookToEmotional(partId, "Получил новый заказ, радостный день", "2023-11-11");
-          addLogbookToEmotional(partId, "Прогулка по парку после работы", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(7, 30), "Поел кашу с молоком на завтрак", "Завтрак", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(12, 45), "Обедал пастой с мясным соусом", "Обед", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(21, 0), "Ужинал суши и супом", "Ужин", "2023-11-12");
-          addLogbookToEating(partId, LocalTime.of(8, 45), "Завтракал гречкой с медом", "Другое", "2023-11-10");
-          addLogbookToEating(partId, LocalTime.of(14, 15), "Пробовал бразильский орех", "Другое", "2023-11-11");
-          addLogbookToEating(partId, LocalTime.of(20, 30), "Поел марокканские фрукты", "Другое", "2023-11-12");
-          addLogbookToSport(partId, "Высокая", 55, "Тренировка на открытом воздухе", "Функциональные упражнения", "2023-11-10");
-          addLogbookToSport(partId, "Низкая", 40, "Ходьба по городу", "Посещение достопримечательностей", "2023-11-12");
-          addLogbookToSport(partId, "Средняя", 50, "Теннис на корте", "С друзьями в выходной", "2023-11-13");
-
-          partId = createParticipant("1", "1", "1", "1", "1");
+          f = true;
+          partId_0 = createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
+          partId_1 = createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
+          partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
+          partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
+          partid = createParticipant("1", "1", "1", "1", "1");
         }
-        if (participantMentorService.isNeedToConnectUsers(mentId, partId))
-        {
-            participantMentorService.create(partId, mentId);
-            System.out.println("Users connected to each other\n");
-        }
+      if (participantMentorService.isNeedToConnectUsers(mentId_0, partId_0))
+      {
+        participantMentorService.create(partId_0, mentId_0);
+        System.out.println("Users connected to each other\n");
+      }
+      if (participantMentorService.isNeedToConnectUsers(mentId_1, partId_1))
+      {
+        participantMentorService.create(partId_1, mentId_1);
+        System.out.println("Users connected to each other\n");
+      }
+      if (participantMentorService.isNeedToConnectUsers(mentId_2, partId_2))
+      {
+        participantMentorService.create(partId_2, mentId_2);
+        System.out.println("Users connected to each other\n");
+      }
+      if (participantMentorService.isNeedToConnectUsers(mentId_3, partId_3))
+      {
+        participantMentorService.create(partId_3, mentId_3);
+        System.out.println("Users connected to each other\n");
+      }
+      if (participantMentorService.isNeedToConnectUsers(mentid, partid))
+      {
+        participantMentorService.create(partid, mentid);
+        System.out.println("Users connected to each other\n");
+      }
+      if (f) {
+        addLogbookToEmotional(partId_0, "Нужна для смерть для того чтобы ценить жизнь? Думала об этом весь день", "2023-11-07");
+        addLogbookToEmotional(partId_0, "Весь день думала о пельменях и бургерах. Мне хорошо.", "2023-11-08");
+        addLogbookToEmotional(partId_0, "Пока читала книгу о похудении съела роллы", "2023-11-09");
+        addLogbookToEmotional(partId_0, "Сегодня был трудный день на работе", "2023-11-10");
+        addLogbookToEmotional(partId_0, "Встретила старого друга, вспоминали старые времена", "2023-11-11");
+        addLogbookToEmotional(partId_0, "Провела вечер в кино, отлично отдохнула", "2023-11-12");
+        addLogbookToEating(partId_0, LocalTime.of(4, 30), "Поела картошку с борщом. Запила квасом.", "Ужин", "2023-11-10");
+        addLogbookToEating(partId_0, LocalTime.of(12, 0), "Съела салат с курицей на обед", "Обед", "2023-11-11");
+        addLogbookToEating(partId_0, LocalTime.of(20, 0), "Попробовала новый рецепт пасты", "Ужин", "2023-11-12");
+        addLogbookToEating(partId_0, LocalTime.of(10, 0), "Поела фрукты и орехи", "Другое", "2023-11-10");
+        addLogbookToEating(partId_0, LocalTime.of(16, 0), "Заварила зеленый чай с печеньем", "Другое", "2023-11-11");
+        addLogbookToEating(partId_0, LocalTime.of(22, 0), "Попробовала экзотический фрукт", "Другое", "2023-11-12");
+        addLogbookToSport(partId_0, "Высокая", 60, "Бег на свежем воздухе", "Пробежал 5 км", "2023-11-10");
+        addLogbookToSport(partId_0, "Средняя", 45, "Йога в зале", "Фокус на дыхании и растяжке", "2023-11-12");
+        addLogbookToSport(partId_0, "Низкая", 30, "Прогулка в парке", "На свежем воздухе", "2023-11-13");
 
+        addLogbookToEmotional(partId_1, "Сегодняшний день начался с утренней пробежки", "2023-11-10");
+        addLogbookToEmotional(partId_1, "Попробовал новый рецепт пасты, получилось вкусно", "2023-11-11");
+        addLogbookToEmotional(partId_1, "Вечером посетил тренировку по йоге", "2023-11-12");
+        addLogbookToEating(partId_1, LocalTime.of(6, 0), "Поел омлет с тостами на завтрак", "Завтрак", "2023-11-10");
+        addLogbookToEating(partId_1, LocalTime.of(13, 30), "Обедал рыбным супом и рисом", "Обед", "2023-11-11");
+        addLogbookToEating(partId_1, LocalTime.of(19, 0), "Ужинал пиццей и салатом", "Ужин", "2023-11-12");
+        addLogbookToEating(partId_1, LocalTime.of(11, 30), "Поел белокачанную капусту", "Другое", "2023-11-10");
+        addLogbookToEating(partId_1, LocalTime.of(17, 30), "Попил свежевыжатый сок", "Другое", "2023-11-11");
+        addLogbookToEating(partId_1, LocalTime.of(20, 45), "Пробовал разные виды сыра", "Другое", "2023-11-12");
+        addLogbookToSport(partId_1, "Средняя", 40, "Велосипедная прогулка", "По городскому парку", "2023-11-10");
+        addLogbookToSport(partId_1, "Высокая", 55, "Тренировка в зале", "Силовые упражнения", "2023-11-12");
+        addLogbookToSport(partId_1, "Низкая", 25, "Утренняя зарядка", "Простые упражнения", "2023-11-13");
+
+        addLogbookToEmotional(partId_2, "Сегодня посетила выставку искусства", "2023-11-10");
+        addLogbookToEmotional(partId_2, "Провела время с семьей, готовили ужин вместе", "2023-11-11");
+        addLogbookToEmotional(partId_2, "Смотрела любимый фильм вечером", "2023-11-12");
+        addLogbookToEating(partId_2, LocalTime.of(8, 0), "Поела йогурт с фруктами на завтрак", "Завтрак", "2023-11-10");
+        addLogbookToEating(partId_2, LocalTime.of(14, 0), "Обедала супом с гренками", "Обед", "2023-11-11");
+        addLogbookToEating(partId_2, LocalTime.of(18, 30), "Ужинала рыбой и овощами", "Ужин", "2023-11-12");
+        addLogbookToEating(partId_2, LocalTime.of(9, 30), "Поела мед и овсянку", "Другое", "2023-11-10");
+        addLogbookToEating(partId_2, LocalTime.of(15, 0), "Пробовала азиатские сладости", "Другое", "2023-11-11");
+        addLogbookToEating(partId_2, LocalTime.of(19, 45), "Готовила экспериментальный десерт", "Другое", "2023-11-12");
+        addLogbookToSport(partId_2, "Низкая", 30, "Плавание в бассейне", "Расслабляющая тренировка", "2023-11-10");
+        addLogbookToSport(partId_2, "Средняя", 50, "Танцы в студии", "Энергичные танцы под музыку", "2023-11-12");
+        addLogbookToSport(partId_2, "Высокая", 65, "Бег по пляжу", "Интенсивная тренировка", "2023-11-13");
+
+        addLogbookToEmotional(partId_3, "Сегодня успешно провел переговоры", "2023-11-10");
+        addLogbookToEmotional(partId_3, "Получил новый заказ, радостный день", "2023-11-11");
+        addLogbookToEmotional(partId_3, "Прогулка по парку после работы", "2023-11-12");
+        addLogbookToEating(partId_3, LocalTime.of(7, 30), "Поел кашу с молоком на завтрак", "Завтрак", "2023-11-10");
+        addLogbookToEating(partId_3, LocalTime.of(12, 45), "Обедал пастой с мясным соусом", "Обед", "2023-11-11");
+        addLogbookToEating(partId_3, LocalTime.of(21, 0), "Ужинал суши и супом", "Ужин", "2023-11-12");
+        addLogbookToEating(partId_3, LocalTime.of(8, 45), "Завтракал гречкой с медом", "Другое", "2023-11-10");
+        addLogbookToEating(partId_3, LocalTime.of(14, 15), "Пробовал бразильский орех", "Другое", "2023-11-11");
+        addLogbookToEating(partId_3, LocalTime.of(20, 30), "Поел марокканские фрукты", "Другое", "2023-11-12");
+        addLogbookToSport(partId_3, "Высокая", 55, "Тренировка на открытом воздухе", "Функциональные упражнения", "2023-11-10");
+        addLogbookToSport(partId_3, "Низкая", 40, "Ходьба по городу", "Посещение достопримечательностей", "2023-11-12");
+        addLogbookToSport(partId_3, "Средняя", 50, "Теннис на корте", "С друзьями в выходной", "2023-11-13");
+      }
     }
 
     private void addLogbookToEmotional(long participantId, String text,String date)
