@@ -11,8 +11,12 @@ import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
+import com.cygans.database.notifications.Notifications;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
+import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
+import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
@@ -69,6 +73,11 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private LogsTypeService logsTypeService;
     private IntensityService intensityService;
     private MealService mealService;
+    private NotificationsService notificationsService;
+    private NotificationTypeService notificationTypeService;
+    private NotificationStatusService notificationStatusService;
+
+
     private DateTimeFormatter formatter;
     private long createParticipant(String name, String surname, String login, String passwd, String phone)
     {
@@ -173,6 +182,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         logService.saveLog(log);
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(), LocalDateTime.now(), text);
         emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
+        addNotification(participantId, log, 0, text);
     }
 
 
@@ -183,6 +193,47 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
       SportLogBook sportLogBook = new SportLogBook(log.getId(),
         intensityService.getIntensityId(intes), duration, LocalDateTime.now(), active, comments);
       sportLogBookService.saveSportLog(sportLogBook);
+      addNotification(participantId, log, 2, active);
+    }
+
+    private void addNotification(long participantId, Log log, int notificationType, String text)
+    {
+      Long participantMentorId = null;
+      if (participantMentorService.checkParticipant(participantId)) {
+        participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
+      }
+      Notifications notification = new Notifications(
+        participantId,
+        participantMentorId,
+        notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
+        notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
+      );
+      String notificationText = "";
+      if (notificationType == 0)
+      {
+        notificationText = "эмоциональном состоянии";
+        notification.setShortMessage("Новая запись о " + notificationText);
+      }
+      if (notificationType == 1)
+      {
+        notificationText = "приёме пищи";
+        notification.setShortMessage("Новая запись о " + notificationText);
+      }
+      if (notificationType == 2)
+      {
+        notificationText = "спортивной активности";
+        notification.setShortMessage("Новая запись о " + notificationText);
+      }
+      notification.setAllMessage(
+        participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
+          + " добавил(-а) запись о " + notificationText + ".\n" +
+          "\n" +
+          "Дата: " + notification.getDate().toLocalDate() + "\n" +
+          "Время: " + notification.getDate().toLocalTime() + "\n" +
+          "Содержание: " + text
+      );
+      notification.setLogBookId(log.getId());
+      notificationsService.saveNotification(notification);
     }
 
   private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType,String date)
@@ -193,6 +244,8 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
       log.getId(), timeEat, description,
       mealService.getMealId(mealType), LocalDateTime.now());
     eatingLogBookService.saveEatingLog(eatingLogBook);
+    addNotification(participantId, log, 1, description);
+
   }
 
     public StartView(NotificationTypeService notificationTypeService,
@@ -209,7 +262,8 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      EmotionalLogBookService emotionalLogBookService,
                      EatingLogBookService eatingLogBookService,
                      SportLogBookService sportLogBookService,
-                     LogService logService) {
+                     LogService logService,
+                     NotificationsService notificationsService) {
 
         this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -225,6 +279,9 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         this.emotionalLogBookService = emotionalLogBookService;
         this.mealService = mealService;
         this.intensityService = intensityService;
+        this.notificationsService =  notificationsService;
+        this.notificationTypeService = notificationTypeService;
+        this.notificationStatusService = notificationStatusService;
 
         notificationTypeService.fill();
         questionStatusService.fill();
