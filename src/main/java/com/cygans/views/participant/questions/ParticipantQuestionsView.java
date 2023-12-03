@@ -47,7 +47,7 @@ import java.util.Optional;
 /**
  * Странице вопросов участника
  */
-@PageTitle("Questions View")
+@PageTitle("Марафон")
 @Route(value = "participant/questions")
 public class ParticipantQuestionsView extends Div {
     private final TextArea textArea = new TextArea("Мой вопрос");

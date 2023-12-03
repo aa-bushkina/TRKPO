@@ -27,7 +27,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Start Page")
+@PageTitle("Марафон")
 @Route(value = "/participant/start-page")
 @RolesAllowed("PARTICIPANT")
 public class ParticipantHomeView extends VerticalLayout {

@@ -16,7 +16,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Change Password")
+@PageTitle("Марафон")
 @Route(value = "mentor/change-password")
 
 public class MentorSettings2View extends HorizontalLayout {

@@ -1,7 +1,6 @@
 package com.cygans.views.mentor.signup;
 
 import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.mentor.MentorService;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.views.SignUp1View;
 import com.cygans.views.components.Toolbar;
@@ -34,7 +33,7 @@ import java.util.Locale;
 /**
  * Страница регистрации ментора 2
  */
-@PageTitle("Mentor Sign Up")
+@PageTitle("Марафон")
 @Route(value = "mentorSignUp2")
 public class MentorSignUp2View extends Div {
     private final RadioButtonGroup<String> sex;

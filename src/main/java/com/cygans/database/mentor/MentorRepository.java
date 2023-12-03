@@ -1,6 +1,5 @@
 package com.cygans.database.mentor;
 
-import com.cygans.database.participant.Participant;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

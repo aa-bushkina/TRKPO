@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Страница оповещений участника
  */
-@PageTitle("Оповещения")
+@PageTitle("Марафон")
 @Route(value = "participant/notifications")
 public class ParticipantNotificationView extends VerticalLayout {
     private Grid<Notifications> grid;

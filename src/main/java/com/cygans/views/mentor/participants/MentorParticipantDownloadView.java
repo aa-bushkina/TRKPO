@@ -28,7 +28,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Mentor Download Data and Graph")
+@PageTitle("Марафон")
 @Route(value = "mentor/download")
 
 public class MentorParticipantDownloadView extends VerticalLayout {
@@ -37,7 +37,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
     private LocalDate startDate = LocalDate.now().minusDays(4);
     private LocalDate endDate = LocalDate.now();
     private String exportData;
-    private final Long patientId;
+    private final Long participantId;
     private final ParticipantService participantService;
     private final LogController logController;
 
@@ -51,7 +51,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         this.logController = logController;
         this.participantService = participantService;
 
-        patientId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
+        participantId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("ParticipantID")).getId();
 
         add(new Toolbar(ToolbarType.MENTOR_PAGES));
         Locale locale = new Locale("ru", "RU");
@@ -81,7 +81,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         });
 
         HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(patientId).getFirstName() + " " + participantService.getParticipantById(patientId).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
+        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(participantId).getFirstName() + " " + participantService.getParticipantById(participantId).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
@@ -90,15 +90,15 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         //TODO сделать нормльный вывод
         StringBuilder finaloutput =
                 new StringBuilder("Start date" + "," + startDate.toString() + "," + "End date" + "," + endDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(patientId) + "\n" +
+                        "Participant name" + "," + participantService.searchParticipantName(participantId) + "\n" +
                         "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
                         "\n");
 
-        List<Log> PatientData = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false);
+        List<Log> ParticipantData = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false);
 
-        for (Log eachdata : PatientData) {
+        for (Log eachdata : ParticipantData) {
             if (eachdata.getLogTypeId() == 1) {
                 String simplestring = EmotionalOut(eachdata.getDate());
                 finaloutput.append(simplestring).append("\n");

@@ -30,7 +30,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Download Data")
+
+@PageTitle("Марафон")
 @Route(value = "participant/download")
 
 public class ParticipantDownloadView extends VerticalLayout {
@@ -39,7 +40,7 @@ public class ParticipantDownloadView extends VerticalLayout {
     private LocalDate StartDate = LocalDate.now().minusDays(4);
     private LocalDate EndDate = LocalDate.now();
     private String exportData;
-    private final Long patientId;
+    private final Long participantId;
     private final ParticipantService participantService;
     private final LogController logController;
 
@@ -48,7 +49,7 @@ public class ParticipantDownloadView extends VerticalLayout {
                                    EatingLogBookService eatingLogBookService,
                                    ParticipantService participantService,
                                    LogController logController,
-                                   ParticipantService patientData,
+                                   ParticipantService participantData,
                                    LoginInfoService loginInfoService) {
         this.logController = logController;
         this.participantService = participantService;
@@ -56,7 +57,7 @@ public class ParticipantDownloadView extends VerticalLayout {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         LoginInfo loginInfo = loginInfoService.findByLogin(authentication.getName());
-        patientId = participantService.getParticipantByLoginInfoId(loginInfo.getId()).getId();
+        participantId = participantService.getParticipantByLoginInfoId(loginInfo.getId()).getId();
 
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         Locale locale = new Locale("ru", "RU");
@@ -94,15 +95,15 @@ public class ParticipantDownloadView extends VerticalLayout {
         //TODO сделать нормльный вывод
         StringBuilder finaloutput =
                 new StringBuilder("Дата начала" + "," + StartDate.toString() + "," + "Дата конца" + "," + EndDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(patientId) + "\n" +
+                        "Participant name" + "," + participantService.searchParticipantName(participantId) + "\n" +
                         "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
                         "\n");
 
-        List<Log> PatientData = logController.getAllNowParticipantLogsBetweenDate(StartDate, EndDate, true);
+        List<Log> participantData = logController.getAllNowParticipantLogsBetweenDate(StartDate, EndDate, true);
 
-        for (Log eachdata : PatientData) {
+        for (Log eachdata : participantData) {
             if (eachdata.getLogTypeId() == 1) {
                 String simplestring = EmotionalOut(eachdata.getDate());
                 finaloutput.append(simplestring).append("\n");
