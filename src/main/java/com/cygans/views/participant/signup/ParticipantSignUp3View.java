@@ -136,31 +136,31 @@ public class ParticipantSignUp3View extends Div {
                 Notification notification = Notification.show("Необходимо указать рост", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (height.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат роста", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение роста", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weight.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать вес", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weight.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат веса", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение веса", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breast.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват груди", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breast.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата груди", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата груди", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waist.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват талии", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waist.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата талии", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата талии", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hips.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hips.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата бедер", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();
