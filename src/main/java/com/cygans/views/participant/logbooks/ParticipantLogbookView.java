@@ -145,12 +145,12 @@ public class ParticipantLogbookView extends VerticalLayout {
                     hourFoodText = hourFood.getValue();
                     minuteFoodText = minuteFood.getValue();
 
-          logController.updateEatingLog(
-                  logBookId,
-                  foodDesc.getValue(),
-                  LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())),
-                  meal_type.getValue()
-          );
+                    logController.updateEatingLog(
+                            logBookId,
+                            foodDesc.getValue(),
+                            LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())),
+                            meal_type.getValue()
+                    );
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -274,10 +274,7 @@ public class ParticipantLogbookView extends VerticalLayout {
 
     private void mealFoodTypeInit(String mealType) {
         meal_type = new ComboBox<>("Приём пищи");
-        meal_type.setItems(MealType.BREAKFAST.getText());
-        meal_type.setItems(MealType.LAUNCH.getText());
-        meal_type.setItems(MealType.DINNER.getText());
-        meal_type.setItems(MealType.OTHER.getText());
+        meal_type.setItems(MealType.BREAKFAST.getText(), MealType.LAUNCH.getText(), MealType.DINNER.getText(), MealType.OTHER.getText());
         meal_type.setValue(mealType);
         meal_type.setClearButtonVisible(true);
         meal_type.setReadOnly(true);
@@ -322,7 +319,7 @@ public class ParticipantLogbookView extends VerticalLayout {
 
   private void showSportLogBookView() {
     SportLogBook log = logController.getSportLogByLogbookId(logBookId);
-    intensityTypeText = logController.getIntensitySportLog(log.getIntensityId());
+    intensityTypeText = logController.getIntensitySportLog(log.getIntensityId()).getType();
     sportDescText = log.getComments();
     activityText = log.getActivity();
     durationText = String.valueOf(log.getDuration());

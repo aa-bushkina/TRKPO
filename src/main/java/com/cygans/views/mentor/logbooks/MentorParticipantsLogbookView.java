@@ -136,7 +136,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
 
     private void showSportLogBookView() {
         SportLogBook log = logController.getSportLogByLogbookId((logBookId));
-        intensityInit(logController.getIntensitySportLog(log.getIntensityId()));
+        intensityInit(logController.getIntensitySportLog(log.getIntensityId()).getType());
         activityInit(log.getActivity());
         descSportInit(log.getComments());
         durationInit(String.valueOf(log.getDuration()));
