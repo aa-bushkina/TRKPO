@@ -64,19 +64,19 @@ public class ParticipantLogbookView extends VerticalLayout {
     selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
     logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
 
-    if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-      showEmotionalLogBookView();
-    } else if (logBookType.equals(LogBookType.EATING.getText())) {
-      showEatingLogBookView();
-    } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-      showSportLogBookView();
-    }
+        if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+            showEmotionalLogBookView();
+        } else if (logBookType.equals(LogBookType.EATING.getText())) {
+            showEatingLogBookView();
+        } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+            showSportLogBookView();
+        }
 
 
-    if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-      addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
-      formLayout.add(answerField);
-    }
+        if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
+            addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
+            formLayout.add(answerField);
+        }
 
     buttons.setWidth(mainLayout.getWidth());
     mainLayout.add(
@@ -91,62 +91,62 @@ public class ParticipantLogbookView extends VerticalLayout {
     add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
   }
 
-  private void init() {
-    saveSetUp();
-    cancelInit();
-    changeLogInit();
-    backInit();
-  }
+    private void init() {
+        saveSetUp();
+        cancelInit();
+        changeLogInit();
+        backInit();
+    }
 
-  private void addAnswerField(String answer) {
-    answerField = new TextArea("Ответ ментора");
-    answerField.setValue(answer);
-    answerField.setClearButtonVisible(true);
-    answerField.setReadOnly(true);
-  }
+    private void addAnswerField(String answer) {
+        answerField = new TextArea("Ответ ментора");
+        answerField.setValue(answer);
+        answerField.setClearButtonVisible(true);
+        answerField.setReadOnly(true);
+    }
 
-  private void saveSetUp() {
-    save = new Button("Сохранить");
-    save.setVisible(false);
-    save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    save.getElement().getStyle().set("margin-left", "1em");
+    private void saveSetUp() {
+        save = new Button("Сохранить");
+        save.setVisible(false);
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.getElement().getStyle().set("margin-left", "1em");
 
-    save.addClickListener(e -> {
-      if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-        if (emotionalDesc.isInvalid() || emotionalDesc.isEmpty() || emotionalDesc.getValue().length() > 1000) {
-          Notification notification = Notification.show("Введите от 1 до 1000 символов!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else {
+        save.addClickListener(e -> {
+            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+                if (emotionalDesc.isInvalid() || emotionalDesc.isEmpty() || emotionalDesc.getValue().length() > 1000) {
+                    Notification notification = Notification.show("Введите от 1 до 1000 символов!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
 
           emotionalDescText = emotionalDesc.getValue();
           logController.updateEmotionalLog(logBookId, emotionalDescText);
 
-          allSetReadOnly(true);
-          changeLog.setVisible(true);
-          back.setVisible(true);
-          save.setVisible(false);
-          cancel.setVisible(false);
-          Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-        }
-      } else if (logBookType.equals(LogBookType.EATING.getText())) {
-        if (foodDesc.isEmpty()) {
-          Notification notification = Notification.show("Описание пустое", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (hourFood.isEmpty()) {
-          Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (minuteFood.isEmpty()) {
-          Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (meal_type.isEmpty()) {
-          Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else {
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            } else if (logBookType.equals(LogBookType.EATING.getText())) {
+                if (foodDesc.isEmpty()) {
+                    Notification notification = Notification.show("Описание пустое", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (hourFood.isEmpty()) {
+                    Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (minuteFood.isEmpty()) {
+                    Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (meal_type.isEmpty()) {
+                    Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
 
-          mealTypeText = meal_type.getValue();
-          foodDescText = foodDesc.getValue();
-          hourFoodText = hourFood.getValue();
-          minuteFoodText = minuteFood.getValue();
+                    mealTypeText = meal_type.getValue();
+                    foodDescText = foodDesc.getValue();
+                    hourFoodText = hourFood.getValue();
+                    minuteFoodText = minuteFood.getValue();
 
           logController.updateEatingLog(
                   logBookId,
@@ -155,95 +155,94 @@ public class ParticipantLogbookView extends VerticalLayout {
                   meal_type.getValue()
           );
 
-          allSetReadOnly(true);
-          changeLog.setVisible(true);
-          back.setVisible(true);
-          save.setVisible(false);
-          cancel.setVisible(false);
-          Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-        }
-      } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-        if (intensity_type.isEmpty()) {
-          Notification notification = Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (activityField.isEmpty()) {
-          Notification notification = Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (durationField.getValue().isEmpty()) {
-          Notification notification = Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (Integer.parseInt(durationField.getValue()) < 0) {
-          Notification notification = Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else if (Integer.parseInt(durationField.getValue()) > 1440) {
-          Notification notification = Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER);
-          notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        } else {
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+                if (intensity_type.isEmpty()) {
+                    Notification notification = Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (activityField.isEmpty()) {
+                    Notification notification = Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (durationField.getValue().isEmpty()) {
+                    Notification notification = Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (Integer.parseInt(durationField.getValue()) < 0) {
+                    Notification notification = Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (Integer.parseInt(durationField.getValue()) > 1440) {
+                    Notification notification = Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
 
-          activityText = activityField.getValue();
-          sportDescText = sportDesc.getValue();
-          durationText = durationField.getValue();
-          intensityTypeText = intensity_type.getValue();
+                    activityText = activityField.getValue();
+                    sportDescText = sportDesc.getValue();
+                    durationText = durationField.getValue();
+                    intensityTypeText = intensity_type.getValue();
 
           logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
 
-          allSetReadOnly(true);
-          changeLog.setVisible(true);
-          back.setVisible(true);
-          save.setVisible(false);
-          cancel.setVisible(false);
-          Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-        }
-      }
-    });
-  }
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            }
+        });
+    }
 
-  private void cancelInit() {
-    cancel = new Button("Отменить");
-    cancel.setVisible(false);
-    cancel.getElement().getStyle().set("margin-left", "auto");
-    cancel.addClickListener(e -> {
-      if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-        emotionalDesc.setValue(emotionalDescText);
-      } else if (logBookType.equals(LogBookType.EATING.getText())) {
-        foodDesc.setValue(foodDescText);
-        hourFood.setValue(hourFoodText);
-        minuteFood.setValue(minuteFoodText);
-        meal_type.setValue(mealTypeText);
-      } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-        activityField.setValue(activityText);
-        durationField.setValue(durationText);
-        sportDesc.setValue(sportDescText);
-        intensity_type.setValue(intensityTypeText);
-      }
-      changeLog.setVisible(true);
-      back.setVisible(true);
-      save.setVisible(false);
-      cancel.setVisible(false);
-      allSetReadOnly(true);
-      Notification.show("Изменения отменены", 2000, Notification.Position.TOP_CENTER);
-    });
-  }
+    private void cancelInit() {
+        cancel = new Button("Отменить");
+        cancel.setVisible(false);
+        cancel.getElement().getStyle().set("margin-right", "auto");
+        cancel.addClickListener(e -> {
+            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+                emotionalDesc.setValue(emotionalDescText);
+            } else if (logBookType.equals(LogBookType.EATING.getText())) {
+                foodDesc.setValue(foodDescText);
+                hourFood.setValue(hourFoodText);
+                minuteFood.setValue(minuteFoodText);
+                meal_type.setValue(mealTypeText);
+            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+                activityField.setValue(activityText);
+                durationField.setValue(durationText);
+                sportDesc.setValue(sportDescText);
+                intensity_type.setValue(intensityTypeText);
+            }
+            changeLog.setVisible(true);
+            back.setVisible(true);
+            save.setVisible(false);
+            cancel.setVisible(false);
+            allSetReadOnly(true);
+            Notification.show("Изменения отменены", 2000, Notification.Position.TOP_CENTER);
+        });
+    }
 
-  private void changeLogInit() {
-    changeLog = new Button("Редактировать");
-    changeLog.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    changeLog.getElement().getStyle().set("margin-left", "auto");
-    changeLog.addClickListener(e -> {
-      allSetReadOnly(false);
-      back.setVisible(false);
-      changeLog.setVisible(false);
-      save.setVisible(true);
-      cancel.setVisible(true);
-    });
-  }
+    private void changeLogInit() {
+        changeLog = new Button("Редактировать");
+        changeLog.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        changeLog.getElement().getStyle().set("margin-left", "auto");
+        changeLog.addClickListener(e -> {
+            allSetReadOnly(false);
+            back.setVisible(false);
+            changeLog.setVisible(false);
+            save.setVisible(true);
+            cancel.setVisible(true);
+        });
+    }
 
-  private void backInit() {
-    back = new Button("Назад");;
-    back.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    back.getElement().getStyle().set("margin-right", "auto");
-    back.addClickListener(click -> back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
-  }
+    private void backInit() {
+        back = new Button("Назад");
+        back.getElement().getStyle().set("margin-right", "auto");
+        back.addClickListener(click -> back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
+    }
 
   private void showEatingLogBookView() {
     EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
@@ -276,53 +275,53 @@ public class ParticipantLogbookView extends VerticalLayout {
     formLayout.setColspan(foodDesc, 1);
   }
 
-  private void mealFoodTypeInit(String mealType) {
-    meal_type = new ComboBox<>("Приём пищи");
-    meal_type.setItems(MealType.BREAKFAST.getText());
-    meal_type.setItems(MealType.LAUNCH.getText());
-    meal_type.setItems(MealType.DINNER.getText());
-    meal_type.setItems(MealType.OTHER.getText());
-    meal_type.setValue(mealType);
-    meal_type.setClearButtonVisible(true);
-    meal_type.setReadOnly(true);
-  }
+    private void mealFoodTypeInit(String mealType) {
+        meal_type = new ComboBox<>("Приём пищи");
+        meal_type.setItems(MealType.BREAKFAST.getText());
+        meal_type.setItems(MealType.LAUNCH.getText());
+        meal_type.setItems(MealType.DINNER.getText());
+        meal_type.setItems(MealType.OTHER.getText());
+        meal_type.setValue(mealType);
+        meal_type.setClearButtonVisible(true);
+        meal_type.setReadOnly(true);
+    }
 
-  private void descFoodInit(String stDescFood) {
-    foodDesc = new TextArea("Описание еды");
-    foodDesc.setValue(stDescFood);
-    foodDesc.setClearButtonVisible(true);
-    foodDesc.setReadOnly(true);
-  }
+    private void descFoodInit(String stDescFood) {
+        foodDesc = new TextArea("Описание еды");
+        foodDesc.setValue(stDescFood);
+        foodDesc.setClearButtonVisible(true);
+        foodDesc.setReadOnly(true);
+    }
 
-  private void hourFoodTextInit(String hourFoodText) {
-    ArrayList<String> h = new ArrayList<>();
-    for (int i = 0; i < 10; i++) {
-      h.add("0" + i);
+    private void hourFoodTextInit(String hourFoodText) {
+        ArrayList<String> h = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            h.add("0" + i);
+        }
+        for (int i = 10; i < 24; i++) {
+            h.add(String.valueOf(i));
+        }
+        hourFood = new ComboBox<>("Час прием пищи");
+        hourFood.setItems(h);
+        hourFood.setValue(hourFoodText);
+        hourFood.setClearButtonVisible(true);
+        hourFood.setReadOnly(true);
     }
-    for (int i = 10; i < 24; i++) {
-      h.add(String.valueOf(i));
-    }
-    hourFood = new ComboBox<>("Час прием пищи");
-    hourFood.setItems(h);
-    hourFood.setValue(hourFoodText);
-    hourFood.setClearButtonVisible(true);
-    hourFood.setReadOnly(true);
-  }
 
-  private void minuteFoodTextInit(String minuteFoodText) {
-    ArrayList<String> m = new ArrayList<>();
-    for (int i = 0; i < 10; i++) {
-      m.add("0" + i);
+    private void minuteFoodTextInit(String minuteFoodText) {
+        ArrayList<String> m = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            m.add("0" + i);
+        }
+        for (int i = 10; i < 60; i++) {
+            m.add(String.valueOf(i));
+        }
+        minuteFood = new ComboBox<>("Минуты прием пищи");
+        minuteFood.setItems(m);
+        minuteFood.setValue(minuteFoodText);
+        minuteFood.setClearButtonVisible(true);
+        minuteFood.setReadOnly(true);
     }
-    for (int i = 10; i < 60; i++) {
-      m.add(String.valueOf(i));
-    }
-    minuteFood = new ComboBox<>("Минуты прием пищи");
-    minuteFood.setItems(m);
-    minuteFood.setValue(minuteFoodText);
-    minuteFood.setClearButtonVisible(true);
-    minuteFood.setReadOnly(true);
-  }
 
   private void showSportLogBookView() {
     SportLogBook log = logController.getSportLogByLogbookId(logBookId);
@@ -342,49 +341,49 @@ public class ParticipantLogbookView extends VerticalLayout {
       buttons.add(back, save, cancel);
     }
 
-    formLayout.add(
-            intensity_type,
-            activityField,
-            sportDesc,
-            durationField
-    );
-    formLayout.setResponsiveSteps(
-            new FormLayout.ResponsiveStep("0", 1)
-    );
-    formLayout.setColspan(intensity_type, 1);
-    formLayout.setColspan(activityField, 1);
-    formLayout.setColspan(sportDesc, 1);
-    formLayout.setColspan(durationField, 1);
-  }
+        formLayout.add(
+                intensity_type,
+                activityField,
+                sportDesc,
+                durationField
+        );
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1)
+        );
+        formLayout.setColspan(intensity_type, 1);
+        formLayout.setColspan(activityField, 1);
+        formLayout.setColspan(sportDesc, 1);
+        formLayout.setColspan(durationField, 1);
+    }
 
-  public void intensityInit(String strIntensity) {
-    intensity_type = new ComboBox<>("Интенсивность");
-    intensity_type.setItems(IntensityType.LOWER.getText(), IntensityType.MIDDLE.getText(), IntensityType.HIGH.getText());
-    intensity_type.setValue(strIntensity);
-    intensity_type.setClearButtonVisible(true);
-    intensity_type.setReadOnly(true);
-  }
+    public void intensityInit(String strIntensity) {
+        intensity_type = new ComboBox<>("Интенсивность");
+        intensity_type.setItems(IntensityType.LOWER.getText(), IntensityType.MIDDLE.getText(), IntensityType.HIGH.getText());
+        intensity_type.setValue(strIntensity);
+        intensity_type.setClearButtonVisible(true);
+        intensity_type.setReadOnly(true);
+    }
 
-  private void activityInit(String act) {
-    activityField = new TextField("Активность");
-    activityField.setValue(act);
-    activityField.setClearButtonVisible(true);
-    activityField.setReadOnly(true);
-  }
+    private void activityInit(String act) {
+        activityField = new TextField("Активность");
+        activityField.setValue(act);
+        activityField.setClearButtonVisible(true);
+        activityField.setReadOnly(true);
+    }
 
-  private void durationInit(String dur) {
-    durationField = new TextField("Продолжительность (в минутах)");
-    durationField.setValue(dur);
-    durationField.setClearButtonVisible(true);
-    durationField.setReadOnly(true);
-  }
+    private void durationInit(String dur) {
+        durationField = new TextField("Продолжительность (в минутах)");
+        durationField.setValue(dur);
+        durationField.setClearButtonVisible(true);
+        durationField.setReadOnly(true);
+    }
 
-  private void descSportInit(String stDescSport) {
-    sportDesc = new TextArea("Описание активности");
-    sportDesc.setValue(stDescSport);
-    sportDesc.setClearButtonVisible(true);
-    sportDesc.setReadOnly(true);
-  }
+    private void descSportInit(String stDescSport) {
+        sportDesc = new TextArea("Описание активности");
+        sportDesc.setValue(stDescSport);
+        sportDesc.setClearButtonVisible(true);
+        sportDesc.setReadOnly(true);
+    }
 
   public void showEmotionalLogBookView() {
     EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(logBookId);
@@ -405,27 +404,27 @@ public class ParticipantLogbookView extends VerticalLayout {
     formLayout.setColspan(emotionalDesc, 1);
   }
 
-  private void emotionalDescInit(String stEmotionalDesc) {
-    emotionalDesc = new TextArea("Описание");
-    emotionalDesc.setValue(stEmotionalDesc);
-    emotionalDesc.setClearButtonVisible(true);
-    emotionalDesc.setReadOnly(true);
-  }
-
-  private void allSetReadOnly(boolean Boolean) {
-    if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-      emotionalDesc.setReadOnly(Boolean);
-    } else if (logBookType.equals(LogBookType.EATING.getText())) {
-      foodDesc.setReadOnly(Boolean);
-      meal_type.setReadOnly(Boolean);
-      hourFood.setReadOnly(Boolean);
-      minuteFood.setReadOnly(Boolean);
-    } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-      activityField.setReadOnly(Boolean);
-      sportDesc.setReadOnly(Boolean);
-      durationField.setReadOnly(Boolean);
-      intensity_type.setReadOnly(Boolean);
+    private void emotionalDescInit(String stEmotionalDesc) {
+        emotionalDesc = new TextArea("Описание");
+        emotionalDesc.setValue(stEmotionalDesc);
+        emotionalDesc.setClearButtonVisible(true);
+        emotionalDesc.setReadOnly(true);
     }
-  }
+
+    private void allSetReadOnly(boolean Boolean) {
+        if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+            emotionalDesc.setReadOnly(Boolean);
+        } else if (logBookType.equals(LogBookType.EATING.getText())) {
+            foodDesc.setReadOnly(Boolean);
+            meal_type.setReadOnly(Boolean);
+            hourFood.setReadOnly(Boolean);
+            minuteFood.setReadOnly(Boolean);
+        } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+            activityField.setReadOnly(Boolean);
+            sportDesc.setReadOnly(Boolean);
+            durationField.setReadOnly(Boolean);
+            intensity_type.setReadOnly(Boolean);
+        }
+    }
 
 }

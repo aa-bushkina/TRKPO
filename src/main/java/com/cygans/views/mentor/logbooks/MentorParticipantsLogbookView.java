@@ -13,6 +13,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -71,13 +72,12 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
 
         mainLayout.setMaxWidth("600px");
         mainLayout.setPadding(false);
+        setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
         add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
     }
 
     private void backInit() {
         back_button = new Button("Назад");
-        ;
-        back_button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         back_button.getElement().getStyle().set("margin-right", "auto");
         back_button.addClickListener(click -> back_button.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class)));
     }

@@ -71,7 +71,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         VerticalLayout mainLayout = new VerticalLayout();
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setWidth(mainLayout.getWidth());
-        buttons.add(changePassword, changeSetting, save, cancel);
+        buttons.add(changePassword, changeSetting, cancel, save);
 
         mainLayout.add(
                 new H1("  "),
@@ -80,7 +80,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
                 formLayout
         );
         mainLayout.setMaxWidth("600px");
-        mainLayout.setPadding(false);
+        mainLayout.setPadding(true);
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
         setJustifyContentMode(JustifyContentMode.CENTER);
     }
@@ -231,7 +231,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-left", "1em");
+        save.getElement().getStyle().set("margin-left", "18em");
 
         save.addClickListener(e -> {
             if (firstnameField.isEmpty()) {
@@ -311,7 +311,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void cancelInit() {
         cancel = new Button("Отменить");
         cancel.setVisible(false);
-        cancel.getElement().getStyle().set("margin-left", "auto");
+        cancel.getElement().getStyle().set("margin-right", "auto");
         cancel.addClickListener(e -> {
             firstnameField.setValue(firstname);
             lastnameField.setValue(lastname);
