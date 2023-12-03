@@ -2,7 +2,7 @@ package com.cygans.views.participant.logbooks;
 
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.MealType;
+import com.cygans.database.eating_log_book.meal.MealType;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.sport_log_book.SportLogBook;

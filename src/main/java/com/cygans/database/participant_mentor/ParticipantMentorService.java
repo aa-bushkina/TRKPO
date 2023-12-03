@@ -38,25 +38,17 @@ public class ParticipantMentorService {
         return participants;
     }
 
-    public boolean exist(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId) != null;
-    }
-
-    public void deleteParticipant(Long id) {
-        ParticipantMentor delete = participantMentorRepository.getMentorParticipantByParticipantId(id);
-        participantMentorRepository.delete(delete);
-    }
-
-    public boolean checkParticipant(Long participantId) {
+    public boolean existByParticipantId(Long participantId) {
         return participantMentorRepository.findByParticipantId(participantId) != null;
     }
 
-    public ParticipantMentor findByParticipantId(Long participantId) {
-        return participantMentorRepository.findByParticipantId(participantId);
+    public void deleteParticipant(Long id) {
+        ParticipantMentor delete = participantMentorRepository.findByParticipantId(id);
+        participantMentorRepository.delete(delete);
     }
 
     public ParticipantMentor getMentorParticipantByParticipantId(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId);
+        return participantMentorRepository.findByParticipantId(participantId);
     }
 
 }

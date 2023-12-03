@@ -5,7 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor,Long> {
-    ParticipantMentor getMentorParticipantByParticipantId(Long participantId);
 
     List<ParticipantMentor> findAll();
 

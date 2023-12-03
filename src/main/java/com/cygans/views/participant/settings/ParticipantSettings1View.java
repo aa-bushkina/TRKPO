@@ -4,7 +4,6 @@ package com.cygans.views.participant.settings;
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -40,7 +39,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private Button changeSetting, save, cancel, changePassword;
     private SettingsController settingsController;
 
-    public ParticipantSettings1View(SettingsController settingsController, LoginInfoService loginInfoService) {
+    public ParticipantSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;
         init();
         FormLayout formLayout = new FormLayout();

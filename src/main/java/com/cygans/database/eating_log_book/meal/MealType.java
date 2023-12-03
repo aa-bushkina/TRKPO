@@ -1,4 +1,4 @@
-package com.cygans.database.eating_log_book;
+package com.cygans.database.eating_log_book.meal;
 
 public enum MealType {
   BREAKFAST("Завтрак"),

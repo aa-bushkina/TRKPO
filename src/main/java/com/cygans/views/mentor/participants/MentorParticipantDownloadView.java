@@ -1,12 +1,12 @@
 package com.cygans.views.mentor.participants;
 
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -18,7 +18,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.VaadinSession;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -37,21 +36,20 @@ public class MentorParticipantDownloadView extends VerticalLayout {
     private LocalDate startDate = LocalDate.now().minusDays(4);
     private LocalDate endDate = LocalDate.now();
     private String exportData;
-    private final Long participantId;
-    private final ParticipantService participantService;
+    private final Participant participant;
     private final LogController logController;
+    private final ParticipantAndMentorController participantAndMentorController;
 
 
     public MentorParticipantDownloadView(EmotionalLogBookService emotionalLogBookService,
                                          SportLogBookService sportLogBookService,
                                          EatingLogBookService eatingLogBookService,
-                                         ParticipantService participantService,
                                          LogController logController,
-                                         LoginInfoService loginInfoService) {
+                                         ParticipantAndMentorController participantAndMentorController) {
         this.logController = logController;
-        this.participantService = participantService;
+        this.participantAndMentorController = participantAndMentorController;
 
-        participantId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("ParticipantID")).getId();
+        participant = participantAndMentorController.getNowParticipantByAttribute();
 
         add(new Toolbar(ToolbarType.MENTOR_PAGES));
         Locale locale = new Locale("ru", "RU");
@@ -81,7 +79,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         });
 
         HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(participantId).getFirstName() + " " + participantService.getParticipantById(participantId).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
+        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participant.getFirstName() + " " + participant.getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
@@ -90,7 +88,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         //TODO сделать нормльный вывод
         StringBuilder finaloutput =
                 new StringBuilder("Start date" + "," + startDate.toString() + "," + "End date" + "," + endDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(participantId) + "\n" +
+                        "Participant name" + "," + participant.getFirstName() + " " + participant.getLastName() + "\n" +
                         "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +
