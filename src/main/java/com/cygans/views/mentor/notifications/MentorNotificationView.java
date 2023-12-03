@@ -1,8 +1,8 @@
 package com.cygans.views.mentor.notifications;
 
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.database.participant.ParticipantService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -32,12 +32,12 @@ public class MentorNotificationView extends VerticalLayout {
     private ListDataProvider<Notifications> dataProvider;
     private Grid.Column<Notifications> firstNameColumn;
     private Grid.Column<Notifications> lastNameColumn;
-    private final ParticipantService participantService;
+    private final ParticipantAndMentorController participantAndMentorController;
     private final NotificationController notificationController;
 
     public MentorNotificationView(NotificationController notificationController,
-                                  ParticipantService participantService) {
-        this.participantService = participantService;
+                                  ParticipantAndMentorController participantAndMentorController) {
+        this.participantAndMentorController = participantAndMentorController;
         this.notificationController = notificationController;
 
         VerticalLayout vl = new VerticalLayout();
@@ -59,12 +59,11 @@ public class MentorNotificationView extends VerticalLayout {
         dataProvider = new ListDataProvider<>(notificationController.getAllNowMentorNotifications());
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
-
-        firstNameColumn = grid.addColumn(notif -> participantService.getFirstname(notif.getParticipantId()), "FirstName")
+        firstNameColumn = grid.addColumn(notif -> participantAndMentorController.getParticipantById(notif.getParticipantId()).getFirstName(), "FirstName")
                 .setHeader("Имя участника")
                 .setWidth("18%")
                 .setFlexGrow(0);
-        lastNameColumn = grid.addColumn(notif -> participantService.getLastname(notif.getParticipantId()), "LastName").setHeader("Фамилия участника")
+        lastNameColumn = grid.addColumn(notif -> participantAndMentorController.getParticipantById(notif.getParticipantId()).getLastName(), "LastName").setHeader("Фамилия участника")
                 .setWidth("18%").setFlexGrow(0);
         grid.addColumn(new LocalDateRenderer<>(Notifications::getDateNoTime, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 .setHeader("Дата")
@@ -98,7 +97,7 @@ public class MentorNotificationView extends VerticalLayout {
         firstNameFilter.setWidth("100%");
         firstNameFilter.setValueChangeMode(ValueChangeMode.EAGER);
         firstNameFilter.addValueChangeListener(event -> dataProvider
-                .addFilter(notification -> StringUtils.containsIgnoreCase(participantService.getFirstname(notification.getParticipantId()), firstNameFilter.getValue())));
+                .addFilter(notification -> StringUtils.containsIgnoreCase(participantAndMentorController.getParticipantById(notification.getParticipantId()).getFirstName(), firstNameFilter.getValue())));
         filterRow.getCell(firstNameColumn).setComponent(firstNameFilter);
 
         TextField lastNameFilter = new TextField();
@@ -107,7 +106,7 @@ public class MentorNotificationView extends VerticalLayout {
         lastNameFilter.setWidth("100%");
         lastNameFilter.setValueChangeMode(ValueChangeMode.EAGER);
         lastNameFilter.addValueChangeListener(event -> dataProvider
-                .addFilter(notification -> StringUtils.containsIgnoreCase(participantService.getLastname(notification.getParticipantId()), lastNameFilter.getValue())));
+                .addFilter(notification -> StringUtils.containsIgnoreCase(participantAndMentorController.getParticipantById(notification.getParticipantId()).getLastName(), lastNameFilter.getValue())));
         filterRow.getCell(lastNameColumn).setComponent(lastNameFilter);
     }
 }

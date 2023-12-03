@@ -1,11 +1,10 @@
 package com.cygans.views.mentor.participants;
 
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.mentor.MentorService;
+import com.cygans.database.controllers.ParticipantAndMentorController;
+import com.cygans.database.mentor.Mentor;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.database.participant.Participant;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.UI;
@@ -23,8 +22,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Objects;
 
@@ -34,19 +31,12 @@ import java.util.Objects;
 public class MentorAddParticipantView extends Div {
     private final TextField participantLogin = new TextField("Введите логин участника");
     private final Button add = new Button("Добавить");
-    private Long participantId;
-    private final Long mentorId;
-    private final  NotificationController notificationController;
+    private Participant participant;
+    private Mentor mentor;
 
-    public MentorAddParticipantView(MentorService mentorService,
-                                    ParticipantMentorService participantMentorService,
-                                    ParticipantService participantService,
-                                    LoginInfoService loginInfoService,
+    public MentorAddParticipantView(ParticipantAndMentorController participantAndMentorController,
                                     NotificationController notificationController) {
-        this.notificationController = notificationController;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        mentorId = mentorService.getMentorByLoginInfoId(loginInfoService.findByLogin(authentication.getName()).getId()).getId();
+        mentor = participantAndMentorController.getIdNowMentorByAuthentication();
 
         Icon searchIcon = new Icon(VaadinIcon.SEARCH);
         searchIcon.setColor("white");
@@ -56,16 +46,16 @@ public class MentorAddParticipantView extends Div {
         participantLogin.addFocusListener(change -> add.setEnabled(true));
 
         add.addClickListener(e -> {
-                    participantId = participantService.searchParticipantId(participantLogin.getValue());
-                    if (participantId == null) {
+                    participant = participantAndMentorController.getParticipantByLogin(participantLogin.getValue());
+                    if (participant == null) {
                         Notification.show("Участник не найден", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (notificationController.getNotificationWithAnswerNotSeenParticipant(false, participantId)
+                    } else if (notificationController.getNotificationWithAnswerNotSeenParticipant(false, participant)
                             .stream()
-                            .anyMatch(notification -> notification.getMentorId().equals(mentorId)
+                            .anyMatch(notification -> notification.getMentorId().equals(mentor.getId())
                                     && notification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.ADD_REQUEST)))) {
                         Notification.show("Вы уже отправили запрос этому участнику", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (participantMentorService.exist(participantId)) {
-                        if (Objects.equals(participantMentorService.findByParticipantId(participantId).getMentorId(), mentorId)) {
+                    } else if (participantAndMentorController.participantHaveMentor(participant)) {
+                        if (Objects.equals(participantAndMentorController.getMentorIdOfParticipant(participant), mentor.getId())) {
                             Notification.show("Участник уже добавлен к вам", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
                         } else {
                             Notification.show("За участником уже закреплен ментор! Пожалуйста, связитесь с поддержкой", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -73,7 +63,7 @@ public class MentorAddParticipantView extends Div {
                     } else {
                         add.setEnabled(true);
                         Notification.show("Запрос отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                        notificationController.addRequestToParticipantNotificationNowMentor(participantId);
+                        notificationController.addRequestToParticipantNotificationNowMentor(participant);
                         UI.getCurrent().getPage().reload();
                     }
                 }

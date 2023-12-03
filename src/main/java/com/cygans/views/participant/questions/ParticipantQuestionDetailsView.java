@@ -43,7 +43,7 @@ public class ParticipantQuestionDetailsView extends Div {
         selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
 
         add(Back);
-        Back.addClickListener(click -> Back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
+        Back.addClickListener(click -> Back.getUI().ifPresent(ui -> ui.navigate(ParticipantQuestionsView.class)));
 
         add(
                 Back,

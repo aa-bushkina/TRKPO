@@ -2,7 +2,7 @@ package com.cygans.views.participant.logbooks;
 
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.eating_log_book.MealType;
+import com.cygans.database.eating_log_book.meal.MealType;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.Component;

@@ -1,11 +1,9 @@
 package com.cygans.views.mentor;
 
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.mentor.Mentor;
-import com.cygans.database.mentor.MentorService;
 import com.cygans.database.participant.Participant;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.participants.MentorAddParticipantView;
@@ -29,7 +27,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Домашняя страница ментора
@@ -41,19 +38,16 @@ public class MentorHomeView extends VerticalLayout {
     private ListDataProvider<Participant> dataProvider;
     private final Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private final Button addBtn = new Button(add);
-    private final ParticipantMentorService participantMentorService;
     private final Mentor mentor;
     private final NotificationController notificationController;
+    private final ParticipantAndMentorController participantAndMentorController;
 
-    public MentorHomeView(LoginInfoService loginInfoService,
-                          ParticipantMentorService participantMentorService,
-                          MentorService mentorService,
-                          NotificationController notificationController) {
+    public MentorHomeView(NotificationController notificationController,
+                          ParticipantAndMentorController participantAndMentorController) {
         this.notificationController = notificationController;
-        this.participantMentorService = participantMentorService;
+        this.participantAndMentorController = participantAndMentorController;
 
-        Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
-        mentor = mentorService.getMentorByLoginInfoId(loginInfoId);
+        mentor = participantAndMentorController.getIdNowMentorByAuthentication();
 
         add.setSize("50px");
         addBtn.setWidth("55px");
@@ -94,7 +88,7 @@ public class MentorHomeView extends VerticalLayout {
         grid.setHeight("100%");
 
         // таблица берет данные из всех участников, найденных по ментору
-        dataProvider = new ListDataProvider<>(participantMentorService.getParticipantsByMentor(mentor.getId()));
+        dataProvider = new ListDataProvider<>(participantAndMentorController.getParticipantsByMentor(mentor));
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
         Grid.Column<Participant> firstNameColumn = grid.addColumn(Participant::getFirstName, "Firstname")
@@ -107,7 +101,7 @@ public class MentorHomeView extends VerticalLayout {
                 .setHeader("Логин").setWidth("25%")
                 .setFlexGrow(0);
         Grid.Column<Participant> deleteColumn = grid.addComponentColumn(participant ->
-                new CustomButton("Удалить", participant.getId())).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
+                new CustomButton("Удалить", participant)).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
         grid.addSelectionListener(
                 selection -> {
                     VaadinSession.getCurrent()
@@ -151,13 +145,13 @@ public class MentorHomeView extends VerticalLayout {
     }
 
     private class CustomButton extends Button {
-        public CustomButton(String caption, Long participantId) {
+        public CustomButton(String caption, Participant participant) {
             super(caption);
             addClickListener(e -> {
-                participantMentorService.deleteParticipant(participantId);
-                dataProvider.getItems().removeIf(participant -> participant.getId() == participantId);
+                participantAndMentorController.deleteParticipantFromMentor(participant);
+                dataProvider.getItems().removeIf(participan -> participan.getId() == participant.getId());
                 dataProvider.refreshAll();
-                notificationController.addDeleteParticipantNotificationNowMentor(participantId);
+                notificationController.addDeleteParticipantNotificationNowMentor(participant);
             });
         }
     }

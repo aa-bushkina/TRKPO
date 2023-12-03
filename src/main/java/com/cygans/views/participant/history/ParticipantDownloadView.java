@@ -1,13 +1,12 @@
 package com.cygans.views.participant.history;
 
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -19,8 +18,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -40,24 +37,19 @@ public class ParticipantDownloadView extends VerticalLayout {
     private LocalDate StartDate = LocalDate.now().minusDays(4);
     private LocalDate EndDate = LocalDate.now();
     private String exportData;
-    private final Long participantId;
-    private final ParticipantService participantService;
+    private final Participant participant;
     private final LogController logController;
+    private final ParticipantAndMentorController participantAndMentorController;
 
     public ParticipantDownloadView(EmotionalLogBookService emotionalLogBookService,
                                    SportLogBookService sportLogBookService,
                                    EatingLogBookService eatingLogBookService,
-                                   ParticipantService participantService,
                                    LogController logController,
-                                   ParticipantService participantData,
-                                   LoginInfoService loginInfoService) {
+                                   ParticipantAndMentorController participantAndMentorController) {
         this.logController = logController;
-        this.participantService = participantService;
+        this.participantAndMentorController = participantAndMentorController;
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        LoginInfo loginInfo = loginInfoService.findByLogin(authentication.getName());
-        participantId = participantService.getParticipantByLoginInfoId(loginInfo.getId()).getId();
+        participant = participantAndMentorController.getNowParticipantByAuthentication();
 
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         Locale locale = new Locale("ru", "RU");
@@ -95,7 +87,7 @@ public class ParticipantDownloadView extends VerticalLayout {
         //TODO сделать нормльный вывод
         StringBuilder finaloutput =
                 new StringBuilder("Дата начала" + "," + StartDate.toString() + "," + "Дата конца" + "," + EndDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(participantId) + "\n" +
+                        "Participant name" + "," + participant.getLastName() + " " + participant.getFirstName() + "\n" +
                         "Logbook Type" +
                         "," + "Date" +
                         "," + "Time" +

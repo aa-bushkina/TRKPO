@@ -10,6 +10,7 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
@@ -126,14 +127,14 @@ public class NotificationController {
         notificationsService.saveNotification(notification);
     }
 
-    public void addDeleteParticipantNotificationNowMentor(Long participantId) {
+    public void addDeleteParticipantNotificationNowMentor(Participant participant) {
         Mentor mentor = mentorService.getMentorByLoginInfoId(
                 loginInfoService.findByLogin(
                         SecurityContextHolder.getContext().getAuthentication().getName()
                 ).getId()
         );
         Notifications notification = new Notifications(
-                participantId,
+                participant.getId(),
                 mentor.getId(),
                 notificationTypeService.getNotificationTypeId(TypeOfNotification.DELETE_REQUEST),
                 notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
@@ -149,10 +150,10 @@ public class NotificationController {
         notificationsService.saveNotification(notification);
     }
 
-    public void addRequestToParticipantNotificationNowMentor(Long participantId) {
+    public void addRequestToParticipantNotificationNowMentor(Participant participant) {
         Mentor mentor = mentorService.getMentorById(getIdNowMentorByAuthentication());
         Notifications n = new Notifications(
-                participantId,
+                participant.getId(),
                 mentor.getId(),
                 notificationTypeService.getNotificationTypeId(TypeOfNotification.ADD_REQUEST),
                 notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
@@ -193,7 +194,8 @@ public class NotificationController {
     }
 
     private Long getMentorIdByParticipant(Long participantId) {
-        return participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
+        ParticipantMentor participantMentor = participantMentorService.getMentorParticipantByParticipantId(participantId);
+        return participantMentor == null ? null: participantMentor.getMentorId();
     }
 
     public void openNotification(Notifications notification) {
@@ -201,12 +203,12 @@ public class NotificationController {
         notification.setNotificationStatusId(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
     }
 
-    public List<Notifications> getNotificationWithAnswerNotSeenParticipant(boolean byAuthentication, Long participantId) {
+    public List<Notifications> getNotificationWithAnswerNotSeenParticipant(boolean byAuthentication, Participant participant) {
         if (byAuthentication) {
             Long participantIdAuth = getIdNowParticipantByAuthentication();
             return notificationsService.getNotificationsWithAnswerNotSeenList(participantIdAuth);
         } else {
-            return notificationsService.getNotificationsWithAnswerNotSeenList(participantId);
+            return notificationsService.getNotificationsWithAnswerNotSeenList(participant.getId());
         }
     }
 

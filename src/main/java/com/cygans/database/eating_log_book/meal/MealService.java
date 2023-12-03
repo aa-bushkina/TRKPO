@@ -1,6 +1,5 @@
 package com.cygans.database.eating_log_book.meal;
 
-import com.cygans.database.eating_log_book.MealType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

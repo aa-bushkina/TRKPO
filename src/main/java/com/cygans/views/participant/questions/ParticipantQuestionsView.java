@@ -1,12 +1,11 @@
 package com.cygans.views.participant.questions;
 
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.controllers.QuestionController;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.question.Question;
 import com.cygans.database.question.question_status.StatusOfQuestion;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.UI;
@@ -48,24 +47,17 @@ public class ParticipantQuestionsView extends Div {
     private final DatePicker period = new DatePicker("Период с");
     private final Button viewDataBtn = new Button("Показать");
     private final Grid<Question> historyList = new Grid<>(Question.class, false);
-    private final Long participantId;
+    private final Participant participant;
     private final QuestionController questionController;
     private final NotificationController notificationController;
 
 
-    public ParticipantQuestionsView(LoginInfoService loginInfoService,
-                                    ParticipantService participantService,
-                                    ParticipantMentorService participantMentorService,
-                                    QuestionController questionController,
+    public ParticipantQuestionsView(QuestionController questionController,
+                                    ParticipantAndMentorController participantAndMentorController,
                                     NotificationController notificationController) {
         this.notificationController = notificationController;
         this.questionController = questionController;
-        participantId = participantService.getParticipantByLoginInfoId(
-                loginInfoService.findByLogin(SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName())
-                        .getId()).getId();
+        participant = participantAndMentorController.getNowParticipantByAuthentication();
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setWidth("30%");
         submit.setHeight("50px");
@@ -75,7 +67,7 @@ public class ParticipantQuestionsView extends Div {
 
         submit.addClickListener(e -> {
                     //Если нет ментора - не даем ничего отправить
-                    if (!participantMentorService.checkParticipant(participantId)) {
+                    if (participantAndMentorController.getMentorIdOfParticipant(participant) == null) {
                         Notification.show("Чтобы задавать вопросы ментору, нужно принять его заявку", 3000, Notification.Position.TOP_CENTER)
                                 .addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else if (textArea.isEmpty()) {
