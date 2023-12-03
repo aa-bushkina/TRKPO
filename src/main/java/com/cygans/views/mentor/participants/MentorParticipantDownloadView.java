@@ -62,7 +62,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         FileDownloadWrapper buttonWrapper = new FileDownloadWrapper(
                 new StreamResource("History" + participant.getFirstName() + participant.getLastName() + ".csv",
-                        () -> new ByteArrayInputStream(getData().getBytes(StandardCharsets.UTF_16LE)))
+                        () -> new ByteArrayInputStream(getData().getBytes(StandardCharsets.UTF_8)))
         );
 
         buttonWrapper.wrapComponent(exportData1);
