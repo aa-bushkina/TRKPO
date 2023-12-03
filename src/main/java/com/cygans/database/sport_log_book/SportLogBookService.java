@@ -10,7 +10,7 @@ import java.util.List;
 public class SportLogBookService {
     @Autowired
     SportLogBookRepository repository;
-    public void saveComprehensiveLog(SportLogBook sportLogBook){
+    public void saveSportLog(SportLogBook sportLogBook){
         repository.save(sportLogBook);
     }
 

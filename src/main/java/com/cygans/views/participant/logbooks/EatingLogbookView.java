@@ -1,13 +1,7 @@
 package com.cygans.views.participant.logbooks;
 
-import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.EatingLogBookService;
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.MealType;
-import com.cygans.database.eating_log_book.meal.MealService;
-import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
@@ -34,12 +28,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -55,30 +46,21 @@ public class EatingLogbookView extends VerticalLayout {
     private final Button submitButton = new Button("Добавить");
     private LocalTime time;
     private final Long participantId;
-    private final EatingLogBookService eatingLogBookService;
-    private final LogService logService;
-    private final MealService mealService;
-    private final LogsTypeService logsTypeService;
     private final ParticipantService participantService;
     private final ParticipantMentorService participantMentorService;
     private final NotificationsService notificationsService;
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
+    private final LogController logController;
 
     public EatingLogbookView(LoginInfoService loginInfoService,
-                             EatingLogBookService eatingLogBookService,
-                             LogService logService,
-                             MealService mealService,
-                             LogsTypeService logsTypeService,
                              ParticipantService participantService,
                              ParticipantMentorService participantMentorService,
                              NotificationsService notificationsService,
                              NotificationTypeService notificationTypeService,
-                             NotificationStatusService notificationStatusService) {
-        this.eatingLogBookService = eatingLogBookService;
-        this.logService = logService;
-        this.mealService = mealService;
-        this.logsTypeService = logsTypeService;
+                             NotificationStatusService notificationStatusService,
+                             LogController logController) {
+        this.logController = logController;
         this.participantService = participantService;
         this.participantMentorService = participantMentorService;
         this.notificationsService = notificationsService;
@@ -191,19 +173,10 @@ public class EatingLogbookView extends VerticalLayout {
                 Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                Log log = new Log(participantId, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
-                logService.saveLog(log);
-                EatingLogBook eatingLogBook = new EatingLogBook(
-                        log.getId(),
-                        time,
-                        description.getValue(),
-                        mealService.getMealId(meal_type.getValue()),
-                        LocalDateTime.now());
-                eatingLogBookService.saveEatingLog(eatingLogBook);
+                Long logId = logController.saveEatingLog(time, description.getValue(), meal_type.getValue());
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ParticipantConfirmationView.class)
                 );
-
                 Long participantMentorId = null;
                 if (participantMentorService.checkParticipant(participantId)) {
                     participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
@@ -222,10 +195,10 @@ public class EatingLogbookView extends VerticalLayout {
                                 "Дата: " + notification.getDate().toLocalDate() + "\n" +
                                 "Время: " + notification.getDate().toLocalTime() + "\n" +
                                 "Время приема пищи: " + time + "\n" +
-                                "Прием пищи: " + mealService.getMealId(meal_type.getValue()) + "\n" +
+                                "Прием пищи: " + meal_type.getValue() + "\n" +
                                 "Содержание: " + description.getValue() + "\n"
                 );
-                notification.setLogBookId(log.getId());
+                notification.setLogBookId(logId);
                 notificationsService.saveNotification(notification);
 
 

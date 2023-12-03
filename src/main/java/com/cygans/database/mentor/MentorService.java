@@ -18,38 +18,38 @@ public class MentorService {
         return repository.findAll().size() == 0;
     }
 
-    public void updateLastname(Long loginInfoId, String lastname) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updateLastname(Long id, String lastname) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setLastName(lastname);
         repository.save(mentor);
     }
 
-    public void updateFirstname(Long loginInfoId, String firstname) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updateFirstname(Long id, String firstname) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setFirstName(firstname);
         repository.save(mentor);
     }
 
-    public void updateLogin(Long loginInfoId, String login) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updateLogin(Long id, String login) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setLogin(login);
         repository.save(mentor);
     }
 
-    public void updatePhone(Long loginInfoId, String phone) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updatePhone(Long id, String phone) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setPhone(phone);
         repository.save(mentor);
     }
 
-    public void updateGender(Long loginInfoId, String gender) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updateGender(Long id, String gender) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setGender(gender);
         repository.save(mentor);
     }
 
-    public void updateBirthday(Long loginInfoId, LocalDate birthday) {
-        Mentor mentor = repository.getMentorByLoginInfoId(loginInfoId);
+    public void updateBirthday(Long id, LocalDate birthday) {
+        Mentor mentor = repository.getMentorById(id);
         mentor.setBirthday(birthday);
         repository.save(mentor);
     }

@@ -1,10 +1,7 @@
 package com.cygans.views.participant.logbooks;
 
 
-import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
@@ -13,9 +10,6 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.database.sport_log_book.SportLogBook;
-import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.database.sport_log_book.intensity.IntensityType;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
@@ -36,13 +30,8 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 
 @PageTitle("Add sport logbook")
 @Route(value = "participant/sport-logbook")
@@ -54,36 +43,27 @@ public class SportLogbookView extends Div {
     private final Button submitButton = new Button("Добавить");
     private final H3 title = new H3("Спортивная активность");
     private final Long participantId;
-    private final SportLogBookService sportLogBookService;
-    private final LogService logService;
-    private final IntensityService intensityService;
-    private final LogsTypeService logsTypeService;
     private final ParticipantMentorService participantMentorService;
     private final NotificationsService notificationsService;
     private final NotificationTypeService notificationTypeService;
     private final ParticipantService participantService;
     private final NotificationStatusService notificationStatusService;
+    private final LogController logController;
 
 
     public SportLogbookView(LoginInfoService loginInfoService,
-                            SportLogBookService sportLogBookService,
-                            LogService logService,
-                            IntensityService intensityService,
-                            LogsTypeService logsTypeService,
                             ParticipantMentorService participantMentorService,
                             NotificationsService notificationsService,
                             NotificationTypeService notificationTypeService,
                             ParticipantService participantService,
-                            NotificationStatusService notificationStatusService) {
-        this.sportLogBookService = sportLogBookService;
-        this.logService = logService;
-        this.intensityService = intensityService;
-        this.logsTypeService = logsTypeService;
+                            NotificationStatusService notificationStatusService,
+                            LogController logController) {
         this.participantMentorService = participantMentorService;
         this.notificationsService = notificationsService;
         this.notificationTypeService = notificationTypeService;
         this.participantService = participantService;
         this.notificationStatusService = notificationStatusService;
+        this.logController = logController;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         participantId = participantService.getParticipantByLoginInfoId(
@@ -148,17 +128,9 @@ public class SportLogbookView extends Div {
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
-            Log log = new Log(participantId,
-                    (LocalDate) VaadinSession.getCurrent().getAttribute("date"),
-                    logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
-            logService.saveLog(log);
-            SportLogBook sportLogBook = new SportLogBook(log.getId(),
-                    intensityService.getIntensityId(intensity.getValue()),
-                    Integer.parseInt(duration.getValue()),
-                    LocalDateTime.now(),
-                    activity.getValue(),
-                    comments.getValue());
-            sportLogBookService.saveComprehensiveLog(sportLogBook);
+
+            Long logId = logController.saveSportLog(intensity.getValue(), duration.getValue(), activity.getValue(), comments.getValue());
+
             submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
             Long participantMentorId = null;
             if (participantMentorService.checkParticipant(participantId)) {
@@ -177,12 +149,12 @@ public class SportLogbookView extends Div {
                             "\n" +
                             "Дата: " + notification.getDate().toLocalDate() + "\n" +
                             "Время: " + notification.getDate().toLocalTime() + "\n" +
-                            "Интенсивность: " + intensityService.getIntensityId(intensity.getValue()) + "\n" +
+                            "Интенсивность: " + intensity.getValue() + "\n" +
                             "Активность: " + activity.getValue() + "\n" +
                             "Продолжительность: " + Integer.parseInt(duration.getValue()) + " минут\n" +
                             "Описание: " + comments.getValue()
             );
-            notification.setLogBookId(log.getId());
+            notification.setLogBookId(logId);
             notificationsService.saveNotification(notification);
 
         });

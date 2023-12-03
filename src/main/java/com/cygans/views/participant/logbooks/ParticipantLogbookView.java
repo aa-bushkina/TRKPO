@@ -1,15 +1,12 @@
 package com.cygans.views.participant.logbooks;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.eating_log_book.MealType;
-import com.cygans.database.eating_log_book.meal.MealService;
-import com.cygans.database.emotional_log_book.EmotionalLogBookService;
+import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.sport_log_book.SportLogBook;
-import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.database.sport_log_book.intensity.IntensityType;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
@@ -40,44 +37,32 @@ import java.util.ArrayList;
 @PageTitle("My Logbook")
 @Route(value = "participant/logbook")
 public class ParticipantLogbookView extends VerticalLayout {
-    private String logBookType, emotionalDescText,
-            foodDescText, mealTypeText, hourFoodText, minuteFoodText,
-            intensityTypeText, sportDescText, durationText, activityText;
-    private Long logBookId;
-    private LocalDate selectDate;
-    private ComboBox<String> meal_type, hourFood, minuteFood, intensity_type;
-    private TextField activityField, durationField;
-    private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
-    private Button changeLog, save, cancel, back;
-    private final FormLayout formLayout = new FormLayout();
-    private final VerticalLayout mainLayout = new VerticalLayout();
-    private final HorizontalLayout buttons = new HorizontalLayout();
-    private final EmotionalLogBookService emotionalLogBookService;
-    private final SportLogBookService sportLogBookService;
-    private final EatingLogBookService eatingLogBookService;
-    private final MealService mealService;
-    private final IntensityService intensityService;
-    private final NotificationsService notificationsService;
+  private String logBookType, emotionalDescText,
+          foodDescText, mealTypeText, hourFoodText, minuteFoodText,
+          intensityTypeText, sportDescText, durationText, activityText;
+  private Long logBookId;
+  private LocalDate selectDate;
+  private ComboBox<String> meal_type, hourFood, minuteFood, intensity_type;
+  private TextField activityField, durationField;
+  private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
+  private Button changeLog, save, cancel, back;
+  private final FormLayout formLayout = new FormLayout();
+  private final VerticalLayout mainLayout = new VerticalLayout();
+  private final HorizontalLayout buttons = new HorizontalLayout();
+  private final NotificationsService notificationsService;
+  private final LogController logController;
 
 
-    public ParticipantLogbookView(EmotionalLogBookService emotionalLogBookService,
-                                  SportLogBookService sportLogBookService,
-                                  EatingLogBookService eatingLogBookService,
-                                  MealService mealService,
-                                  IntensityService intensityService,
-                                  NotificationsService notificationsService) {
-        removeAll();
-        init();
+  public ParticipantLogbookView(NotificationsService notificationsService,
+                                LogController logController) {
+    this.logController = logController;
+    removeAll();
+    init();
 
-        this.emotionalLogBookService = emotionalLogBookService;
-        this.notificationsService = notificationsService;
-        this.sportLogBookService = sportLogBookService;
-        this.eatingLogBookService = eatingLogBookService;
-        this.mealService = mealService;
-        this.intensityService = intensityService;
-        logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
-        selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
-        logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
+    this.notificationsService = notificationsService;
+    logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
+    selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
+    logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
 
         if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
             showEmotionalLogBookView();
@@ -133,8 +118,8 @@ public class ParticipantLogbookView extends VerticalLayout {
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 } else {
 
-                    emotionalDescText = emotionalDesc.getValue();
-                    emotionalLogBookService.updateEmotionalDescription(emotionalLogBookService.findByLogBookId(logBookId).getId(), emotionalDesc.getValue());
+          emotionalDescText = emotionalDesc.getValue();
+          logController.updateEmotionalLog(logBookId, emotionalDescText);
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -163,9 +148,12 @@ public class ParticipantLogbookView extends VerticalLayout {
                     hourFoodText = hourFood.getValue();
                     minuteFoodText = minuteFood.getValue();
 
-                    eatingLogBookService.updateEatingDescription(eatingLogBookService.findByLogBookId(logBookId).getId(), foodDesc.getValue());
-                    eatingLogBookService.updateFoodTime(eatingLogBookService.findByLogBookId(logBookId).getId(), LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())));
-                    eatingLogBookService.updateMale(eatingLogBookService.findByLogBookId(logBookId).getId(), mealService.getMealId(meal_type.getValue()));
+          logController.updateEatingLog(
+                  logBookId,
+                  foodDesc.getValue(),
+                  LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())),
+                  meal_type.getValue()
+          );
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -197,10 +185,7 @@ public class ParticipantLogbookView extends VerticalLayout {
                     durationText = durationField.getValue();
                     intensityTypeText = intensity_type.getValue();
 
-                    sportLogBookService.updateSportDescription(sportLogBookService.findByLogBookId(logBookId).getId(), sportDesc.getValue());
-                    sportLogBookService.updateActivity(sportLogBookService.findByLogBookId(logBookId).getId(), activityField.getValue());
-                    sportLogBookService.updateIntensityId(sportLogBookService.findByLogBookId(logBookId).getId(), intensityService.getIntensityId(intensity_type.getValue()));
-                    sportLogBookService.updateDuration(sportLogBookService.findByLogBookId(logBookId).getId(), Integer.parseInt(durationField.getValue()));
+          logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -259,36 +244,36 @@ public class ParticipantLogbookView extends VerticalLayout {
         back.addClickListener(click -> back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
     }
 
-    private void showEatingLogBookView() {
-        EatingLogBook log = eatingLogBookService.findByLogBookId(logBookId);
-        mealTypeText = mealService.getMealType(log.getMealId());
-        foodDescText = log.getDescription();
-        hourFoodText = log.getTimeEat().toString().substring(0, 2);
-        minuteFoodText = log.getTimeEat().toString().substring(3, 5);
-        mealFoodTypeInit(mealTypeText);
-        descFoodInit(foodDescText);
-        hourFoodTextInit(hourFoodText);
-        minuteFoodTextInit(minuteFoodText);
-        if (eatingLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-                && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
-            buttons.add(back, changeLog, cancel, save);
-        } else {
-            buttons.add(back, cancel, save);
-        }
-        formLayout.add(
-                meal_type,
-                hourFood,
-                minuteFood,
-                foodDesc
-        );
-        formLayout.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1)
-        );
-        formLayout.setColspan(meal_type, 1);
-        formLayout.setColspan(hourFood, 1);
-        formLayout.setColspan(minuteFood, 1);
-        formLayout.setColspan(foodDesc, 1);
+  private void showEatingLogBookView() {
+    EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
+    mealTypeText = logController.getMealEatingLog(log.getMealId());
+    foodDescText = log.getDescription();
+    hourFoodText = log.getTimeEat().toString().substring(0, 2);
+    minuteFoodText = log.getTimeEat().toString().substring(3, 5);
+    mealFoodTypeInit(mealTypeText);
+    descFoodInit(foodDescText);
+    hourFoodTextInit(hourFoodText);
+    minuteFoodTextInit(minuteFoodText);
+    if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+      buttons.add(back, changeLog, save, cancel);
+    } else {
+      buttons.add(back, save, cancel);
     }
+    formLayout.add(
+            meal_type,
+            hourFood,
+            minuteFood,
+            foodDesc
+    );
+    formLayout.setResponsiveSteps(
+            new FormLayout.ResponsiveStep("0", 1)
+    );
+    formLayout.setColspan(meal_type, 1);
+    formLayout.setColspan(hourFood, 1);
+    formLayout.setColspan(minuteFood, 1);
+    formLayout.setColspan(foodDesc, 1);
+  }
 
     private void mealFoodTypeInit(String mealType) {
         meal_type = new ComboBox<>("Приём пищи");
@@ -338,23 +323,23 @@ public class ParticipantLogbookView extends VerticalLayout {
         minuteFood.setReadOnly(true);
     }
 
-    private void showSportLogBookView() {
-        SportLogBook log = sportLogBookService.findByLogBookId(logBookId);
-        intensityTypeText = intensityService.getIntensityType(log.getIntensityId());
-        sportDescText = log.getComments();
-        activityText = log.getActivity();
-        durationText = String.valueOf(log.getDuration());
-        intensityInit(intensityTypeText);
-        activityInit(activityText);
-        descSportInit(sportDescText);
-        durationInit(durationText);
+  private void showSportLogBookView() {
+    SportLogBook log = logController.getSportLogByLogbookId(logBookId);
+    intensityTypeText = logController.getIntensitySportLog(log.getIntensityId());
+    sportDescText = log.getComments();
+    activityText = log.getActivity();
+    durationText = String.valueOf(log.getDuration());
+    intensityInit(intensityTypeText);
+    activityInit(activityText);
+    descSportInit(sportDescText);
+    durationInit(durationText);
 
-        if (sportLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-                && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
-            buttons.add(back, changeLog, cancel, save);
-        } else {
-            buttons.add(back, cancel, save);
-        }
+    if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+      buttons.add(back, changeLog, save, cancel);
+    } else {
+      buttons.add(back, save, cancel);
+    }
 
         formLayout.add(
                 intensity_type,
@@ -400,23 +385,24 @@ public class ParticipantLogbookView extends VerticalLayout {
         sportDesc.setReadOnly(true);
     }
 
-    public void showEmotionalLogBookView() {
-        emotionalDescText = emotionalLogBookService.findByLogBookId(logBookId).getDescription();
-        emotionalDescInit(emotionalDescText);
-        if (emotionalLogBookService.findByLogBookId(logBookId).getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-                && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
-            buttons.add(back, changeLog, cancel, save);
-        } else {
-            buttons.add(back, cancel, save);
-        }
-        formLayout.add(
-                emotionalDesc
-        );
-        formLayout.setResponsiveSteps(
-                new FormLayout.ResponsiveStep("0", 1)
-        );
-        formLayout.setColspan(emotionalDesc, 1);
+  public void showEmotionalLogBookView() {
+    EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(logBookId);
+    emotionalDescText = emotionalLogBook.getDescription();
+    emotionalDescInit(emotionalDescText);
+    if (emotionalLogBook.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+      buttons.add(back, changeLog, save, cancel);
+    } else {
+      buttons.add(back, save, cancel);
     }
+    formLayout.add(
+            emotionalDesc
+    );
+    formLayout.setResponsiveSteps(
+            new FormLayout.ResponsiveStep("0", 1)
+    );
+    formLayout.setColspan(emotionalDesc, 1);
+  }
 
     private void emotionalDescInit(String stEmotionalDesc) {
         emotionalDesc = new TextArea("Описание");

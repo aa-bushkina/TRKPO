@@ -1,11 +1,8 @@
 package com.cygans.views.participant.history;
 
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.logbooks.ParticipantLogbookView;
@@ -21,7 +18,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +28,6 @@ import java.util.Optional;
 @PageTitle("View Data History")
 @Route(value = "participant/data-history")
 public class ParticipantHistoryView extends VerticalLayout {
-    private final Long participantId;
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private final HorizontalLayout searchPanel = new HorizontalLayout();
     private final DatePicker period = new DatePicker("Период с");
@@ -41,24 +36,11 @@ public class ParticipantHistoryView extends VerticalLayout {
 
     private final Grid<ParticipantPersonData> Historylist = new Grid<>(ParticipantPersonData.class, false);
     private final ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
-    private final LocalDate today = LocalDate.now();
     private LocalDate checkDate;
-    private final LogService logService;
-    private final LogsTypeService logsTypeService;
+    private final LogController logController;
 
-    public ParticipantHistoryView(LogService logService,
-                                  LoginInfoService loginInfoService,
-                                  LogsTypeService logsTypeService,
-                                  ParticipantService participantService) {
-        this.logService = logService;
-        this.logsTypeService = logsTypeService;
-
-        participantId = participantService
-                .getParticipantByLoginInfoId(
-                        loginInfoService.findByLogin(
-                                SecurityContextHolder.getContext().getAuthentication().getName()
-                        ).getId()
-                ).getId();
+    public ParticipantHistoryView(LogController logController) {
+        this.logController = logController;
 
         configSearch();
         setupShownData();
@@ -91,19 +73,8 @@ public class ParticipantHistoryView extends VerticalLayout {
     }
 
     private void setupShownData() {
-        List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
-        for(int day = 0; day < 30; day++){
-            for(Log log : logbook) {
-                if (log.getDate().isEqual(today.minusDays(day))) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(today.minusDays(day));
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
-                }
-            }
-        }
+        List<Log> logbook = logController.getAllNowParticipantLogs(true);
+        HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logbook));
     }
 
     private void configureHV() {
