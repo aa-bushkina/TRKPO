@@ -4,6 +4,8 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.question.Question;
+import com.cygans.database.question.question_status.StatusOfQuestion;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.logbooks.MentorParticipantsLogbookView;
@@ -12,6 +14,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -88,7 +91,6 @@ public class MentorParticipantDataView extends VerticalLayout {
                 for (Log log : logBook) {
                     ParticipantPersonData addData = new ParticipantPersonData();
                     addData.setDate(log.getDate());
-                    ;
                     addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
                     addData.setLogBookId(log.getId());
 //                    addData.setCompleteLogBook(true);
