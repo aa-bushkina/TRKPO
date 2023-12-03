@@ -32,7 +32,6 @@ public class LogsTypeService {
 
     public List<String> getAllLogsTypes() {
         return new ArrayList<>(List.of(
-                "Все",
                 LogBookType.EMOTIONAL.getText(),
                 LogBookType.SPORT.getText(),
                 LogBookType.EATING.getText()));

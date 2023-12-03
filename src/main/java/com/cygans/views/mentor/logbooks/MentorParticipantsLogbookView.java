@@ -1,18 +1,13 @@
 package com.cygans.views.mentor.logbooks;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.EatingLogBookService;
-import com.cygans.database.eating_log_book.meal.MealService;
-import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.sport_log_book.SportLogBook;
-import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.participants.MentorParticipantDataView;
-import com.cygans.views.participant.history.ParticipantHistoryView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -40,29 +35,17 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private TextField meal_type, hourFood, minuteFood, intensity_type, activityField, durationField;
     private final VerticalLayout mainLayout = new VerticalLayout();
     private final FormLayout formLayout = new FormLayout();
-    private final EmotionalLogBookService emotionalLogBookService;
-    private final SportLogBookService sportLogBookService;
-    private final EatingLogBookService eatingLogBookService;
-    private final MealService mealService;
-    private final IntensityService intensityService;
-    private final NotificationsService NotificationsService;
+    private final NotificationsService notificationsService;
+    private final LogController logController;
 
 
-    public MentorParticipantsLogbookView(EmotionalLogBookService emotionalLogBookService,
-                                         SportLogBookService sportLogBookService,
-                                         EatingLogBookService eatingLogBookService,
-                                         MealService mealService,
-                                         IntensityService intensityService,
-                                         NotificationsService NotificationsService) {
+    public MentorParticipantsLogbookView(LogController logController,
+                                         NotificationsService notificationsService) {
         removeAll();
         backInit();
 
-        this.emotionalLogBookService = emotionalLogBookService;
-        this.NotificationsService = NotificationsService;
-        this.sportLogBookService = sportLogBookService;
-        this.eatingLogBookService = eatingLogBookService;
-        this.mealService = mealService;
-        this.intensityService = intensityService;
+        this.logController = logController;
+        this.notificationsService = notificationsService;
         logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
         selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
         logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
@@ -75,8 +58,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
             showSportLogBookView();
         }
 
-        if (NotificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-            addAnswerField(NotificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
+        if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
+            addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
             formLayout.add(answerField);
         }
 
@@ -107,8 +90,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     private void showEatingLogBookView() {
-        EatingLogBook log = eatingLogBookService.findByLogBookId(logBookId);
-        mealFoodTypeInit(mealService.getMealType(log.getMealId()));
+        EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
+        mealFoodTypeInit(logController.getMealEatingLog(log.getMealId()));
         descFoodInit(log.getDescription());
         hourFoodTextInit(log.getTimeEat().toString().substring(0, 2));
         minuteFoodTextInit(log.getTimeEat().toString().substring(3, 5));
@@ -156,8 +139,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     private void showSportLogBookView() {
-        SportLogBook log = sportLogBookService.findByLogBookId(logBookId);
-        intensityInit(intensityService.getIntensityType(log.getIntensityId()));
+        SportLogBook log = logController.getSportLogByLogbookId((logBookId));
+        intensityInit(logController.getIntensitySportLog(log.getIntensityId()));
         activityInit(log.getActivity());
         descSportInit(log.getComments());
         durationInit(String.valueOf(log.getDuration()));
@@ -205,7 +188,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     public void showEmotionalLogBookView() {
-        emotionalDescInit(emotionalLogBookService.findByLogBookId(logBookId).getDescription());
+        emotionalDescInit(logController.getEmotionalLogByLogbookId(logBookId).getDescription());
         formLayout.add(
                 emotionalDesc
         );

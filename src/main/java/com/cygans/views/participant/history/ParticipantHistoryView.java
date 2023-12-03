@@ -1,11 +1,7 @@
 package com.cygans.views.participant.history;
 
-
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.logbooks.ParticipantLogbookView;
@@ -25,7 +21,6 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,32 +32,16 @@ import java.util.Optional;
 @PageTitle("View Data History")
 @Route(value = "participant/data-history")
 public class ParticipantHistoryView extends VerticalLayout {
-    private final Long participantId;
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
-    private final HorizontalLayout searchPanel = new HorizontalLayout();
     private final Button downloadBut = new Button(download);
+    private final LogController logController;
     private final Grid<ParticipantPersonData> historylist = new Grid<>(ParticipantPersonData.class, false);
     private final ArrayList<ParticipantPersonData> historyDataShown = new ArrayList<>();
-    private final LocalDate today = LocalDate.now();
-    private final LogService logService;
-    private final LogsTypeService logsTypeService;
     private final Select<String> logsTypeFilter = new Select<>();
     private final DatePicker dateFilter = new DatePicker("Дата");
 
-
-    public ParticipantHistoryView(LogService logService,
-                                  LoginInfoService loginInfoService,
-                                  LogsTypeService logsTypeService,
-                                  ParticipantService participantService) {
-        this.logService = logService;
-        this.logsTypeService = logsTypeService;
-
-        participantId = participantService
-                .getParticipantByLoginInfoId(
-                        loginInfoService.findByLogin(
-                                SecurityContextHolder.getContext().getAuthentication().getName()
-                        ).getId()
-                ).getId();
+    public ParticipantHistoryView(LogController logController) {
+        this.logController = logController;
 
         setupShownData();
         configureHV();
@@ -81,6 +60,7 @@ public class ParticipantHistoryView extends VerticalLayout {
         hl.add(new H3("История записей"), downloadBut);
         hl.setAlignItems(Alignment.BASELINE);
 
+        HorizontalLayout searchPanel = new HorizontalLayout();
         add(new H3("   "),
                 hl,
                 searchPanel,
@@ -91,18 +71,8 @@ public class ParticipantHistoryView extends VerticalLayout {
 
 
     private void setupShownData() {
-        List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
-        for (int day = 0; day < 30; day++) {
-            for (Log log : logbook) {
-                if (log.getDate().isEqual(today.minusDays(day))) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(today.minusDays(day));
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-                    historyDataShown.add(addData);
-                }
-            }
-        }
+        List<Log> logbook = logController.getAllNowParticipantLogs(true);
+        historyDataShown.addAll(logController.convertListLogToParticipantPersonData(logbook));
     }
 
     private void configureHV() {
@@ -110,7 +80,7 @@ public class ParticipantHistoryView extends VerticalLayout {
 
         logsTypeFilter.setLabel("Тип записи");
         logsTypeFilter.setWidth("340px");
-        logsTypeFilter.setItems(logsTypeService.getAllLogsTypes());
+        logsTypeFilter.setItems(logController.getAllLogsTypes());
         logsTypeFilter.addValueChangeListener(event -> {
             ListDataProvider<ParticipantPersonData> dataProvider = (ListDataProvider<ParticipantPersonData>) historylist.getDataProvider();
             dataProvider.addFilter(personData -> {
