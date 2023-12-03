@@ -54,7 +54,7 @@ public class NotificationController {
                         "\n" +
                         "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                         "Время: " + notification.getDate().toLocalTime() + "\n";
-        completeMsg = completeMsg + " ," + questionText;
+        completeMsg = completeMsg + questionText;
         notification.setAllMessage(completeMsg);
         notificationsService.saveNotification(notification);
     }
@@ -120,7 +120,7 @@ public class NotificationController {
                         "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                         "Время: " + notification.getDate().toLocalTime() + "\n" +
                         "Время приема пищи: " + time + "\n" +
-                        "Прием пищи: " + meal_type+ "\n" +
+                        "Прием пищи: " + meal_type + "\n" +
                         "Содержание: " + description + "\n"
         );
         notification.setLogBookId(logId);
@@ -195,7 +195,7 @@ public class NotificationController {
 
     private Long getMentorIdByParticipant(Long participantId) {
         ParticipantMentor participantMentor = participantMentorService.getMentorParticipantByParticipantId(participantId);
-        return participantMentor == null ? null: participantMentor.getMentorId();
+        return participantMentor == null ? null : participantMentor.getMentorId();
     }
 
     public void openNotification(Notifications notification) {
