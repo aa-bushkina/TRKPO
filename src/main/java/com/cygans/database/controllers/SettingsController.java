@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Controller
 public class SettingsController {

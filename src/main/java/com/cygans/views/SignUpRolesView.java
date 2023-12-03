@@ -11,8 +11,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Sign Up | Choose Account Type")
-@Route(value = "sign-up")
+@PageTitle("Марафон")
+@Route(value = "roles")
 public class SignUpRolesView extends VerticalLayout {
     private final Button participantButton;
     private final Button mentorButton;

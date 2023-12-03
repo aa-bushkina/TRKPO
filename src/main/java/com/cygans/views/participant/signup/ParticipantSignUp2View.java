@@ -29,7 +29,7 @@ import java.util.Locale;
 /**
  * Страница регистрации участника 2
  */
-@PageTitle("Participant Sign Up")
+@PageTitle("Марафон")
 @Route(value = "participantSignUp2")
 public class ParticipantSignUp2View extends Div {
     private final RadioButtonGroup<String> gender;
@@ -47,8 +47,6 @@ public class ParticipantSignUp2View extends Div {
         genderSetUp();
         datePickerSetUp();
         phoneSetUp();
-        datePicker.setClearButtonVisible(true);
-        datePicker.setLocale(new Locale("ru", "RU"));
         submitButtonInit();
         previousBtnInit();
 
@@ -95,8 +93,7 @@ public class ParticipantSignUp2View extends Div {
         phone.setLabel("Номер телефона");
         phone.setClearButtonVisible(true);
         phone.setPlaceholder("+70000000000");
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phone.setPattern("\\+7\\d{10}");
         phone.setErrorMessage("Формат телефона: +70000000000");
         if (VaadinSession.getCurrent().getAttribute("Phone") != null) {
             phone.setValue((String) VaadinSession.getCurrent().getAttribute("Phone"));

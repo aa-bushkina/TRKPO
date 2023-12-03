@@ -8,10 +8,14 @@ import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
+import com.cygans.database.log_book.logs_type.LogsType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
+import com.cygans.database.notifications.NotificationsService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookService;
+import com.cygans.database.sport_log_book.intensity.Intensity;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.participant.logbooks.ParticipantPersonData;
@@ -24,7 +28,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class LogController {
     private ParticipantService participantService;
     @Autowired
     private LoginInfoService loginInfoService;
+    @Autowired
+    private NotificationsService notificationsService;
 
     private Long saveGeneralLog(LogBookType type) {
         Long participantId = participantService.getParticipantByLoginInfoId(
@@ -111,9 +116,11 @@ public class LogController {
         return logService.findLogBooksByParticipantId(participantId);
     }
 
-    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication) {
+    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication, Participant participant) {
         Long participantId = null;
-        if (byAuthentication) {
+        if (participant != null) {
+            participantId = participant.getId();
+        } else if (byAuthentication) {
             participantId = getIdNowParticipantByAuthentication();
         } else {
             participantId = getIdNowParticipantByAttribute();
@@ -147,19 +154,21 @@ public class LogController {
 
     public Long getIdNowParticipantByAttribute() {
         return participantService.getParticipantByLoginInfoId(
-                (Long) VaadinSession.getCurrent().getAttribute("PatientID")
+                (Long) VaadinSession.getCurrent().getAttribute("ParticipantID")
         ).getId();
     }
 
     public String getLogsLogtype(Log log) {
         return logsTypeService.getLogTypeById(log.getLogTypeId());
     }
-
+    public Long getLogTypeIdByName(LogBookType type) {
+        return logsTypeService.getLogTypeId(type.getText());
+    }
     public String getMealEatingLog(Long mealId) {
         return mealService.getMealType(mealId);
     }
 
-    public String getIntensitySportLog(Long intensityId) {
+    public Intensity getIntensitySportLog(Long intensityId) {
         return intensityService.getIntensityType(intensityId);
     }
 
@@ -216,4 +225,9 @@ public class LogController {
         allTypes.add(0, "Все");
         return allTypes;
     }
+
+    public String getAnswerForLog(Long logBookId) {
+        return notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage();
+    }
+
 }

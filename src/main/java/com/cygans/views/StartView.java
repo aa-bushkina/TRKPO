@@ -53,7 +53,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Страница логина
  */
-@Route(value = "login")
+@Route(value = "Вход")
 @Theme(themeFolder = "styles")
 public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();

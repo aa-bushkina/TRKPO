@@ -1,16 +1,9 @@
 package com.cygans.views.mentor;
 
+import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.mentor.Mentor;
-import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.participants.MentorAddParticipantView;
@@ -34,38 +27,27 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Домашняя страница ментора
  */
-@PageTitle("My Participants")
+@PageTitle("Марафон")
 @Route(value = "mentor/my-participants")
 public class MentorHomeView extends VerticalLayout {
-    private final NotificationTypeService notificationTypeService;
     private Grid<Participant> grid;
     private ListDataProvider<Participant> dataProvider;
     private final Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private final Button addBtn = new Button(add);
-    private final ParticipantMentorService participantMentorService;
     private final Mentor mentor;
-    private final NotificationsService notificationsService;
-    private final NotificationStatusService notificationStatusService;
+    private final NotificationController notificationController;
+    private final ParticipantAndMentorController participantAndMentorController;
 
+    public MentorHomeView(NotificationController notificationController,
+                          ParticipantAndMentorController participantAndMentorController) {
+        this.notificationController = notificationController;
+        this.participantAndMentorController = participantAndMentorController;
 
-    public MentorHomeView(LoginInfoService loginInfoService,
-                          ParticipantMentorService participantMentorService,
-                          MentorService mentorService,
-                          NotificationTypeService notificationTypeService,
-                          NotificationsService notificationsService,
-                          NotificationStatusService notificationStatusService) {
-        this.notificationStatusService = notificationStatusService;
-        this.participantMentorService = participantMentorService;
-        this.notificationTypeService = notificationTypeService;
-
-        Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
-        mentor = mentorService.getMentorByLoginInfoId(loginInfoId);
-        this.notificationsService = notificationsService;
+        mentor = participantAndMentorController.getIdNowMentorByAuthentication();
 
         add.setSize("50px");
         addBtn.setWidth("55px");
@@ -106,7 +88,7 @@ public class MentorHomeView extends VerticalLayout {
         grid.setHeight("100%");
 
         // таблица берет данные из всех участников, найденных по ментору
-        dataProvider = new ListDataProvider<>(participantMentorService.getParticipantsByMentor(mentor.getId()));
+        dataProvider = new ListDataProvider<>(participantAndMentorController.getParticipantsByMentor(mentor));
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
         Grid.Column<Participant> firstNameColumn = grid.addColumn(Participant::getFirstName, "Firstname")
@@ -119,11 +101,11 @@ public class MentorHomeView extends VerticalLayout {
                 .setHeader("Логин").setWidth("25%")
                 .setFlexGrow(0);
         Grid.Column<Participant> deleteColumn = grid.addComponentColumn(participant ->
-                new CustomButton("Удалить", participant.getId())).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
+                new CustomButton("Удалить", participant)).setHeader("Удалить из отслеживаемых").setWidth("25%").setFlexGrow(0);
         grid.addSelectionListener(
                 selection -> {
                     VaadinSession.getCurrent()
-                            .setAttribute("PatientID", selection.getFirstSelectedItem().get().getLoginInfoId());
+                            .setAttribute("ParticipantID", selection.getFirstSelectedItem().get().getLoginInfoId());
                     grid.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class));
                 });
 
@@ -163,27 +145,13 @@ public class MentorHomeView extends VerticalLayout {
     }
 
     private class CustomButton extends Button {
-        public CustomButton(String caption, Long participantId) {
+        public CustomButton(String caption, Participant participant) {
             super(caption);
             addClickListener(e -> {
-                participantMentorService.deletePatient(participantId);
-                dataProvider.getItems().removeIf(participant -> participant.getId() == participantId);
+                participantAndMentorController.deleteParticipantFromMentor(participant);
+                dataProvider.getItems().removeIf(participan -> participan.getId() == participant.getId());
                 dataProvider.refreshAll();
-                Notifications notification = new Notifications(
-                        participantId,
-                        mentor.getId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.DELETE_REQUEST),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
-                );
-                notification.setShortMessage(mentor.getFirstName() + " " + mentor.getLastName() + " удалил тебя из отслеживания");
-                notification.setAllMessage(
-                        "Ментор " + mentor.getFirstName() + " " + mentor.getLastName() + " удалил тебя из отслеживания.\n\n" +
-                                "Если тебе неизвестны причины такого решения - обратись в поддержку, чтобы они объяснили " +
-                                "причину и помогли с подбором нового ментора.\n\n" +
-                                "Дата: " + notification.getDate().toLocalDate() + "\n" +
-                                "Время: " + notification.getDate().toLocalTime() + "\n"
-                );
-                notificationsService.saveNotification(notification);
+                notificationController.addDeleteParticipantNotificationNowMentor(participant);
             });
         }
     }

@@ -1,12 +1,13 @@
 package com.cygans.views.mentor.participants;
 
 import com.cygans.database.controllers.LogController;
-import com.cygans.database.eating_log_book.EatingLogBookService;
-import com.cygans.database.emotional_log_book.EmotionalLogBookService;
+import com.cygans.database.controllers.ParticipantAndMentorController;
+import com.cygans.database.eating_log_book.EatingLogBook;
+import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.sport_log_book.SportLogBookService;
-import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.database.log_book.logs_type.LogBookType;
+import com.cygans.database.participant.Participant;
+import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -18,7 +19,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
-import com.vaadin.flow.server.VaadinSession;
 import org.vaadin.olli.FileDownloadWrapper;
 
 import java.io.ByteArrayInputStream;
@@ -28,30 +28,23 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Mentor Download Data and Graph")
+@PageTitle("Марафон")
 @Route(value = "mentor/download")
 
 public class MentorParticipantDownloadView extends VerticalLayout {
-    private final DatePicker printStartDate = new DatePicker("Дата начала:"); //calendar to choose start date
-    private final DatePicker printEndDate = new DatePicker("Дата конца:"); //calendar to choose end date
+    private final DatePicker printStartDate = new DatePicker("Дата начала:");
+    private final DatePicker printEndDate = new DatePicker("Дата конца:");
     private LocalDate startDate = LocalDate.now().minusDays(4);
     private LocalDate endDate = LocalDate.now();
-    private String exportData;
-    private final Long patientId;
-    private final ParticipantService participantService;
+    private final Participant participant;
     private final LogController logController;
 
 
-    public MentorParticipantDownloadView(EmotionalLogBookService emotionalLogBookService,
-                                         SportLogBookService sportLogBookService,
-                                         EatingLogBookService eatingLogBookService,
-                                         ParticipantService participantService,
-                                         LogController logController,
-                                         LoginInfoService loginInfoService) {
+    public MentorParticipantDownloadView(LogController logController,
+                                         ParticipantAndMentorController participantAndMentorController) {
         this.logController = logController;
-        this.participantService = participantService;
 
-        patientId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
+        participant = participantAndMentorController.getNowParticipantByAttribute();
 
         add(new Toolbar(ToolbarType.MENTOR_PAGES));
         Locale locale = new Locale("ru", "RU");
@@ -68,10 +61,8 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         Button exportData1 = new Button("Скачать");
         exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         FileDownloadWrapper buttonWrapper = new FileDownloadWrapper(
-                new StreamResource("Datafile" + ".csv", () -> {
-                    exportData = OutputData();
-                    return new ByteArrayInputStream(exportData.getBytes(StandardCharsets.UTF_8));
-                })
+                new StreamResource("History" + participant.getFirstName() + participant.getLastName() + ".csv",
+                        () -> new ByteArrayInputStream(getData().getBytes(StandardCharsets.UTF_16LE)))
         );
 
         buttonWrapper.wrapComponent(exportData1);
@@ -81,69 +72,90 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         });
 
         HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать " + participantService.getParticipantById(patientId).getFirstName() + " " + participantService.getParticipantById(patientId).getLastName() + "'s Logbook Data"), StartEndDate, buttonWrapper);
+        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать записи " + participant.getFirstName() + " " + participant.getLastName()), StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
 
-    public String OutputData() {
-        //TODO сделать нормльный вывод
-        StringBuilder finaloutput =
-                new StringBuilder("Start date" + "," + startDate.toString() + "," + "End date" + "," + endDate.toString() + "\n" +
-                        "Participant name" + "," + participantService.searchParticipantName(patientId) + "\n" +
-                        "Logbook Type" +
-                        "," + "Date" +
-                        "," + "Time" +
-                        "\n");
+    public String getData() {
+        StringBuilder str = new StringBuilder(
+                "Name participant: " + participant.getLastName()  + " " + participant.getFirstName()
+                        + "\nStart date: " + startDate.toString()
+                        + "\nEnd date: " + endDate.toString() + "\n\n"
+        );
 
-        List<Log> PatientData = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false);
+        List<Log> logs = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false, null);
 
-        for (Log eachdata : PatientData) {
-            if (eachdata.getLogTypeId() == 1) {
-                String simplestring = EmotionalOut(eachdata.getDate());
-                finaloutput.append(simplestring).append("\n");
-
+        for (Log log : logs) {
+            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EMOTIONAL)) {
+                String simplestring = EmotionalOut(log);
+                str.append(simplestring).append("\n");
+            }
+            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.SPORT)) {
+                String comprehensivestring = SportOut(log);
+                str.append(comprehensivestring).append("\n");
             }
 
-            if (eachdata.getLogTypeId() == 2) {
-                String comprehensivestring = SportOut(eachdata.getDate());
-                finaloutput.append(comprehensivestring).append("\n");
-            }
-
-            if (eachdata.getLogTypeId() == 3) {
-                String intensivestring = EatingOut(eachdata.getDate());
-                finaloutput.append(intensivestring).append("\n");
+            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EATING)) {
+                String intensivestring = EatingOut(log);
+                str.append(intensivestring).append("\n");
             }
         }
 
-        return finaloutput.toString();
+        return str.toString();
     }
 
-    public String EmotionalOut(LocalDate checkdate) {
-        String emotionalout = new String();//set up returned string
-//        List<EmotionalLogBook> simpledata=SimplelogData.findLogByDateAndPatientuid(checkdate,patientUid);
-//        for(EmotionalLogBook eachdata:simpledata) {
-//            emotionalout += eachdata.toString()+"\n";
-//        }
-        return emotionalout;
+    public String EmotionalOut(Log log) {
+        EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(log.getId());
+        return "Emotional log\n"
+                + "Date: " + log.getDate()
+                + "\nDescription: " + emotionalLogBook.getDescription() + "\n";
     }
 
-    public String SportOut(LocalDate checkdate) {
-        String sportout = new String();
-//        List<SportLogBook> comprehensivedata=ComprehensivelogData.findLogByDateAndPatientuid(checkdate,patientUid);
-//        for(SportLogBook eachdata:comprehensivedata) {
-//            sportout += eachdata.toString()+"\n";
-//        }
-        return sportout;
+    public String EatingOut(Log log) {
+        EatingLogBook eatingLogBook = logController.getEatingLogByLogbookId(log.getId());
+        String meal = logController.getMealEatingLog(eatingLogBook.getMealId());
+        switch (meal) {
+            case "Завтрак":
+                meal = "Breakfast";
+                break;
+            case "Обед":
+                meal = "Launch";
+                break;
+            case "Ужин":
+                meal = "Dinner";
+                break;
+            case "Другое":
+                meal = "Other";
+                break;
+        }
+        return "Eating log:\n"
+                + "Date: " + log.getDate()
+                + "\nTime eat: " + eatingLogBook.getTimeEat()
+                + "\nMeal: " + meal
+                + "\nDescription: " + eatingLogBook.getDescription() + "\n";
     }
 
-    public String EatingOut(LocalDate checkdate) {
-        String eatingOut = new String();
-//        List<EatingLogBook> intensivedata=IntensivelogData.findLogByDateAndParticipantId(checkdate,patientUid);
-//        for(EatingLogBook eachdata:intensivedata) {
-//            eatingOut += eachdata.toString()+"\n";
-//        }
-        return eatingOut;
+    public String SportOut(Log log) {
+        SportLogBook sportLogBook = logController.getSportLogByLogbookId(log.getId());
+        String intensity = logController.getIntensitySportLog(sportLogBook.getIntensityId()).getType();
+        switch (intensity) {
+            case "Низкая":
+                intensity = "Low";
+                break;
+            case "Средняя":
+                intensity = "Middle";
+                break;
+            case "Высокая":
+                intensity = "High";
+                break;
+        }
+        return "Sport log:\n"
+                + "Date: " + log.getDate()
+                + "\nActivity: " + sportLogBook.getActivity()
+                + "\nIntensity: " + intensity
+                + "\nDuration: " + sportLogBook.getDuration() + " minute"
+                + "\nDescription" + sportLogBook.getComments() + "\n";
     }
 
 }

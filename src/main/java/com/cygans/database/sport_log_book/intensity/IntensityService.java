@@ -13,8 +13,8 @@ public class IntensityService {
     return intensityRepository.findIntensityByType(type).getId();
   }
 
-  public String getIntensityType(Long id) {
-    return intensityRepository.findIntensityById(id).getType();
+  public Intensity getIntensityType(Long id) {
+    return intensityRepository.findIntensityById(id);
   }
 
   public void fill() {

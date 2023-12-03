@@ -4,7 +4,6 @@ package com.cygans.views.participant.settings;
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -27,7 +26,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Settings")
+@PageTitle("Марафон")
 @Route(value = "participant/settings")
 public class ParticipantSettings1View extends HorizontalLayout {
     private String firstname, lastname, login, phone, gender;
@@ -38,9 +37,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private TextField loginField, phoneField, heightField, weightField, breastField, waistField, hipsField;
     private Select<String> genderSelect;
     private Button changeSetting, save, cancel, changePassword;
-    private SettingsController settingsController;
+    private final SettingsController settingsController;
 
-    public ParticipantSettings1View(SettingsController settingsController, LoginInfoService loginInfoService) {
+    public ParticipantSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;
         init();
         FormLayout formLayout = new FormLayout();
@@ -111,7 +110,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         waistInit();
         hipsInit();
         changeSettingInit();
-        saveSetUp(participant.getId());
+        saveSetUp();
         cancelInit();
         changePasswordInit();
     }
@@ -137,8 +136,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phoneField.setPattern("\\+7\\d{10}");
     }
 
     private void loginFieldInit() {
@@ -227,7 +225,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         });
     }
 
-    private void saveSetUp(Long uid) {
+    private void saveSetUp() {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

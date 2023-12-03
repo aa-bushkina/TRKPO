@@ -28,8 +28,8 @@ import com.vaadin.flow.server.VaadinSession;
  * Страница регистрации участника 1
  */
 
-@PageTitle("Participant Sign Up")
-@Route(value = "participantSignUp1")
+@PageTitle("Марафон")
+@Route(value = "signUp")
 public class SignUp1View extends Div {
     private TextField firstName, lastName, login;
     private PasswordField password, confirmPassword;
@@ -140,8 +140,7 @@ public class SignUp1View extends Div {
     private void passwordSetUp() {
         password = new PasswordField("Пароль (не менее 8 символов)");
         password.setPlaceholder("Пароль");
-        // TODO раскоментировать для ограничений на пароль
-        //password.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
+        password.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
         password.setErrorMessage("Пароль должен включать букву в нижнем регистре, букву в верхнем регистре, цифру. Длина пароля 8 - 15 символов. Не используйте другие специальные символы кроме _");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password") != null) {

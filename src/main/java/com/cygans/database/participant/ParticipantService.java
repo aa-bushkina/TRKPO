@@ -28,11 +28,8 @@ public class ParticipantService {
                 + repository.getParticipantById(participantId).getLastName();
     }
 
-    public Long searchParticipantId(String participantLogin) {
-        Long returnuid = null;
-        Participant participant = repository.getParticipantByLogin(participantLogin);
-        if (participant != null) returnuid = participant.getId();
-        return returnuid;
+    public Participant searchParticipantId(String participantLogin) {
+        return repository.getParticipantByLogin(participantLogin);
     }
 
     public void updateParticipantFirstName(Long id, String firstname) {

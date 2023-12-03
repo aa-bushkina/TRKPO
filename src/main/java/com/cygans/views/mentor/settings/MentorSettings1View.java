@@ -25,7 +25,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Settings")
+@PageTitle("Марафон")
 @Route(value = "/mentor/settings")
 
 public class MentorSettings1View extends HorizontalLayout {
@@ -41,7 +41,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private Button changeSetting, save, cancel, changePassword;
     private VerticalLayout mainLayout;
     private HorizontalLayout buttons;
-    private SettingsController settingsController;
+    private final SettingsController settingsController;
 
     public MentorSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;
@@ -87,7 +87,7 @@ public class MentorSettings1View extends HorizontalLayout {
         phoneInit();
         genderSelectInit();
         changeSettingInit();
-        saveInit(mentor.getLoginInfoId());
+        saveInit();
         cancelInit();
         changePasswordInit();
     }
@@ -113,8 +113,7 @@ public class MentorSettings1View extends HorizontalLayout {
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phoneField.setPattern("\\+7\\d{10}");
     }
 
     private void loginFieldInit() {
@@ -158,7 +157,7 @@ public class MentorSettings1View extends HorizontalLayout {
         });
     }
 
-    private void saveInit(Long id) {
+    private void saveInit() {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

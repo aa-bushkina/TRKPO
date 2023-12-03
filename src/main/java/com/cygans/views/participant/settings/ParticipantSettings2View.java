@@ -2,8 +2,6 @@ package com.cygans.views.participant.settings;
 
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -17,12 +15,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-@PageTitle("Change Password")
+@PageTitle("Марафон")
 @Route(value = "participant/change-password")
 
 public class ParticipantSettings2View extends HorizontalLayout {
@@ -66,8 +60,7 @@ public class ParticipantSettings2View extends HorizontalLayout {
     private void newPasswordInit() {
         newPassword = new PasswordField("Новый пароль (не менее 8 символов)");
         newPassword.setClearButtonVisible(true);
-        // TODO раскоментировать для ограничений на пароль
-        //password.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
+        newPassword.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
         newPassword.setErrorMessage("Пароль должен включать букву в нижнем регистре, букву в верхнем регистре, цифру. Длина пароля 8 - 15 символов. Не используйте другие специальные символы кроме _");
         newPassword.addValueChangeListener(e -> confirmPassword.setPattern(newPassword.getValue()));
     }

@@ -2,16 +2,8 @@ package com.cygans.views.participant.logbooks;
 
 
 import com.cygans.database.controllers.LogController;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.sport_log_book.intensity.IntensityType;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.Component;
@@ -30,10 +22,8 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-@PageTitle("Add sport logbook")
+@PageTitle("Марафон")
 @Route(value = "participant/sport-logbook")
 public class SportLogbookView extends Div {
     private ComboBox<String> intensity;
@@ -42,35 +32,15 @@ public class SportLogbookView extends Div {
     private TextArea comments;
     private final Button submitButton = new Button("Добавить");
     private final H3 title = new H3("Спортивная активность");
-    private final Long participantId;
-    private final ParticipantMentorService participantMentorService;
-    private final NotificationsService notificationsService;
-    private final NotificationTypeService notificationTypeService;
-    private final ParticipantService participantService;
-    private final NotificationStatusService notificationStatusService;
     private final LogController logController;
+    private final NotificationController notificationController;
 
 
-    public SportLogbookView(LoginInfoService loginInfoService,
-                            ParticipantMentorService participantMentorService,
-                            NotificationsService notificationsService,
-                            NotificationTypeService notificationTypeService,
-                            ParticipantService participantService,
-                            NotificationStatusService notificationStatusService,
-                            LogController logController) {
-        this.participantMentorService = participantMentorService;
-        this.notificationsService = notificationsService;
-        this.notificationTypeService = notificationTypeService;
-        this.participantService = participantService;
-        this.notificationStatusService = notificationStatusService;
+    public SportLogbookView(LogController logController,
+                            NotificationController notificationController) {
         this.logController = logController;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        participantId = participantService.getParticipantByLoginInfoId(
-                        loginInfoService.findByLogin(
-                                        authentication.getName())
-                                .getId())
-                .getId();
+        this.notificationController = notificationController;
+
         init();
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         add(createFields());
@@ -127,35 +97,9 @@ public class SportLogbookView extends Div {
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
                 return;
             }
-
             Long logId = logController.saveSportLog(intensity.getValue(), duration.getValue(), activity.getValue(), comments.getValue());
-
+            notificationController.addNewSportLogNotification(logId, intensity.getValue(), duration.getValue(), activity.getValue(), comments.getValue());
             submitButton.getUI().ifPresent(ui -> ui.navigate(ParticipantConfirmationView.class));
-            Long participantMentorId = null;
-            if (participantMentorService.checkParticipant(participantId)) {
-                participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
-            }
-            Notifications notification = new Notifications(
-                    participantId,
-                    participantMentorId,
-                    notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
-                    notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-            );
-            notification.setShortMessage("Новая запись о спортивной активности");
-            notification.setAllMessage(
-                    participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                            + " добавил(-а) запись о своей спортивной активности.\n" +
-                            "\n" +
-                            "Дата: " + notification.getDate().toLocalDate() + "\n" +
-                            "Время: " + notification.getDate().toLocalTime() + "\n" +
-                            "Интенсивность: " + intensity.getValue() + "\n" +
-                            "Активность: " + activity.getValue() + "\n" +
-                            "Продолжительность: " + Integer.parseInt(duration.getValue()) + " минут\n" +
-                            "Описание: " + comments.getValue()
-            );
-            notification.setLogBookId(logId);
-            notificationsService.saveNotification(notification);
-
         });
 
 

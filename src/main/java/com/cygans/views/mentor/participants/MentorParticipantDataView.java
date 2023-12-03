@@ -16,18 +16,20 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("View Patients Data History")
-@Route(value = "mentor/view-patient-history")
+@PageTitle("Марафон")
+@Route(value = "mentor/view-participant-history")
 public class MentorParticipantDataView extends VerticalLayout {
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private final HorizontalLayout SearchPanel = new HorizontalLayout();
@@ -35,7 +37,7 @@ public class MentorParticipantDataView extends VerticalLayout {
     private final Button downloadBut = new Button(download);
     private final Button ViewData = new Button("Показать");
     private final Grid<ParticipantPersonData> Historylist = new Grid<>(ParticipantPersonData.class, false);
-    private final ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
+    private ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
     private final LocalDate today = LocalDate.now();
     private LocalDate checkDate;
     private final LogController logController;
@@ -75,11 +77,14 @@ public class MentorParticipantDataView extends VerticalLayout {
         SearchPanel.setAlignItems(Alignment.BASELINE);
         SelectbyHand.addValueChangeListener(e -> checkDate = e.getValue());
         ViewData.addClickListener(view -> {
-            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false);
+            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false, null);
+            System.out.println(checkDate + " " + today + HistoryDataShown);
             if (!logBook.isEmpty()) {
+                HistoryDataShown = new ArrayList<>();
                 HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logBook));
+                Historylist.setItems(HistoryDataShown);
             } else
-                Notification.show("Не ", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Записей с данного периода до сегодняшнего дня нет", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
 
     }
@@ -91,7 +96,8 @@ public class MentorParticipantDataView extends VerticalLayout {
 
     private void configureHV() {
         Historylist.setHeightFull();
-        Historylist.addColumn(ParticipantPersonData::getDate).setHeader("Дата");
+        Historylist.addColumn(new LocalDateRenderer<>(ParticipantPersonData::getDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .setHeader("Дата");
         Historylist.addColumn(ParticipantPersonData::getLogBookType).setHeader("Тип записи");
         Historylist.setItems(HistoryDataShown);
         Historylist.getColumns().forEach(col -> col.setAutoWidth(true));

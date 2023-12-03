@@ -1,15 +1,12 @@
 package com.cygans.database.participant_mentor;
 
-import com.cygans.database.mentor.Mentor;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ParticipantMentorService {
@@ -41,25 +38,17 @@ public class ParticipantMentorService {
         return participants;
     }
 
-    public boolean exist(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId) != null;
-    }
-
-    public void deletePatient(Long patientuid) {
-        ParticipantMentor delete = participantMentorRepository.getMentorParticipantByParticipantId(patientuid);
-        participantMentorRepository.delete(delete);
-    }
-
-    public boolean checkParticipant(Long participantId) {
+    public boolean existByParticipantId(Long participantId) {
         return participantMentorRepository.findByParticipantId(participantId) != null;
     }
 
-    public ParticipantMentor findByParticipantId(Long participantId) {
-        return participantMentorRepository.findByParticipantId(participantId);
+    public void deleteParticipant(Long id) {
+        ParticipantMentor delete = participantMentorRepository.findByParticipantId(id);
+        participantMentorRepository.delete(delete);
     }
 
     public ParticipantMentor getMentorParticipantByParticipantId(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId);
+        return participantMentorRepository.findByParticipantId(participantId);
     }
 
 }

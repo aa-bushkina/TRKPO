@@ -3,13 +3,11 @@ package com.cygans.views.mentor.logbooks;
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.participants.MentorParticipantDataView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
@@ -23,8 +21,8 @@ import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
 
-@PageTitle("View Patients Logbooks")
-@Route(value = "mentor/view-patient-logbook-details")
+@PageTitle("Марафон")
+@Route(value = "mentor/view-participant-logbook-details")
 public class MentorParticipantsLogbookView extends VerticalLayout {
     private Long logBookId;
     private LocalDate selectDate;
@@ -35,17 +33,14 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private TextField meal_type, hourFood, minuteFood, intensity_type, activityField, durationField;
     private final VerticalLayout mainLayout = new VerticalLayout();
     private final FormLayout formLayout = new FormLayout();
-    private final NotificationsService notificationsService;
     private final LogController logController;
 
 
-    public MentorParticipantsLogbookView(LogController logController,
-                                         NotificationsService notificationsService) {
+    public MentorParticipantsLogbookView(LogController logController) {
         removeAll();
         backInit();
 
         this.logController = logController;
-        this.notificationsService = notificationsService;
         logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
         selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
         logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
@@ -58,8 +53,9 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
             showSportLogBookView();
         }
 
-        if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-            addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
+        String replyMsg = logController.getAnswerForLog(logBookId);
+        if (replyMsg != null) {
+            addAnswerField(replyMsg);
             formLayout.add(answerField);
         }
 
@@ -140,7 +136,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
 
     private void showSportLogBookView() {
         SportLogBook log = logController.getSportLogByLogbookId((logBookId));
-        intensityInit(logController.getIntensitySportLog(log.getIntensityId()));
+        intensityInit(logController.getIntensitySportLog(log.getIntensityId()).getType());
         activityInit(log.getActivity());
         descSportInit(log.getComments());
         durationInit(String.valueOf(log.getDuration()));

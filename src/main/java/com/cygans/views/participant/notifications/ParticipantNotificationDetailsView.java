@@ -1,13 +1,9 @@
 package com.cygans.views.participant.notifications;
 
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -22,33 +18,20 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Notification Details")
+@PageTitle("Марафон")
 @Route(value = "participant/notification-details")
 public class ParticipantNotificationDetailsView extends Div {
     private final TextArea msg = new TextArea("Сообщение:");
     private final TextArea replyMsg = new TextArea();
     private final Button agreeBut = new Button("Принять");
     private Button backBut;
-    private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService notificationStatusService;
-    private final ParticipantService participantService;
-    private final NotificationsService notificationsService;
-    private final ParticipantMentorService participantMentorService;
     private final Notifications thisNotification;
+    private final NotificationController notificationController;
 
-    public ParticipantNotificationDetailsView(ParticipantMentorService participantMentorService,
-                                              NotificationsService notificationsService,
-                                              NotificationTypeService notificationTypeService,
-                                              ParticipantService participantService,
-                                              NotificationStatusService notificationStatusService) {
-        this.notificationTypeService = notificationTypeService;
-        this.notificationStatusService = notificationStatusService;
-        this.participantService = participantService;
-        this.notificationsService = notificationsService;
-        this.participantMentorService = participantMentorService;
-        thisNotification = notificationsService.getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID"));
+    public ParticipantNotificationDetailsView(NotificationController notificationController) {
+        this.notificationController = notificationController;
+        thisNotification = notificationController.getNotificationByIdFromAttribute();
 
         backInit();
         setStyles();
@@ -61,14 +44,15 @@ public class ParticipantNotificationDetailsView extends Div {
 
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), new H3(" "), vl);
 
-        if (!notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-            notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
-                    notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+        if (!notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+            notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                    null,
+                    notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
         }
     }
 
     private void backInit() {
-        if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+        if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
             backBut = new Button("Отказать");
         } else {
             backBut = new Button("Назад");
@@ -88,9 +72,8 @@ public class ParticipantNotificationDetailsView extends Div {
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
 
-        if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId())
-                .equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-            if (thisNotification.getNotificationStatusId().equals(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
+        if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+            if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
                 replyMsg.setVisible(false);
                 agreeBut.setVisible(true);
             } else {
@@ -99,7 +82,7 @@ public class ParticipantNotificationDetailsView extends Div {
                 replyMsg.setReadOnly(true);
             }
         } else {
-            if (thisNotification.getNotificationStatusId().equals(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
+            if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
                 replyMsg.setVisible(false);
             } else {
                 replyMsg.setLabel("Ответ от ментора:");
@@ -112,28 +95,25 @@ public class ParticipantNotificationDetailsView extends Div {
     private void setNavigation() {
         agreeBut.addClickListener(e -> {
             Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            participantMentorService.create(thisNotification.getParticipantId(), thisNotification.getMentorId());
-            notificationsService.resolveRequest(thisNotification.getNotificationId());
-            notificationsService.reply(thisNotification.getNotificationId(),
-                    participantService.getFirstname(thisNotification.getParticipantId()) + " "
-                            + participantService.getLastname(thisNotification.getParticipantId())
-                            + " принял запрос на менторство.");
-            notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
-                    notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
-            if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-                notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+            notificationController.replyParticipantToMentorRequest(thisNotification);
+            notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                    null,
+                    notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
+            if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+                notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                        null,
+                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
             }
             agreeBut.getUI().ifPresent(ui ->
                     ui.navigate(ParticipantNotificationView.class)
             );
         });
         backBut.addClickListener(e -> {
-            if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId()).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-                notificationsService.updateNotificationStatus(thisNotification.getNotificationId(),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
-                notificationsService.updateNotificationType(thisNotification.getNotificationId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR));
+            if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+                notificationController.addDeclineToMentorNotificationNowParticipant(thisNotification.getMentorId());
+                notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                        null,
+                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
             }
             backBut.getUI().ifPresent(ui ->
                     ui.navigate(ParticipantNotificationView.class)
