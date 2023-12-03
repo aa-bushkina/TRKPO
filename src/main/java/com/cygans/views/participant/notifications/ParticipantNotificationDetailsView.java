@@ -93,6 +93,10 @@ public class ParticipantNotificationDetailsView extends Div {
             agreeBut.setVisible(true);
             agreeBut.setText("Перейти к записи");
             replyMsg.setVisible(false);
+        } else if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ANSWER_ON_QUESTION.getValue())) {
+            replyMsg.setLabel("Ответ от ментора:");
+            replyMsg.setValue(thisNotification.getReplyMessage());
+            replyMsg.setReadOnly(true);
         } else {
             if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
                 replyMsg.setVisible(false);

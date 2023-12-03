@@ -81,12 +81,6 @@ public class NotificationsService {
         notificationsRepository.save(notification);
     }
 
-    public void updateNotificationShortMessage(Long id, String shortMsg) {
-        Notifications notification = notificationsRepository.getNotificationById(id);
-        notification.setShortMessage(shortMsg);
-        notificationsRepository.save(notification);
-    }
-
     public void updateNotificationAllMessage(Long id, String allMsg) {
         Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setAllMessage(allMsg);
