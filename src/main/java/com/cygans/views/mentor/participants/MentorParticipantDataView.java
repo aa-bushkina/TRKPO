@@ -16,11 +16,13 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -91,7 +93,8 @@ public class MentorParticipantDataView extends VerticalLayout {
 
     private void configureHV() {
         Historylist.setHeightFull();
-        Historylist.addColumn(ParticipantPersonData::getDate).setHeader("Дата");
+        Historylist.addColumn(new LocalDateRenderer<>(ParticipantPersonData::getDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .setHeader("Дата");
         Historylist.addColumn(ParticipantPersonData::getLogBookType).setHeader("Тип записи");
         Historylist.setItems(HistoryDataShown);
         Historylist.getColumns().forEach(col -> col.setAutoWidth(true));

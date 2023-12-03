@@ -31,6 +31,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -96,7 +97,7 @@ public class MentorAddParticipantView extends Div {
                                         "Напоминание: Принимая запрос, ты соглашаешься с тем, что твой ментор будет видеть все твои действия, " +
                                         "а также информацию о твоем росте, весе и теле.\n" +
                                         "\n" +
-                                        "Дата: " + n.getDate().toLocalDate() + "\n" +
+                                        "Дата: " + n.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                                         "Время: " + n.getDate().toLocalTime() + "\n"
                         );
                         notificationsService.saveNotification(n);

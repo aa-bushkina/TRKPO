@@ -47,8 +47,6 @@ public class ParticipantSignUp2View extends Div {
         genderSetUp();
         datePickerSetUp();
         phoneSetUp();
-        datePicker.setClearButtonVisible(true);
-        datePicker.setLocale(new Locale("ru", "RU"));
         submitButtonInit();
         previousBtnInit();
 

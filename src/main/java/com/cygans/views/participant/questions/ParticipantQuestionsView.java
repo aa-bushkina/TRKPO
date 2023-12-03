@@ -15,6 +15,7 @@ import com.cygans.database.question.question_status.StatusOfQuestion;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
+import com.cygans.views.participant.logbooks.ParticipantPersonData;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -31,12 +32,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -116,7 +119,7 @@ public class ParticipantQuestionsView extends Div {
                         String completeMsg =
                                 participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId) + " отправил вопрос.\n" +
                                         "\n" +
-                                        "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                                        "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                                         "Время: " + notification.getDate().toLocalTime() + "\n";
 
                         completeMsg = completeMsg + " ," + textArea.getValue();
@@ -146,7 +149,7 @@ public class ParticipantQuestionsView extends Div {
         historyList.setHeight("100%");
         historyList.setWidth("100%");
         historyList.setAllRowsVisible(true);
-        historyList.addColumn(Question::getDate)
+        historyList.addColumn(new LocalDateRenderer<>(Question::getDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 .setHeader("Дата")
                 .setWidth("20%")
                 .setFlexGrow(0);

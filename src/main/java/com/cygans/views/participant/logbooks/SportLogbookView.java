@@ -146,7 +146,7 @@ public class SportLogbookView extends Div {
                     participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
                             + " добавил(-а) запись о своей спортивной активности.\n" +
                             "\n" +
-                            "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                            "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                             "Время: " + notification.getDate().toLocalTime() + "\n" +
                             "Интенсивность: " + intensity.getValue() + "\n" +
                             "Активность: " + activity.getValue() + "\n" +

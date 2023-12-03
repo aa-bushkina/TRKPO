@@ -7,6 +7,7 @@ import com.cygans.database.notifications.notification_status.StatusOfNotificatio
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.question.Question;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
@@ -18,10 +19,13 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.format.DateTimeFormatter;
 
 /**
  * Страница оповещений участника
@@ -63,7 +67,7 @@ public class ParticipantNotificationView extends VerticalLayout {
         grid.setAllRowsVisible(true);
         grid.setDataProvider(new ListDataProvider<>(notificationsService.getNotificationWithAnswerNotSeenList(participant.getId())));
         grid.setAllRowsVisible(true);
-        grid.addColumn(Notifications::getDateNoTime, "Date")
+        grid.addColumn(new LocalDateRenderer<>(Notifications::getDateNoTime, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 .setHeader("Дата")
                 .setWidth("25%")
                 .setFlexGrow(0);
