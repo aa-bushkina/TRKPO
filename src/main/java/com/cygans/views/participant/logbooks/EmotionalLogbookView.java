@@ -29,7 +29,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@PageTitle("Add Emotional Logbook Entry")
+@PageTitle("Марафон")
 @Route(value = "participant/emotional-logbook")
 public class EmotionalLogbookView extends Div {
     private final H3 title = new H3("Эмоциональное состояние");

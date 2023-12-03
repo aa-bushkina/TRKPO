@@ -39,7 +39,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * Домашняя страница ментора
  */
-@PageTitle("My Participants")
+@PageTitle("Марафон")
 @Route(value = "mentor/my-participants")
 public class MentorHomeView extends VerticalLayout {
     private final NotificationTypeService notificationTypeService;

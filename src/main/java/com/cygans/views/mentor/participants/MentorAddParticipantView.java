@@ -34,7 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Objects;
 
 
-@PageTitle("Добавить участника")
+@PageTitle("Марафон")
 @Route(value = "mentor/add-participant")
 public class MentorAddParticipantView extends Div {
     private final TextField participantLogin = new TextField("Введите логин участника");

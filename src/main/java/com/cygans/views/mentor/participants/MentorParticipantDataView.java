@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("Все записи участника")
+@PageTitle("Марафон")
 @Route(value = "mentor/view-participant-history")
 public class MentorParticipantDataView extends VerticalLayout {
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);

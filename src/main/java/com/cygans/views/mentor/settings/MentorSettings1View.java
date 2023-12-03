@@ -25,7 +25,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Settings")
+@PageTitle("Марафон")
 @Route(value = "/mentor/settings")
 
 public class MentorSettings1View extends HorizontalLayout {

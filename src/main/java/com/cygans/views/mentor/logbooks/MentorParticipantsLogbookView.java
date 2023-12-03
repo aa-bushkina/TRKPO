@@ -22,7 +22,7 @@ import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
 
-@PageTitle("Запись участника")
+@PageTitle("Марафон")
 @Route(value = "mentor/view-participant-logbook-details")
 public class MentorParticipantsLogbookView extends VerticalLayout {
     private Long logBookId;

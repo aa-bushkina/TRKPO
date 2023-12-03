@@ -26,7 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
-@PageTitle("Notifications")
+@PageTitle("Марафон")
 @Route(value = "mentor/notifications")
 public class MentorNotificationView extends VerticalLayout {
     private Grid<Notifications> grid;

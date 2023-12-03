@@ -28,7 +28,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Mentor Download Data and Graph")
+@PageTitle("Марафон")
 @Route(value = "mentor/download")
 
 public class MentorParticipantDownloadView extends VerticalLayout {

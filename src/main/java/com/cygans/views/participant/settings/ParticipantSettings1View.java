@@ -27,7 +27,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Settings")
+@PageTitle("Марафон")
 @Route(value = "participant/settings")
 public class ParticipantSettings1View extends HorizontalLayout {
     private String firstname, lastname, login, phone, gender;

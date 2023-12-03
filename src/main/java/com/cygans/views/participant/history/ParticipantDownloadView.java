@@ -30,7 +30,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Locale;
 
-@PageTitle("Download Data and Graph")
+@PageTitle("Марафон")
 @Route(value = "participant/download")
 
 public class ParticipantDownloadView extends VerticalLayout {

@@ -33,7 +33,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@PageTitle("Add sport logbook")
+@PageTitle("Марафон")
 @Route(value = "participant/sport-logbook")
 public class SportLogbookView extends Div {
     private ComboBox<String> intensity;

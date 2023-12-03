@@ -28,8 +28,8 @@ import com.vaadin.flow.server.VaadinSession;
  * Страница регистрации участника 1
  */
 
-@PageTitle("Participant Sign Up")
-@Route(value = "participantSignUp1")
+@PageTitle("Марафон")
+@Route(value = "signUp")
 public class SignUp1View extends Div {
     private TextField firstName, lastName, login;
     private PasswordField password, confirmPassword;

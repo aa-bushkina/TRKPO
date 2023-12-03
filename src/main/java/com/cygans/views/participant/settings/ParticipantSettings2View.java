@@ -16,7 +16,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Change Password")
+@PageTitle("Марафон")
 @Route(value = "participant/change-password")
 
 public class ParticipantSettings2View extends HorizontalLayout {

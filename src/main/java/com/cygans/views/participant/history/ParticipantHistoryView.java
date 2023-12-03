@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@PageTitle("View Data History")
+@PageTitle("Марафон")
 @Route(value = "participant/data-history")
 public class ParticipantHistoryView extends VerticalLayout {
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);

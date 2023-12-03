@@ -33,7 +33,7 @@ import java.util.Locale;
 /**
  * Страница регистрации ментора 2
  */
-@PageTitle("Mentor Sign Up")
+@PageTitle("Марафон")
 @Route(value = "mentorSignUp2")
 public class MentorSignUp2View extends Div {
     private final RadioButtonGroup<String> sex;
