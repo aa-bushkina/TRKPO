@@ -81,7 +81,7 @@ public class ParticipantSignUp3View extends Div {
         height = new TextField("Рост");
         height.setClearButtonVisible(true);
         height.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
-        height.setErrorMessage("Неверный формат роста");
+        height.setErrorMessage("Неверное значение роста");
         if (VaadinSession.getCurrent().getAttribute("Height") != null) {
             height.setValue((String) VaadinSession.getCurrent().getAttribute("Height"));
         }
@@ -91,7 +91,7 @@ public class ParticipantSignUp3View extends Div {
         weight = new TextField("Вес");
         weight.setClearButtonVisible(true);
         weight.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
-        weight.setErrorMessage("Неверный формат веса");
+        weight.setErrorMessage("Неверное значение веса");
         if (VaadinSession.getCurrent().getAttribute("Weight") != null) {
             weight.setValue((String) VaadinSession.getCurrent().getAttribute("Weight"));
         }
@@ -101,7 +101,7 @@ public class ParticipantSignUp3View extends Div {
         waist = new TextField("Обхват талии");
         waist.setClearButtonVisible(true);
         waist.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        waist.setErrorMessage("Неверный формат обхвата талии");
+        waist.setErrorMessage("Неверное значение обхвата талии");
         if (VaadinSession.getCurrent().getAttribute("Waist") != null) {
             waist.setValue((String) VaadinSession.getCurrent().getAttribute("Waist"));
         }
@@ -111,7 +111,7 @@ public class ParticipantSignUp3View extends Div {
         hips = new TextField("Обхват бедер");
         hips.setClearButtonVisible(true);
         hips.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        hips.setErrorMessage("Неверный формат обхвата бедер");
+        hips.setErrorMessage("Неверное значение обхвата бедер");
         if (VaadinSession.getCurrent().getAttribute("Hip") != null) {
             hips.setValue((String) VaadinSession.getCurrent().getAttribute("Hip"));
         }
@@ -121,7 +121,7 @@ public class ParticipantSignUp3View extends Div {
         breast = new TextField("Обхват груди");
         breast.setClearButtonVisible(true);
         breast.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        breast.setErrorMessage("Неверный формат обхвата груди");
+        breast.setErrorMessage("Неверное значение обхвата груди");
         if (VaadinSession.getCurrent().getAttribute("Breast") != null) {
             breast.setValue((String) VaadinSession.getCurrent().getAttribute("Breast"));
         }
@@ -136,31 +136,31 @@ public class ParticipantSignUp3View extends Div {
                 Notification notification = Notification.show("Необходимо указать рост", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (height.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат роста", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение роста", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weight.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать вес", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weight.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат веса", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение веса", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breast.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват груди", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breast.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата груди", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата груди", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waist.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват талии", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waist.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата талии", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата талии", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hips.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать обхват бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hips.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата бедер", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение обхвата бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();
