@@ -8,7 +8,6 @@ import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.log_book.logs_type.LogsType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.participant.Participant;
@@ -161,9 +160,11 @@ public class LogController {
     public String getLogsLogtype(Log log) {
         return logsTypeService.getLogTypeById(log.getLogTypeId());
     }
+
     public Long getLogTypeIdByName(LogBookType type) {
         return logsTypeService.getLogTypeId(type.getText());
     }
+
     public String getMealEatingLog(Long mealId) {
         return mealService.getMealType(mealId);
     }
@@ -218,6 +219,10 @@ public class LogController {
 
     public SportLogBook getSportLogByLogbookId(Long logBookId) {
         return sportLogBookService.findByLogBookId(logBookId);
+    }
+
+    public Log getLogByLogbookId(Long logBookId) {
+        return logService.findLogBooksById(logBookId);
     }
 
     public List<String> getAllLogsTypes() {

@@ -40,7 +40,7 @@ public class MentorNotificationDetailsView extends Div {
         setStyles();
         setNavigation();
 
-        HorizontalLayout buttons = new HorizontalLayout(sendBut, backBut);
+        HorizontalLayout buttons = new HorizontalLayout(backBut, sendBut);
 
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -97,13 +97,12 @@ public class MentorNotificationDetailsView extends Div {
                 questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
             } else {
                 notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
-                        notificationController.getNotificationTypeId(TypeOfNotification.ANSWER_ON_LOG),
-                        null);
+                        null,
+                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                notificationController.addAnswerToParticipantLogNotification(thisNotification, replyMsg.getValue());
             }
             sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
         });
-        backBut.addClickListener(e -> {
-            backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
-        });
+        backBut.addClickListener(e -> backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class)));
     }
 }

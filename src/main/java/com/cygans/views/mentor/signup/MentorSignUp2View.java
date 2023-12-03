@@ -39,9 +39,9 @@ public class MentorSignUp2View extends Div {
     private final RadioButtonGroup<String> sex;
     private final TextField phone;
     private final DatePicker datePicker;
+    private final RegistrationAndLoginController registrationAndLoginController;
     private FormLayout formLayout;
     private Button nextBtn, previousBtn;
-    private final RegistrationAndLoginController registrationAndLoginController;
 
     public MentorSignUp2View(RegistrationAndLoginController registrationAndLoginController) {
         this.registrationAndLoginController = registrationAndLoginController;

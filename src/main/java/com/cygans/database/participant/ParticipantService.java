@@ -10,8 +10,7 @@ public class ParticipantService {
     @Autowired
     ParticipantRepository repository;
 
-    public Boolean isNeedToAddHardcodedUser()
-    {
+    public Boolean isNeedToAddHardcodedUser() {
         return repository.findAll().size() == 0;
     }
 

@@ -1,16 +1,13 @@
 package com.cygans.views.participant.questions;
 
-import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.question.Question;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
-import com.cygans.views.participant.history.ParticipantHistoryView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
@@ -23,95 +20,47 @@ import java.time.format.DateTimeFormatter;
 @PageTitle("Марафон")
 @Route(value = "participant/question-details")
 public class ParticipantQuestionDetailsView extends Div {
+    private final TextArea questionText = new TextArea("Сообщение:");
+    private final TextArea answerText = new TextArea();
+    private final Button backBtn = new Button("Назад");
+    private final QuestionController questionController;
 
-    private LocalDate selectDate;
-    private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
-    private final Button Back = new Button("Назад");
-    private final TextArea msg = new TextArea("Сообщение:");
-    private final TextArea replyMsg = new TextArea();
-    private final Button agreeBut = new Button("Принять");
-    private final Button backBut = new Button("Назад");
-
-    private final NotificationController notificationController;
-
-    public ParticipantQuestionDetailsView(QuestionController questionController,
-                                          NotificationController notificationController) {
-
+    public ParticipantQuestionDetailsView(QuestionController questionController) {
+        this.questionController = questionController;
         removeAll();
-        add(menu);
-        this.notificationController = notificationController;
-        selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
+        LocalDate selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
 
-        add(Back);
-        Back.addClickListener(click -> Back.getUI().ifPresent(ui -> ui.navigate(ParticipantQuestionsView.class)));
+        setStyles();
 
-        add(
-                Back,
-                new HorizontalLayout(
-                        new Paragraph("Дата вопроса: " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))))
-        );
-
-        Question question = questionController.getNowQuestionInSession();
-        Span ques = new Span("Вопрос: " + question.getQuestion());
-        Span answ = new Span("Ответ: " + question.getAnswer());
-        VerticalLayout layout = new VerticalLayout(ques, answ);
-        add(layout);
-
+        VerticalLayout vl = new VerticalLayout(new H3("Вопрос от " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
+                questionText, answerText, backBtn);
+        vl.setAlignItems(FlexComponent.Alignment.CENTER);
+        vl.setSpacing(true);
+        add(vl);
     }
 
-//    private void setStyles(Notifications thisNotifications) {
-//        agreeBut.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        agreeBut.setVisible(false);
-//        backBut.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-//        msg.setValue(thisNotifications.getAllMessage());
-//        msg.setReadOnly(true);
-//        msg.setWidth("50%");
-//        msg.setMinHeight("80%");
-//        msg.setMaxHeight("300px");
-//        replyMsg.setWidth("50%");
-//        replyMsg.setMinHeight("80%");
-//        replyMsg.setMaxHeight("300px");
-//
-//        if (notificationController.getTypeNotification(thisNotifications).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
-//
-//            if (thisNotifications.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
-//                replyMsg.setVisible(false);
-//                agreeBut.setVisible(true);
-//            } else {
-//                replyMsg.setLabel("Твой ответ:");
-//                replyMsg.setValue(thisNotifications.getReplyMessage());
-//                replyMsg.setReadOnly(true);
-//            }
-//        } else {
-//            if (thisNotifications.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
-//                replyMsg.setVisible(false);
-//            } else {
-//                replyMsg.setLabel("Ответ от ментора:");
-//                replyMsg.setValue(thisNotifications.getReplyMessage());
-//                replyMsg.setReadOnly(true);
-//            }
-//        }
-//    }
+    private void setStyles() {
+        backBtn.addClickListener(click -> backBtn.getUI().ifPresent(ui -> ui.navigate(ParticipantQuestionsView.class)));
 
-//    private void setNavigation(ParticipantMentorService participantMentorService,
-//                               NotificationsService NotificationsService,
-//                               Notifications thisNotifications,
-//                               ParticipantService participantService) {
-//        agreeBut.addClickListener(e -> {
-//            Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-//            participantMentorService.create(thisNotifications.getParticipantId(), thisNotifications.getMentorId());
-//            NotificationsService.resolveRequest(thisNotifications.getNotificationId());
-//            NotificationsService.reply(thisNotifications.getNotificationId(),
-//                    participantService.getFirstname(thisNotifications.getParticipantId()) + " "
-//                        + participantService.getLastname(thisNotifications.getParticipantId())
-//                        + " принял запрос на менторство.");
-//            agreeBut.getUI().ifPresent(ui ->
-//                    ui.navigate(ParticipantNotificationView.class)
-//            );
-//        });
-//        backBut.addClickListener(e ->
-//                backBut.getUI().ifPresent(ui ->
-//                        ui.navigate(ParticipantQuestionsView.class)
-//                ));
-//    }
+        Question question = questionController.getNowQuestionInSession();
+        questionText.setReadOnly(true);
+        questionText.setWidth("50%");
+        questionText.setMinHeight("80%");
+        questionText.setMaxHeight("300px");
+        answerText.setReadOnly(true);
+        answerText.setWidth("50%");
+        answerText.setMinHeight("80%");
+        answerText.setMaxHeight("300px");
+        answerText.setVisible(false);
+
+        questionText.setLabel("Вопрос:");
+        questionText.setValue(question.getQuestion());
+
+        if (question.getAnswer() != null) {
+            answerText.setVisible(true);
+            answerText.setLabel("Ответ:");
+            answerText.setValue(question.getAnswer());
+        }
+    }
 }

@@ -29,6 +29,7 @@ import java.util.Locale;
 @Route(value = "/mentor/settings")
 
 public class MentorSettings1View extends HorizontalLayout {
+    private final SettingsController settingsController;
     private String firstname;
     private String lastname;
     private String login;
@@ -41,7 +42,6 @@ public class MentorSettings1View extends HorizontalLayout {
     private Button changeSetting, save, cancel, changePassword;
     private VerticalLayout mainLayout;
     private HorizontalLayout buttons;
-    private final SettingsController settingsController;
 
     public MentorSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;

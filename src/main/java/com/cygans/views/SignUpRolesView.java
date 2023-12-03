@@ -25,7 +25,7 @@ public class SignUpRolesView extends VerticalLayout {
         participantButton.setWidth("30%");
         participantButton.setHeight("50px");
         participantButton.addClickListener(e -> {
-                    VaadinSession.getCurrent().setAttribute( "RoleEnum", RoleEnum.PARTICIPANT.getValue());
+                    VaadinSession.getCurrent().setAttribute("RoleEnum", RoleEnum.PARTICIPANT.getValue());
                     participantButton.getUI().ifPresent(ui ->
                             ui.navigate(SignUp1View.class)
                     );
@@ -36,7 +36,7 @@ public class SignUpRolesView extends VerticalLayout {
         mentorButton.setWidth("30%");
         mentorButton.setHeight("50px");
         mentorButton.addClickListener(e -> {
-                    VaadinSession.getCurrent().setAttribute( "RoleEnum", RoleEnum.MENTOR.getValue());
+                    VaadinSession.getCurrent().setAttribute("RoleEnum", RoleEnum.MENTOR.getValue());
                     mentorButton.getUI().ifPresent(ui ->
                             ui.navigate(SignUp1View.class)
                     );

@@ -34,13 +34,13 @@ import org.apache.commons.lang3.StringUtils;
 @PageTitle("Марафон")
 @Route(value = "mentor/my-participants")
 public class MentorHomeView extends VerticalLayout {
-    private Grid<Participant> grid;
-    private ListDataProvider<Participant> dataProvider;
     private final Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private final Button addBtn = new Button(add);
     private final Mentor mentor;
     private final NotificationController notificationController;
     private final ParticipantAndMentorController participantAndMentorController;
+    private Grid<Participant> grid;
+    private ListDataProvider<Participant> dataProvider;
 
     public MentorHomeView(NotificationController notificationController,
                           ParticipantAndMentorController participantAndMentorController) {

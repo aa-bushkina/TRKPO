@@ -28,12 +28,12 @@ import java.time.format.DateTimeFormatter;
 @PageTitle("Марафон")
 @Route(value = "mentor/notifications")
 public class MentorNotificationView extends VerticalLayout {
+    private final ParticipantAndMentorController participantAndMentorController;
+    private final NotificationController notificationController;
     private Grid<Notifications> grid;
     private ListDataProvider<Notifications> dataProvider;
     private Grid.Column<Notifications> firstNameColumn;
     private Grid.Column<Notifications> lastNameColumn;
-    private final ParticipantAndMentorController participantAndMentorController;
-    private final NotificationController notificationController;
 
     public MentorNotificationView(NotificationController notificationController,
                                   ParticipantAndMentorController participantAndMentorController) {

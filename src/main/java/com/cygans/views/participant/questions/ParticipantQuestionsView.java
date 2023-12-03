@@ -11,7 +11,6 @@ import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.html.Div;
@@ -20,7 +19,6 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -28,7 +26,6 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -42,22 +39,17 @@ import java.util.Optional;
 @Route(value = "participant/questions")
 public class ParticipantQuestionsView extends Div {
     private final TextArea textArea = new TextArea("Мой вопрос");
-    private final Button submit = new Button("Задать");
-    private final HorizontalLayout searchPanel = new HorizontalLayout();
-    private final DatePicker period = new DatePicker("Период с");
-    private final Button viewDataBtn = new Button("Показать");
     private final Grid<Question> historyList = new Grid<>(Question.class, false);
     private final Participant participant;
     private final QuestionController questionController;
-    private final NotificationController notificationController;
 
 
     public ParticipantQuestionsView(QuestionController questionController,
                                     ParticipantAndMentorController participantAndMentorController,
                                     NotificationController notificationController) {
-        this.notificationController = notificationController;
         this.questionController = questionController;
         participant = participantAndMentorController.getNowParticipantByAuthentication();
+        Button submit = new Button("Задать");
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setWidth("30%");
         submit.setHeight("50px");

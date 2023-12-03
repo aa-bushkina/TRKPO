@@ -20,15 +20,15 @@ public class Intensity implements Serializable {
     public Intensity() {
     }
 
+    public Intensity(String type) {
+        this.type = type;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getType() {
         return type;
-    }
-
-    public Intensity(String type) {
-        this.type = type;
     }
 }

@@ -32,7 +32,7 @@ public class ParticipantAndMentorController {
 
     public Long getMentorIdOfParticipant(Participant participant) {
         ParticipantMentor participantMentor = participantMentorService.getMentorParticipantByParticipantId(participant.getId());
-        return participantMentor == null ? null: participantMentor.getMentorId();
+        return participantMentor == null ? null : participantMentor.getMentorId();
     }
 
     public Participant getParticipantByLogin(String login) {

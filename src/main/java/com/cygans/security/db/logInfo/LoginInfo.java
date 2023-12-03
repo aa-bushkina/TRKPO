@@ -30,7 +30,6 @@ public class LoginInfo implements Serializable {
     private Long authorities_id;
 
 
-
     public LoginInfo() {
     }
 

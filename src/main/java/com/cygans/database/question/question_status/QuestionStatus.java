@@ -19,6 +19,13 @@ public class QuestionStatus implements Serializable {
     @Column(name = "status")
     private String status;
 
+    public QuestionStatus(String status) {
+        this.status = status;
+    }
+
+    public QuestionStatus() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,11 +33,5 @@ public class QuestionStatus implements Serializable {
     public String getStatus() {
         return status;
     }
-
-    public QuestionStatus(String status) {
-        this.status = status;
-    }
-
-    public QuestionStatus() {}
 
 }

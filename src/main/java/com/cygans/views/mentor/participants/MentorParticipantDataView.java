@@ -37,10 +37,10 @@ public class MentorParticipantDataView extends VerticalLayout {
     private final Button downloadBut = new Button(download);
     private final Button ViewData = new Button("Показать");
     private final Grid<ParticipantPersonData> Historylist = new Grid<>(ParticipantPersonData.class, false);
-    private ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
     private final LocalDate today = LocalDate.now();
-    private LocalDate checkDate;
     private final LogController logController;
+    private ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
+    private LocalDate checkDate;
 
 
     public MentorParticipantDataView(LogController logController) {
