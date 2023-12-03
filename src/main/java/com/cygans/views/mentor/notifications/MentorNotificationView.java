@@ -1,11 +1,8 @@
 package com.cygans.views.mentor.notifications;
 
-import com.cygans.database.mentor.MentorService;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -24,7 +21,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.format.DateTimeFormatter;
 
@@ -36,27 +32,13 @@ public class MentorNotificationView extends VerticalLayout {
     private ListDataProvider<Notifications> dataProvider;
     private Grid.Column<Notifications> firstNameColumn;
     private Grid.Column<Notifications> lastNameColumn;
-    private final NotificationsService NotificationsService;
-    private final NotificationTypeService notificationTypeService;
     private final ParticipantService participantService;
-    private final Long mentorId;
+    private final NotificationController notificationController;
 
-    public MentorNotificationView(NotificationsService NotificationsService,
-                                  NotificationTypeService notificationTypeService,
-                                  LoginInfoService loginInfoService,
-                                  ParticipantService participantService,
-                                  MentorService mentorService) {
-        this.NotificationsService = NotificationsService;
-        this.notificationTypeService = notificationTypeService;
+    public MentorNotificationView(NotificationController notificationController,
+                                  ParticipantService participantService) {
         this.participantService = participantService;
-        mentorId = mentorService
-                .getMentorByLoginInfoId(loginInfoService
-                        .findByLogin(SecurityContextHolder
-                                .getContext()
-                                .getAuthentication()
-                                .getName())
-                        .getId())
-                .getId();
+        this.notificationController = notificationController;
 
         VerticalLayout vl = new VerticalLayout();
         setSizeFull();
@@ -74,7 +56,7 @@ public class MentorNotificationView extends VerticalLayout {
         grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setHeight("100%");
-        dataProvider = new ListDataProvider<>(NotificationsService.getMentorNotificationlist(mentorId));
+        dataProvider = new ListDataProvider<>(notificationController.getAllNowMentorNotifications());
         grid.setDataProvider(dataProvider);
         grid.setAllRowsVisible(true);
 
@@ -88,7 +70,7 @@ public class MentorNotificationView extends VerticalLayout {
                 .setHeader("Дата")
                 .setWidth("18%")
                 .setFlexGrow(0);
-        grid.addColumn(notification -> notificationTypeService.getNotificationTypeType(notification.getNotificationTypeId()), "RequestType")
+        grid.addColumn(notificationController::getTypeNotification, "RequestType")
                 .setHeader("Тип уведомления")
                 .setWidth("25%")
                 .setFlexGrow(0);

@@ -1,12 +1,7 @@
 package com.cygans.views.participant.questions;
 
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.controllers.QuestionController;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.database.question.Question;
@@ -36,7 +31,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -55,19 +49,17 @@ public class ParticipantQuestionsView extends Div {
     private final Button viewDataBtn = new Button("Показать");
     private final Grid<Question> historyList = new Grid<>(Question.class, false);
     private final Long participantId;
-    private final NotificationStatusService notificationStatusService;
     private final QuestionController questionController;
+    private final NotificationController notificationController;
 
 
     public ParticipantQuestionsView(LoginInfoService loginInfoService,
-                                    NotificationsService NotificationsService,
                                     ParticipantService participantService,
                                     ParticipantMentorService participantMentorService,
-                                    NotificationTypeService notificationTypeService,
-                                    NotificationStatusService notificationStatusService,
-                                    QuestionController questionController) {
+                                    QuestionController questionController,
+                                    NotificationController notificationController) {
+        this.notificationController = notificationController;
         this.questionController = questionController;
-        this.notificationStatusService = notificationStatusService;
         participantId = participantService.getParticipantByLoginInfoId(
                 loginInfoService.findByLogin(SecurityContextHolder
                                 .getContext()
@@ -94,26 +86,7 @@ public class ParticipantQuestionsView extends Div {
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else {
                         Long questionId = questionController.addNewQuestionForNowParticipant(textArea.getValue());
-                        Notifications notification = new Notifications(
-                                participantId,
-                                participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId(),
-                                notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION),
-                                notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-                        );
-                        notification.setQuestionId(questionId);
-
-
-                        String completeMsg =
-                                participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId) + " отправил вопрос.\n" +
-                                        "\n" +
-                                        "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
-                                        "Время: " + notification.getDate().toLocalTime() + "\n";
-
-                        completeMsg = completeMsg + " ," + textArea.getValue();
-
-                        notification.setAllMessage(completeMsg);
-                        NotificationsService.saveNotification(notification);
-
+                        notificationController.addNewQuestionNotification(questionId, textArea.getValue());
                         UI.getCurrent().getPage().reload();
                     }
                 }

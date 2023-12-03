@@ -56,6 +56,10 @@ public class MentorService {
         return repository.getMentorByLoginInfoId(id);
     }
 
+    public Mentor getMentorById(Long id) {
+        return repository.getMentorById(id);
+    }
+
     public void saveMentor(Mentor mentor) {
         repository.save(mentor);
     }

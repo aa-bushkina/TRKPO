@@ -1,16 +1,8 @@
 package com.cygans.views.participant.logbooks;
 
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.eating_log_book.MealType;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.Component;
@@ -28,11 +20,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -46,35 +35,13 @@ public class EatingLogbookView extends Div {
     private final H3 title = new H3("Приём пищи");
     private final Button submitButton = new Button("Добавить");
     private LocalTime time;
-    private final Long participantId;
-    private final ParticipantService participantService;
-    private final ParticipantMentorService participantMentorService;
-    private final NotificationsService notificationsService;
-    private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService notificationStatusService;
     private final LogController logController;
+    private final NotificationController notificationController;
 
-    public EatingLogbookView(LoginInfoService loginInfoService,
-                             ParticipantService participantService,
-                             ParticipantMentorService participantMentorService,
-                             NotificationsService notificationsService,
-                             NotificationTypeService notificationTypeService,
-                             NotificationStatusService notificationStatusService,
-                             LogController logController) {
+    public EatingLogbookView(LogController logController,
+                             NotificationController notificationController) {
         this.logController = logController;
-        this.participantService = participantService;
-        this.participantMentorService = participantMentorService;
-        this.notificationsService = notificationsService;
-        this.notificationTypeService = notificationTypeService;
-        this.notificationStatusService = notificationStatusService;
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        participantId = participantService.getParticipantByLoginInfoId(
-                loginInfoService.findByLogin(
-                        authentication.getName()
-                ).getId()
-        ).getId();
+        this.notificationController = notificationController;
 
         init();
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
@@ -174,32 +141,10 @@ public class EatingLogbookView extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 Long logId = logController.saveEatingLog(time, description.getValue(), meal_type.getValue());
+                notificationController.addNewEatingLogNotification(logId, time, description.getValue(), meal_type.getValue());
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ParticipantConfirmationView.class)
                 );
-                Long participantMentorId = null;
-                if (participantMentorService.checkParticipant(participantId)) {
-                    participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
-                }
-                Notifications notification = new Notifications(
-                        participantId,
-                        participantMentorId,
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-                );
-                notification.setShortMessage("Новая запись о приеме пищи");
-                notification.setAllMessage(
-                        participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                                + " добавил(-а) запись о своем приеме пищи.\n" +
-                                "\n" +
-                                "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
-                                "Время: " + notification.getDate().toLocalTime() + "\n" +
-                                "Время приема пищи: " + time + "\n" +
-                                "Прием пищи: " + meal_type.getValue() + "\n" +
-                                "Содержание: " + description.getValue() + "\n"
-                );
-                notification.setLogBookId(logId);
-                notificationsService.saveNotification(notification);
             }
         })
         ;

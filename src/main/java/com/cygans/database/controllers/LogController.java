@@ -9,6 +9,7 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
+import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookService;
@@ -48,6 +49,8 @@ public class LogController {
     private ParticipantService participantService;
     @Autowired
     private LoginInfoService loginInfoService;
+    @Autowired
+    private NotificationsService notificationsService;
 
     private Long saveGeneralLog(LogBookType type) {
         Long participantId = participantService.getParticipantByLoginInfoId(
@@ -215,4 +218,9 @@ public class LogController {
         allTypes.add(0, "Все");
         return allTypes;
     }
+
+    public String getAnswerForLog(Long logBookId) {
+        return notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage();
+    }
+
 }

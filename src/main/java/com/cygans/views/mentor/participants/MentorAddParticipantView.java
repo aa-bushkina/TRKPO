@@ -1,12 +1,7 @@
 package com.cygans.views.mentor.participants;
 
-import com.cygans.database.mentor.Mentor;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
@@ -31,7 +26,6 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -42,15 +36,14 @@ public class MentorAddParticipantView extends Div {
     private final Button add = new Button("Добавить");
     private Long participantId;
     private final Long mentorId;
+    private final  NotificationController notificationController;
 
     public MentorAddParticipantView(MentorService mentorService,
                                     ParticipantMentorService participantMentorService,
                                     ParticipantService participantService,
                                     LoginInfoService loginInfoService,
-                                    NotificationsService notificationsService,
-                                    NotificationTypeService notificationTypeService,
-                                    NotificationStatusService notificationStatusService) {
-
+                                    NotificationController notificationController) {
+        this.notificationController = notificationController;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         authentication.getAuthorities();
         mentorId = mentorService.getMentorByLoginInfoId(loginInfoService.findByLogin(authentication.getName()).getId()).getId();
@@ -64,13 +57,12 @@ public class MentorAddParticipantView extends Div {
 
         add.addClickListener(e -> {
                     participantId = participantService.searchParticipantId(participantLogin.getValue());
-
                     if (participantId == null) {
                         Notification.show("Участник не найден", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    } else if (notificationsService.getNotificationWithAnswerNotSeenList(participantId)
+                    } else if (notificationController.getNotificationWithAnswerNotSeenParticipant(false, participantId)
                             .stream()
                             .anyMatch(notification -> notification.getMentorId().equals(mentorId)
-                                    && notification.getNotificationTypeId().equals(notificationTypeService.getNotificationTypeId(TypeOfNotification.ADD_REQUEST)))) {
+                                    && notification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.ADD_REQUEST)))) {
                         Notification.show("Вы уже отправили запрос этому участнику", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else if (participantMentorService.exist(participantId)) {
                         if (Objects.equals(participantMentorService.findByParticipantId(participantId).getMentorId(), mentorId)) {
@@ -81,27 +73,7 @@ public class MentorAddParticipantView extends Div {
                     } else {
                         add.setEnabled(true);
                         Notification.show("Запрос отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-
-                        // Create and save a new notification to notify patient
-                        Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId(); // mentor uid
-                        Mentor mentor = mentorService.getMentorByLoginInfoId(loginInfoId);
-                        Notifications n = new Notifications(
-                                participantId,
-                                mentor.getId(),
-                                notificationTypeService.getNotificationTypeId(TypeOfNotification.ADD_REQUEST),
-                                notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
-                        );
-                        n.setShortMessage(mentor.getFirstName() + " " + mentor.getLastName() + " хочет стать твоим ментором");
-                        n.setAllMessage(
-                                "Mentor " + mentor.getFirstName() + " " + mentor.getLastName() + " хочет стать твоим ментором.\n\n" +
-                                        "Напоминание: Принимая запрос, ты соглашаешься с тем, что твой ментор будет видеть все твои действия, " +
-                                        "а также информацию о твоем росте, весе и теле.\n" +
-                                        "\n" +
-                                        "Дата: " + n.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
-                                        "Время: " + n.getDate().toLocalTime() + "\n"
-                        );
-                        notificationsService.saveNotification(n);
-
+                        notificationController.addRequestToParticipantNotificationNowMentor(participantId);
                         UI.getCurrent().getPage().reload();
                     }
                 }

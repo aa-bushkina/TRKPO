@@ -5,7 +5,6 @@ import com.cygans.database.eating_log_book.EatingLogBook;
 import com.cygans.database.eating_log_book.MealType;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.intensity.IntensityType;
 import com.cygans.views.components.Toolbar;
@@ -50,17 +49,14 @@ public class ParticipantLogbookView extends VerticalLayout {
   private final FormLayout formLayout = new FormLayout();
   private final VerticalLayout mainLayout = new VerticalLayout();
   private final HorizontalLayout buttons = new HorizontalLayout();
-  private final NotificationsService notificationsService;
   private final LogController logController;
 
 
-  public ParticipantLogbookView(NotificationsService notificationsService,
-                                LogController logController) {
+  public ParticipantLogbookView(LogController logController) {
     this.logController = logController;
     removeAll();
     init();
 
-    this.notificationsService = notificationsService;
     logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
     selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
     logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
@@ -73,9 +69,9 @@ public class ParticipantLogbookView extends VerticalLayout {
             showSportLogBookView();
         }
 
-
-        if (notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-            addAnswerField(notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage());
+        String replyMsg = logController.getAnswerForLog(logBookId);
+        if (replyMsg != null) {
+            addAnswerField(replyMsg);
             formLayout.add(answerField);
         }
 
@@ -186,7 +182,7 @@ public class ParticipantLogbookView extends VerticalLayout {
                     durationText = durationField.getValue();
                     intensityTypeText = intensity_type.getValue();
 
-          logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
+                    logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -256,7 +252,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     hourFoodTextInit(hourFoodText);
     minuteFoodTextInit(minuteFoodText);
     if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && logController.getAnswerForLog(logBookId) == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);
@@ -336,7 +332,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     durationInit(durationText);
 
     if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && logController.getAnswerForLog(logBookId) == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);
@@ -391,7 +387,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     emotionalDescText = emotionalLogBook.getDescription();
     emotionalDescInit(emotionalDescText);
     if (emotionalLogBook.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && notificationsService.getNotificationByLogBookId(logBookId).getReplyMessage() == null) {
+            && logController.getAnswerForLog(logBookId) == null) {
       buttons.add(back, changeLog, save, cancel);
     } else {
       buttons.add(back, save, cancel);

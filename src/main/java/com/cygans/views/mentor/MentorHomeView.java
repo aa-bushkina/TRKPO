@@ -1,13 +1,8 @@
 package com.cygans.views.mentor;
 
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -36,38 +31,29 @@ import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.format.DateTimeFormatter;
-
 /**
  * Домашняя страница ментора
  */
 @PageTitle("Марафон")
 @Route(value = "mentor/my-participants")
 public class MentorHomeView extends VerticalLayout {
-    private final NotificationTypeService notificationTypeService;
     private Grid<Participant> grid;
     private ListDataProvider<Participant> dataProvider;
     private final Icon add = new Icon(VaadinIcon.PLUS_CIRCLE);
     private final Button addBtn = new Button(add);
     private final ParticipantMentorService participantMentorService;
     private final Mentor mentor;
-    private final NotificationsService notificationsService;
-    private final NotificationStatusService notificationStatusService;
-
+    private final NotificationController notificationController;
 
     public MentorHomeView(LoginInfoService loginInfoService,
                           ParticipantMentorService participantMentorService,
                           MentorService mentorService,
-                          NotificationTypeService notificationTypeService,
-                          NotificationsService notificationsService,
-                          NotificationStatusService notificationStatusService) {
-        this.notificationStatusService = notificationStatusService;
+                          NotificationController notificationController) {
+        this.notificationController = notificationController;
         this.participantMentorService = participantMentorService;
-        this.notificationTypeService = notificationTypeService;
 
         Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
         mentor = mentorService.getMentorByLoginInfoId(loginInfoId);
-        this.notificationsService = notificationsService;
 
         add.setSize("50px");
         addBtn.setWidth("55px");
@@ -171,21 +157,7 @@ public class MentorHomeView extends VerticalLayout {
                 participantMentorService.deleteParticipant(participantId);
                 dataProvider.getItems().removeIf(participant -> participant.getId() == participantId);
                 dataProvider.refreshAll();
-                Notifications notification = new Notifications(
-                        participantId,
-                        mentor.getId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.DELETE_REQUEST),
-                        notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
-                );
-                notification.setShortMessage(mentor.getFirstName() + " " + mentor.getLastName() + " удалил тебя из отслеживания");
-                notification.setAllMessage(
-                        "Ментор " + mentor.getFirstName() + " " + mentor.getLastName() + " удалил тебя из отслеживания.\n\n" +
-                                "Если тебе неизвестны причины такого решения - обратись в поддержку, чтобы они объяснили " +
-                                "причину и помогли с подбором нового ментора.\n\n" +
-                                "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
-                                "Время: " + notification.getDate().toLocalTime() + "\n"
-                );
-                notificationsService.saveNotification(notification);
+                notificationController.addDeleteParticipantNotificationNowMentor(participantId);
             });
         }
     }
