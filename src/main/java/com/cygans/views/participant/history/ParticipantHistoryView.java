@@ -5,24 +5,21 @@ import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.question.Question;
-import com.cygans.database.question.question_status.StatusOfQuestion;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.logbooks.ParticipantLogbookView;
 import com.cygans.views.participant.logbooks.ParticipantPersonData;
-import com.cygans.views.participant.questions.ParticipantQuestionDetailsView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
@@ -33,7 +30,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,16 +40,15 @@ public class ParticipantHistoryView extends VerticalLayout {
     private final Long participantId;
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private final HorizontalLayout searchPanel = new HorizontalLayout();
-    private final DatePicker period = new DatePicker("Период с");
     private final Button downloadBut = new Button(download);
-    private final Button viewDataBtn = new Button("Показать");
-
     private final Grid<ParticipantPersonData> historylist = new Grid<>(ParticipantPersonData.class, false);
-    private final ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
+    private final ArrayList<ParticipantPersonData> historyDataShown = new ArrayList<>();
     private final LocalDate today = LocalDate.now();
-    private LocalDate checkDate;
     private final LogService logService;
     private final LogsTypeService logsTypeService;
+    private final Select<String> logsTypeFilter = new Select<>();
+    private final DatePicker dateFilter = new DatePicker("Дата");
+
 
     public ParticipantHistoryView(LogService logService,
                                   LoginInfoService loginInfoService,
@@ -69,7 +64,6 @@ public class ParticipantHistoryView extends VerticalLayout {
                         ).getId()
                 ).getId();
 
-        configSearch();
         setupShownData();
         configureHV();
         identifyClick();
@@ -96,9 +90,6 @@ public class ParticipantHistoryView extends VerticalLayout {
     }
 
 
-    private void configSearch() {
-    }
-
     private void setupShownData() {
         List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
         for (int day = 0; day < 30; day++) {
@@ -108,8 +99,7 @@ public class ParticipantHistoryView extends VerticalLayout {
                     addData.setDate(today.minusDays(day));
                     addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
                     addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
+                    historyDataShown.add(addData);
                 }
             }
         }
@@ -117,14 +107,37 @@ public class ParticipantHistoryView extends VerticalLayout {
 
     private void configureHV() {
         historylist.setHeightFull();
+
+        logsTypeFilter.setLabel("Тип записи");
+        logsTypeFilter.setWidth("340px");
+        logsTypeFilter.setItems(logsTypeService.getAllLogsTypes());
+        logsTypeFilter.addValueChangeListener(event -> {
+            ListDataProvider<ParticipantPersonData> dataProvider = (ListDataProvider<ParticipantPersonData>) historylist.getDataProvider();
+            dataProvider.addFilter(personData -> {
+                String selectedLogsType = logsTypeFilter.getValue();
+                return selectedLogsType == null || selectedLogsType.equals("Все") || personData.getLogBookType().equals(selectedLogsType);
+            });
+        });
+
+        dateFilter.setLabel("Дата");
+        dateFilter.setWidth("200px");
+        dateFilter.addValueChangeListener(event -> {
+            ListDataProvider<ParticipantPersonData> dataProvider = (ListDataProvider<ParticipantPersonData>) historylist.getDataProvider();
+            dataProvider.addFilter(personData -> {
+                LocalDate selectedDate = dateFilter.getValue();
+                return selectedDate == null || personData.getDate().isEqual(selectedDate);
+            });
+        });
+
         historylist.addColumn(new LocalDateRenderer<>(ParticipantPersonData::getDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .setHeader("Дата")
+                .setHeader(dateFilter)
                 .setWidth("25%");
-        historylist.addColumn(ParticipantPersonData::getLogBookType).setHeader("Тип записи")
+        historylist.addColumn(ParticipantPersonData::getLogBookType)
+                .setHeader(logsTypeFilter)
                 .setWidth("55%");
         historylist.addComponentColumn(this::buildLogViewButton)
                 .setWidth("20%");
-        historylist.setItems(HistoryDataShown);
+        historylist.setItems(historyDataShown);
         historylist.setAllRowsVisible(true);
     }
 
