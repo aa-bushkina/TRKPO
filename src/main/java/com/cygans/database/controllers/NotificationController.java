@@ -161,9 +161,7 @@ public class NotificationController {
         n.setShortMessage(mentor.getFirstName() + " " + mentor.getLastName() + " хочет стать твоим ментором");
         n.setAllMessage(
                 "Ментор " + mentor.getFirstName() + " " + mentor.getLastName() + " хочет стать твоим ментором.\n\n" +
-                        "Напоминание: Принимая запрос, ты соглашаешься с тем, что твой ментор будет видеть все твои действия, " +
-                        "а также информацию о твоем росте, весе и теле.\n" +
-                        "\n" +
+                        "Напоминание: Принимая запрос, ты соглашаешься с тем, что твой ментор будет видеть все твои записи и вопросы\n\n" +
                         "Дата: " + n.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                         "Время: " + n.getDate().toLocalTime() + "\n"
         );
