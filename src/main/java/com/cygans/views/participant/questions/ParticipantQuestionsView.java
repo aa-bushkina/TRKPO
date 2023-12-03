@@ -119,7 +119,7 @@ public class ParticipantQuestionsView extends Div {
                         String completeMsg =
                                 participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId) + " отправил вопрос.\n" +
                                         "\n" +
-                                        "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                                        "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                                         "Время: " + notification.getDate().toLocalTime() + "\n";
 
                         completeMsg = completeMsg + " ," + textArea.getValue();

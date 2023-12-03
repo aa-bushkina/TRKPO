@@ -29,6 +29,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @PageTitle("Question Details")
 @Route(value = "participant/question-details")
@@ -65,7 +66,7 @@ public class ParticipantQuestionDetailsView extends Div {
         add(
                 Back,
                 new HorizontalLayout(
-                        new Paragraph("Дата вопроса: " + selectDate.toString()))
+                        new Paragraph("Дата вопроса: " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))))
         );
 
         Question question = questionService.getQuestionById(questionId);

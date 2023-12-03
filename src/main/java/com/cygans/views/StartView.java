@@ -226,7 +226,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
         participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
           + " добавил(-а) запись о " + notificationText + ".\n" +
           "\n" +
-          "Дата: " + notification.getDate().toLocalDate() + "\n" +
+          "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
           "Время: " + notification.getDate().toLocalTime() + "\n" +
           "Содержание: " + text
       );

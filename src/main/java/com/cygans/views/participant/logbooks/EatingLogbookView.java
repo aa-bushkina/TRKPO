@@ -32,6 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -191,7 +192,7 @@ public class EatingLogbookView extends Div {
                         participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
                                 + " добавил(-а) запись о своем приеме пищи.\n" +
                                 "\n" +
-                                "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                                "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                                 "Время: " + notification.getDate().toLocalTime() + "\n" +
                                 "Время приема пищи: " + time + "\n" +
                                 "Прием пищи: " + meal_type.getValue() + "\n" +

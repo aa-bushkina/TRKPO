@@ -36,6 +36,8 @@ import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * Домашняя страница ментора
  */
@@ -180,7 +182,7 @@ public class MentorHomeView extends VerticalLayout {
                         "Ментор " + mentor.getFirstName() + " " + mentor.getLastName() + " удалил тебя из отслеживания.\n\n" +
                                 "Если тебе неизвестны причины такого решения - обратись в поддержку, чтобы они объяснили " +
                                 "причину и помогли с подбором нового ментора.\n\n" +
-                                "Дата: " + notification.getDate().toLocalDate() + "\n" +
+                                "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                                 "Время: " + notification.getDate().toLocalTime() + "\n"
                 );
                 notificationsService.saveNotification(notification);
