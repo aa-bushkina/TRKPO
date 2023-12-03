@@ -42,22 +42,17 @@ import java.util.Optional;
 @Route(value = "participant/questions")
 public class ParticipantQuestionsView extends Div {
     private final TextArea textArea = new TextArea("Мой вопрос");
-    private final Button submit = new Button("Задать");
-    private final HorizontalLayout searchPanel = new HorizontalLayout();
-    private final DatePicker period = new DatePicker("Период с");
-    private final Button viewDataBtn = new Button("Показать");
     private final Grid<Question> historyList = new Grid<>(Question.class, false);
     private final Participant participant;
     private final QuestionController questionController;
-    private final NotificationController notificationController;
 
 
     public ParticipantQuestionsView(QuestionController questionController,
                                     ParticipantAndMentorController participantAndMentorController,
                                     NotificationController notificationController) {
-        this.notificationController = notificationController;
         this.questionController = questionController;
         participant = participantAndMentorController.getNowParticipantByAuthentication();
+        Button submit = new Button("Задать");
         submit.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         submit.setWidth("30%");
         submit.setHeight("50px");
