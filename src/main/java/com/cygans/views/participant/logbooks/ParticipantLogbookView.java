@@ -31,6 +31,7 @@ import com.vaadin.flow.server.VaadinSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -81,7 +82,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     buttons.setWidth(mainLayout.getWidth());
     mainLayout.add(
             new H2(logBookType),
-            new H3("Запись от " + selectDate),
+            new H3("Запись от " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
             formLayout,
             buttons
     );
