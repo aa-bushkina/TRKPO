@@ -154,19 +154,19 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
         if (mentorService.isNeedToAddHardcodedUser())
         {
-          mentId_0 = createMentor("Ванька","Головин", "vanya", "Vanvanvan", "89137197445");
-          mentId_1 = createMentor("Лёшка","Бойкин", "alexPro", "fox21century", "89137197445");
-          mentId_2 = createMentor("Илюшка","Работин", "ilya", "reddead", "89137197445");
-          mentId_3 = createMentor("Фиона","Павлова", "phionPAV", "alpachino", "89137197445");
+          mentId_0 = createMentor("Ванька","Головин", "vanya", "Abc12345_", "89137197445");
+          mentId_1 = createMentor("Лёшка","Бойкин", "alexPro", "P@ssw0rd_", "89137197445");
+          mentId_2 = createMentor("Илюшка","Работин", "ilya", "Secure_789", "89137197445");
+          mentId_3 = createMentor("Фиона","Павлова", "phionPAV", "Qwerty12_", "89137197445");
           mentid = createMentor("2","2", "2", "2", "2");
         }
         boolean f = false;
         if (participantService.isNeedToAddHardcodedUser()) {
           f = true;
-          partId_0 = createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
-          partId_1 = createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
-          partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
-          partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
+          partId_0 = createParticipant("Катька", "Волосова", "katya", "L0gin_us3r", "89383170126");
+          partId_1 = createParticipant("Петька", "Совкин", "petka_super", "Alpha_2023", "89358127132");
+          partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "Pa$$word8", "89217132831");
+          partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "RusPass_123", "89991833614");
           partid = createParticipant("1", "1", "1", "1", "1");
         }
       if (participantMentorService.isNeedToConnectUsers(mentId_0, partId_0))
