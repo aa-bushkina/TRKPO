@@ -37,7 +37,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private TextField loginField, phoneField, heightField, weightField, breastField, waistField, hipsField;
     private Select<String> genderSelect;
     private Button changeSetting, save, cancel, changePassword;
-    private SettingsController settingsController;
+    private final SettingsController settingsController;
 
     public ParticipantSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;
@@ -110,7 +110,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         waistInit();
         hipsInit();
         changeSettingInit();
-        saveSetUp(participant.getId());
+        saveSetUp();
         cancelInit();
         changePasswordInit();
     }
@@ -225,7 +225,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         });
     }
 
-    private void saveSetUp(Long uid) {
+    private void saveSetUp() {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
