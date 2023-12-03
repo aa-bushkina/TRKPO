@@ -8,11 +8,14 @@ import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
+import com.cygans.database.log_book.logs_type.LogsType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.notifications.NotificationsService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookService;
+import com.cygans.database.sport_log_book.intensity.Intensity;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.participant.logbooks.ParticipantPersonData;
@@ -113,9 +116,11 @@ public class LogController {
         return logService.findLogBooksByParticipantId(participantId);
     }
 
-    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication) {
+    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication, Participant participant) {
         Long participantId = null;
-        if (byAuthentication) {
+        if (participant != null) {
+            participantId = participant.getId();
+        } else if (byAuthentication) {
             participantId = getIdNowParticipantByAuthentication();
         } else {
             participantId = getIdNowParticipantByAttribute();
@@ -156,12 +161,14 @@ public class LogController {
     public String getLogsLogtype(Log log) {
         return logsTypeService.getLogTypeById(log.getLogTypeId());
     }
-
+    public Long getLogTypeIdByName(LogBookType type) {
+        return logsTypeService.getLogTypeId(type.getText());
+    }
     public String getMealEatingLog(Long mealId) {
         return mealService.getMealType(mealId);
     }
 
-    public String getIntensitySportLog(Long intensityId) {
+    public Intensity getIntensitySportLog(Long intensityId) {
         return intensityService.getIntensityType(intensityId);
     }
 
