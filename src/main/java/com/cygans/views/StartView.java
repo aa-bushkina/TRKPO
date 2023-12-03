@@ -21,9 +21,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
     private final Button signUpBtn;
 
-    public StartView() {
-
-        Filler filler = new Filler();
+    public StartView(Filler filler) {
         filler.createHardcodedUsers();
 
         Image logo = new Image("images/GC_logo.png", "logo");
