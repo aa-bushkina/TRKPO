@@ -55,36 +55,36 @@ public class Participant extends Person implements Comparable<Participant> {
         return height;
     }
 
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public Integer getHips() {
-        return hips;
-    }
-
-    public Integer getWaist() {
-        return waist;
-    }
-
-    public Integer getBreast() {
-        return breast;
-    }
-
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
     }
 
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
+    public Integer getHips() {
+        return hips;
+    }
+
     public void setHips(Integer hips) {
         this.hips = hips;
     }
 
+    public Integer getWaist() {
+        return waist;
+    }
+
     public void setWaist(Integer waist) {
         this.waist = waist;
+    }
+
+    public Integer getBreast() {
+        return breast;
     }
 
     public void setBreast(Integer breast) {

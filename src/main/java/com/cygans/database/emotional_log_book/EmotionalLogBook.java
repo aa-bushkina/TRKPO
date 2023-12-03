@@ -40,11 +40,13 @@ public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLog
     public void setLogBookId(Long logBookId) {
         this.logBookId = logBookId;
     }
-    public void setTimeType(LocalDateTime time) {
-        this.timeType = time;
-    }
+
     public LocalDateTime getTimeType() {
         return timeType;
+    }
+
+    public void setTimeType(LocalDateTime time) {
+        this.timeType = time;
     }
 
     public String getDescription() {

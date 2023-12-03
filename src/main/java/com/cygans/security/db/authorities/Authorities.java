@@ -18,10 +18,16 @@ public class Authorities {
     @Column(name = "username")
     private String username;
 
-    @Column(name ="authority")
+    @Column(name = "authority")
     private String authority;
 
-    public Authorities() {}
+    public Authorities() {
+    }
+
+    public Authorities(String username, String authority) {
+        this.username = username;
+        this.authority = authority;
+    }
 
     public Long getId() {
         return id;
@@ -29,11 +35,6 @@ public class Authorities {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Authorities( String username, String authority) {
-        this.username = username;
-        this.authority = authority;
     }
 
     public String getUsername() {

@@ -31,10 +31,10 @@ public class ParticipantNotificationDetailsView extends Div {
     private final TextArea msg = new TextArea("Сообщение:");
     private final TextArea replyMsg = new TextArea();
     private final Button agreeBut = new Button("Принять");
-    private Button backBut;
     private final Notifications thisNotification;
     private final NotificationController notificationController;
     private final LogController logController;
+    private Button backBut;
 
     public ParticipantNotificationDetailsView(NotificationController notificationController, LogController logController) {
         this.notificationController = notificationController;
@@ -89,7 +89,7 @@ public class ParticipantNotificationDetailsView extends Div {
                 replyMsg.setValue(thisNotification.getReplyMessage());
                 replyMsg.setReadOnly(true);
             }
-        } else if(notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ANSWER_ON_LOG.getValue())) {
+        } else if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ANSWER_ON_LOG.getValue())) {
             agreeBut.setVisible(true);
             agreeBut.setText("Перейти к записи");
             replyMsg.setVisible(false);

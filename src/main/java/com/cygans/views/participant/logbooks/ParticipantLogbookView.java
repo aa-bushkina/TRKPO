@@ -37,29 +37,29 @@ import java.util.ArrayList;
 @PageTitle("Марафон")
 @Route(value = "participant/logbook")
 public class ParticipantLogbookView extends VerticalLayout {
-  private String logBookType, emotionalDescText,
-          foodDescText, mealTypeText, hourFoodText, minuteFoodText,
-          intensityTypeText, sportDescText, durationText, activityText;
-  private Long logBookId;
-  private LocalDate selectDate;
-  private ComboBox<String> meal_type, hourFood, minuteFood, intensity_type;
-  private TextField activityField, durationField;
-  private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
-  private Button changeLog, save, cancel, back;
-  private final FormLayout formLayout = new FormLayout();
-  private final VerticalLayout mainLayout = new VerticalLayout();
-  private final HorizontalLayout buttons = new HorizontalLayout();
-  private final LogController logController;
+    private final FormLayout formLayout = new FormLayout();
+    private final VerticalLayout mainLayout = new VerticalLayout();
+    private final HorizontalLayout buttons = new HorizontalLayout();
+    private final LogController logController;
+    private String logBookType, emotionalDescText,
+            foodDescText, mealTypeText, hourFoodText, minuteFoodText,
+            intensityTypeText, sportDescText, durationText, activityText;
+    private Long logBookId;
+    private LocalDate selectDate;
+    private ComboBox<String> meal_type, hourFood, minuteFood, intensity_type;
+    private TextField activityField, durationField;
+    private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
+    private Button changeLog, save, cancel, back;
 
 
-  public ParticipantLogbookView(LogController logController) {
-    this.logController = logController;
-    removeAll();
-    init();
+    public ParticipantLogbookView(LogController logController) {
+        this.logController = logController;
+        removeAll();
+        init();
 
-    logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
-    selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
-    logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
+        logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
+        selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
+        logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
 
         if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
             showEmotionalLogBookView();
@@ -75,18 +75,18 @@ public class ParticipantLogbookView extends VerticalLayout {
             formLayout.add(answerField);
         }
 
-    buttons.setWidth(mainLayout.getWidth());
-    mainLayout.add(
-            new H2(logBookType),
-            new H3("Запись от " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
-            formLayout,
-            buttons
-    );
-    mainLayout.setMaxWidth("600px");
-    mainLayout.setPadding(false);
-    setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
-    add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
-  }
+        buttons.setWidth(mainLayout.getWidth());
+        mainLayout.add(
+                new H2(logBookType),
+                new H3("Запись от " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
+                formLayout,
+                buttons
+        );
+        mainLayout.setMaxWidth("600px");
+        mainLayout.setPadding(false);
+        setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
+    }
 
     private void init() {
         saveSetUp();
@@ -115,8 +115,8 @@ public class ParticipantLogbookView extends VerticalLayout {
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 } else {
 
-          emotionalDescText = emotionalDesc.getValue();
-          logController.updateEmotionalLog(logBookId, emotionalDescText);
+                    emotionalDescText = emotionalDesc.getValue();
+                    logController.updateEmotionalLog(logBookId, emotionalDescText);
 
                     allSetReadOnly(true);
                     changeLog.setVisible(true);
@@ -241,36 +241,36 @@ public class ParticipantLogbookView extends VerticalLayout {
         back.addClickListener(click -> back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
     }
 
-  private void showEatingLogBookView() {
-    EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
-    mealTypeText = logController.getMealEatingLog(log.getMealId());
-    foodDescText = log.getDescription();
-    hourFoodText = log.getTimeEat().toString().substring(0, 2);
-    minuteFoodText = log.getTimeEat().toString().substring(3, 5);
-    mealFoodTypeInit(mealTypeText);
-    descFoodInit(foodDescText);
-    hourFoodTextInit(hourFoodText);
-    minuteFoodTextInit(minuteFoodText);
-    if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && logController.getAnswerForLog(logBookId) == null) {
-      buttons.add(back, changeLog, save, cancel);
-    } else {
-      buttons.add(back, save, cancel);
+    private void showEatingLogBookView() {
+        EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
+        mealTypeText = logController.getMealEatingLog(log.getMealId());
+        foodDescText = log.getDescription();
+        hourFoodText = log.getTimeEat().toString().substring(0, 2);
+        minuteFoodText = log.getTimeEat().toString().substring(3, 5);
+        mealFoodTypeInit(mealTypeText);
+        descFoodInit(foodDescText);
+        hourFoodTextInit(hourFoodText);
+        minuteFoodTextInit(minuteFoodText);
+        if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+                && logController.getAnswerForLog(logBookId) == null) {
+            buttons.add(back, changeLog, save, cancel);
+        } else {
+            buttons.add(back, save, cancel);
+        }
+        formLayout.add(
+                meal_type,
+                hourFood,
+                minuteFood,
+                foodDesc
+        );
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1)
+        );
+        formLayout.setColspan(meal_type, 1);
+        formLayout.setColspan(hourFood, 1);
+        formLayout.setColspan(minuteFood, 1);
+        formLayout.setColspan(foodDesc, 1);
     }
-    formLayout.add(
-            meal_type,
-            hourFood,
-            minuteFood,
-            foodDesc
-    );
-    formLayout.setResponsiveSteps(
-            new FormLayout.ResponsiveStep("0", 1)
-    );
-    formLayout.setColspan(meal_type, 1);
-    formLayout.setColspan(hourFood, 1);
-    formLayout.setColspan(minuteFood, 1);
-    formLayout.setColspan(foodDesc, 1);
-  }
 
     private void mealFoodTypeInit(String mealType) {
         meal_type = new ComboBox<>("Приём пищи");
@@ -317,23 +317,23 @@ public class ParticipantLogbookView extends VerticalLayout {
         minuteFood.setReadOnly(true);
     }
 
-  private void showSportLogBookView() {
-    SportLogBook log = logController.getSportLogByLogbookId(logBookId);
-    intensityTypeText = logController.getIntensitySportLog(log.getIntensityId()).getType();
-    sportDescText = log.getComments();
-    activityText = log.getActivity();
-    durationText = String.valueOf(log.getDuration());
-    intensityInit(intensityTypeText);
-    activityInit(activityText);
-    descSportInit(sportDescText);
-    durationInit(durationText);
+    private void showSportLogBookView() {
+        SportLogBook log = logController.getSportLogByLogbookId(logBookId);
+        intensityTypeText = logController.getIntensitySportLog(log.getIntensityId()).getType();
+        sportDescText = log.getComments();
+        activityText = log.getActivity();
+        durationText = String.valueOf(log.getDuration());
+        intensityInit(intensityTypeText);
+        activityInit(activityText);
+        descSportInit(sportDescText);
+        durationInit(durationText);
 
-    if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && logController.getAnswerForLog(logBookId) == null) {
-      buttons.add(back, changeLog, save, cancel);
-    } else {
-      buttons.add(back, save, cancel);
-    }
+        if (log.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+                && logController.getAnswerForLog(logBookId) == null) {
+            buttons.add(back, changeLog, save, cancel);
+        } else {
+            buttons.add(back, save, cancel);
+        }
 
         formLayout.add(
                 intensity_type,
@@ -379,24 +379,24 @@ public class ParticipantLogbookView extends VerticalLayout {
         sportDesc.setReadOnly(true);
     }
 
-  public void showEmotionalLogBookView() {
-    EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(logBookId);
-    emotionalDescText = emotionalLogBook.getDescription();
-    emotionalDescInit(emotionalDescText);
-    if (emotionalLogBook.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
-            && logController.getAnswerForLog(logBookId) == null) {
-      buttons.add(back, changeLog, save, cancel);
-    } else {
-      buttons.add(back, save, cancel);
+    public void showEmotionalLogBookView() {
+        EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(logBookId);
+        emotionalDescText = emotionalLogBook.getDescription();
+        emotionalDescInit(emotionalDescText);
+        if (emotionalLogBook.getTimeType().plusDays(1).isAfter(LocalDateTime.now())
+                && logController.getAnswerForLog(logBookId) == null) {
+            buttons.add(back, changeLog, save, cancel);
+        } else {
+            buttons.add(back, save, cancel);
+        }
+        formLayout.add(
+                emotionalDesc
+        );
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1)
+        );
+        formLayout.setColspan(emotionalDesc, 1);
     }
-    formLayout.add(
-            emotionalDesc
-    );
-    formLayout.setResponsiveSteps(
-            new FormLayout.ResponsiveStep("0", 1)
-    );
-    formLayout.setColspan(emotionalDesc, 1);
-  }
 
     private void emotionalDescInit(String stEmotionalDesc) {
         emotionalDesc = new TextArea("Описание");

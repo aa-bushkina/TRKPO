@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface EmotionalLogBookRepository extends CrudRepository<EmotionalLogBook, Long>{
+public interface EmotionalLogBookRepository extends CrudRepository<EmotionalLogBook, Long> {
 
     List<EmotionalLogBook> findAll();
 

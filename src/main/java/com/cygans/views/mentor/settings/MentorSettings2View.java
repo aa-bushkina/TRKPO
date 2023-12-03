@@ -20,10 +20,10 @@ import com.vaadin.flow.router.Route;
 @Route(value = "mentor/change-password")
 
 public class MentorSettings2View extends HorizontalLayout {
+    private final SettingsController settingsController;
     private PasswordField oldPassword, newPassword, confirmPassword;
     private Button confirmButton, cancelButton;
     private VerticalLayout mainLayout;
-    private final SettingsController settingsController;
 
     public MentorSettings2View(SettingsController settingsController) {
         this.settingsController = settingsController;

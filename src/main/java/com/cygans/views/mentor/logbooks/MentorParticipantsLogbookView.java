@@ -24,6 +24,9 @@ import java.time.LocalDate;
 @PageTitle("Марафон")
 @Route(value = "mentor/view-participant-logbook-details")
 public class MentorParticipantsLogbookView extends VerticalLayout {
+    private final VerticalLayout mainLayout = new VerticalLayout();
+    private final FormLayout formLayout = new FormLayout();
+    private final LogController logController;
     private Long logBookId;
     private LocalDate selectDate;
     private String logBookType;
@@ -31,9 +34,6 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private Button back_button;
     private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
     private TextField meal_type, hourFood, minuteFood, intensity_type, activityField, durationField;
-    private final VerticalLayout mainLayout = new VerticalLayout();
-    private final FormLayout formLayout = new FormLayout();
-    private final LogController logController;
 
 
     public MentorParticipantsLogbookView(LogController logController) {

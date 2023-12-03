@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 
-public interface SportLogBookRepository extends CrudRepository<SportLogBook, Long>{
+public interface SportLogBookRepository extends CrudRepository<SportLogBook, Long> {
 
     List<SportLogBook> findAll();
 

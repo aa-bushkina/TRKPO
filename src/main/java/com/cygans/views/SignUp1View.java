@@ -31,12 +31,12 @@ import com.vaadin.flow.server.VaadinSession;
 @PageTitle("Марафон")
 @Route(value = "signUp")
 public class SignUp1View extends Div {
+    private final RegistrationAndLoginController registrationAndLoginController;
     private TextField firstName, lastName, login;
     private PasswordField password, confirmPassword;
     private Button nextBtn;
     private FormLayout formLayout;
     private VerticalLayout mainLayout;
-    private final RegistrationAndLoginController registrationAndLoginController;
 
     public SignUp1View(RegistrationAndLoginController registrationAndLoginController) {
         this.registrationAndLoginController = registrationAndLoginController;

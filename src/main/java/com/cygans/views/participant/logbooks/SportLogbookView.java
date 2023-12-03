@@ -26,14 +26,14 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Марафон")
 @Route(value = "participant/sport-logbook")
 public class SportLogbookView extends Div {
-    private ComboBox<String> intensity;
-    private TextField duration;
-    private TextField activity;
-    private TextArea comments;
     private final Button submitButton = new Button("Добавить");
     private final H3 title = new H3("Спортивная активность");
     private final LogController logController;
     private final NotificationController notificationController;
+    private ComboBox<String> intensity;
+    private TextField duration;
+    private TextField activity;
+    private TextArea comments;
 
 
     public SportLogbookView(LogController logController,

@@ -1,6 +1,11 @@
 import 'construct-style-sheets-polyfill';
 import {DomModule} from "@polymer/polymer/lib/elements/dom-module";
 import {stylesFromTemplate} from "@polymer/polymer/lib/utils/style-gather";
+import stylesCss from 'themes/cygans/styles.css';
+import '@vaadin/vaadin-lumo-styles/typography.js';
+import '@vaadin/vaadin-lumo-styles/color.js';
+import '@vaadin/vaadin-lumo-styles/spacing.js';
+import '@vaadin/vaadin-lumo-styles/badge.js';
 
 const createLinkReferences = (css, target) => {
     // Unresolved urls are written as '@import url(text);' to the css
@@ -72,11 +77,6 @@ const getStyleModule = (id) => {
             .join(" ");
     return cssText;
 };
-import stylesCss from 'themes/cygans/styles.css';
-import '@vaadin/vaadin-lumo-styles/typography.js';
-import '@vaadin/vaadin-lumo-styles/color.js';
-import '@vaadin/vaadin-lumo-styles/spacing.js';
-import '@vaadin/vaadin-lumo-styles/badge.js';
 
 window.Vaadin = window.Vaadin || {};
 window.Vaadin.theme = window.Vaadin.theme || {};

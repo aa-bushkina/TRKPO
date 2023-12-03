@@ -11,8 +11,7 @@ public class MentorService {
     @Autowired
     MentorRepository repository;
 
-    public Boolean isNeedToAddHardcodedUser()
-    {
+    public Boolean isNeedToAddHardcodedUser() {
         return repository.findAll().size() == 0;
     }
 

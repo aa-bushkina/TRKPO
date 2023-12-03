@@ -46,11 +46,11 @@ public class NotificationsService {
                 .stream()
                 .filter(notification -> notification.getNotificationStatusId()
                         .equals(notificationStatusRepository.findNotificationStatusByStatus(
-                                StatusOfNotification.ANSWERED_NOT_SEEN.getValue())
+                                        StatusOfNotification.ANSWERED_NOT_SEEN.getValue())
                                 .getId()))
                 .filter(notifications -> !notifications.getNotificationTypeId()
                         .equals(notificationTypeRepository.findNotificationTypeByType(
-                                TypeOfNotification.DECLINE_MENTOR.getValue())
+                                        TypeOfNotification.DECLINE_MENTOR.getValue())
                                 .getId()))
                 .toList();
     }

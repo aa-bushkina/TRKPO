@@ -20,10 +20,10 @@ import com.vaadin.flow.router.Route;
 @Route(value = "participant/change-password")
 
 public class ParticipantSettings2View extends HorizontalLayout {
+    private final SettingsController settingsController;
     private PasswordField oldPassword, newPassword, confirmPassword;
     private Button confirmButton, cancelButton;
     private VerticalLayout mainLayout;
-    private final SettingsController settingsController;
 
     public ParticipantSettings2View(SettingsController settingsController) {
         this.settingsController = settingsController;
@@ -82,15 +82,15 @@ public class ParticipantSettings2View extends HorizontalLayout {
                                 Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
                                 confirmButton.getUI().ifPresent(ui -> ui.navigate(ParticipantSettings1View.class));
                             } else {
-                                Notification notification = Notification.show("Введенные пароли отличаются",3000, Notification.Position.TOP_CENTER);
+                                Notification notification = Notification.show("Введенные пароли отличаются", 3000, Notification.Position.TOP_CENTER);
                                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                             }
                         } else {
-                            Notification notification = Notification.show("Неверный пароль",3000, Notification.Position.TOP_CENTER);
+                            Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
                             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                         }
                     } else {
-                        Notification notification = Notification.show("Неверный пароль",3000, Notification.Position.TOP_CENTER);
+                        Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     }
                 }
