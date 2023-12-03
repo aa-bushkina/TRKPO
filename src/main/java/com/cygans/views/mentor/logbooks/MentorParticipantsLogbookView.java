@@ -23,8 +23,8 @@ import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
 
-@PageTitle("View Patients Logbooks")
-@Route(value = "mentor/view-patient-logbook-details")
+@PageTitle("Запись участника")
+@Route(value = "mentor/view-participant-logbook-details")
 public class MentorParticipantsLogbookView extends VerticalLayout {
     private Long logBookId;
     private LocalDate selectDate;

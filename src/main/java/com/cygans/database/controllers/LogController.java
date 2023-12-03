@@ -147,7 +147,7 @@ public class LogController {
 
     public Long getIdNowParticipantByAttribute() {
         return participantService.getParticipantByLoginInfoId(
-                (Long) VaadinSession.getCurrent().getAttribute("PatientID")
+                (Long) VaadinSession.getCurrent().getAttribute("ParticipantID")
         ).getId();
     }
 

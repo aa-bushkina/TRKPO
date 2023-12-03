@@ -37,7 +37,7 @@ import java.util.Objects;
 @PageTitle("Добавить участника")
 @Route(value = "mentor/add-participant")
 public class MentorAddParticipantView extends Div {
-    private final TextField patientUsername = new TextField("Введите логин участника");
+    private final TextField participantLogin = new TextField("Введите логин участника");
     private final Button add = new Button("Добавить");
     private Long participantId;
     private final Long mentorId;
@@ -59,10 +59,10 @@ public class MentorAddParticipantView extends Div {
         add.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add.setEnabled(true);
 
-        patientUsername.addFocusListener(change -> add.setEnabled(true));
+        participantLogin.addFocusListener(change -> add.setEnabled(true));
 
         add.addClickListener(e -> {
-                    participantId = participantService.searchParticipantId(patientUsername.getValue());
+                    participantId = participantService.searchParticipantId(participantLogin.getValue());
 
                     if (participantId == null) {
                         Notification.show("Участник не найден", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -107,7 +107,7 @@ public class MentorAddParticipantView extends Div {
         );
 
         HorizontalLayout hl = new HorizontalLayout();
-        hl.add(patientUsername, add);
+        hl.add(participantLogin, add);
         hl.setAlignItems(FlexComponent.Alignment.BASELINE);
         VerticalLayout vl = new VerticalLayout();
         vl.add(new H2("Добавить участника"), hl, add);

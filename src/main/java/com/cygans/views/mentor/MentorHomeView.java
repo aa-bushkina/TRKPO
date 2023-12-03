@@ -123,7 +123,7 @@ public class MentorHomeView extends VerticalLayout {
         grid.addSelectionListener(
                 selection -> {
                     VaadinSession.getCurrent()
-                            .setAttribute("PatientID", selection.getFirstSelectedItem().get().getLoginInfoId());
+                            .setAttribute("ParticipantID", selection.getFirstSelectedItem().get().getLoginInfoId());
                     grid.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class));
                 });
 
@@ -166,7 +166,7 @@ public class MentorHomeView extends VerticalLayout {
         public CustomButton(String caption, Long participantId) {
             super(caption);
             addClickListener(e -> {
-                participantMentorService.deletePatient(participantId);
+                participantMentorService.deleteParticipant(participantId);
                 dataProvider.getItems().removeIf(participant -> participant.getId() == participantId);
                 dataProvider.refreshAll();
                 Notifications notification = new Notifications(
