@@ -34,10 +34,10 @@ import java.util.Locale;
 public class MentorParticipantDownloadView extends VerticalLayout {
     private final DatePicker printStartDate = new DatePicker("Дата начала:");
     private final DatePicker printEndDate = new DatePicker("Дата конца:");
-    private LocalDate startDate = LocalDate.now().minusDays(4);
-    private LocalDate endDate = LocalDate.now();
     private final Participant participant;
     private final LogController logController;
+    private LocalDate startDate = LocalDate.now().minusDays(4);
+    private LocalDate endDate = LocalDate.now();
 
 
     public MentorParticipantDownloadView(LogController logController,
@@ -79,7 +79,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
 
     public String getData() {
         StringBuilder str = new StringBuilder(
-                "Name participant: " + participant.getLastName()  + " " + participant.getFirstName()
+                "Name participant: " + participant.getLastName() + " " + participant.getFirstName()
                         + "\nStart date: " + startDate.toString()
                         + "\nEnd date: " + endDate.toString() + "\n\n"
         );

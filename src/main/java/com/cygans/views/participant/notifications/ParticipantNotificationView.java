@@ -16,7 +16,6 @@ import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -25,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 @PageTitle("Марафон")
 @Route(value = "participant/notifications")
 public class ParticipantNotificationView extends VerticalLayout {
-    private Grid<Notifications> grid;
     private final NotificationController notificationController;
+    private Grid<Notifications> grid;
 
     public ParticipantNotificationView(NotificationController notificationController) {
         this.notificationController = notificationController;

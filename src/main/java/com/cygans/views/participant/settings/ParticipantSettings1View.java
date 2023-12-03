@@ -29,6 +29,7 @@ import java.util.Locale;
 @PageTitle("Марафон")
 @Route(value = "participant/settings")
 public class ParticipantSettings1View extends HorizontalLayout {
+    private final SettingsController settingsController;
     private String firstname, lastname, login, phone, gender;
     private LocalDate birth;
     private Integer height, weight, breast, waist, hips;
@@ -37,7 +38,6 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private TextField loginField, phoneField, heightField, weightField, breastField, waistField, hipsField;
     private Select<String> genderSelect;
     private Button changeSetting, save, cancel, changePassword;
-    private final SettingsController settingsController;
 
     public ParticipantSettings1View(SettingsController settingsController) {
         this.settingsController = settingsController;

@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor,Long> {
+public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor, Long> {
 
     List<ParticipantMentor> findAll();
 

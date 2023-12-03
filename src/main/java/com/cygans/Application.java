@@ -1,7 +1,6 @@
 package com.cygans;
 
 import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.server.PWA;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;

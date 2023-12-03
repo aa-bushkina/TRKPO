@@ -13,28 +13,28 @@ public class LogService {
     @Autowired
     LogRepository repository;
 
-    public void saveLog(Log logbook){
+    public void saveLog(Log logbook) {
         repository.save(logbook);
     }
 
-    public List<Log> findLogBooksByParticipantId(Long participantId){
+    public List<Log> findLogBooksByParticipantId(Long participantId) {
         List<Log> log = repository.findByParticipantId(participantId);
-        if(log!=null) Collections.sort(log);
+        if (log != null) Collections.sort(log);
         return log;
     }
 
-    public Log findLogBooksById(Long id){
+    public Log findLogBooksById(Long id) {
         return repository.findById(id).get();
     }
 
-    public List<Log> findLogBooksBetweenDate(LocalDate start, LocalDate end, Long participantId){
+    public List<Log> findLogBooksBetweenDate(LocalDate start, LocalDate end, Long participantId) {
         List<Log> log = repository.findByDateBetweenAndParticipantId(start, end, participantId);
-        if (log!=null) Collections.sort(log);
+        if (log != null) Collections.sort(log);
         return log;
     }
 
-    public List<Log> findByDateAndParticipantId(LocalDate date, Long participantId){
-        return repository.findByDateAndParticipantId(date,participantId);
+    public List<Log> findByDateAndParticipantId(LocalDate date, Long participantId) {
+        return repository.findByDateAndParticipantId(date, participantId);
     }
 
 }

@@ -53,7 +53,7 @@ public class RegistrationAndLoginController {
                     loginInfoService.findByLogin((String) VaadinSession.getCurrent().getAttribute("Login")).getId()
             );
             mentorService.saveMentor(mentor);
-        } else if (role == RoleEnum.PARTICIPANT){
+        } else if (role == RoleEnum.PARTICIPANT) {
             Participant participant = new Participant(
                     (String) VaadinSession.getCurrent().getAttribute("FirstName"),
                     (String) VaadinSession.getCurrent().getAttribute("LastName"),

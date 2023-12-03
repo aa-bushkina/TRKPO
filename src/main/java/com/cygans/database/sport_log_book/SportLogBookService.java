@@ -10,11 +10,12 @@ import java.util.List;
 public class SportLogBookService {
     @Autowired
     SportLogBookRepository repository;
-    public void saveSportLog(SportLogBook sportLogBook){
+
+    public void saveSportLog(SportLogBook sportLogBook) {
         repository.save(sportLogBook);
     }
 
-    public List<SportLogBook> findAll(){
+    public List<SportLogBook> findAll() {
         return new ArrayList<>(repository.findAll());
     }
 
