@@ -97,8 +97,9 @@ public class MentorNotificationDetailsView extends Div {
                 questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
             } else {
                 notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
-                        notificationController.getNotificationTypeId(TypeOfNotification.ANSWER_ON_LOG),
-                        null);
+                        null,
+                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                notificationController.addAnswerToParticipantLogNotification(thisNotification, replyMsg.getValue());
             }
             sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
         });

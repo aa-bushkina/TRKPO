@@ -220,6 +220,10 @@ public class LogController {
         return sportLogBookService.findByLogBookId(logBookId);
     }
 
+    public Log getLogByLogbookId(Long logBookId) {
+        return logService.findLogBooksById(logBookId);
+    }
+
     public List<String> getAllLogsTypes() {
         var allTypes = logsTypeService.getAllLogsTypes();
         allTypes.add(0, "Все");

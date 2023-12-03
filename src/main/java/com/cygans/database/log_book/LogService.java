@@ -23,6 +23,10 @@ public class LogService {
         return log;
     }
 
+    public Log findLogBooksById(Long id){
+        return repository.findById(id).get();
+    }
+
     public List<Log> findLogBooksBetweenDate(LocalDate start, LocalDate end, Long participantId){
         List<Log> log = repository.findByDateBetweenAndParticipantId(start, end, participantId);
         if (log!=null) Collections.sort(log);

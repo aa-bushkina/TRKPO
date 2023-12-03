@@ -63,6 +63,12 @@ public class NotificationsService {
         return notificationsRepository.getNotificationByLogBookId(id);
     }
 
+    public void updateNotificationLogId(Long id, Long newId) {
+        Notifications notification = notificationsRepository.getNotificationById(id);
+        notification.setLogBookId(newId);
+        notificationsRepository.save(notification);
+    }
+
     public void updateNotificationStatus(Long id, Long statusId) {
         Notifications notification = notificationsRepository.getNotificationById(id);
         notification.setNotificationStatusId(statusId);

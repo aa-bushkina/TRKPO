@@ -189,6 +189,27 @@ public class NotificationController {
         notificationsService.saveNotification(n);
     }
 
+    public void addAnswerToParticipantLogNotification(Notifications notifications, String replyMsg) {
+        Participant participant = participantService.getParticipantById(notifications.getParticipantId());
+        Mentor mentor = mentorService.getMentorById(notifications.getMentorId());
+        Notifications n = new Notifications(
+                participant.getId(),
+                mentor.getId(),
+                notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_LOG),
+                notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)
+        );
+        n.setShortMessage(TypeOfNotification.ANSWER_ON_LOG.getValue());
+        n.setAllMessage(
+                "Ментор " + mentor.getFirstName() + " " + mentor.getLastName() + " ответил на вашу запись.\n\n" +
+                        "Дата: " + n.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
+                        "Время: " + n.getDate().toLocalTime() + "\n"
+        );
+        n.setReplyMessage(replyMsg);
+        n.setLogBookId(notifications.getLogBookId());
+        notificationsService.updateNotificationLogId(notifications.getNotificationId(), null);
+        notificationsService.saveNotification(n);
+    }
+
     public List<Notifications> getAllNowMentorNotifications() {
         return notificationsService.getMentorNotificationlist(getIdNowMentorByAuthentication());
     }
