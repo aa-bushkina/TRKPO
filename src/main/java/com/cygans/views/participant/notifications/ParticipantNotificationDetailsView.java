@@ -1,11 +1,14 @@
 package com.cygans.views.participant.notifications;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.log_book.Log;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
+import com.cygans.views.participant.logbooks.ParticipantLogbookView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -18,6 +21,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinSession;
+
+import java.util.Objects;
 
 @PageTitle("Марафон")
 @Route(value = "participant/notification-details")
@@ -28,9 +34,11 @@ public class ParticipantNotificationDetailsView extends Div {
     private Button backBut;
     private final Notifications thisNotification;
     private final NotificationController notificationController;
+    private final LogController logController;
 
-    public ParticipantNotificationDetailsView(NotificationController notificationController) {
+    public ParticipantNotificationDetailsView(NotificationController notificationController, LogController logController) {
         this.notificationController = notificationController;
+        this.logController = logController;
         thisNotification = notificationController.getNotificationByIdFromAttribute();
 
         backInit();
@@ -81,6 +89,10 @@ public class ParticipantNotificationDetailsView extends Div {
                 replyMsg.setValue(thisNotification.getReplyMessage());
                 replyMsg.setReadOnly(true);
             }
+        } else if(notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ANSWER_ON_LOG.getValue())) {
+            agreeBut.setVisible(true);
+            agreeBut.setText("Перейти к записи");
+            replyMsg.setVisible(false);
         } else {
             if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
                 replyMsg.setVisible(false);
@@ -94,19 +106,35 @@ public class ParticipantNotificationDetailsView extends Div {
 
     private void setNavigation() {
         agreeBut.addClickListener(e -> {
-            Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            notificationController.replyParticipantToMentorRequest(thisNotification);
+            if (Objects.equals(thisNotification.getNotificationTypeId(), notificationController.getNotificationTypeId(TypeOfNotification.ADD_REQUEST))) {
+                notificationController.replyParticipantToMentorRequest(thisNotification);
+            }
             notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
                     null,
                     notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER));
-            if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+
+            if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ANSWER_ON_LOG.getValue())) {
                 notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
                         null,
                         notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                Log log = logController.getLogByLogbookId(thisNotification.getLogBookId());
+                VaadinSession.getCurrent().setAttribute("LogbookType", logController.getLogsLogtype(log));
+                VaadinSession.getCurrent().setAttribute("CheckDate", log.getDate());
+                VaadinSession.getCurrent().setAttribute("LogbookId", log.getId());
+                agreeBut.getUI().ifPresent(ui ->
+                        ui.navigate(ParticipantLogbookView.class)
+                );
+            } else {
+                Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
+                    notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                            null,
+                            notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                }
+                agreeBut.getUI().ifPresent(ui ->
+                        ui.navigate(ParticipantNotificationView.class)
+                );
             }
-            agreeBut.getUI().ifPresent(ui ->
-                    ui.navigate(ParticipantNotificationView.class)
-            );
         });
         backBut.addClickListener(e -> {
             if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
