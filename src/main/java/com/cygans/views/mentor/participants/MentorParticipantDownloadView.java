@@ -84,7 +84,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                         + "\nEnd date: " + endDate.toString() + "\n\n"
         );
 
-        List<Log> logs = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false);
+        List<Log> logs = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false, null);
 
         for (Log log : logs) {
             if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EMOTIONAL)) {
@@ -150,7 +150,6 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                 intensity = "High";
                 break;
         }
-
         return "Sport log:\n"
                 + "Date: " + log.getDate()
                 + "\nActivity: " + sportLogBook.getActivity()

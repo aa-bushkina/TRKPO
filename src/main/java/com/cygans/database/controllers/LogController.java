@@ -11,6 +11,7 @@ import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.notifications.NotificationsService;
+import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookService;
@@ -115,9 +116,11 @@ public class LogController {
         return logService.findLogBooksByParticipantId(participantId);
     }
 
-    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication) {
+    public List<Log> getAllNowParticipantLogsBetweenDate(LocalDate checkDate, LocalDate today, boolean byAuthentication, Participant participant) {
         Long participantId = null;
-        if (byAuthentication) {
+        if (participant != null) {
+            participantId = participant.getId();
+        } else if (byAuthentication) {
             participantId = getIdNowParticipantByAuthentication();
         } else {
             participantId = getIdNowParticipantByAttribute();

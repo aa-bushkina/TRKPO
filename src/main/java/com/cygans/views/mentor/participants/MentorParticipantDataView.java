@@ -77,7 +77,7 @@ public class MentorParticipantDataView extends VerticalLayout {
         SearchPanel.setAlignItems(Alignment.BASELINE);
         SelectbyHand.addValueChangeListener(e -> checkDate = e.getValue());
         ViewData.addClickListener(view -> {
-            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false);
+            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false, null);
             System.out.println(checkDate + " " + today + HistoryDataShown);
             if (!logBook.isEmpty()) {
                 HistoryDataShown = new ArrayList<>();
