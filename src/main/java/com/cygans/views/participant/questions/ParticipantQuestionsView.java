@@ -160,7 +160,7 @@ public class ParticipantQuestionsView extends Div {
                 .setWidth("23%");
         List<Question> allQuestions = questionService.getAllParticipantQuestion(participantId);
         Collections.reverse(allQuestions);
-       historyList.setDataProvider(new ListDataProvider<>(allQuestions));
+        historyList.setDataProvider(new ListDataProvider<>(allQuestions));
     }
 
     public Span buildStatusBadge(Question question) {
