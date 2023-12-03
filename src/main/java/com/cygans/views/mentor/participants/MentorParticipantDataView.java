@@ -1,13 +1,11 @@
 package com.cygans.views.mentor.participants;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.participant.ParticipantService;
 import com.cygans.views.components.Toolbar;
+import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.logbooks.MentorParticipantsLogbookView;
 import com.cygans.views.participant.logbooks.ParticipantPersonData;
-import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.Grid;
@@ -18,43 +16,35 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("View Patients Data History")
-@Route(value = "mentor/view-patient-history")
+@PageTitle("Марафон")
+@Route(value = "mentor/view-participant-history")
 public class MentorParticipantDataView extends VerticalLayout {
-    private Long participantId;
-    private Toolbar menu = new Toolbar(ToolbarType.MENTOR_PAGES);
-    private H3 space = new H3(" ");
-    private H3 title = new H3("История записей");;
-    private Icon download = new Icon(VaadinIcon.DOWNLOAD);
-    private HorizontalLayout SearchPanel =new HorizontalLayout();
-    private DatePicker SelectbyHand = new DatePicker("Период с");
-    private Button downloadBut = new Button(download);
-    private Button ViewData =new Button("Показать");
-    private Grid<ParticipantPersonData> Historylist =new Grid<>(ParticipantPersonData.class,false);
-    private ArrayList<ParticipantPersonData> HistoryDataShown =new ArrayList<>();
-    private LocalDate today = LocalDate.now();
+    private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
+    private final HorizontalLayout SearchPanel = new HorizontalLayout();
+    private final DatePicker SelectbyHand = new DatePicker("Период с");
+    private final Button downloadBut = new Button(download);
+    private final Button ViewData = new Button("Показать");
+    private final Grid<ParticipantPersonData> Historylist = new Grid<>(ParticipantPersonData.class, false);
+    private final LocalDate today = LocalDate.now();
+    private final LogController logController;
+    private ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
     private LocalDate checkDate;
-    private final LogService logService;
-    private final LogsTypeService logsTypeService;
 
 
-    public MentorParticipantDataView(LogService logService,
-                                     LogsTypeService logsTypeService,
-                                     ParticipantService participantService){
-
-        this.logService = logService;
-        this.logsTypeService = logsTypeService;
-        participantId = participantService.getParticipantByLoginInfoId((Long)VaadinSession.getCurrent().getAttribute("PatientID")).getId();
+    public MentorParticipantDataView(LogController logController) {
+        this.logController = logController;
 
         configSearch();
         setupShownData();
@@ -69,14 +59,15 @@ public class MentorParticipantDataView extends VerticalLayout {
                         ui.navigate(MentorParticipantDownloadView.class)
                 )
         );
-        hl.add(title,downloadBut);
+        hl.add(new H3("История записей"), downloadBut);
         hl.setAlignItems(Alignment.BASELINE);
+        H3 space = new H3(" ");
         add(space,
                 hl,
                 SearchPanel,
                 Historylist);
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        add(menu);
+        add(new Toolbar(ToolbarType.MENTOR_PAGES));
     }
 
     private void configSearch() {
@@ -84,57 +75,42 @@ public class MentorParticipantDataView extends VerticalLayout {
         SelectbyHand.setLocale(new Locale("ru", "RU"));
         SearchPanel.add(SelectbyHand, ViewData);
         SearchPanel.setAlignItems(Alignment.BASELINE);
-        SelectbyHand.addValueChangeListener(e-> checkDate=e.getValue());
-        ViewData.addClickListener(view-> {
-            List<Log> logBook = logService.findLogBooksBetweenDate(checkDate, today, participantId);
-            if(!logBook.isEmpty()) {
-                for (Log log: logBook) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(log.getDate());;
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
-                }
-            }
-            else Notification.show("Не ", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+        SelectbyHand.addValueChangeListener(e -> checkDate = e.getValue());
+        ViewData.addClickListener(view -> {
+            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false, null);
+            System.out.println(checkDate + " " + today + HistoryDataShown);
+            if (!logBook.isEmpty()) {
+                HistoryDataShown = new ArrayList<>();
+                HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logBook));
+                Historylist.setItems(HistoryDataShown);
+            } else
+                Notification.show("Записей с данного периода до сегодняшнего дня нет", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
 
     }
 
-    private void setupShownData(){
-        List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
-        for(int day = 0; day < 30; day++){
-            for(Log log : logbook) {
-                if (log.getDate().isEqual(today.minusDays(day))) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(today.minusDays(day));
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
-                }
-            }
-        }
+    private void setupShownData() {
+        List<Log> logbook = logController.getAllNowParticipantLogs(false);
+        HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logbook));
     }
 
     private void configureHV() {
         Historylist.setHeightFull();
-        Historylist.addColumn(ParticipantPersonData::getDate).setHeader("Дата");
+        Historylist.addColumn(new LocalDateRenderer<>(ParticipantPersonData::getDate, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .setHeader("Дата");
         Historylist.addColumn(ParticipantPersonData::getLogBookType).setHeader("Тип записи");
         Historylist.setItems(HistoryDataShown);
-        Historylist.getColumns().forEach(col->col.setAutoWidth(true));
+        Historylist.getColumns().forEach(col -> col.setAutoWidth(true));
         Historylist.setAllRowsVisible(true);
     }
 
     private void identifyclick() {
-        Historylist.addSelectionListener(selection-> {
+        Historylist.addSelectionListener(selection -> {
             Optional<ParticipantPersonData> optionalPersonData = selection.getFirstSelectedItem();
             VaadinSession.getCurrent().setAttribute("CheckDate", optionalPersonData.get().getDate());
             VaadinSession.getCurrent().setAttribute("LogbookType", optionalPersonData.get().getLogBookType());
             VaadinSession.getCurrent().setAttribute("LogbookId", optionalPersonData.get().getLogBookId());
-            Historylist.getUI().ifPresent(ui->ui.navigate(MentorParticipantsLogbookView.class));
+            Historylist.getUI().ifPresent(ui -> ui.navigate(MentorParticipantsLogbookView.class));
         });
     }
-
 }

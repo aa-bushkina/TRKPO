@@ -1,12 +1,10 @@
 package com.cygans.views.mentor.notifications;
 
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.question.QuestionService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -21,35 +19,28 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Notification Details")
+@PageTitle("Марафон")
 @Route(value = "mentor/notification-details")
 public class MentorNotificationDetailsView extends Div {
     private final TextArea msg = new TextArea("Сообщение");
     private final TextArea replyMsg = new TextArea();
     private final Button sendBut = new Button("Отправить");
     private final Button backBut = new Button("Назад");
-    private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService notificationStatusService;
-    private final NotificationService notificationService;
-    private final QuestionService questionService;
+    private final QuestionController questionController;
+    private final NotificationController notificationController;
     private final Notifications thisNotification;
 
-    public MentorNotificationDetailsView(NotificationService notificationService,
-                                         NotificationTypeService notificationTypeService,
-                                         QuestionService questionService,
-                                         NotificationStatusService notificationStatusService) {
-        this.notificationStatusService = notificationStatusService;
-        this.notificationTypeService = notificationTypeService;
-        this.notificationService = notificationService;
-        this.questionService = questionService;
+    public MentorNotificationDetailsView(QuestionController questionController,
+                                         NotificationController notificationController) {
+        this.questionController = questionController;
+        this.notificationController = notificationController;
 
-        thisNotification = notificationService.getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID"));
+        thisNotification = notificationController.getNotificationByIdFromAttribute();
         setStyles();
         setNavigation();
 
-        HorizontalLayout buttons = new HorizontalLayout(sendBut, backBut);
+        HorizontalLayout buttons = new HorizontalLayout(backBut, sendBut);
 
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -57,9 +48,10 @@ public class MentorNotificationDetailsView extends Div {
 
         add(new Toolbar(ToolbarType.MENTOR_PAGES), new H3(" "), vl);
 
-        if (thisNotification.getNotificationTypeId().equals(notificationTypeService.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR))) {
-            notificationService.updateNotificationStatus(thisNotification.getNotificationId(),
-                    notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+        if (thisNotification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR))) {
+            notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                    null,
+                    notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
         }
     }
 
@@ -76,9 +68,8 @@ public class MentorNotificationDetailsView extends Div {
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
 
-        if (notificationTypeService.getNotificationTypeType(thisNotification.getNotificationTypeId())
-                .equals(TypeOfNotification.DECLINE_MENTOR.getValue())) {
-            if (thisNotification.getNotificationStatusId().equals(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER))) {
+        if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.DECLINE_MENTOR.getValue())) {
+            if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER))) {
                 replyMsg.setVisible(false);
             } else {
                 replyMsg.setLabel("Ответ участника");
@@ -86,7 +77,7 @@ public class MentorNotificationDetailsView extends Div {
                 replyMsg.setReadOnly(true);
             }
         } else {
-            if (thisNotification.getNotificationStatusId().equals(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER))) {
+            if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER))) {
                 replyMsg.setLabel("Ответ");
                 replyMsg.setClearButtonVisible(true);
                 sendBut.setVisible(true);
@@ -101,20 +92,17 @@ public class MentorNotificationDetailsView extends Div {
     private void setNavigation() {
         sendBut.addClickListener(e -> {
             Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            notificationService.reply(thisNotification.getNotificationId(), replyMsg.getValue());
-            notificationService.resolveRequest(thisNotification.getNotificationId());
-            if (thisNotification.getNotificationTypeId().equals(notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION))) {
-                questionService.addAnswer(thisNotification.getQuestionId(), replyMsg.getValue());
-                notificationService.updateNotificationType(thisNotification.getNotificationId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_QUESTION));
+            notificationController.replyMentorToParticipantNotification(thisNotification, replyMsg.getValue());
+            if (thisNotification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.QUESTION))) {
+                questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
             } else {
-                notificationService.updateNotificationType(thisNotification.getNotificationId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_LOG));
+                notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                        null,
+                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                notificationController.addAnswerToParticipantLogNotification(thisNotification, replyMsg.getValue());
             }
             sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
         });
-        backBut.addClickListener(e -> {
-            backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
-        });
+        backBut.addClickListener(e -> backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class)));
     }
 }

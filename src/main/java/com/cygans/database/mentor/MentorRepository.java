@@ -8,6 +8,8 @@ import java.util.List;
 public interface MentorRepository extends CrudRepository<Mentor, Long> {
     List<Mentor> findAll();
 
+    Mentor getMentorById(Long id);
+
     Mentor getMentorByLoginInfoId(Long id);
 
     @Override

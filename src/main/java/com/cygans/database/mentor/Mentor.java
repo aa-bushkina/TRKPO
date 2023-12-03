@@ -28,10 +28,20 @@ public class Mentor extends Person {
         this.loginInfoId = loginInfoId;
     }
 
-    public Mentor() {}
+    public Mentor() {
+    }
 
     @Override
     public String toString() {
-        return String.format("Mentor[id=%d, firstName='%s', lastName='%s']", id, firstname, lastname);
+        return "Mentor{" +
+                "id=" + id +
+                ", firstName=" + firstname +
+                ", lastName=" + lastname +
+                ", lastname=" + lastname +
+                ", phone=" + phone +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
+                ", loginInfoId=" + loginInfoId +
+                "}";
     }
 }

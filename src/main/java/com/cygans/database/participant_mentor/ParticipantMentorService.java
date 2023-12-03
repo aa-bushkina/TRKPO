@@ -15,16 +15,17 @@ public class ParticipantMentorService {
     @Autowired
     ParticipantService participantService;
 
+    public Boolean isNeedToConnectUsers(long mentId, long partId) {
+        List<ParticipantMentor> participantMentorList = participantMentorRepository.findAll();
+        for (ParticipantMentor participantMentor : participantMentorList) {
+            if (participantMentor.getMentorId() == mentId && participantMentor.getParticipantId() == partId)
+                return false;
+        }
+        return true;
+    }
+
     public void create(Long participantId, Long mentorId) {
         participantMentorRepository.save(new ParticipantMentor(participantId, mentorId));
-    }
-
-    public String search(long id) {
-        return participantMentorRepository.findById(id).toString();
-    }
-
-    public List<ParticipantMentor> getMentorParticipantsList(Long mentorId){
-        return participantMentorRepository.getAllByMentorId(mentorId);
     }
 
     public List<Participant> getParticipantsByMentor(Long mentorId) {
@@ -36,33 +37,17 @@ public class ParticipantMentorService {
         return participants;
     }
 
-    public void updateParticipantId(long id, Long participantId) {
-        participantMentorRepository.getMentorParticipantById(id).setParticipantId(participantId);
-    }
-
-    public void updateMentorId(long id, Long mentorId) {
-        participantMentorRepository.getMentorParticipantById(id).setMentorId(mentorId);
-    }
-
-    public boolean exist(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId) != null;
-    }
-
-    public void deletePatient(Long patientuid) {
-        ParticipantMentor delete = participantMentorRepository.getMentorParticipantByParticipantId(patientuid);
-        participantMentorRepository.delete(delete);
-    }
-
-    public boolean checkParticipant(Long participantId) {
+    public boolean existByParticipantId(Long participantId) {
         return participantMentorRepository.findByParticipantId(participantId) != null;
     }
 
-    public ParticipantMentor findByParticipantId(Long participantId) {
-        return participantMentorRepository.findByParticipantId(participantId);
+    public void deleteParticipant(Long id) {
+        ParticipantMentor delete = participantMentorRepository.findByParticipantId(id);
+        participantMentorRepository.delete(delete);
     }
 
     public ParticipantMentor getMentorParticipantByParticipantId(Long participantId) {
-        return participantMentorRepository.getMentorParticipantByParticipantId(participantId);
+        return participantMentorRepository.findByParticipantId(participantId);
     }
 
 }

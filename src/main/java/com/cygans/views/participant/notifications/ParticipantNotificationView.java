@@ -1,13 +1,7 @@
 package com.cygans.views.participant.notifications;
 
-import com.cygans.database.notifications.NotificationService;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.participant.Participant;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -18,33 +12,23 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.format.DateTimeFormatter;
 
 /**
  * Страница оповещений участника
  */
-@PageTitle("Оповещения")
+@PageTitle("Марафон")
 @Route(value = "participant/notifications")
 public class ParticipantNotificationView extends VerticalLayout {
+    private final NotificationController notificationController;
     private Grid<Notifications> grid;
-    private final Participant participant;
-    private final NotificationService notificationService;
-    private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService notificationStatusService;
 
-    public ParticipantNotificationView(NotificationService notificationService,
-                                       LoginInfoService loginInfoService,
-                                       ParticipantService participantService,
-                                       NotificationTypeService notificationTypeService,
-                                       NotificationStatusService notificationStatusService) {
-        this.notificationService = notificationService;
-        this.notificationStatusService = notificationStatusService;
-        this.notificationTypeService = notificationTypeService;
-        Long loginInfoId = loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
-        participant = participantService.getParticipantByLoginInfoId(loginInfoId);
+    public ParticipantNotificationView(NotificationController notificationController) {
+        this.notificationController = notificationController;
         VerticalLayout vl = new VerticalLayout();
         setSizeFull();
         createGrid();
@@ -61,13 +45,13 @@ public class ParticipantNotificationView extends VerticalLayout {
         grid = new Grid<>();
         grid.addThemeVariants(GridVariant.LUMO_NO_BORDER, GridVariant.LUMO_COLUMN_BORDERS);
         grid.setAllRowsVisible(true);
-        grid.setDataProvider(new ListDataProvider<>(notificationService.getNotificationWithAnswerNotSeenList(participant.getId())));
+        grid.setDataProvider(new ListDataProvider<>(notificationController.getNotificationWithAnswerNotSeenParticipant(true, null)));
         grid.setAllRowsVisible(true);
-        grid.addColumn(Notifications::getDateNoTime, "Date")
+        grid.addColumn(new LocalDateRenderer<>(Notifications::getDateNoTime, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
                 .setHeader("Дата")
                 .setWidth("25%")
                 .setFlexGrow(0);
-        grid.addColumn(notification -> notificationTypeService.getNotificationTypeType(notification.getNotificationTypeId()), "RequestType")
+        grid.addColumn(notificationController::getTypeNotification, "RequestType")
                 .setHeader("Событие")
                 .setWidth("30%")
                 .setFlexGrow(0);
@@ -80,9 +64,8 @@ public class ParticipantNotificationView extends VerticalLayout {
         Button button = new Button("Смотреть");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click -> {
-            VaadinSession.getCurrent().setAttribute("NotificationID", notification.getNotificationId());
-            notification.setNotificationStatusId(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
-            button.getUI().ifPresent(ui -> ui.navigate(ParticipantNotificationDetailsView.class)); //change navigation class
+            notificationController.openNotification(notification);
+            button.getUI().ifPresent(ui -> ui.navigate(ParticipantNotificationDetailsView.class));
         });
         return button;
     }

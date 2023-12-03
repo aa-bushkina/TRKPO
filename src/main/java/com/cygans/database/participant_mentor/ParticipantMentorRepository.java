@@ -4,14 +4,13 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor,Long> {
-    ParticipantMentor getMentorParticipantByParticipantId(Long participantId);
+public interface ParticipantMentorRepository extends CrudRepository<ParticipantMentor, Long> {
+
+    List<ParticipantMentor> findAll();
 
     List<ParticipantMentor> getAllByMentorId(Long mentorId);
 
     ParticipantMentor findByParticipantId(Long participantId);
-
-    ParticipantMentor getMentorParticipantById(long id);
 
     @Override
     void delete(ParticipantMentor participantMentor);

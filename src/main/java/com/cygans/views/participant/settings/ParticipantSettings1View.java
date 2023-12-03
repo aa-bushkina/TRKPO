@@ -1,9 +1,9 @@
 package com.cygans.views.participant.settings;
 
 
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.security.db.RoleEnum;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -20,16 +20,16 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Locale;
 
 
-@PageTitle("Settings")
+@PageTitle("Марафон")
 @Route(value = "participant/settings")
 public class ParticipantSettings1View extends HorizontalLayout {
+    private final SettingsController settingsController;
     private String firstname, lastname, login, phone, gender;
     private LocalDate birth;
     private Integer height, weight, breast, waist, hips;
@@ -38,15 +38,10 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private TextField loginField, phoneField, heightField, weightField, breastField, waistField, hipsField;
     private Select<String> genderSelect;
     private Button changeSetting, save, cancel, changePassword;
-    private final ParticipantService participantService;
 
-    public ParticipantSettings1View(LoginInfoService loginInfoService,
-                                    ParticipantService participantService) {
-        this.participantService = participantService;
-        Long loginInfoId = loginInfoService.getRepository()
-                .findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())
-                .getId();
-        init(participantService.getParticipantByLoginInfoId(loginInfoId));
+    public ParticipantSettings1View(SettingsController settingsController) {
+        this.settingsController = settingsController;
+        init();
         FormLayout formLayout = new FormLayout();
         formLayout.add(
                 firstnameField, lastnameField,
@@ -75,7 +70,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         VerticalLayout mainLayout = new VerticalLayout();
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setWidth(mainLayout.getWidth());
-        buttons.add(changePassword, changeSetting, save, cancel);
+        buttons.add(changePassword, changeSetting, cancel, save);
 
         mainLayout.add(
                 new H1("  "),
@@ -84,12 +79,13 @@ public class ParticipantSettings1View extends HorizontalLayout {
                 formLayout
         );
         mainLayout.setMaxWidth("600px");
-        mainLayout.setPadding(false);
+        mainLayout.setPadding(true);
         add(new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
         setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
-    private void init(Participant participant) {
+    private void init() {
+        Participant participant = settingsController.getAuthoritiesParticipant();
         firstname = participant.getFirstName();
         lastname = participant.getLastName();
         login = participant.getLogin();
@@ -114,7 +110,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         waistInit();
         hipsInit();
         changeSettingInit();
-        saveSetUp(participant.getId());
+        saveSetUp();
         cancelInit();
         changePasswordInit();
     }
@@ -140,8 +136,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phoneField.setPattern("\\+7\\d{10}");
     }
 
     private void loginFieldInit() {
@@ -230,11 +225,11 @@ public class ParticipantSettings1View extends HorizontalLayout {
         });
     }
 
-    private void saveSetUp(Long uid) {
+    private void saveSetUp() {
         save = new Button("Сохранить");
         save.setVisible(false);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        save.getElement().getStyle().set("margin-left", "1em");
+        save.getElement().getStyle().set("margin-left", "18em");
 
         save.addClickListener(e -> {
             if (firstnameField.isEmpty()) {
@@ -289,30 +284,18 @@ public class ParticipantSettings1View extends HorizontalLayout {
                 Notification notification = Notification.show("Неверный формат обхвата бедер", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                firstname = firstnameField.getValue();
-                lastname = lastnameField.getValue();
-                login = loginField.getValue();
-                phone = phoneField.getValue();
-                birth = birthSelect.getValue();
-                gender = genderSelect.getValue();
-                height = Integer.valueOf(heightField.getValue());
-                weight = Integer.valueOf(weightField.getValue());
-                breast = Integer.valueOf(breastField.getValue());
-                waist = Integer.valueOf(waistField.getValue());
-                hips = Integer.valueOf(hipsField.getValue());
-
-                participantService.updateParticipantFirstName(uid, firstname);
-                participantService.updateParticipantLastName(uid, lastname);
-                participantService.updateParticipantLogin(uid, login);
-                participantService.updateParticipantPhone(uid, phone);
-                participantService.updateParticipantBirthday(uid, birth);
-                participantService.updateParticipantGender(uid, gender);
-                participantService.updateParticipantHeight(uid, height);
-                participantService.updateParticipantWeight(uid, weight);
-                participantService.updateParticipantBreast(uid, breast);
-                participantService.updateParticipantWaist(uid, waist);
-                participantService.updateParticipantHips(uid, hips);
-
+                settingsController.updateInfoUser(RoleEnum.PARTICIPANT,
+                        firstnameField.getValue(),
+                        lastnameField.getValue(),
+                        loginField.getValue(),
+                        phoneField.getValue(),
+                        birthSelect.getValue(),
+                        genderSelect.getValue(),
+                        Integer.valueOf(heightField.getValue()),
+                        Integer.valueOf(weightField.getValue()),
+                        Integer.valueOf(breastField.getValue()),
+                        Integer.valueOf(waistField.getValue()),
+                        Integer.valueOf(hipsField.getValue()));
                 allSetReadOnly(true);
                 changeSetting.setVisible(true);
                 changePassword.setVisible(true);
@@ -326,7 +309,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void cancelInit() {
         cancel = new Button("Отменить");
         cancel.setVisible(false);
-        cancel.getElement().getStyle().set("margin-left", "auto");
+        cancel.getElement().getStyle().set("margin-right", "auto");
         cancel.addClickListener(e -> {
             firstnameField.setValue(firstname);
             lastnameField.setValue(lastname);

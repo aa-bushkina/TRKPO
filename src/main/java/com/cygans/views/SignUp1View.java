@@ -1,7 +1,7 @@
 package com.cygans.views;
 
+import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.signup.MentorSignUp2View;
@@ -28,21 +28,18 @@ import com.vaadin.flow.server.VaadinSession;
  * Страница регистрации участника 1
  */
 
-@PageTitle("Participant Sign Up")
-@Route(value = "participantSignUp1")
+@PageTitle("Марафон")
+@Route(value = "signUp")
 public class SignUp1View extends Div {
-    TextField firstName;
-    TextField lastName;
-    TextField login;
-    PasswordField password;
-    PasswordField confirmPassword;
-    Button nextBtn;
-    FormLayout formLayout;
-    VerticalLayout mainLayout;
-    private final LoginInfoService loginInfoService;
+    private final RegistrationAndLoginController registrationAndLoginController;
+    private TextField firstName, lastName, login;
+    private PasswordField password, confirmPassword;
+    private Button nextBtn;
+    private FormLayout formLayout;
+    private VerticalLayout mainLayout;
 
-    public SignUp1View(LoginInfoService loginInfoService) {
-        this.loginInfoService = loginInfoService;
+    public SignUp1View(RegistrationAndLoginController registrationAndLoginController) {
+        this.registrationAndLoginController = registrationAndLoginController;
         add(new Toolbar(ToolbarType.LOGIN));
 
         mainLayoutSetUp();
@@ -77,32 +74,23 @@ public class SignUp1View extends Div {
         nextBtn.getElement().getStyle().set("margin-left", "auto");
         nextBtn.addClickListener(e -> {
             if (firstName.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (lastName.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } else if (loginInfoService.findByLogin(login.getValue()) != null) {
-                Notification notification = Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
+                Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат пароля", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверный формат пароля", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (confirmPassword.isEmpty()) {
-                Notification notification = Notification.show("Необходимо повторно ввести пароль", 10000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо повторно ввести пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (!password.getValue().equals(confirmPassword.getValue())) {
-                Notification notification = Notification.show("Пароли не совпадают", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Пароли не совпадают", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 VaadinSession.getCurrent().setAttribute("FirstName", firstName.getValue());
                 VaadinSession.getCurrent().setAttribute("LastName", lastName.getValue());
@@ -152,8 +140,7 @@ public class SignUp1View extends Div {
     private void passwordSetUp() {
         password = new PasswordField("Пароль (не менее 8 символов)");
         password.setPlaceholder("Пароль");
-        // TODO раскоментировать для ограничений на пароль
-        //password.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
+        password.setPattern("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d_]{8,15}");
         password.setErrorMessage("Пароль должен включать букву в нижнем регистре, букву в верхнем регистре, цифру. Длина пароля 8 - 15 символов. Не используйте другие специальные символы кроме _");
         password.setClearButtonVisible(true);
         if (VaadinSession.getCurrent().getAttribute("Password") != null) {
@@ -177,7 +164,7 @@ public class SignUp1View extends Div {
         login.setPlaceholder("Логин");
         login.setClearButtonVisible(true);
         login.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
-        if (loginInfoService.findByLogin(login.getValue()) != null) {
+        if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
             login.setErrorMessage("Аккаунт с таким логином уже существует");
         }
         if (VaadinSession.getCurrent().getAttribute("Login") != null) {

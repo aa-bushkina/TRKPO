@@ -10,7 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Error")
+@PageTitle("Марафон")
 @Route(value = "error/access-denied")
 public class AccessDenialView extends Div {
     private final Button homeBut;
@@ -26,6 +26,5 @@ public class AccessDenialView extends Div {
         vl.add(errorMsg, homeBut);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
         add(vl);
-
     }
 }

@@ -11,13 +11,18 @@ import java.io.Serializable;
 @Entity
 @Table(name = "logs_type")
 public class LogsType implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column(name = "type")
     private String type;
+
+    public LogsType() {
+    }
+
+    public LogsType(String type) {
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -26,11 +31,4 @@ public class LogsType implements Serializable {
     public String getType() {
         return type;
     }
-
-    public LogsType(String type) {
-        this.type = type;
-    }
-
-    public LogsType() {}
-
 }

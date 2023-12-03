@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class Participant extends Person implements Comparable<Participant> {
     @Column(name = "height")
     private Integer height;
-
     @Column(name = "weight")
     private Integer weight;
     @Column(name = "hips")
@@ -34,9 +33,7 @@ public class Participant extends Person implements Comparable<Participant> {
                        Integer hips,
                        Integer waist,
                        Integer breast,
-                       Long loginInfoId
-    ) {
-
+                       Long loginInfoId) {
         this.firstname = firstName;
         this.lastname = lastName;
         this.login = login;
@@ -52,64 +49,42 @@ public class Participant extends Person implements Comparable<Participant> {
     }
 
     public Participant() {
-
-    }
-
-    public String getLogbooktype() {
-        return ""; //logbooktype;
-    }
-
-    public void setLogbooktype(String logbooktype) {
-        //this.logbooktype = logbooktype;
-    }
-
-    @Override
-    public String toString() {
-        return "Participant{" +
-                "id=" + id +
-                ", firstName='" + firstname + ',' +
-                ", lastName='" + lastname + ',' +
-                ", email='" + login + ',' +
-                ", Phone='" + phone + ',' +
-                ", Gender='" + gender + ',' +
-                ", Birthday=" + birthday +
-                '}';
     }
 
     public Integer getHeight() {
         return height;
     }
 
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public Integer getHips() {
-        return hips;
-    }
-
-    public Integer getWaist() {
-        return waist;
-    }
-
-    public Integer getBreast() {
-        return breast;
-    }
-
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
     }
 
     public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
+    public Integer getHips() {
+        return hips;
+    }
+
     public void setHips(Integer hips) {
         this.hips = hips;
     }
 
+    public Integer getWaist() {
+        return waist;
+    }
+
     public void setWaist(Integer waist) {
         this.waist = waist;
+    }
+
+    public Integer getBreast() {
+        return breast;
     }
 
     public void setBreast(Integer breast) {
@@ -119,5 +94,18 @@ public class Participant extends Person implements Comparable<Participant> {
     @Override
     public int compareTo(Participant that) {
         return this.birthday.compareTo(that.birthday);
+    }
+
+    @Override
+    public String toString() {
+        return "Participant{" +
+                "id=" + id +
+                ", firstname='" + firstname +
+                ", lastname='" + lastname +
+                ", login='" + login +
+                ", phone='" + phone +
+                ", gender='" + gender +
+                ", birthday=" + birthday +
+                '}';
     }
 }

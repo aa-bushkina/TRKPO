@@ -9,7 +9,7 @@ import com.cygans.views.participant.ParticipantHomeView;
 import com.cygans.views.participant.history.ParticipantHistoryView;
 import com.cygans.views.participant.notifications.ParticipantNotificationView;
 import com.cygans.views.participant.questions.ParticipantQuestionsView;
-//import com.cygans.views.participant.settings.ParticipantSettings1View;
+import com.cygans.views.participant.settings.ParticipantSettings1View;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -45,7 +45,6 @@ public class Toolbar extends AppLayout {
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
         setStyles();
 
-        // Устанавливаем действия по клику на кнопки
         logoutBtn.addClickListener(e -> securityService.logout());
 
         home.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
@@ -84,12 +83,11 @@ public class Toolbar extends AppLayout {
                             ui.navigate(ParticipantQuestionsView.class)
                     )
             );
-            // TODO UNCOMMENT AFTER RC MERGE
-//            settingsBtn.addClickListener(e ->
-//                    settingsBtn.getUI().ifPresent(ui ->
-//                            ui.navigate(ParticipantSettings1View.class)
-//                    )
-//            );
+            settingsBtn.addClickListener(e ->
+                    settingsBtn.getUI().ifPresent(ui ->
+                            ui.navigate(ParticipantSettings1View.class)
+                    )
+            );
             notificationBtn.addClickListener(e ->
                     notificationBtn.getUI().ifPresent(ui ->
                             ui.navigate(ParticipantNotificationView.class)

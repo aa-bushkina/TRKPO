@@ -1,22 +1,8 @@
 package com.cygans.views.participant.logbooks;
 
-import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.EatingLogBookService;
-import com.cygans.database.eating_log_book.MealType;
-import com.cygans.database.eating_log_book.meal.MealService;
-import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.notifications.NotificationService;
-import com.cygans.database.notifications.Notifications;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
+import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.eating_log_book.meal.MealType;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.Component;
@@ -34,77 +20,37 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 
-@PageTitle("Add eating logbook")
-@Route(value = "participant/eating-logbook-entry-upload")
+@PageTitle("Марафон")
+@Route(value = "participant/eating-logbook")
 public class EatingLogbookView extends Div {
+    private final H3 title = new H3("Приём пищи");
+    private final Button submitButton = new Button("Добавить");
+    private final LogController logController;
+    private final NotificationController notificationController;
     private ComboBox<String> hourPicker;
     private ComboBox<String> minutePicker;
     private TextArea description;
     private ComboBox<String> meal_type;
-    private final H3 title = new H3("Приём пищи");
-    private final Button submitButton = new Button("Добавить");
     private LocalTime time;
-    private final Long participantId;
-    private final EatingLogBookService eatingLogBookService;
-    private final LogService logService;
-    private final MealService mealService;
-    private final LogsTypeService logsTypeService;
-    private final ParticipantService participantService;
-    private final ParticipantMentorService participantMentorService;
-    private final NotificationService notificationService;
-    private final NotificationTypeService notificationTypeService;
-    private final NotificationStatusService notificationStatusService;
 
-    public EatingLogbookView(LoginInfoService loginInfoService,
-                             EatingLogBookService eatingLogBookService,
-                             LogService logService,
-                             MealService mealService,
-                             LogsTypeService logsTypeService,
-                             ParticipantService participantService,
-                             ParticipantMentorService participantMentorService,
-                             NotificationService notificationService,
-                             NotificationTypeService notificationTypeService,
-                             NotificationStatusService notificationStatusService) {
-        this.eatingLogBookService = eatingLogBookService;
-        this.logService = logService;
-        this.mealService = mealService;
-        this.logsTypeService = logsTypeService;
-        this.participantService = participantService;
-        this.participantMentorService = participantMentorService;
-        this.notificationService = notificationService;
-        this.notificationTypeService = notificationTypeService;
-        this.notificationStatusService = notificationStatusService;
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities();
-        participantId = participantService.getParticipantByLoginInfoId(
-                loginInfoService.findByLogin(
-                        authentication.getName()
-                ).getId()
-        ).getId();
+    public EatingLogbookView(LogController logController,
+                             NotificationController notificationController) {
+        this.logController = logController;
+        this.notificationController = notificationController;
 
         init();
-        Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
-        add(menu);
-        //add(menuBar());
+        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
         add(createFields());
     }
 
     private void init() {
-
         this.hourPicker = new ComboBox<>("Часы");
         this.minutePicker = new ComboBox<>("Минуты");
-
 
         setTimePicker();
 
@@ -118,7 +64,6 @@ public class EatingLogbookView extends Div {
     }
 
     private void setTimePicker() {
-
         ArrayList<String> h = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             h.add("0" + i);
@@ -147,7 +92,7 @@ public class EatingLogbookView extends Div {
         descr.setText("d");
 
         Div type = new Div();
-        descr.setText("d");
+        type.setText("d");
     }
 
     private void setClearButtonVisible() {
@@ -159,6 +104,7 @@ public class EatingLogbookView extends Div {
 
         this.description.setWidth("80%");
         this.description.setHeight("200px");
+        this.description.setMaxLength(300);
 
         var formLayout = new FormLayout();
         formLayout.add(
@@ -188,6 +134,9 @@ public class EatingLogbookView extends Div {
             } else if (hourPicker.isEmpty()) {
                 Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (description.getValue().length() > 300) {
+                Notification notification = Notification.show("Описание слишком длинное", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (minutePicker.isEmpty()) {
                 Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -195,41 +144,11 @@ public class EatingLogbookView extends Div {
                 Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                Log log = new Log(participantId, (LocalDate) VaadinSession.getCurrent().getAttribute("date"), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
-                logService.saveLog(log);
-                EatingLogBook eatingLogBook = new EatingLogBook(
-                        log.getId(),
-                        time,
-                        description.getValue(),
-                        mealService.getMealId(meal_type.getValue()),
-                        LocalDateTime.now());
-                eatingLogBookService.saveEatingLog(eatingLogBook);
+                Long logId = logController.saveEatingLog(time, description.getValue(), meal_type.getValue());
+                notificationController.addNewEatingLogNotification(logId, time, description.getValue(), meal_type.getValue());
                 submitButton.getUI().ifPresent(ui ->
                         ui.navigate(ParticipantConfirmationView.class)
                 );
-
-                if (participantMentorService.checkParticipant(participantId)) {
-                    Notifications notification = new Notifications(
-                            participantId,
-                            participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId(),
-                            notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG),
-                            notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
-                    );
-                    notification.setShortMessage("Новая запись о приеме пищи");
-                    notification.setAllMessage(
-                            participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                                    + " добавил(-а) запись о своем приеме пищи.\n" +
-                                    "\n" +
-                                    "Дата: " + notification.getDate().toLocalDate() + "\n" +
-                                    "Время: " + notification.getDate().toLocalTime() + "\n" +
-                                    "Время приема пищи: " + time + "\n" +
-                                    "Прием пищи: " + mealService.getMealId(meal_type.getValue()) + "\n" +
-                                    "Содержание: " + description.getValue() + "\n"
-                    );
-                    notification.setLogBookId(log.getId());
-                    notificationService.saveNotification(notification);
-                }
-
             }
         })
         ;
@@ -246,7 +165,5 @@ public class EatingLogbookView extends Div {
 
         return horizontalLayout;
     }
-
-
 }
 

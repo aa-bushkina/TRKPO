@@ -1,22 +1,17 @@
 package com.cygans.views.mentor.logbooks;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.EatingLogBookService;
-import com.cygans.database.eating_log_book.meal.MealService;
-import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.logs_type.LogBookType;
-import com.cygans.database.notifications.NotificationService;
-import com.cygans.database.sport_db.SportLogBook;
-import com.cygans.database.sport_db.SportLogBookService;
-import com.cygans.database.sport_db.intensity.IntensityService;
+import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
-import com.cygans.views.participant.history.ParticipantHistoryView;
+import com.cygans.views.mentor.participants.MentorParticipantDataView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -26,9 +21,12 @@ import com.vaadin.flow.server.VaadinSession;
 
 import java.time.LocalDate;
 
-@PageTitle("View Patients Logbooks")
-@Route(value = "mentor/view-patient-logbook-details")
+@PageTitle("Марафон")
+@Route(value = "mentor/view-participant-logbook-details")
 public class MentorParticipantsLogbookView extends VerticalLayout {
+    private final VerticalLayout mainLayout = new VerticalLayout();
+    private final FormLayout formLayout = new FormLayout();
+    private final LogController logController;
     private Long logBookId;
     private LocalDate selectDate;
     private String logBookType;
@@ -36,31 +34,13 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private Button back_button;
     private TextArea foodDesc, emotionalDesc, sportDesc, answerField;
     private TextField meal_type, hourFood, minuteFood, intensity_type, activityField, durationField;
-    private final VerticalLayout mainLayout = new VerticalLayout();
-    private final FormLayout formLayout = new FormLayout();
-    private final EmotionalLogBookService emotionalLogBookService;
-    private final SportLogBookService sportLogBookService;
-    private final EatingLogBookService eatingLogBookService;
-    private final MealService mealService;
-    private final IntensityService intensityService;
-    private final NotificationService notificationService;
 
 
-    public MentorParticipantsLogbookView(EmotionalLogBookService emotionalLogBookService,
-                                         SportLogBookService sportLogBookService,
-                                         EatingLogBookService eatingLogBookService,
-                                         MealService mealService,
-                                         IntensityService intensityService,
-                                         NotificationService notificationService) {
+    public MentorParticipantsLogbookView(LogController logController) {
         removeAll();
         backInit();
 
-        this.emotionalLogBookService = emotionalLogBookService;
-        this.notificationService = notificationService;
-        this.sportLogBookService = sportLogBookService;
-        this.eatingLogBookService = eatingLogBookService;
-        this.mealService = mealService;
-        this.intensityService = intensityService;
+        this.logController = logController;
         logBookType = (String) VaadinSession.getCurrent().getAttribute("LogbookType");
         selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
         logBookId = (Long) VaadinSession.getCurrent().getAttribute("LogbookId");
@@ -73,8 +53,9 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
             showSportLogBookView();
         }
 
-        if (notificationService.getNotificationByLogBookId(logBookId).getReplyMessage() != null) {
-            addAnswerField(notificationService.getNotificationByLogBookId(logBookId).getReplyMessage());
+        String replyMsg = logController.getAnswerForLog(logBookId);
+        if (replyMsg != null) {
+            addAnswerField(replyMsg);
             formLayout.add(answerField);
         }
 
@@ -87,15 +68,14 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
 
         mainLayout.setMaxWidth("600px");
         mainLayout.setPadding(false);
+        setHorizontalComponentAlignment(FlexComponent.Alignment.CENTER, new Toolbar(ToolbarType.PARTICIPANT_PAGES), mainLayout);
         add(new Toolbar(ToolbarType.MENTOR_PAGES), mainLayout);
     }
 
     private void backInit() {
         back_button = new Button("Назад");
-        ;
-        back_button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         back_button.getElement().getStyle().set("margin-right", "auto");
-        back_button.addClickListener(click -> back_button.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
+        back_button.addClickListener(click -> back_button.getUI().ifPresent(ui -> ui.navigate(MentorParticipantDataView.class)));
     }
 
     private void addAnswerField(String answer) {
@@ -106,8 +86,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     private void showEatingLogBookView() {
-        EatingLogBook log = eatingLogBookService.findByLogBookId(logBookId);
-        mealFoodTypeInit(mealService.getMealType(log.getMealId()));
+        EatingLogBook log = logController.getEatingLogByLogbookId(logBookId);
+        mealFoodTypeInit(logController.getMealEatingLog(log.getMealId()));
         descFoodInit(log.getDescription());
         hourFoodTextInit(log.getTimeEat().toString().substring(0, 2));
         minuteFoodTextInit(log.getTimeEat().toString().substring(3, 5));
@@ -155,8 +135,8 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     private void showSportLogBookView() {
-        SportLogBook log = sportLogBookService.findByLogBookId(logBookId);
-        intensityInit(intensityService.getIntensityType(log.getIntensityId()));
+        SportLogBook log = logController.getSportLogByLogbookId((logBookId));
+        intensityInit(logController.getIntensitySportLog(log.getIntensityId()).getType());
         activityInit(log.getActivity());
         descSportInit(log.getComments());
         durationInit(String.valueOf(log.getDuration()));
@@ -204,7 +184,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     }
 
     public void showEmotionalLogBookView() {
-        emotionalDescInit(emotionalLogBookService.findByLogBookId(logBookId).getDescription());
+        emotionalDescInit(logController.getEmotionalLogByLogbookId(logBookId).getDescription());
         formLayout.add(
                 emotionalDesc
         );

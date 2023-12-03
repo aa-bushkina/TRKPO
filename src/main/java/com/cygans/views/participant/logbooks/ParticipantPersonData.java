@@ -7,23 +7,28 @@ public class ParticipantPersonData {
     private String logBookType;
     private long logBookId;
 
-    public String getLogBookType(){
+    public String getLogBookType() {
         return logBookType;
     }
-    public void setLogBookType(String LogBokType){
+
+    public void setLogBookType(String LogBokType) {
         this.logBookType = LogBokType;
     }
-    public Long getLogBookId(){
+
+    public Long getLogBookId() {
         return logBookId;
     }
-    public void setLogBookId(Long logBookId){
+
+    public void setLogBookId(Long logBookId) {
         this.logBookId = logBookId;
     }
-    public void setDate(LocalDate date){
-        this.date =date;
-    }
-    public LocalDate getDate(){
+
+    public LocalDate getDate() {
         return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
 }

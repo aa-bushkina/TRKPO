@@ -13,10 +13,6 @@ public class NotificationStatusService {
         return repository.findNotificationStatusByStatus(type.getValue()).getId();
     }
 
-    public String getNotificationStatus(Long id) {
-        return repository.findNotificationStatusById(id).getStatus();
-    }
-
     public void fill() {
         if (repository.count() == 0) {
             repository.save(new NotificationStatus(StatusOfNotification.NO_ANSWER.getValue()));

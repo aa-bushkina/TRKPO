@@ -16,25 +16,19 @@ public class ParticipantMentor implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name="participant_id")
+    @Column(name = "participant_id")
     private Long participantId;
 
-    @Column(name="mentor_id")
+    @Column(name = "mentor_id")
     private Long mentorId;
 
-    @Override
-    public String toString() {
-        return "ParticipantMentor{" +
-                "participantId=" + participantId +
-                ", mentorId=" + mentorId +
-                '}';
+    public ParticipantMentor() {
     }
 
     public ParticipantMentor(Long participantId, Long mentorId) {
         this.participantId = participantId;
         this.mentorId = mentorId;
     }
-    public ParticipantMentor() {}
 
     public Long getParticipantId() {
         return participantId;
@@ -50,5 +44,13 @@ public class ParticipantMentor implements Serializable {
 
     public void setMentorId(Long mentorId) {
         this.mentorId = mentorId;
+    }
+
+    @Override
+    public String toString() {
+        return "ParticipantMentor{" +
+                "participantId=" + participantId +
+                ", mentorId=" + mentorId +
+                '}';
     }
 }

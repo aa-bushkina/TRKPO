@@ -11,22 +11,21 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Sign Up | Choose Account Type")
-@Route(value = "sign-up")
+@PageTitle("Марафон")
+@Route(value = "roles")
 public class SignUpRolesView extends VerticalLayout {
     private final Button participantButton;
     private final Button mentorButton;
 
     public SignUpRolesView() {
-        Toolbar menu = new Toolbar(ToolbarType.LOGIN);
-        add(menu);
+        add(new Toolbar(ToolbarType.LOGIN));
         H2 header = new H2("Выберите тип аккаунта:");
         participantButton = new Button("Участник марафона");
         participantButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         participantButton.setWidth("30%");
         participantButton.setHeight("50px");
         participantButton.addClickListener(e -> {
-                    VaadinSession.getCurrent().setAttribute( "RoleEnum", RoleEnum.PARTICIPANT.getValue());
+                    VaadinSession.getCurrent().setAttribute("RoleEnum", RoleEnum.PARTICIPANT.getValue());
                     participantButton.getUI().ifPresent(ui ->
                             ui.navigate(SignUp1View.class)
                     );
@@ -37,7 +36,7 @@ public class SignUpRolesView extends VerticalLayout {
         mentorButton.setWidth("30%");
         mentorButton.setHeight("50px");
         mentorButton.addClickListener(e -> {
-                    VaadinSession.getCurrent().setAttribute( "RoleEnum", RoleEnum.MENTOR.getValue());
+                    VaadinSession.getCurrent().setAttribute("RoleEnum", RoleEnum.MENTOR.getValue());
                     mentorButton.getUI().ifPresent(ui ->
                             ui.navigate(SignUp1View.class)
                     );

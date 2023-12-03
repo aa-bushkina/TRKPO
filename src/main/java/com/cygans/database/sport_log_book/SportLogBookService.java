@@ -1,4 +1,4 @@
-package com.cygans.database.sport_db;
+package com.cygans.database.sport_log_book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +10,12 @@ import java.util.List;
 public class SportLogBookService {
     @Autowired
     SportLogBookRepository repository;
-    public void saveComprehensiveLog(SportLogBook sportLogBook){
+
+    public void saveSportLog(SportLogBook sportLogBook) {
         repository.save(sportLogBook);
     }
 
-    public List<SportLogBook> findAll(){
+    public List<SportLogBook> findAll() {
         return new ArrayList<>(repository.findAll());
     }
 

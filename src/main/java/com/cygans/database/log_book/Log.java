@@ -10,39 +10,29 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table (name="log_book")
+@Table(name = "log_book")
 public class Log implements Serializable, Comparable<Log> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column (name="date")
+    @Column(name = "date")
     private LocalDate date;
 
-    @Column (name="log_type_id")
+    @Column(name = "log_type_id")
     private long logTypeId;
 
-    @Column (name="participant_id")
+    @Column(name = "participant_id")
     private Long participantId;
 
-
-    public Log(Long participantId, LocalDate date, long logTypeId){
+    public Log(Long participantId,
+               LocalDate date,
+               long logTypeId) {
         this.participantId = participantId;
         this.date = date;
         this.logTypeId = logTypeId;
     }
 
     public Log() {
-
-    };
-
-    @Override
-    public String toString() {
-        return "Log{" +
-                "id=" + id +
-                ", date=" + date +
-                ", logBookType='" + logTypeId + '\'' +
-                ", participantId=" + participantId +
-                '}';
     }
 
     public long getId() {
@@ -65,10 +55,6 @@ public class Log implements Serializable, Comparable<Log> {
         return logTypeId;
     }
 
-    public void setLogTypeId(int logTypeId) {
-        this.logTypeId = logTypeId;
-    }
-
     public Long getParticipantId() {
         return participantId;
     }
@@ -82,4 +68,13 @@ public class Log implements Serializable, Comparable<Log> {
         return this.date.compareTo(that.date);
     }
 
+    @Override
+    public String toString() {
+        return "Log{" +
+                "id=" + id +
+                ", date=" + date +
+                ", logBookType='" + logTypeId + '\'' +
+                ", participantId=" + participantId +
+                '}';
+    }
 }
