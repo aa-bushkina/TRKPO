@@ -74,7 +74,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
 
         mainLayout.add(
                 new H1("  "),
-                new H2("Настройки юзера"),
+                new H2("Настройки"),
                 buttons,
                 formLayout
         );
@@ -170,7 +170,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void heightInit() {
         heightField = new TextField("Рост");
         heightField.setClearButtonVisible(true);
-        heightField.setPattern("(6[7-9]|[78]\\d|9[0-9]|1\\d{2}|250)");
+        heightField.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
         heightField.setErrorMessage("Неверный формат роста");
         heightField.setValue(String.valueOf(height));
         heightField.setReadOnly(true);
