@@ -47,6 +47,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Random;
 
 
 /**
@@ -57,6 +59,7 @@ import java.time.format.DateTimeFormatter;
 public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
     private final Button signUpBtn;
+    private static int hour = 0;
     private Boolean isFirstTime = true;
 
     private AuthoritiesService authoritiesService;
@@ -77,6 +80,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
 
 
     private DateTimeFormatter formatter;
+    private DateTimeFormatter formatter_time;
     private long createParticipant(String name, String surname, String login, String passwd, String phone)
     {
         Authorities authorities = new Authorities(login, RoleEnum.PARTICIPANT.getValue());
@@ -256,7 +260,13 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     {
         Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText()));
         logService.saveLog(log);
-        EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(), LocalDateTime.now(), text);
+      String pref = " ";
+      if (hour % 24 < 10)
+      {
+        pref = " 0";
+      }
+      date += pref + (hour++ % 24) +":00";
+        EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(),  LocalDateTime.parse(date, formatter_time), text);
         emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
         addNotification(participantId, log, 0, text);
     }
@@ -266,11 +276,35 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     {
       Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
       logService.saveLog(log);
+      String pref = " ";
+      if (hour % 24 < 10)
+      {
+        pref = " 0";
+      }
+      date += pref + (hour++ % 24) +":00";
       SportLogBook sportLogBook = new SportLogBook(log.getId(),
-        intensityService.getIntensityId(intes), duration, LocalDateTime.now(), active, comments);
+        intensityService.getIntensityId(intes), duration,  LocalDateTime.parse(date, formatter_time), active, comments);
       sportLogBookService.saveSportLog(sportLogBook);
       addNotification(participantId, log, 2, active);
     }
+
+  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType,String date)
+  {
+    Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
+    logService.saveLog(log);
+    String pref = " ";
+    if (hour % 24 < 10)
+    {
+      pref = " 0";
+    }
+    date += pref + (hour++ % 24) +":00";
+    EatingLogBook eatingLogBook = new EatingLogBook(
+      log.getId(), timeEat, description,
+      mealService.getMealId(mealType), LocalDateTime.parse(date, formatter_time));
+    eatingLogBookService.saveEatingLog(eatingLogBook);
+    addNotification(participantId, log, 1, description);
+
+  }
 
     private void addNotification(long participantId, Log log, int notificationType, String text)
     {
@@ -312,18 +346,6 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
       notificationsService.saveNotification(notification);
     }
 
-  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType,String date)
-  {
-    Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
-    logService.saveLog(log);
-    EatingLogBook eatingLogBook = new EatingLogBook(
-      log.getId(), timeEat, description,
-      mealService.getMealId(mealType), LocalDateTime.now());
-    eatingLogBookService.saveEatingLog(eatingLogBook);
-    addNotification(participantId, log, 1, description);
-
-  }
-
     public StartView(NotificationTypeService notificationTypeService,
                      QuestionStatusService questionStatusService,
                      NotificationStatusService notificationStatusService,
@@ -342,6 +364,7 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
                      NotificationsService notificationsService) {
 
         this.formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.formatter_time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         this.logsTypeService = logsTypeService;
         this.logService = logService;
