@@ -113,8 +113,7 @@ public class MentorSettings1View extends HorizontalLayout {
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phoneField.setPattern("\\+7\\d{10}");
     }
 
     private void loginFieldInit() {
