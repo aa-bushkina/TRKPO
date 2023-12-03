@@ -40,7 +40,7 @@ public class MentorNotificationDetailsView extends Div {
         setStyles();
         setNavigation();
 
-        HorizontalLayout buttons = new HorizontalLayout(sendBut, backBut);
+        HorizontalLayout buttons = new HorizontalLayout(backBut, sendBut);
 
         VerticalLayout vl = new VerticalLayout(msg, replyMsg, buttons);
         vl.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -102,8 +102,6 @@ public class MentorNotificationDetailsView extends Div {
             }
             sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
         });
-        backBut.addClickListener(e -> {
-            backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
-        });
+        backBut.addClickListener(e -> backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class)));
     }
 }
