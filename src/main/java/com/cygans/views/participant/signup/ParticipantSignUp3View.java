@@ -2,7 +2,6 @@ package com.cygans.views.participant.signup;
 
 
 import com.cygans.database.controllers.RegistrationAndLoginController;
-
 import com.cygans.security.db.RoleEnum;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
