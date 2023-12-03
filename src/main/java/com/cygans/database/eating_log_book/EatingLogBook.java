@@ -50,12 +50,12 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
         this.mealId = mealId;
     }
 
-    public void setTimeType(LocalDateTime timeType) {
-        this.timeType = timeType;
-    }
-
     public LocalDateTime getTimeType() {
         return timeType;
+    }
+
+    public void setTimeType(LocalDateTime timeType) {
+        this.timeType = timeType;
     }
 
     public long getId() {

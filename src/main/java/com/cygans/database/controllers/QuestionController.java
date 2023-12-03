@@ -70,7 +70,7 @@ public class QuestionController {
     }
 
     public Question getNowQuestionInSession() {
-        return  questionService.getQuestionById((Long) VaadinSession.getCurrent().getAttribute("QuestionId"));
+        return questionService.getQuestionById((Long) VaadinSession.getCurrent().getAttribute("QuestionId"));
     }
 
 }

@@ -17,7 +17,7 @@ public class Notifications implements Serializable, Comparable<Notifications> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "all_message")
+    @Column(name = "all_message", length = 1500)
     private String allMessage;
     @Column(name = "date")
     private LocalDateTime date;
@@ -65,20 +65,20 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         return mentorId;
     }
 
-    public void setQuestionId(Long id) {
-        this.questionId = id;
-    }
-
     public Long getQuestionId() {
         return questionId;
     }
 
-    public void setLogBookId(Long id) {
-        this.logBookId = id;
+    public void setQuestionId(Long id) {
+        this.questionId = id;
     }
 
     public Long getLogBookId() {
         return logBookId;
+    }
+
+    public void setLogBookId(Long id) {
+        this.logBookId = id;
     }
 
     public Long getNotificationTypeId() {

@@ -39,9 +39,9 @@ public class MentorSignUp2View extends Div {
     private final RadioButtonGroup<String> sex;
     private final TextField phone;
     private final DatePicker datePicker;
+    private final RegistrationAndLoginController registrationAndLoginController;
     private FormLayout formLayout;
     private Button nextBtn, previousBtn;
-    private final RegistrationAndLoginController registrationAndLoginController;
 
     public MentorSignUp2View(RegistrationAndLoginController registrationAndLoginController) {
         this.registrationAndLoginController = registrationAndLoginController;
@@ -102,8 +102,7 @@ public class MentorSignUp2View extends Div {
         phone.setLabel("Номер телефона");
         phone.setClearButtonVisible(true);
         phone.setPlaceholder("+70000000000");
-        // TODO раскоментировать для ограничений на телефон
-        //phone.setPattern("\\+7\\d{10}");
+        phone.setPattern("\\+7\\d{10}");
         phone.setErrorMessage("Формат телефона: +70000000000");
         if (VaadinSession.getCurrent().getAttribute("Phone") != null) {
             phone.setValue((String) VaadinSession.getCurrent().getAttribute("Phone"));

@@ -15,9 +15,8 @@ public class ParticipantMentorService {
     @Autowired
     ParticipantService participantService;
 
-    public Boolean isNeedToConnectUsers(long mentId, long partId)
-    {
-        List<ParticipantMentor> participantMentorList= participantMentorRepository.findAll();
+    public Boolean isNeedToConnectUsers(long mentId, long partId) {
+        List<ParticipantMentor> participantMentorList = participantMentorRepository.findAll();
         for (ParticipantMentor participantMentor : participantMentorList) {
             if (participantMentor.getMentorId() == mentId && participantMentor.getParticipantId() == partId)
                 return false;

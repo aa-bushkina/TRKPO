@@ -46,11 +46,11 @@ public class NotificationsService {
                 .stream()
                 .filter(notification -> notification.getNotificationStatusId()
                         .equals(notificationStatusRepository.findNotificationStatusByStatus(
-                                StatusOfNotification.ANSWERED_NOT_SEEN.getValue())
+                                        StatusOfNotification.ANSWERED_NOT_SEEN.getValue())
                                 .getId()))
                 .filter(notifications -> !notifications.getNotificationTypeId()
                         .equals(notificationTypeRepository.findNotificationTypeByType(
-                                TypeOfNotification.DECLINE_MENTOR.getValue())
+                                        TypeOfNotification.DECLINE_MENTOR.getValue())
                                 .getId()))
                 .toList();
     }
@@ -61,6 +61,12 @@ public class NotificationsService {
 
     public Notifications getNotificationByLogBookId(long id) {
         return notificationsRepository.getNotificationByLogBookId(id);
+    }
+
+    public void updateNotificationLogId(Long id, Long newId) {
+        Notifications notification = notificationsRepository.getNotificationById(id);
+        notification.setLogBookId(newId);
+        notificationsRepository.save(notification);
     }
 
     public void updateNotificationStatus(Long id, Long statusId) {
