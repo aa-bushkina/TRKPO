@@ -272,7 +272,7 @@ public class Filler {
 
   private void addNotification(long participantId, Log log, int notificationType, String text) {
     Long participantMentorId = null;
-    if (participantMentorService.checkParticipant(participantId)) {
+    if (participantMentorService.existByParticipantId(participantId)) {
       participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
     }
     Notifications notification = new Notifications(
