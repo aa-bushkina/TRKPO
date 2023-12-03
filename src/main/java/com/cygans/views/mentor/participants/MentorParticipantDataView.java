@@ -1,9 +1,7 @@
 package com.cygans.views.mentor.participants;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
-import com.cygans.database.log_book.logs_type.LogsTypeService;
-import com.cygans.database.participant.ParticipantService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.mentor.logbooks.MentorParticipantsLogbookView;
@@ -31,7 +29,6 @@ import java.util.Optional;
 @PageTitle("View Patients Data History")
 @Route(value = "mentor/view-patient-history")
 public class MentorParticipantDataView extends VerticalLayout {
-    private final Long participantId;
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private final HorizontalLayout SearchPanel = new HorizontalLayout();
     private final DatePicker SelectbyHand = new DatePicker("Период с");
@@ -41,16 +38,11 @@ public class MentorParticipantDataView extends VerticalLayout {
     private final ArrayList<ParticipantPersonData> HistoryDataShown = new ArrayList<>();
     private final LocalDate today = LocalDate.now();
     private LocalDate checkDate;
-    private final LogService logService;
-    private final LogsTypeService logsTypeService;
+    private final LogController logController;
 
 
-    public MentorParticipantDataView(LogService logService,
-                                     LogsTypeService logsTypeService,
-                                     ParticipantService participantService) {
-        this.logService = logService;
-        this.logsTypeService = logsTypeService;
-        participantId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
+    public MentorParticipantDataView(LogController logController) {
+        this.logController = logController;
 
         configSearch();
         setupShownData();
@@ -83,17 +75,9 @@ public class MentorParticipantDataView extends VerticalLayout {
         SearchPanel.setAlignItems(Alignment.BASELINE);
         SelectbyHand.addValueChangeListener(e -> checkDate = e.getValue());
         ViewData.addClickListener(view -> {
-            List<Log> logBook = logService.findLogBooksBetweenDate(checkDate, today, participantId);
+            List<Log> logBook = logController.getAllNowParticipantLogsBetweenDate(checkDate, today, false);
             if (!logBook.isEmpty()) {
-                for (Log log : logBook) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(log.getDate());
-                    ;
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
-                }
+                HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logBook));
             } else
                 Notification.show("Не ", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
         });
@@ -101,19 +85,8 @@ public class MentorParticipantDataView extends VerticalLayout {
     }
 
     private void setupShownData() {
-        List<Log> logbook = logService.findLogBooksByParticipantId(participantId);
-        for (int day = 0; day < 30; day++) {
-            for (Log log : logbook) {
-                if (log.getDate().isEqual(today.minusDays(day))) {
-                    ParticipantPersonData addData = new ParticipantPersonData();
-                    addData.setDate(today.minusDays(day));
-                    addData.setLogBookType(logsTypeService.getLogTypeById(log.getLogTypeId()));
-                    addData.setLogBookId(log.getId());
-//                    addData.setCompleteLogBook(true);
-                    HistoryDataShown.add(addData);
-                }
-            }
-        }
+        List<Log> logbook = logController.getAllNowParticipantLogs(false);
+        HistoryDataShown.addAll(logController.convertListLogToParticipantPersonData(logbook));
     }
 
     private void configureHV() {

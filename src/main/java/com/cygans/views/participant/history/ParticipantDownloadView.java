@@ -1,9 +1,9 @@
 package com.cygans.views.participant.history;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.security.db.logInfo.LoginInfo;
@@ -40,17 +40,17 @@ public class ParticipantDownloadView extends VerticalLayout {
     private LocalDate EndDate = LocalDate.now();
     private String exportData;
     private final Long patientId;
-    private final LogService logService;
     private final ParticipantService participantService;
+    private final LogController logController;
 
     public ParticipantDownloadView(EmotionalLogBookService emotionalLogBookService,
                                    SportLogBookService sportLogBookService,
                                    EatingLogBookService eatingLogBookService,
                                    ParticipantService participantService,
-                                   LogService logService,
+                                   LogController logController,
                                    ParticipantService patientData,
                                    LoginInfoService loginInfoService) {
-        this.logService = logService;
+        this.logController = logController;
         this.participantService = participantService;
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -100,8 +100,7 @@ public class ParticipantDownloadView extends VerticalLayout {
                         "," + "Time" +
                         "\n");
 
-        List<Log> PatientData;
-        PatientData = logService.findLogBooksBetweenDate(StartDate, EndDate, patientId);
+        List<Log> PatientData = logController.getAllNowParticipantLogsBetweenDate(StartDate, EndDate, true);
 
         for (Log eachdata : PatientData) {
             if (eachdata.getLogTypeId() == 1) {

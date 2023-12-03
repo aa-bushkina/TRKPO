@@ -1,9 +1,9 @@
 package com.cygans.views.mentor.participants;
 
+import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBookService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
 import com.cygans.database.log_book.Log;
-import com.cygans.database.log_book.LogService;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.sport_log_book.SportLogBookService;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -38,19 +38,18 @@ public class MentorParticipantDownloadView extends VerticalLayout {
     private LocalDate endDate = LocalDate.now();
     private String exportData;
     private final Long patientId;
-    private final LogService logData;
     private final ParticipantService participantService;
+    private final LogController logController;
 
 
     public MentorParticipantDownloadView(EmotionalLogBookService emotionalLogBookService,
                                          SportLogBookService sportLogBookService,
                                          EatingLogBookService eatingLogBookService,
                                          ParticipantService participantService,
-                                         LogService logData,
-                                         ParticipantService participantService1,
+                                         LogController logController,
                                          LoginInfoService loginInfoService) {
-        this.logData = logData;
-        this.participantService = participantService1;
+        this.logController = logController;
+        this.participantService = participantService;
 
         patientId = participantService.getParticipantByLoginInfoId((Long) VaadinSession.getCurrent().getAttribute("PatientID")).getId();
 
@@ -97,8 +96,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                         "," + "Time" +
                         "\n");
 
-        List<Log> PatientData;
-        PatientData = logData.findLogBooksBetweenDate(startDate, endDate, patientId);
+        List<Log> PatientData = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false);
 
         for (Log eachdata : PatientData) {
             if (eachdata.getLogTypeId() == 1) {
