@@ -2,7 +2,6 @@ package com.cygans.views.participant.signup;
 
 
 import com.cygans.database.controllers.RegistrationAndLoginController;
-
 import com.cygans.security.db.RoleEnum;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
@@ -27,7 +26,7 @@ import com.vaadin.flow.server.VaadinSession;
 /**
  * Страница регистрации участника 3
  */
-@PageTitle("Participant Sign Up")
+@PageTitle("Марафон")
 @Route(value = "participantSignUp3")
 public class ParticipantSignUp3View extends Div {
     private TextField height;

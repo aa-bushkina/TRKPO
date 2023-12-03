@@ -11,7 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("Upload Successful")
+@PageTitle("Марафон")
 @Route(value = "participant/upload-confirmation")
 
 public class ParticipantConfirmationView extends VerticalLayout {

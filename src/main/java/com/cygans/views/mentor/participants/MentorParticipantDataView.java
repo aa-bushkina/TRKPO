@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("View Patients Data History")
-@Route(value = "mentor/view-patient-history")
+@PageTitle("Марафон")
+@Route(value = "mentor/view-participant-history")
 public class MentorParticipantDataView extends VerticalLayout {
     private final Icon download = new Icon(VaadinIcon.DOWNLOAD);
     private final HorizontalLayout SearchPanel = new HorizontalLayout();

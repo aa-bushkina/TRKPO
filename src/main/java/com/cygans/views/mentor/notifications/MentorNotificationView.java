@@ -29,7 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.format.DateTimeFormatter;
 
 
-@PageTitle("Notifications")
+@PageTitle("Марафон")
 @Route(value = "mentor/notifications")
 public class MentorNotificationView extends VerticalLayout {
     private Grid<Notifications> grid;
@@ -92,12 +92,12 @@ public class MentorNotificationView extends VerticalLayout {
                 .setHeader("Тип уведомления")
                 .setWidth("25%")
                 .setFlexGrow(0);
-        grid.addComponentColumn(this::buildDoctorViewButton).setWidth("15%").setFlexGrow(0);
+        grid.addComponentColumn(this::buildViewButton).setWidth("15%").setFlexGrow(0);
 
         addFiltersToGrid();
     }
 
-    public Button buildDoctorViewButton(Notifications notifications) {
+    public Button buildViewButton(Notifications notifications) {
         Button button = new Button("Смотреть");
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(click -> {

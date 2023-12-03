@@ -23,7 +23,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@PageTitle("Notification Details")
+@PageTitle("Марафон")
 @Route(value = "mentor/notification-details")
 public class MentorNotificationDetailsView extends Div {
     private final TextArea msg = new TextArea("Сообщение");

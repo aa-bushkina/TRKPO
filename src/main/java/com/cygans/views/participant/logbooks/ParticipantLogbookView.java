@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
-@PageTitle("My Logbook")
+@PageTitle("Марафон")
 @Route(value = "participant/logbook")
 public class ParticipantLogbookView extends VerticalLayout {
   private String logBookType, emotionalDescText,

@@ -31,7 +31,7 @@ import com.vaadin.flow.server.VaadinSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-@PageTitle("Question Details")
+@PageTitle("Марафон")
 @Route(value = "participant/question-details")
 public class ParticipantQuestionDetailsView extends Div {
 

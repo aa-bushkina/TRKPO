@@ -36,7 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
-@PageTitle("Add eating logbook")
+@PageTitle("Марафон")
 @Route(value = "participant/eating-logbook")
 public class EatingLogbookView extends Div {
     private ComboBox<String> hourPicker;
