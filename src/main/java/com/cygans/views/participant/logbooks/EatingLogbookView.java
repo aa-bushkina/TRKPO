@@ -104,6 +104,7 @@ public class EatingLogbookView extends Div {
 
         this.description.setWidth("80%");
         this.description.setHeight("200px");
+        this.description.setMaxLength(300);
 
         var formLayout = new FormLayout();
         formLayout.add(
@@ -132,6 +133,9 @@ public class EatingLogbookView extends Div {
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hourPicker.isEmpty()) {
                 Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (description.getValue().length() > 300) {
+                Notification notification = Notification.show("Описание слишком длинное", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (minutePicker.isEmpty()) {
                 Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
