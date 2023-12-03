@@ -1,5 +1,6 @@
 package com.cygans.views.participant.questions;
 
+import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
@@ -9,7 +10,6 @@ import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.database.question.Question;
-import com.cygans.database.question.QuestionService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.cygans.views.participant.history.ParticipantHistoryView;
@@ -36,8 +36,6 @@ import java.time.format.DateTimeFormatter;
 public class ParticipantQuestionDetailsView extends Div {
 
     private LocalDate selectDate;
-    private Long questionId;
-
     private Toolbar menu = new Toolbar(ToolbarType.PARTICIPANT_PAGES);
     private final Button Back = new Button("Назад");
     private final TextArea msg = new TextArea("Сообщение:");
@@ -46,19 +44,18 @@ public class ParticipantQuestionDetailsView extends Div {
     private final Button backBut = new Button("Назад");
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
-    private final QuestionService questionService;
+    private final QuestionController questionController;
 
     public ParticipantQuestionDetailsView(NotificationTypeService notificationTypeService,
                                           NotificationStatusService notificationStatusService,
-                                          QuestionService questionService) {
+                                          QuestionController questionController) {
 
         removeAll();
         add(menu);
         this.notificationTypeService = notificationTypeService;
         this.notificationStatusService = notificationStatusService;
-        this.questionService = questionService;
+        this.questionController = questionController;
         selectDate = (LocalDate) VaadinSession.getCurrent().getAttribute("CheckDate");
-        questionId = (Long) VaadinSession.getCurrent().getAttribute("QuestionId");
 
         add(Back);
         Back.addClickListener(click -> Back.getUI().ifPresent(ui -> ui.navigate(ParticipantHistoryView.class)));
@@ -69,7 +66,7 @@ public class ParticipantQuestionDetailsView extends Div {
                         new Paragraph("Дата вопроса: " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))))
         );
 
-        Question question = questionService.getQuestionById(questionId);
+        Question question = questionController.getNowQuestionInSession();
         Span ques = new Span("Вопрос: " + question.getQuestion());
         Span answ = new Span("Ответ: " + question.getAnswer());
         VerticalLayout layout = new VerticalLayout(ques, answ);
@@ -130,7 +127,7 @@ public class ParticipantQuestionDetailsView extends Div {
         });
         backBut.addClickListener(e ->
                 backBut.getUI().ifPresent(ui ->
-                        ui.navigate(ParticipantNotificationView.class)
+                        ui.navigate(ParticipantQuestionsView.class)
                 ));
     }
 }

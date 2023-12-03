@@ -1,5 +1,6 @@
 package com.cygans.views.participant.questions;
 
+import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
@@ -9,13 +10,10 @@ import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.database.question.Question;
-import com.cygans.database.question.QuestionService;
-import com.cygans.database.question.question_status.QuestionStatusService;
 import com.cygans.database.question.question_status.StatusOfQuestion;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
-import com.cygans.views.participant.logbooks.ParticipantPersonData;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -56,23 +54,20 @@ public class ParticipantQuestionsView extends Div {
     private final DatePicker period = new DatePicker("Период с");
     private final Button viewDataBtn = new Button("Показать");
     private final Grid<Question> historyList = new Grid<>(Question.class, false);
-    private final QuestionService questionService;
-    private final QuestionStatusService questionStatusService;
     private final Long participantId;
     private final NotificationStatusService notificationStatusService;
+    private final QuestionController questionController;
 
 
     public ParticipantQuestionsView(LoginInfoService loginInfoService,
-                                    QuestionService questionService,
                                     NotificationsService NotificationsService,
                                     ParticipantService participantService,
                                     ParticipantMentorService participantMentorService,
                                     NotificationTypeService notificationTypeService,
-                                    QuestionStatusService questionStatusService,
-                                    NotificationStatusService notificationStatusService) {
+                                    NotificationStatusService notificationStatusService,
+                                    QuestionController questionController) {
+        this.questionController = questionController;
         this.notificationStatusService = notificationStatusService;
-        this.questionService = questionService;
-        this.questionStatusService = questionStatusService;
         participantId = participantService.getParticipantByLoginInfoId(
                 loginInfoService.findByLogin(SecurityContextHolder
                                 .getContext()
@@ -98,22 +93,14 @@ public class ParticipantQuestionsView extends Div {
                         Notification notification = Notification.show("Максимальное количетво символов - 300", 3000, Notification.Position.TOP_CENTER);
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                     } else {
-                        Question question = new Question(
-                                participantId,
-                                LocalDate.now(),
-                                textArea.getValue(),
-                                questionStatusService.geQuestionStatusId(StatusOfQuestion.NO_ANSWER)
-                        );
-                        questionService.saveQuestion(question);
-
-
+                        Long questionId = questionController.addNewQuestionForNowParticipant(textArea.getValue());
                         Notifications notification = new Notifications(
                                 participantId,
                                 participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId(),
                                 notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION),
                                 notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)
                         );
-                        notification.setQuestionId(question.getId());
+                        notification.setQuestionId(questionId);
 
 
                         String completeMsg =
@@ -161,13 +148,13 @@ public class ParticipantQuestionsView extends Div {
                 .setWidth("23%");
         historyList.addComponentColumn(this::buildParticipantViewButton)
                 .setWidth("23%");
-        List<Question> allQuestions = questionService.getAllParticipantQuestion(participantId);
+        List<Question> allQuestions = questionController.getAllQuestionNowParticipant();
         Collections.reverse(allQuestions);
         historyList.setDataProvider(new ListDataProvider<>(allQuestions));
     }
 
     public Span buildStatusBadge(Question question) {
-        String status = questionStatusService.getQuestionType(question.getStatusId());
+        String status = questionController.getQuestionStatus(question);
         Span statusBadge = new Span(status);
         if (status.equals(StatusOfQuestion.NO_ANSWER.getText())) {
             statusBadge.getElement().getThemeList().add("badge error");

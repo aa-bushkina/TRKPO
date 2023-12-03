@@ -1,12 +1,12 @@
 package com.cygans.views.mentor.notifications;
 
+import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.question.QuestionService;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.components.ToolbarType;
 import com.vaadin.flow.component.button.Button;
@@ -33,17 +33,17 @@ public class MentorNotificationDetailsView extends Div {
     private final NotificationTypeService notificationTypeService;
     private final NotificationStatusService notificationStatusService;
     private final NotificationsService NotificationsService;
-    private final QuestionService questionService;
+    private final QuestionController questionController;
     private final Notifications thisNotification;
 
     public MentorNotificationDetailsView(NotificationsService NotificationsService,
                                          NotificationTypeService notificationTypeService,
-                                         QuestionService questionService,
+                                         QuestionController questionController,
                                          NotificationStatusService notificationStatusService) {
         this.notificationStatusService = notificationStatusService;
         this.notificationTypeService = notificationTypeService;
         this.NotificationsService = NotificationsService;
-        this.questionService = questionService;
+        this.questionController = questionController;
 
         thisNotification = NotificationsService.getNotificationById((long) VaadinSession.getCurrent().getAttribute("NotificationID"));
         setStyles();
@@ -104,9 +104,7 @@ public class MentorNotificationDetailsView extends Div {
             NotificationsService.reply(thisNotification.getNotificationId(), replyMsg.getValue());
             NotificationsService.resolveRequest(thisNotification.getNotificationId());
             if (thisNotification.getNotificationTypeId().equals(notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION))) {
-                questionService.addAnswer(thisNotification.getQuestionId(), replyMsg.getValue());
-                NotificationsService.updateNotificationType(thisNotification.getNotificationId(),
-                        notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_QUESTION));
+                questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
             } else {
                 NotificationsService.updateNotificationType(thisNotification.getNotificationId(),
                         notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_LOG));
