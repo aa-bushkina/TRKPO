@@ -18,12 +18,15 @@ import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.renderer.LocalDateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.format.DateTimeFormatter;
 
 
 @PageTitle("Notifications")
@@ -81,7 +84,8 @@ public class MentorNotificationView extends VerticalLayout {
                 .setFlexGrow(0);
         lastNameColumn = grid.addColumn(notif -> participantService.getLastname(notif.getParticipantId()), "LastName").setHeader("Фамилия участника")
                 .setWidth("18%").setFlexGrow(0);
-        grid.addColumn(Notifications::getDateNoTime, "Date").setHeader("Дата")
+        grid.addColumn(new LocalDateRenderer<>(Notifications::getDateNoTime, DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .setHeader("Дата")
                 .setWidth("18%")
                 .setFlexGrow(0);
         grid.addColumn(notification -> notificationTypeService.getNotificationTypeType(notification.getNotificationTypeId()), "RequestType")
