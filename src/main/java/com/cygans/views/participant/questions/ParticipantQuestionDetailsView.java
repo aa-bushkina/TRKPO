@@ -48,11 +48,14 @@ public class ParticipantQuestionDetailsView extends Div {
         questionText.setWidth("50%");
         questionText.setMinHeight("80%");
         questionText.setMaxHeight("300px");
+        questionText.setMaxLength(300);
+        questionText.setMinLength(1);
         answerText.setReadOnly(true);
         answerText.setWidth("50%");
         answerText.setMinHeight("80%");
         answerText.setMaxHeight("300px");
         answerText.setVisible(false);
+        answerText.setMaxLength(1000);
 
         questionText.setLabel("Вопрос:");
         questionText.setValue(question.getQuestion());

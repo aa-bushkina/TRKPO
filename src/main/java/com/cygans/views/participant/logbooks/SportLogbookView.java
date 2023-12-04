@@ -64,6 +64,7 @@ public class SportLogbookView extends Div {
         this.comments.setHeight("200px");
         this.activity.setMaxLength(50);
         this.comments.setMaxLength(300);
+        this.duration.setMaxLength(4);
 
         formLayout.setMaxWidth("40%");
         submitButton.setWidth("12%");

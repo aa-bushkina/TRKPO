@@ -43,6 +43,7 @@ public class MentorAddParticipantView extends Div {
         add.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add.setEnabled(true);
 
+        participantLogin.setMaxLength(255);
         participantLogin.addFocusListener(change -> add.setEnabled(true));
 
         add.addClickListener(e -> {

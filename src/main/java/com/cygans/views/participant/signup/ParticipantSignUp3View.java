@@ -80,6 +80,7 @@ public class ParticipantSignUp3View extends Div {
     private void heightSetUp() {
         height = new TextField("Рост");
         height.setClearButtonVisible(true);
+        height.setMaxLength(3);
         height.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
         height.setErrorMessage("Неверное значение роста");
         if (VaadinSession.getCurrent().getAttribute("Height") != null) {
@@ -90,6 +91,7 @@ public class ParticipantSignUp3View extends Div {
     private void weightSetUp() {
         weight = new TextField("Вес");
         weight.setClearButtonVisible(true);
+        weight.setMaxLength(3);
         weight.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
         weight.setErrorMessage("Неверное значение веса");
         if (VaadinSession.getCurrent().getAttribute("Weight") != null) {
@@ -100,6 +102,7 @@ public class ParticipantSignUp3View extends Div {
     private void waistSetUp() {
         waist = new TextField("Обхват талии");
         waist.setClearButtonVisible(true);
+        waist.setMaxLength(3);
         waist.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         waist.setErrorMessage("Неверное значение обхвата талии");
         if (VaadinSession.getCurrent().getAttribute("Waist") != null) {
@@ -110,6 +113,7 @@ public class ParticipantSignUp3View extends Div {
     private void hipsSetUp() {
         hips = new TextField("Обхват бедер");
         hips.setClearButtonVisible(true);
+        hips.setMaxLength(3);
         hips.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         hips.setErrorMessage("Неверное значение обхвата бедер");
         if (VaadinSession.getCurrent().getAttribute("Hip") != null) {
@@ -120,6 +124,7 @@ public class ParticipantSignUp3View extends Div {
     private void breastSetUp() {
         breast = new TextField("Обхват груди");
         breast.setClearButtonVisible(true);
+        breast.setMaxLength(3);
         breast.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         breast.setErrorMessage("Неверное значение обхвата груди");
         if (VaadinSession.getCurrent().getAttribute("Breast") != null) {

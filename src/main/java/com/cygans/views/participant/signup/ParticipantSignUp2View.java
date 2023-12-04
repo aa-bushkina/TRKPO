@@ -93,6 +93,7 @@ public class ParticipantSignUp2View extends Div {
         phone.setLabel("Номер телефона");
         phone.setClearButtonVisible(true);
         phone.setPlaceholder("+70000000000");
+        phone.setMaxLength(12);
         phone.setPattern("\\+7\\d{10}");
         phone.setErrorMessage("Формат телефона: +70000000000");
         if (VaadinSession.getCurrent().getAttribute("Phone") != null) {

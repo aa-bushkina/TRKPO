@@ -79,6 +79,7 @@ public class ParticipantNotificationDetailsView extends Div {
         replyMsg.setWidth("50%");
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
+        replyMsg.setMaxLength(1000);
 
         if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.ADD_REQUEST.getValue())) {
             if (thisNotification.getNotificationStatusId().equals(notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN))) {
