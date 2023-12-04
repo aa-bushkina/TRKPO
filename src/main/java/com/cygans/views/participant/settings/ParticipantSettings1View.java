@@ -176,7 +176,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         heightField.setClearButtonVisible(true);
         heightField.setMaxLength(3);
         heightField.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
-        heightField.setErrorMessage("Неверный формат роста");
+        heightField.setErrorMessage("Неверное значение роста");
         heightField.setValue(String.valueOf(height));
         heightField.setReadOnly(true);
     }
@@ -186,7 +186,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         weightField.setClearButtonVisible(true);
         weightField.setMaxLength(3);
         weightField.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
-        weightField.setErrorMessage("Неверный формат веса");
+        weightField.setErrorMessage("Неверное значение веса");
         weightField.setValue(String.valueOf(weight));
         weightField.setReadOnly(true);
     }
@@ -196,7 +196,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         waistField.setClearButtonVisible(true);
         waistField.setMaxLength(3);
         waistField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        waistField.setErrorMessage("Неверный формат обхвата талии");
+        waistField.setErrorMessage("Неверное значение обхвата талии");
         waistField.setValue(String.valueOf(waist));
         waistField.setReadOnly(true);
     }
@@ -206,7 +206,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         hipsField.setClearButtonVisible(true);
         hipsField.setMaxLength(3);
         hipsField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        hipsField.setErrorMessage("Неверный формат обхвата бедер");
+        hipsField.setErrorMessage("Неверное значение обхвата бедер");
         hipsField.setValue(String.valueOf(hips));
         hipsField.setReadOnly(true);
     }
@@ -216,7 +216,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         breastField.setClearButtonVisible(true);
         breastField.setMaxLength(3);
         breastField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        breastField.setErrorMessage("Неверный формат обхвата груди");
+        breastField.setErrorMessage("Неверное значение обхвата груди");
         breastField.setValue(String.valueOf(breast));
         breastField.setReadOnly(true);
     }
@@ -254,13 +254,13 @@ public class ParticipantSettings1View extends HorizontalLayout {
                 Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (birthSelect.isInvalid()) {
-                Notification.show("Неверный формат даты рождения", 3000, Notification.Position.TOP_CENTER)
+                Notification.show("Неверное значение даты рождения", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isEmpty()) {
                 Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isInvalid()) {
-                Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER)
+                Notification.show("Неверное значение номера телефона", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (heightField.isEmpty()) {
                 Notification.show("Необходимо указать рост", 3000, Notification.Position.TOP_CENTER)

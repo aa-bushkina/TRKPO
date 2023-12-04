@@ -82,7 +82,7 @@ public class ParticipantSignUp3View extends Div {
         height.setClearButtonVisible(true);
         height.setMaxLength(3);
         height.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
-        height.setErrorMessage("Неверный формат роста");
+        height.setErrorMessage("Неверное значение роста");
         if (VaadinSession.getCurrent().getAttribute("Height") != null) {
             height.setValue((String) VaadinSession.getCurrent().getAttribute("Height"));
         }
@@ -93,7 +93,7 @@ public class ParticipantSignUp3View extends Div {
         weight.setClearButtonVisible(true);
         weight.setMaxLength(3);
         weight.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
-        weight.setErrorMessage("Неверный формат веса");
+        weight.setErrorMessage("Неверное значение веса");
         if (VaadinSession.getCurrent().getAttribute("Weight") != null) {
             weight.setValue((String) VaadinSession.getCurrent().getAttribute("Weight"));
         }
@@ -104,7 +104,7 @@ public class ParticipantSignUp3View extends Div {
         waist.setClearButtonVisible(true);
         waist.setMaxLength(3);
         waist.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        waist.setErrorMessage("Неверный формат обхвата талии");
+        waist.setErrorMessage("Неверное значение обхвата талии");
         if (VaadinSession.getCurrent().getAttribute("Waist") != null) {
             waist.setValue((String) VaadinSession.getCurrent().getAttribute("Waist"));
         }
@@ -115,7 +115,7 @@ public class ParticipantSignUp3View extends Div {
         hips.setClearButtonVisible(true);
         hips.setMaxLength(3);
         hips.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        hips.setErrorMessage("Неверный формат обхвата бедер");
+        hips.setErrorMessage("Неверное значение обхвата бедер");
         if (VaadinSession.getCurrent().getAttribute("Hip") != null) {
             hips.setValue((String) VaadinSession.getCurrent().getAttribute("Hip"));
         }
@@ -126,7 +126,7 @@ public class ParticipantSignUp3View extends Div {
         breast.setClearButtonVisible(true);
         breast.setMaxLength(3);
         breast.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        breast.setErrorMessage("Неверный формат обхвата груди");
+        breast.setErrorMessage("Неверное значение обхвата груди");
         if (VaadinSession.getCurrent().getAttribute("Breast") != null) {
             breast.setValue((String) VaadinSession.getCurrent().getAttribute("Breast"));
         }

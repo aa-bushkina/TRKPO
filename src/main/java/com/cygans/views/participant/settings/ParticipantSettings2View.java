@@ -82,7 +82,7 @@ public class ParticipantSettings2View extends HorizontalLayout {
                 Notification.show("Необходимо указать новый пароль", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (newPassword.isInvalid()) {
-                Notification.show("Неверный формат нового пароля", 3000, Notification.Position.TOP_CENTER)
+                Notification.show("Неверное значение нового пароля", 3000, Notification.Position.TOP_CENTER)
                         .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (confirmPassword.isEmpty()) {
                 Notification.show("Необходимо повторно ввести пароль", 3000, Notification.Position.TOP_CENTER)

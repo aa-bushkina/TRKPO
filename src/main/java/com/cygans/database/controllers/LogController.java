@@ -157,6 +157,11 @@ public class LogController {
         ).getId();
     }
 
+    public String getParticipantFullNameByAttribute() {
+        Long participantId = getIdNowParticipantByAttribute();
+        return participantService.getLastname(participantId) + " " + participantService.getFirstname(participantId);
+    }
+
     public String getLogsLogtype(Log log) {
         return logsTypeService.getLogTypeById(log.getLogTypeId());
     }
