@@ -95,6 +95,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void firstNameInit() {
         firstnameField = new TextField("Имя");
         firstnameField.setValue(firstname);
+        firstnameField.setMaxLength(255);
         firstnameField.setClearButtonVisible(true);
         firstnameField.setReadOnly(true);
     }
@@ -102,6 +103,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void lastNameInit() {
         lastnameField = new TextField("Фамилия");
         lastnameField.setValue(lastname);
+        lastnameField.setMaxLength(255);
         lastnameField.setClearButtonVisible(true);
         lastnameField.setReadOnly(true);
     }
@@ -110,6 +112,7 @@ public class MentorSettings1View extends HorizontalLayout {
         phoneField = new TextField();
         phoneField.setLabel("Номер телефона");
         phoneField.setValue(phone);
+        phoneField.setMaxLength(12);
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
@@ -119,6 +122,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void loginFieldInit() {
         loginField = new TextField();
         loginField.setLabel("Логин");
+        loginField.setMaxLength(255);
         loginField.getElement().setAttribute("name", "Login");
         loginField.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         loginField.setValue(login);
@@ -176,13 +180,13 @@ public class MentorSettings1View extends HorizontalLayout {
                 Notification notification = Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (birthSelect.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат даты рождения", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение даты рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение номера телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 settingsController.updateInfoUser(RoleEnum.MENTOR,

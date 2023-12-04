@@ -67,6 +67,9 @@ public class QuestionController {
         questionService.addAnswer(questionId, answer);
         notificationsService.updateNotificationType(notificationId,
                 notificationTypeService.getNotificationTypeId(TypeOfNotification.ANSWER_ON_QUESTION));
+        notificationsService.updateNotificationAllMessage(notificationId,
+                "Ваш вопрос: " + questionService.getQuestionById(questionId).getQuestion()
+        + "\nДата: " + questionService.getQuestionById(questionId).getDate());
     }
 
     public Question getNowQuestionInSession() {

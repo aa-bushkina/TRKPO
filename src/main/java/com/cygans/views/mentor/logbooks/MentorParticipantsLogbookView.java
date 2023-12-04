@@ -109,6 +109,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private void mealFoodTypeInit(String mealType) {
         meal_type = new TextField("Приём пищи");
         meal_type.setValue(mealType);
+        meal_type.setMaxLength(255);
         meal_type.setClearButtonVisible(true);
         meal_type.setReadOnly(true);
     }
@@ -123,6 +124,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private void hourFoodTextInit(String hourFoodText) {
         hourFood = new TextField("Час прием пищи");
         hourFood.setValue(hourFoodText);
+        hourFood.setMaxLength(2);
         hourFood.setClearButtonVisible(true);
         hourFood.setReadOnly(true);
     }
@@ -131,6 +133,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
         minuteFood = new TextField("Минуты прием пищи");
         minuteFood.setValue(minuteFoodText);
         minuteFood.setClearButtonVisible(true);
+        minuteFood.setMaxLength(2);
         minuteFood.setReadOnly(true);
     }
 
@@ -159,12 +162,14 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
         intensity_type = new TextField("Интенсивность");
         intensity_type.setValue(strIntensity);
         intensity_type.setClearButtonVisible(true);
+        intensity_type.setMaxLength(20);
         intensity_type.setReadOnly(true);
     }
 
     private void activityInit(String act) {
         activityField = new TextField("Активность");
         activityField.setValue(act);
+        activityField.setMaxLength(50);
         activityField.setClearButtonVisible(true);
         activityField.setReadOnly(true);
     }
@@ -179,6 +184,7 @@ public class MentorParticipantsLogbookView extends VerticalLayout {
     private void durationInit(String dur) {
         durationField = new TextField("Продолжительность (в минутах)");
         durationField.setValue(dur);
+        durationField.setMaxLength(4);
         durationField.setClearButtonVisible(true);
         durationField.setReadOnly(true);
     }

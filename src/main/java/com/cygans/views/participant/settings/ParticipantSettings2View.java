@@ -75,26 +75,27 @@ public class ParticipantSettings2View extends HorizontalLayout {
         confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         confirmButton.getElement().getStyle().set("margin-left", "1em");
         confirmButton.addClickListener(e -> {
-                    if (settingsController.checkEqualsPassword(oldPassword.getValue())) {
-                        if (!newPassword.isInvalid()) {
-                            if (!confirmPassword.isInvalid()) {
-                                settingsController.changePassword(newPassword.getValue(), RoleEnum.PARTICIPANT);
-                                Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-                                confirmButton.getUI().ifPresent(ui -> ui.navigate(ParticipantSettings1View.class));
-                            } else {
-                                Notification notification = Notification.show("Введенные пароли отличаются", 3000, Notification.Position.TOP_CENTER);
-                                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                            }
-                        } else {
-                            Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
-                            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                        }
-                    } else {
-                        Notification notification = Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER);
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-                    }
-                }
-        );
+            if (!settingsController.checkEqualsPassword(oldPassword.getValue())) {
+                Notification.show("Неверный пароль", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (newPassword.isEmpty()) {
+                Notification.show("Необходимо указать новый пароль", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (newPassword.isInvalid()) {
+                Notification.show("Неверное значение нового пароля", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (confirmPassword.isEmpty()) {
+                Notification.show("Необходимо повторно ввести пароль", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else if (!newPassword.getValue().equals(confirmPassword.getValue())) {
+                Notification.show("Введенные пароли отличаются", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } else {
+                settingsController.changePassword(newPassword.getValue(), RoleEnum.PARTICIPANT);
+                Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                confirmButton.getUI().ifPresent(ui -> ui.navigate(ParticipantSettings1View.class));
+            }
+        });
     }
 
     private void cancelBtnInit() {

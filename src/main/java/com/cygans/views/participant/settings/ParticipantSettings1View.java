@@ -74,7 +74,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
 
         mainLayout.add(
                 new H1("  "),
-                new H2("Настройки юзера"),
+                new H2("Настройки"),
                 buttons,
                 formLayout
         );
@@ -118,6 +118,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void firstNameInit() {
         firstnameField = new TextField("Имя");
         firstnameField.setValue(firstname);
+        firstnameField.setMaxLength(255);
         firstnameField.setClearButtonVisible(true);
         firstnameField.setReadOnly(true);
     }
@@ -125,6 +126,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void lastNameInit() {
         lastnameField = new TextField("Фамилия");
         lastnameField.setValue(lastname);
+        lastnameField.setMaxLength(255);
         lastnameField.setClearButtonVisible(true);
         lastnameField.setReadOnly(true);
     }
@@ -133,6 +135,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         phoneField = new TextField();
         phoneField.setLabel("Номер телефона");
         phoneField.setValue(phone);
+        phoneField.setMaxLength(12);
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
@@ -142,6 +145,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void loginFieldInit() {
         loginField = new TextField();
         loginField.setLabel("Логин");
+        loginField.setMaxLength(255);
         loginField.getElement().setAttribute("name", "Login");
         loginField.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         loginField.setValue(login);
@@ -170,8 +174,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void heightInit() {
         heightField = new TextField("Рост");
         heightField.setClearButtonVisible(true);
-        heightField.setPattern("(6[7-9]|[78]\\d|9[0-9]|1\\d{2}|250)");
-        heightField.setErrorMessage("Неверный формат роста");
+        heightField.setMaxLength(3);
+        heightField.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
+        heightField.setErrorMessage("Неверное значение роста");
         heightField.setValue(String.valueOf(height));
         heightField.setReadOnly(true);
     }
@@ -179,8 +184,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void weightInit() {
         weightField = new TextField("Вес");
         weightField.setClearButtonVisible(true);
+        weightField.setMaxLength(3);
         weightField.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
-        weightField.setErrorMessage("Неверный формат веса");
+        weightField.setErrorMessage("Неверное значение веса");
         weightField.setValue(String.valueOf(weight));
         weightField.setReadOnly(true);
     }
@@ -188,8 +194,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void waistInit() {
         waistField = new TextField("Обхват талии");
         waistField.setClearButtonVisible(true);
+        waistField.setMaxLength(3);
         waistField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        waistField.setErrorMessage("Неверный формат обхвата талии");
+        waistField.setErrorMessage("Неверное значение обхвата талии");
         waistField.setValue(String.valueOf(waist));
         waistField.setReadOnly(true);
     }
@@ -197,8 +204,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void hipsInit() {
         hipsField = new TextField("Обхват бедер");
         hipsField.setClearButtonVisible(true);
+        hipsField.setMaxLength(3);
         hipsField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        hipsField.setErrorMessage("Неверный формат обхвата бедер");
+        hipsField.setErrorMessage("Неверное значение обхвата бедер");
         hipsField.setValue(String.valueOf(hips));
         hipsField.setReadOnly(true);
     }
@@ -206,8 +214,9 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void breastInit() {
         breastField = new TextField("Обхват груди");
         breastField.setClearButtonVisible(true);
+        breastField.setMaxLength(3);
         breastField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
-        breastField.setErrorMessage("Неверный формат обхвата груди");
+        breastField.setErrorMessage("Неверное значение обхвата груди");
         breastField.setValue(String.valueOf(breast));
         breastField.setReadOnly(true);
     }
@@ -233,56 +242,56 @@ public class ParticipantSettings1View extends HorizontalLayout {
 
         save.addClickListener(e -> {
             if (firstnameField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать имя", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (lastnameField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать фамилию", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (gender.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать пол", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать пол", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (birthSelect.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (birthSelect.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат даты рождения", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение даты рождения", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение номера телефона", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (heightField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать рост", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать рост", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (heightField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат роста", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение роста", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weightField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать вес", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать вес", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (weightField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат веса", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение веса", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breastField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать обхват груди", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать обхват груди", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (breastField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата груди", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение обхвата груди", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waistField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать обхват талии", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать обхват талии", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (waistField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата талии", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение обхвата талии", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hipsField.isEmpty()) {
-                Notification notification = Notification.show("Необходимо указать обхват бедер", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Необходимо указать обхват бедер", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (hipsField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат обхвата бедер", 3000, Notification.Position.TOP_CENTER);
-                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение обхвата бедер", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 settingsController.updateInfoUser(RoleEnum.PARTICIPANT,
                         firstnameField.getValue(),

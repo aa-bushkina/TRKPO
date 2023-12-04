@@ -78,6 +78,9 @@ public class Filler {
   @Autowired
   private QuestionStatusService questionStatusService;
 
+  private final DateTimeFormatter formatter_time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+  private static int hour = 0;
 
   private long createParticipant(String name, String surname, String login, String passwd, String phone) {
     Authorities authorities = new Authorities(login, RoleEnum.PARTICIPANT.getValue());
@@ -159,27 +162,27 @@ public class Filler {
     long partId_3 = -1;
 
     if (mentorService.isNeedToAddHardcodedUser()) {
-      mentId_0 = createMentor("Ванька", "Головин", "vanya", "Vanvanvan", "89137197445");
-      mentId_1 = createMentor("Лёшка", "Бойкин", "alexPro", "fox21century", "89137197445");
-      mentId_2 = createMentor("Илюшка", "Работин", "ilya", "reddead", "89137197445");
-      mentId_3 = createMentor("Фиона", "Павлова", "phionPAV", "alpachino", "89137197445");
+      mentId_0 = createMentor("Ванька", "Головин", "vanya", "SecretPassword1", "89137197445");
+      mentId_1 = createMentor("Лёшка", "Бойкин", "alexPro", "Myst3ry_123", "89137197445");
+      mentId_2 = createMentor("Илюшка", "Работин", "ilya", "N1nja_Parad1se", "89137197445");
+      mentId_3 = createMentor("Фиона", "Павлова", "phionPAV", "ChocoLab_88", "89137197445");
       mentid = createMentor("2", "2", "2", "2", "2");
     }
     boolean f = false;
     if (participantService.isNeedToAddHardcodedUser()) {
       f = true;
-      partId_0 = createParticipant("Катька", "Волосова", "katya", "katkatkat", "89383170126");
-      partId_1 = createParticipant("Петька", "Совкин", "petka_super", "tarakan1", "89358127132");
-      partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "leonardo", "89217132831");
-      partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "telefon", "89991833614");
+      partId_0 = createParticipant("Катька", "Волосова", "katya", "Qu_ntum_42", "89383170126");
+      partId_1 = createParticipant("Петька", "Совкин", "petka_super", "G0ld3nSun_7", "89358127132");
+      partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "S_vvyPanda_9", "89217132831");
+      partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "V0ltage_Star", "89991833614");
       partid = createParticipant("1", "1", "1", "1", "1");
     }
     if (participantMentorService.isNeedToConnectUsers(mentId_0, partId_0)) {
       participantMentorService.create(partId_0, mentId_0);
       System.out.println("Users connected to each other\n");
     }
-    if (participantMentorService.isNeedToConnectUsers(mentId_1, partId_1)) {
-      participantMentorService.create(partId_1, mentId_1);
+    if (participantMentorService.isNeedToConnectUsers(mentId_0, partId_1)) {
+      participantMentorService.create(partId_1, mentId_0);
       System.out.println("Users connected to each other\n");
     }
     if (participantMentorService.isNeedToConnectUsers(mentId_2, partId_2)) {
@@ -252,25 +255,58 @@ public class Filler {
     }
   }
 
-  private void addLogbookToEmotional(long participantId, String text, String date) {
+  private void addLogbookToEmotional(long participantId, String text,String date)
+  {
     Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText()));
     logService.saveLog(log);
-    EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(), LocalDateTime.now(), text);
+    String pref = " ";
+    if (hour % 24 < 10)
+    {
+      pref = " 0";
+    }
+    date += pref + (hour++ % 24) +":00";
+    EmotionalLogBook emotionalLogBook = new EmotionalLogBook(log.getId(),  LocalDateTime.parse(date, formatter_time), text);
     emotionalLogBookService.saveEmotionalLog(emotionalLogBook);
     addNotification(participantId, log, 0, text);
   }
 
 
-  private void addLogbookToSport(long participantId, String intes, int duration, String active, String comments, String date) {
+  private void addLogbookToSport(long participantId, String intes, int duration, String active, String comments,String date)
+  {
     Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.SPORT.getText()));
     logService.saveLog(log);
+    String pref = " ";
+    if (hour % 24 < 10)
+    {
+      pref = " 0";
+    }
+    date += pref + (hour++ % 24) +":00";
     SportLogBook sportLogBook = new SportLogBook(log.getId(),
-      intensityService.getIntensityId(intes), duration, LocalDateTime.now(), active, comments);
+      intensityService.getIntensityId(intes), duration,  LocalDateTime.parse(date, formatter_time), active, comments);
     sportLogBookService.saveSportLog(sportLogBook);
     addNotification(participantId, log, 2, active);
   }
 
-  private void addNotification(long participantId, Log log, int notificationType, String text) {
+  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType,String date)
+  {
+    Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
+    logService.saveLog(log);
+    String pref = " ";
+    if (hour % 24 < 10)
+    {
+      pref = " 0";
+    }
+    date += pref + (hour++ % 24) +":00";
+    EatingLogBook eatingLogBook = new EatingLogBook(
+      log.getId(), timeEat, description,
+      mealService.getMealId(mealType), LocalDateTime.parse(date, formatter_time));
+    eatingLogBookService.saveEatingLog(eatingLogBook);
+    addNotification(participantId, log, 1, description);
+
+  }
+
+  private void addNotification(long participantId, Log log, int notificationType, String text)
+  {
     Long participantMentorId = null;
     if (participantMentorService.existByParticipantId(participantId)) {
       participantMentorId = participantMentorService.getMentorParticipantByParticipantId(participantId).getMentorId();
@@ -304,16 +340,5 @@ public class Filler {
     );
     notification.setLogBookId(log.getId());
     notificationsService.saveNotification(notification);
-  }
-
-  private void addLogbookToEating(long participantId, LocalTime timeEat, String description, String mealType, String date) {
-    Log log = new Log(participantId, LocalDate.parse(date, formatter), logsTypeService.getLogTypeId(LogBookType.EATING.getText()));
-    logService.saveLog(log);
-    EatingLogBook eatingLogBook = new EatingLogBook(
-      log.getId(), timeEat, description,
-      mealService.getMealId(mealType), LocalDateTime.now());
-    eatingLogBookService.saveEatingLog(eatingLogBook);
-    addNotification(participantId, log, 1, description);
-
   }
 }

@@ -80,13 +80,13 @@ public class SignUp1View extends Div {
             } else if (login.isEmpty()) {
                 Notification.show("Необходимо указать логин", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (login.isInvalid()) {
-                Notification.show("Неверный формат логина", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение логина", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
                 Notification.show("Аккаунт с указанным логином уже существует\nУкажите другой логин", 5000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isEmpty()) {
                 Notification.show("Необходимо указать пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (password.isInvalid()) {
-                Notification.show("Неверный формат пароля", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
+                Notification.show("Неверное значение пароля", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (confirmPassword.isEmpty()) {
                 Notification.show("Необходимо повторно ввести пароль", 10000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (!password.getValue().equals(confirmPassword.getValue())) {
@@ -123,6 +123,7 @@ public class SignUp1View extends Div {
         firstName = new TextField("Имя");
         firstName.setClearButtonVisible(true);
         firstName.setPlaceholder("Имя");
+        firstName.setMaxLength(255);
         if (VaadinSession.getCurrent().getAttribute("FirstName") != null) {
             firstName.setValue((String) VaadinSession.getCurrent().getAttribute("FirstName"));
         }
@@ -132,6 +133,7 @@ public class SignUp1View extends Div {
         lastName = new TextField("Фамилия");
         lastName.setClearButtonVisible(true);
         lastName.setPlaceholder("Фамилия");
+        lastName.setMaxLength(255);
         if (VaadinSession.getCurrent().getAttribute("LastName") != null) {
             lastName.setValue((String) VaadinSession.getCurrent().getAttribute("LastName"));
         }
@@ -163,6 +165,7 @@ public class SignUp1View extends Div {
         login.getElement().setAttribute("name", "Login");
         login.setPlaceholder("Логин");
         login.setClearButtonVisible(true);
+        login.setMaxLength(255);
         login.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
             login.setErrorMessage("Аккаунт с таким логином уже существует");

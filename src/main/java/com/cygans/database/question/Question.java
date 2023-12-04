@@ -26,7 +26,7 @@ public class Question implements Serializable {
     @Column(name = "question", length = 300)
     private String question;
 
-    @Column(name = "answer")
+    @Column(name = "answer", length = 1000)
     private String answer;
 
     @Column(name = "question_status_id")
