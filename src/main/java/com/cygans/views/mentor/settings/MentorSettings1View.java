@@ -176,13 +176,13 @@ public class MentorSettings1View extends HorizontalLayout {
                 Notification notification = Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (birthSelect.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат даты рождения", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение даты рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phoneField.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение номера телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 settingsController.updateInfoUser(RoleEnum.MENTOR,
