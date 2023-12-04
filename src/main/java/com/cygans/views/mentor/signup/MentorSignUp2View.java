@@ -116,7 +116,7 @@ public class MentorSignUp2View extends Div {
         datePicker.setLocale(new Locale("ru", "RU"));
         datePicker.setPlaceholder("ДД.ММ.ГГГГ");
         datePicker.setInitialPosition(now.minusYears(30));
-        datePicker.setErrorMessage("Неверный формат даты рождения");
+        datePicker.setErrorMessage("Неверное значение даты рождения");
         if (VaadinSession.getCurrent().getAttribute("Date") != null) {
             datePicker.setValue((LocalDate) VaadinSession.getCurrent().getAttribute("Date"));
         }
@@ -135,13 +135,13 @@ public class MentorSignUp2View extends Div {
                 Notification notification = Notification.show("Необходимо указать дату рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (datePicker.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат даты рождения", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение даты рождения", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phone.isEmpty()) {
                 Notification notification = Notification.show("Необходимо указать номер телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else if (phone.isInvalid()) {
-                Notification notification = Notification.show("Неверный формат номера телефона", 3000, Notification.Position.TOP_CENTER);
+                Notification notification = Notification.show("Неверное значение номера телефона", 3000, Notification.Position.TOP_CENTER);
                 notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
                 setSession();
