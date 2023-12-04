@@ -55,7 +55,7 @@ public class MentorParticipantDataView extends VerticalLayout {
         downloadBut.setWidth("60px");
         downloadBut.addClickListener(e ->
                 downloadBut.getUI().ifPresent(ui ->
-                        ui.navigate(ParticipantDownloadView.class)
+                        ui.navigate(MentorParticipantDownloadView.class)
                 )
         );
         hl.add(new H3("История записей участника: " + logController.getParticipantFullNameByAttribute()), downloadBut);
