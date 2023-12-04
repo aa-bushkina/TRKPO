@@ -91,6 +91,7 @@ public class ParticipantHistoryView extends VerticalLayout {
 
         dateFilter.setLabel("Дата");
         dateFilter.setWidth("200px");
+        dateFilter.setClearButtonVisible(true);
         dateFilter.addValueChangeListener(event -> {
             ListDataProvider<ParticipantPersonData> dataProvider = (ListDataProvider<ParticipantPersonData>) historylist.getDataProvider();
             dataProvider.addFilter(personData -> {
