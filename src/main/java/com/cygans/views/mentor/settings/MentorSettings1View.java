@@ -95,6 +95,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void firstNameInit() {
         firstnameField = new TextField("Имя");
         firstnameField.setValue(firstname);
+        firstnameField.setMaxLength(256);
         firstnameField.setClearButtonVisible(true);
         firstnameField.setReadOnly(true);
     }
@@ -102,6 +103,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void lastNameInit() {
         lastnameField = new TextField("Фамилия");
         lastnameField.setValue(lastname);
+        lastnameField.setMaxLength(256);
         lastnameField.setClearButtonVisible(true);
         lastnameField.setReadOnly(true);
     }
@@ -110,6 +112,7 @@ public class MentorSettings1View extends HorizontalLayout {
         phoneField = new TextField();
         phoneField.setLabel("Номер телефона");
         phoneField.setValue(phone);
+        phoneField.setMaxLength(12);
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
@@ -119,6 +122,7 @@ public class MentorSettings1View extends HorizontalLayout {
     private void loginFieldInit() {
         loginField = new TextField();
         loginField.setLabel("Логин");
+        loginField.setMaxLength(256);
         loginField.getElement().setAttribute("name", "Login");
         loginField.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         loginField.setValue(login);

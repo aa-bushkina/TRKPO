@@ -118,6 +118,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void firstNameInit() {
         firstnameField = new TextField("Имя");
         firstnameField.setValue(firstname);
+        firstnameField.setMaxLength(256);
         firstnameField.setClearButtonVisible(true);
         firstnameField.setReadOnly(true);
     }
@@ -125,6 +126,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void lastNameInit() {
         lastnameField = new TextField("Фамилия");
         lastnameField.setValue(lastname);
+        lastnameField.setMaxLength(256);
         lastnameField.setClearButtonVisible(true);
         lastnameField.setReadOnly(true);
     }
@@ -133,6 +135,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
         phoneField = new TextField();
         phoneField.setLabel("Номер телефона");
         phoneField.setValue(phone);
+        phoneField.setMaxLength(12);
         phoneField.setClearButtonVisible(true);
         phoneField.setPlaceholder("+70000000000");
         phoneField.setReadOnly(true);
@@ -142,6 +145,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void loginFieldInit() {
         loginField = new TextField();
         loginField.setLabel("Логин");
+        loginField.setMaxLength(256);
         loginField.getElement().setAttribute("name", "Login");
         loginField.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         loginField.setValue(login);
@@ -170,6 +174,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void heightInit() {
         heightField = new TextField("Рост");
         heightField.setClearButtonVisible(true);
+        heightField.setMaxLength(3);
         heightField.setPattern("([6][7-9]|[7-9][0-9]|[1][0-9][0-9]|[2][0-4][0-9]|[2][5][0])");
         heightField.setErrorMessage("Неверный формат роста");
         heightField.setValue(String.valueOf(height));
@@ -179,6 +184,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void weightInit() {
         weightField = new TextField("Вес");
         weightField.setClearButtonVisible(true);
+        weightField.setMaxLength(3);
         weightField.setPattern("([2-9]|[1-9][0-9]|[1-5][0-9][0-9]|[6][0][0])");
         weightField.setErrorMessage("Неверный формат веса");
         weightField.setValue(String.valueOf(weight));
@@ -188,6 +194,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void waistInit() {
         waistField = new TextField("Обхват талии");
         waistField.setClearButtonVisible(true);
+        waistField.setMaxLength(3);
         waistField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         waistField.setErrorMessage("Неверный формат обхвата талии");
         waistField.setValue(String.valueOf(waist));
@@ -197,6 +204,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void hipsInit() {
         hipsField = new TextField("Обхват бедер");
         hipsField.setClearButtonVisible(true);
+        hipsField.setMaxLength(3);
         hipsField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         hipsField.setErrorMessage("Неверный формат обхвата бедер");
         hipsField.setValue(String.valueOf(hips));
@@ -206,6 +214,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void breastInit() {
         breastField = new TextField("Обхват груди");
         breastField.setClearButtonVisible(true);
+        breastField.setMaxLength(3);
         breastField.setPattern("([3-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|2[5][0])");
         breastField.setErrorMessage("Неверный формат обхвата груди");
         breastField.setValue(String.valueOf(breast));

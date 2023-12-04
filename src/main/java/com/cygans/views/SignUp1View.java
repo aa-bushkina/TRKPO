@@ -123,6 +123,7 @@ public class SignUp1View extends Div {
         firstName = new TextField("Имя");
         firstName.setClearButtonVisible(true);
         firstName.setPlaceholder("Имя");
+        firstName.setMaxLength(255);
         if (VaadinSession.getCurrent().getAttribute("FirstName") != null) {
             firstName.setValue((String) VaadinSession.getCurrent().getAttribute("FirstName"));
         }
@@ -132,6 +133,7 @@ public class SignUp1View extends Div {
         lastName = new TextField("Фамилия");
         lastName.setClearButtonVisible(true);
         lastName.setPlaceholder("Фамилия");
+        lastName.setMaxLength(255);
         if (VaadinSession.getCurrent().getAttribute("LastName") != null) {
             lastName.setValue((String) VaadinSession.getCurrent().getAttribute("LastName"));
         }
@@ -163,6 +165,7 @@ public class SignUp1View extends Div {
         login.getElement().setAttribute("name", "Login");
         login.setPlaceholder("Логин");
         login.setClearButtonVisible(true);
+        login.setMaxLength(255);
         login.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         if (registrationAndLoginController.checkPresentLogin(login.getValue())) {
             login.setErrorMessage("Аккаунт с таким логином уже существует");

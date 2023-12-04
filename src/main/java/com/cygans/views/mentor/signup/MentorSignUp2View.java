@@ -101,6 +101,7 @@ public class MentorSignUp2View extends Div {
     private void phoneSetUp() {
         phone.setLabel("Номер телефона");
         phone.setClearButtonVisible(true);
+        phone.setMaxLength(12);
         phone.setPlaceholder("+70000000000");
         phone.setPattern("\\+7\\d{10}");
         phone.setErrorMessage("Формат телефона: +70000000000");

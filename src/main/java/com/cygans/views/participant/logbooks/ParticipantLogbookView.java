@@ -100,6 +100,7 @@ public class ParticipantLogbookView extends VerticalLayout {
         answerField.setValue(answer);
         answerField.setClearButtonVisible(true);
         answerField.setReadOnly(true);
+        answerField.setMaxLength(1000);
     }
 
     private void saveSetUp() {
@@ -285,6 +286,7 @@ public class ParticipantLogbookView extends VerticalLayout {
         foodDesc.setValue(stDescFood);
         foodDesc.setClearButtonVisible(true);
         foodDesc.setReadOnly(true);
+        foodDesc.setMaxLength(300);
     }
 
     private void hourFoodTextInit(String hourFoodText) {
@@ -361,6 +363,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     private void activityInit(String act) {
         activityField = new TextField("Активность");
         activityField.setValue(act);
+        activityField.setMaxLength(50);
         activityField.setClearButtonVisible(true);
         activityField.setReadOnly(true);
     }
@@ -368,6 +371,7 @@ public class ParticipantLogbookView extends VerticalLayout {
     private void durationInit(String dur) {
         durationField = new TextField("Продолжительность (в минутах)");
         durationField.setValue(dur);
+        durationField.setMaxLength(4);
         durationField.setClearButtonVisible(true);
         durationField.setReadOnly(true);
     }
@@ -377,6 +381,7 @@ public class ParticipantLogbookView extends VerticalLayout {
         sportDesc.setValue(stDescSport);
         sportDesc.setClearButtonVisible(true);
         sportDesc.setReadOnly(true);
+        sportDesc.setMaxLength(300);
     }
 
     public void showEmotionalLogBookView() {
@@ -403,6 +408,7 @@ public class ParticipantLogbookView extends VerticalLayout {
         emotionalDesc.setValue(stEmotionalDesc);
         emotionalDesc.setClearButtonVisible(true);
         emotionalDesc.setReadOnly(true);
+        emotionalDesc.setMaxLength(1000);
     }
 
     private void allSetReadOnly(boolean Boolean) {

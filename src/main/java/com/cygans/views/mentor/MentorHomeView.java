@@ -114,6 +114,7 @@ public class MentorHomeView extends VerticalLayout {
         firstNameFilter.setPlaceholder("Фильтр");
         firstNameFilter.setClearButtonVisible(true);
         firstNameFilter.setWidth("100%");
+        firstNameFilter.setMaxLength(255);
         firstNameFilter.setValueChangeMode(ValueChangeMode.EAGER);
         firstNameFilter.addValueChangeListener(event -> dataProvider
                 .addFilter(participant ->
@@ -124,6 +125,7 @@ public class MentorHomeView extends VerticalLayout {
         TextField lastNameFilter = new TextField();
         lastNameFilter.setPlaceholder("Фильтр");
         lastNameFilter.setClearButtonVisible(true);
+        lastNameFilter.setMaxLength(255);
         lastNameFilter.setWidth("100%");
         lastNameFilter.setValueChangeMode(ValueChangeMode.EAGER);
         lastNameFilter.addValueChangeListener(event -> dataProvider
@@ -136,6 +138,7 @@ public class MentorHomeView extends VerticalLayout {
         emailFilter.setPlaceholder("Фильтр");
         emailFilter.setClearButtonVisible(true);
         emailFilter.setWidth("100%");
+        emailFilter.setMaxLength(255);
         emailFilter.setValueChangeMode(ValueChangeMode.EAGER);
         emailFilter.addValueChangeListener(event -> dataProvider
                 .addFilter(participant ->
