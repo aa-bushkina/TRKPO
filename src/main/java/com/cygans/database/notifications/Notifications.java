@@ -25,7 +25,7 @@ public class Notifications implements Serializable, Comparable<Notifications> {
     private Long participantId;
     @Column(name = "mentor_id")
     private Long mentorId;
-    @Column(name = "reply_message")
+    @Column(name = "reply_message", length = 1000)
     private String replyMessage;
     @Column(name = "notification_type_id")
     private Long notificationTypeId;

@@ -95,7 +95,7 @@ public class MentorNotificationView extends VerticalLayout {
         firstNameFilter.setPlaceholder("Фильтр");
         firstNameFilter.setClearButtonVisible(true);
         firstNameFilter.setWidth("100%");
-        firstNameFilter.setMaxLength(256);
+        firstNameFilter.setMaxLength(255);
         firstNameFilter.setValueChangeMode(ValueChangeMode.EAGER);
         firstNameFilter.addValueChangeListener(event -> dataProvider
                 .addFilter(notification -> StringUtils.containsIgnoreCase(participantAndMentorController.getParticipantById(notification.getParticipantId()).getFirstName(), firstNameFilter.getValue())));
@@ -103,7 +103,7 @@ public class MentorNotificationView extends VerticalLayout {
 
         TextField lastNameFilter = new TextField();
         lastNameFilter.setPlaceholder("Фильтр");
-        lastNameFilter.setMaxLength(256);
+        lastNameFilter.setMaxLength(255);
         lastNameFilter.setClearButtonVisible(true);
         lastNameFilter.setWidth("100%");
         lastNameFilter.setValueChangeMode(ValueChangeMode.EAGER);

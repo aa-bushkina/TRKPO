@@ -118,7 +118,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void firstNameInit() {
         firstnameField = new TextField("Имя");
         firstnameField.setValue(firstname);
-        firstnameField.setMaxLength(256);
+        firstnameField.setMaxLength(255);
         firstnameField.setClearButtonVisible(true);
         firstnameField.setReadOnly(true);
     }
@@ -126,7 +126,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void lastNameInit() {
         lastnameField = new TextField("Фамилия");
         lastnameField.setValue(lastname);
-        lastnameField.setMaxLength(256);
+        lastnameField.setMaxLength(255);
         lastnameField.setClearButtonVisible(true);
         lastnameField.setReadOnly(true);
     }
@@ -145,7 +145,7 @@ public class ParticipantSettings1View extends HorizontalLayout {
     private void loginFieldInit() {
         loginField = new TextField();
         loginField.setLabel("Логин");
-        loginField.setMaxLength(256);
+        loginField.setMaxLength(255);
         loginField.getElement().setAttribute("name", "Login");
         loginField.setErrorMessage("Используйте только латинские буквы, цифры и символы -_.");
         loginField.setValue(login);
