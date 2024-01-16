@@ -23,7 +23,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "participant/emotional-logbook")
 public class EmotionalLogbookView extends Div {
     private final H3 title = new H3("Эмоциональное состояние");
-    private final Button submitButton = new Button("Добавить");
+    private final Button submitButton = new Button("Отправить");
     private final TextArea emotionalText = new TextArea();
     private final LogController logController;
     private final NotificationController notificationController;
