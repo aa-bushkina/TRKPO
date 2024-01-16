@@ -70,7 +70,7 @@ public class NotificationController {
         notification.setShortMessage("Новая запись о эмоциональном состоянии");
         notification.setAllMessage(
                 participantService.getFirstname(participantId) + " " + participantService.getLastname(participantId)
-                        + " добавил(-а) запись о свочем эмоциональном состоянии.\n" +
+                        + " добавил(-а) запись о своем эмоциональном состоянии.\n" +
                         "\n" +
                         "Дата: " + notification.getDate().toLocalDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) + "\n" +
                         "Время: " + notification.getDate().toLocalTime() + "\n" +

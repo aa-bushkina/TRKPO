@@ -79,8 +79,8 @@ public class ParticipantLogbookView extends VerticalLayout {
         mainLayout.add(
                 new H2(logBookType),
                 new H3("Запись от " + selectDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))),
-                formLayout,
-                buttons
+                buttons,
+                formLayout
         );
         mainLayout.setMaxWidth("600px");
         mainLayout.setPadding(false);
