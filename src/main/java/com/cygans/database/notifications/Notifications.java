@@ -17,7 +17,7 @@ public class Notifications implements Serializable, Comparable<Notifications> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column(name = "all_message", length = 1500)
+    @Column(name = "all_message", length = 1800)
     private String allMessage;
     @Column(name = "date")
     private LocalDateTime date;
