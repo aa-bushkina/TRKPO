@@ -72,7 +72,9 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         });
 
         HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать записи " + participant.getFirstName() + " " + participant.getLastName()), StartEndDate, buttonWrapper);
+        H3 title = new H3("Скачать записи " + participant.getFirstName() + " " + participant.getLastName());
+        title.setMaxWidth("80%");
+        VerticalLayout downLoadpage_layout = new VerticalLayout(title, StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
