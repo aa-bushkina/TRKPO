@@ -67,6 +67,7 @@ public class MentorNotificationDetailsView extends Div {
         replyMsg.setWidth("50%");
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
+        replyMsg.setMinLength(1);
         replyMsg.setMaxLength(1000);
 
         if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.DECLINE_MENTOR.getValue())) {
