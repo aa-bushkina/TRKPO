@@ -162,19 +162,19 @@ public class Filler {
     long partId_3 = -1;
 
     if (mentorService.isNeedToAddHardcodedUser()) {
-      mentId_0 = createMentor("Ванька", "Головин", "vanya", "SecretPassword1", "89137197445");
-      mentId_1 = createMentor("Лёшка", "Бойкин", "alexPro", "Myst3ry_123", "89137197445");
-      mentId_2 = createMentor("Илюшка", "Работин", "ilya", "N1nja_Parad1se", "89137197445");
-      mentId_3 = createMentor("Фиона", "Павлова", "phionPAV", "ChocoLab_88", "89137197445");
+      mentId_0 = createMentor("Ванька", "Головин", "vanya", "SecretPassword1", "+79137197445");
+      mentId_1 = createMentor("Лёшка", "Бойкин", "alexPro", "Myst3ry_123", "+79137197445");
+      mentId_2 = createMentor("Илюшка", "Работин", "ilya", "N1nja_Parad1se", "+79137197445");
+      mentId_3 = createMentor("Фиона", "Павлова", "phionPAV", "ChocoLab_88", "+79137197445");
       mentid = createMentor("2", "2", "2", "2", "2");
     }
-    boolean f = false;
+    boolean isAlreadyExists = false;
     if (participantService.isNeedToAddHardcodedUser()) {
-      f = true;
-      partId_0 = createParticipant("Катька", "Волосова", "katya", "Qu_ntum_42", "89383170126");
-      partId_1 = createParticipant("Петька", "Совкин", "petka_super", "G0ld3nSun_7", "89358127132");
-      partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "S_vvyPanda_9", "89217132831");
-      partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "V0ltage_Star", "89991833614");
+      isAlreadyExists = true;
+      partId_0 = createParticipant("Катька", "Волосова", "katya", "Qu_ntum_42", "+79383170126");
+      partId_1 = createParticipant("Петька", "Совкин", "petka_super", "G0ld3nSun_7", "+79358127132");
+      partId_2 = createParticipant("Наташка", "Мирянцева", "natashaNataly", "S_vvyPanda_9", "+79217132831");
+      partId_3 = createParticipant("Олежка", "Питулин", "olegBoss777", "V0ltage_Star", "+79991833614");
       partid = createParticipant("1", "1", "1", "1", "1");
     }
     if (participantMentorService.isNeedToConnectUsers(mentId_0, partId_0)) {
@@ -197,7 +197,7 @@ public class Filler {
       participantMentorService.create(partid, mentid);
       System.out.println("Users connected to each other\n");
     }
-    if (f) {
+    if (isAlreadyExists) {
       addLogbookToEmotional(partId_0, "Нужна для смерть для того чтобы ценить жизнь? Думала об этом весь день", "2023-11-07");
       addLogbookToEmotional(partId_0, "Весь день думала о пельменях и бургерах. Мне хорошо.", "2023-11-08");
       addLogbookToEmotional(partId_0, "Пока читала книгу о похудении съела роллы", "2023-11-09");

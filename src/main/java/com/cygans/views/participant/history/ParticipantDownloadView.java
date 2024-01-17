@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
@@ -84,7 +85,7 @@ public class ParticipantDownloadView extends VerticalLayout {
     public String getData() {
         StringBuilder str = new StringBuilder(
                 "Name participant: " + participant.getLastName() + " " + participant.getFirstName()
-                        + "\nStart date: " + startDate.toString()
+                        + "\nStart date: " + startDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                         + "\nEnd date: " + endDate.toString() + "\n\n"
         );
 
@@ -160,6 +161,6 @@ public class ParticipantDownloadView extends VerticalLayout {
                 + "\nActivity: " + sportLogBook.getActivity()
                 + "\nIntensity: " + intensity
                 + "\nDuration: " + sportLogBook.getDuration() + " minute"
-                + "\nDescription" + sportLogBook.getComments() + "\n";
+                + "\nDescription: " + sportLogBook.getComments() + "\n";
     }
 }

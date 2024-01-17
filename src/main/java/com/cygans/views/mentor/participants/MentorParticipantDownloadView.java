@@ -38,6 +38,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
     private final LogController logController;
     private LocalDate startDate = LocalDate.now().minusDays(4);
     private LocalDate endDate = LocalDate.now();
+    private String shortName = "";
 
 
     public MentorParticipantDownloadView(LogController logController,
@@ -60,8 +61,13 @@ public class MentorParticipantDownloadView extends VerticalLayout {
 
         Button exportData1 = new Button("Скачать");
         exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        shortName = participant.getFirstName() + participant.getLastName();
+        if (shortName.length() > 40)
+        {
+            shortName = shortName.substring(0, 40);
+        }
         FileDownloadWrapper buttonWrapper = new FileDownloadWrapper(
-                new StreamResource("History" + participant.getFirstName() + participant.getLastName() + ".csv",
+                new StreamResource("History" + shortName + ".csv",
                         () -> new ByteArrayInputStream(getData().getBytes(StandardCharsets.UTF_8)))
         );
 
@@ -72,7 +78,15 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         });
 
         HorizontalLayout StartEndDate = new HorizontalLayout(printStartDate, printEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать записи " + participant.getFirstName() + " " + participant.getLastName()), StartEndDate, buttonWrapper);
+        if ((participant.getFirstName() + " " + participant.getLastName()).length() > 40)
+        {
+            shortName = (participant.getFirstName() + " " + participant.getLastName()).substring(0, 40) + "...";
+        }
+        else {
+            shortName = participant.getFirstName() + " " + participant.getLastName();
+        }
+        H3 title = new H3("Скачать записи " + shortName);
+        VerticalLayout downLoadpage_layout = new VerticalLayout(title, StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
         add(downLoadpage_layout);
     }
@@ -155,7 +169,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                 + "\nActivity: " + sportLogBook.getActivity()
                 + "\nIntensity: " + intensity
                 + "\nDuration: " + sportLogBook.getDuration() + " minute"
-                + "\nDescription" + sportLogBook.getComments() + "\n";
+                + "\nDescription: " + sportLogBook.getComments() + "\n";
     }
 
 }

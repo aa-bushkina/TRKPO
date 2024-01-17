@@ -58,7 +58,14 @@ public class MentorParticipantDataView extends VerticalLayout {
                         ui.navigate(MentorParticipantDownloadView.class)
                 )
         );
-        hl.add(new H3("История записей участника: " + logController.getParticipantFullNameByAttribute()), downloadBut);
+        String s = logController.getParticipantFullNameByAttribute();
+        if (s.length() > 40)
+        {
+            s = s.substring(0, 40) + "...";
+        }
+        H3 title = new H3("История записей участника: " + s);
+
+        hl.add(title, downloadBut);
         hl.setAlignItems(Alignment.BASELINE);
 
         HorizontalLayout searchPanel = new HorizontalLayout();

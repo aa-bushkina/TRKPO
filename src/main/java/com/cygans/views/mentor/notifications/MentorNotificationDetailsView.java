@@ -67,6 +67,7 @@ public class MentorNotificationDetailsView extends Div {
         replyMsg.setWidth("50%");
         replyMsg.setMinHeight("80%");
         replyMsg.setMaxHeight("300px");
+        replyMsg.setMinLength(1);
         replyMsg.setMaxLength(1000);
 
         if (notificationController.getTypeNotification(thisNotification).equals(TypeOfNotification.DECLINE_MENTOR.getValue())) {
@@ -92,17 +93,22 @@ public class MentorNotificationDetailsView extends Div {
 
     private void setNavigation() {
         sendBut.addClickListener(e -> {
-            Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-            notificationController.replyMentorToParticipantNotification(thisNotification, replyMsg.getValue());
-            if (thisNotification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.QUESTION))) {
-                questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
+            if (replyMsg.isInvalid() || replyMsg.isEmpty() || replyMsg.getValue().length() > 1000) {
+                Notification.show("Ответ должен сожержать от 1 до 1000 символов", 3000, Notification.Position.TOP_CENTER)
+                        .addThemeVariants(NotificationVariant.LUMO_ERROR);
             } else {
-                notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
-                        null,
-                        notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
-                notificationController.addAnswerToParticipantLogNotification(thisNotification, replyMsg.getValue());
+                Notification.show("Ответ отправлен", 3000, Notification.Position.TOP_CENTER).addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                notificationController.replyMentorToParticipantNotification(thisNotification, replyMsg.getValue());
+                if (thisNotification.getNotificationTypeId().equals(notificationController.getNotificationTypeId(TypeOfNotification.QUESTION))) {
+                    questionController.addAnswerToQuestion(thisNotification.getQuestionId(), thisNotification.getNotificationId(), replyMsg.getValue());
+                } else {
+                    notificationController.changeTypeOrStatusNotification(thisNotification.getNotificationId(),
+                            null,
+                            notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_SEEN));
+                    notificationController.addAnswerToParticipantLogNotification(thisNotification, replyMsg.getValue());
+                }
+                sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
             }
-            sendBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class));
         });
         backBut.addClickListener(e -> backBut.getUI().ifPresent(ui -> ui.navigate(MentorNotificationView.class)));
     }

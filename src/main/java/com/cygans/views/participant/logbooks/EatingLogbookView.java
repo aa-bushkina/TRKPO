@@ -29,7 +29,7 @@ import java.util.ArrayList;
 @Route(value = "participant/eating-logbook")
 public class EatingLogbookView extends Div {
     private final H3 title = new H3("Приём пищи");
-    private final Button submitButton = new Button("Добавить");
+    private final Button submitButton = new Button("Отправить");
     private final LogController logController;
     private final NotificationController notificationController;
     private ComboBox<String> hourPicker;

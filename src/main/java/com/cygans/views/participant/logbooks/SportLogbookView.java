@@ -26,7 +26,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Марафон")
 @Route(value = "participant/sport-logbook")
 public class SportLogbookView extends Div {
-    private final Button submitButton = new Button("Добавить");
+    private final Button submitButton = new Button("Отправить");
     private final H3 title = new H3("Спортивная активность");
     private final LogController logController;
     private final NotificationController notificationController;
