@@ -169,7 +169,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
                 + "\nActivity: " + sportLogBook.getActivity()
                 + "\nIntensity: " + intensity
                 + "\nDuration: " + sportLogBook.getDuration() + " minute"
-                + "\nDescription" + sportLogBook.getComments() + "\n";
+                + "\nDescription: " + sportLogBook.getComments() + "\n";
     }
 
 }
