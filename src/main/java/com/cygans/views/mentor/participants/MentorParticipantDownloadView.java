@@ -85,6 +85,7 @@ public class MentorParticipantDownloadView extends VerticalLayout {
         else {
             shortName = participant.getFirstName() + " " + participant.getLastName();
         }
+
         H3 title = new H3("Скачать записи " + shortName);
         VerticalLayout downLoadpage_layout = new VerticalLayout(title, StartEndDate, buttonWrapper);
         downLoadpage_layout.setAlignItems(Alignment.CENTER);
