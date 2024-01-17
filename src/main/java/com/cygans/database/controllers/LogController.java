@@ -189,6 +189,13 @@ public class LogController {
         if (meal != null) {
             eatingLogBookService.updateMale(eatingLogId, mealService.getMealId(meal));
         }
+        String prevMessage = notificationsService.getNotificationByLogBookId(logBookId).getAllMessage();
+        String newMessage = prevMessage.substring(0, prevMessage.indexOf("Время приема пищи: ")) +
+                "Время приема пищи: " + time + "\n" +
+                "Прием пищи: " + meal + "\n" +
+                "Содержание: " + foodDesc + "\n";
+        notificationsService.updateNotificationAllMessage(
+                notificationsService.getNotificationByLogBookId(logBookId).getNotificationId(), newMessage);
     }
 
     public void updateEmotionalLog(Long logBookId, String emotionalDescText) {
@@ -196,6 +203,11 @@ public class LogController {
         if (emotionalDescText != null) {
             emotionalLogBookService.updateEmotionalDescription(emotionalLogId, emotionalDescText);
         }
+        String prevMessage = notificationsService.getNotificationByLogBookId(logBookId).getAllMessage();
+        String newMessage = prevMessage.substring(0, prevMessage.indexOf("Содержание: ")) +
+                "Содержание: " + emotionalDescText;
+        notificationsService.updateNotificationAllMessage(
+                notificationsService.getNotificationByLogBookId(logBookId).getNotificationId(), newMessage);
     }
 
     public void updateSportLog(Long logBookId, String sportDesc, String activityField, String intensity, Integer durationField) {
@@ -212,6 +224,15 @@ public class LogController {
         if (durationField != null) {
             sportLogBookService.updateDuration(sportLogId, durationField);
         }
+
+        String prevMessage = notificationsService.getNotificationByLogBookId(logBookId).getAllMessage();
+        String newMessage = prevMessage.substring(0, prevMessage.indexOf("Интенсивность: ")) +
+                "Интенсивность: " + intensity + "\n" +
+                "Активность: " + activityField + "\n" +
+                "Продолжительность: " + durationField + " минут\n" +
+                "Описание: " + sportDesc;
+        notificationsService.updateNotificationAllMessage(
+                notificationsService.getNotificationByLogBookId(logBookId).getNotificationId(), newMessage);
     }
 
     public EmotionalLogBook getEmotionalLogByLogbookId(Long logBookId) {
