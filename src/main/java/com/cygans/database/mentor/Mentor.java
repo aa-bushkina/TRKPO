@@ -19,6 +19,15 @@ public class Mentor extends Person {
             String gender,
             LocalDate birthday,
             Long loginInfoId) {
+        if (firstName == null || firstName.isEmpty() ||
+                lastName == null || lastName.isEmpty() ||
+                login == null || login.isEmpty() ||
+                phone == null || phone.isEmpty() ||
+                gender == null || gender.isEmpty() ||
+                birthday == null ||
+                loginInfoId == null) {
+            throw new IllegalArgumentException("Обязательные поля при создании Ментора не могут быть пустыми");
+        }
         this.firstname = firstName;
         this.lastname = lastName;
         this.login = login;
@@ -37,7 +46,7 @@ public class Mentor extends Person {
                 "id=" + id +
                 ", firstName=" + firstname +
                 ", lastName=" + lastname +
-                ", lastname=" + lastname +
+                ", login=" + login +
                 ", phone=" + phone +
                 ", gender=" + gender +
                 ", birthday=" + birthday +
