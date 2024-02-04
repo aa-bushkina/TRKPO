@@ -7,6 +7,9 @@ import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * Тест метода getType() в LogsType
+ */
 public class TestLogsTypeGetType {
     /**
      * Проверяет вызов метода для объекта с type = null
