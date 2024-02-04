@@ -30,12 +30,18 @@ public class SportLogBook extends Logbook implements Comparable<SportLogBook> {
     @Column(name = "comments", length = 300)
     private String comments;
 
-    public SportLogBook(long logBookId,
-                        long intensityId,
-                        int duration,
+    public SportLogBook(Long logBookId,
+                        Long intensityId,
+                        Integer duration,
                         LocalDateTime timeType,
                         String activity,
                         String comments) {
+        if (logBookId == null || intensityId == null ||
+                duration == null || timeType == null ||
+                activity == null || activity.isEmpty() ||
+                comments == null || comments.isEmpty()) {
+            throw new IllegalArgumentException("Обязательные поля при создании Спортивной записи не могут быть пустыми");
+        }
         this.logBookId = logBookId;
         this.intensityId = intensityId;
         this.duration = duration;
