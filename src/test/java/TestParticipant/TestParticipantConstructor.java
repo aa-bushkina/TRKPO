@@ -7,26 +7,13 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
+import static TestParticipant.Variables.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Проверяет конструктор
  */
 public class TestParticipantConstructor {
-
-  private static final String FIRST_NAME = "Olga";
-  private static final String LAST_NAME = "Petrova";
-  private static final String LOGIN = "olga-petrova";
-  private static final String PHONE = "+79615623177";
-  private static final String GENDER = "Female";
-  private static final LocalDate BIRTHDAY = LocalDate.of(1978, 1, 21);
-  private static final Integer HEIGHT = 120;
-  private static final Integer WEIGHT = 120;
-  private static final Integer HIPS = 120;
-  private static final Integer WAIST = 120;
-  private static final Integer BREAST = 120;
-  private static final Long LOGIN_INFO_ID = 1L;
-
 
   /**
    * Проверяет конструктор с параметрами

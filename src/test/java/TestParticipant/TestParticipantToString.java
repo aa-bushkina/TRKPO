@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
+import static TestParticipant.Variables.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,30 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Провеяет метод toString()
  */
 public class TestParticipantToString {
-    private static final String FIRST_NAME = "Olga";
-    private static final String FIRST_NAME_UPDATED = "Ola";
-    private static final String LAST_NAME = "Petrovna";
-    private static final String LAST_NAME_UPDATED = "Petrova";
-    private static final String LOGIN = "olga-petrova";
-    private static final String LOGIN_UPDATED = "olga-petrova@ola";
-    private static final String PHONE = "+79615623177";
-    private static final String PHONE_UPDATED = "+79615623199";
-    private static final String GENDER = "Female";
-    private static final String GENDER_UPDATED = "Male";
-    private static final LocalDate BIRTHDAY = LocalDate.of(1978, 1, 21);
-    private static final LocalDate BIRTHDAY_UPDATED = BIRTHDAY.plusYears(1);
-    private static final Integer HEIGHT = 120;
-    private static final Integer HEIGHT_UPDATED = 110;
-    private static final Integer WEIGHT = 120;
-    private static final Integer WEIGHT_UPDATED = 110;
-    private static final Integer HIPS = 120;
-    private static final Integer HIPS_UPDATED = 110;
-    private static final Integer WAIST = 120;
-    private static final Integer WAIST_UPDATED = 110;
-    private static final Integer BREAST = 120;
-    private static final Integer BREAST_UPDATED = 110;
-    private static final Long LOGIN_INFO_ID = 1L;
-
     private static final String HEIGHT_FIELD = "height=";
     private static final String WEIGHT_FIELD = "weight=";
     private static final String HIPS_FILED = "hips=";
