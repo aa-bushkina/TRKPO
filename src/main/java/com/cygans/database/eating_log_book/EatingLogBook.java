@@ -32,6 +32,18 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
                          String description,
                          long mealId,
                          LocalDateTime timeType) {
+        if (logBookId < 0) {
+            throw new IllegalArgumentException("logBookId должен быть больше 0");
+        }
+        if (mealId < 0) {
+            throw new IllegalArgumentException("mealId должен быть больше 0");
+        }
+        if (timeEat == null) {
+            throw new IllegalArgumentException("timeEat должно иметь значение отличное от null");
+        }
+        if (timeType == null) {
+            throw new IllegalArgumentException("timeType должно иметь значение отличное от null");
+        }
         this.logBookId = logBookId;
         this.timeEat = timeEat;
         this.description = description;
@@ -47,6 +59,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setMealId(long mealId) {
+        if (mealId < 0) {
+            throw new IllegalArgumentException("mealId должен быть больше 0");
+        }
         this.mealId = mealId;
     }
 
@@ -55,6 +70,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setTimeType(LocalDateTime timeType) {
+        if (timeType == null) {
+            throw new IllegalArgumentException("timeType должно иметь значение отличное от null");
+        }
         this.timeType = timeType;
     }
 
@@ -79,6 +97,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setLogBookId(long logBookId) {
+        if (logBookId < 0) {
+            throw new IllegalArgumentException("logBookId должен быть больше 0");
+        }
         this.logBookId = logBookId;
     }
 
@@ -87,6 +108,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setTimeEat(LocalTime timeEat) {
+        if (timeEat == null) {
+            throw new IllegalArgumentException("timeEat должно иметь значение отличное от null");
+        }
         this.timeEat = timeEat;
     }
 
