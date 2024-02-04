@@ -17,8 +17,8 @@ public class TestsToString {
     private static final String DURATION_FIELD = "duration=";
     private static final String ACTIVITY_FIELD = "activity=";
     private static final String COMMENTS_FIELD = "comments=";
-    private static final int LOGBOOK_ID = 1;
-    private static final int INTENSITY_ID = 1;
+    private static final Long LOGBOOK_ID = 1L;
+    private static final Long INTENSITY_ID = 1L;
     private static final int DURATION = 30;
     private static final LocalDateTime TIME_TYPE = LocalDateTime.now();
     private static final String ACTIVITY = "Running";
@@ -112,10 +112,10 @@ public class TestsToString {
         String toStringResult = logBook.toString();
         assertAll(
                 () -> assertTrue(toStringResult.contains(ID_FIELD + 0), "неверное id"),
-                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + NULL_STRING), "неверное LogBookId"),
+                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + 0), "неверное LogBookId"),
                 () -> assertTrue(toStringResult.contains(TIME_TYPE_FIELD + NULL_STRING), "неверное timeType"),
-                () -> assertTrue(toStringResult.contains(INTENSITY_ID_FIELD + NULL_STRING), "неверное IntensityId"),
-                () -> assertTrue(toStringResult.contains(DURATION_FIELD + NULL_STRING), "неверное Duration"),
+                () -> assertTrue(toStringResult.contains(INTENSITY_ID_FIELD + 0), "неверное IntensityId"),
+                () -> assertTrue(toStringResult.contains(DURATION_FIELD + 0), "неверное Duration"),
                 () -> assertTrue(toStringResult.contains(ACTIVITY_FIELD + NULL_STRING), "неверное Activity"),
                 () -> assertTrue(toStringResult.contains(COMMENTS_FIELD + NULL_STRING), "неверное Comments")
         );

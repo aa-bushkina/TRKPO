@@ -15,7 +15,7 @@ public class TestsSetComments {
     //Проверяет работу setComments
     @Test
     public void testSetComments() {
-        SportLogBook logBook = new SportLogBook(1, 2, 30, LocalDateTime.now(), "Running", COMMENTS_BEFORE);
+        SportLogBook logBook = new SportLogBook(1L, 2L, 30, LocalDateTime.now(), "Running", COMMENTS_BEFORE);
         logBook.setComments(COMMENTS_AFTER);
         assertEquals(COMMENTS_AFTER, logBook.getComments(), "setComments установил неверное значение");
     }

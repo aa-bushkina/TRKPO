@@ -14,7 +14,7 @@ public class TestsGetActivity {
     //Проверяет возвращаемое значение getActivity
     @Test
     public void testGetActivity() {
-        SportLogBook logBook = new SportLogBook(1, 2, 30, LocalDateTime.now(), ACTIVITY, "Good run");
+        SportLogBook logBook = new SportLogBook(1L, 2L, 30, LocalDateTime.now(), ACTIVITY, "Good run");
         assertEquals(ACTIVITY, logBook.getActivity(), "getActivity вернул неверный результат");
     }
 

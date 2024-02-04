@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestsConstructor {
 
-    private static final int LOGBOOK_ID = 1;
-    private static final int INTENSITY_ID = 1;
+    private static final Long LOGBOOK_ID = 1L;
+    private static final Long INTENSITY_ID = 1L;
     private static final int DURATION = 30;
     private static final LocalDateTime TIME_TYPE = LocalDateTime.now();
     private static final String ACTIVITY = "Running";
@@ -40,9 +40,9 @@ public class TestsConstructor {
     public void testConstructorWithoutParameters() {
         SportLogBook logBook = new SportLogBook();
         assertAll(
-                () -> assertNull(logBook.getLogBookId(), "LogBookId не пустое"),
-                () -> assertNull(logBook.getIntensityId(), "IntensityId не пустое"),
-                () -> assertNull(logBook.getDuration(), "Duration не пустое"),
+                () -> assertEquals(0, logBook.getLogBookId(), "LogBookId не пустое"),
+                () -> assertEquals(0, logBook.getIntensityId(), "IntensityId не пустое"),
+                () -> assertEquals(0, logBook.getDuration(), "Duration не пустое"),
                 () -> assertNull(logBook.getTimeType(), "TimeType не пустое"),
                 () -> assertNull(logBook.getActivity(), "Activity не пустое"),
                 () -> assertNull(logBook.getComments(), "Comments не пустое")

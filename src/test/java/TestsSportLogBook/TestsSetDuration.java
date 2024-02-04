@@ -15,7 +15,7 @@ public class TestsSetDuration {
     //Проверяет работу setDuration
     @Test
     public void testSetDuration() {
-        SportLogBook logBook = new SportLogBook(1, 2, DURATION_BEFORE, LocalDateTime.now(), "Running", "Good run");
+        SportLogBook logBook = new SportLogBook(1L, 2L, DURATION_BEFORE, LocalDateTime.now(), "Running", "Good run");
         logBook.setDuration(DURATION_AFTER);
         assertEquals(DURATION_AFTER, logBook.getDuration(), "setDuration установил неверное значение");
     }

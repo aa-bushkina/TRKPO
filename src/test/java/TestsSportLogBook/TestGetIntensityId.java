@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestGetIntensityId {
 
-    private static final int INTENSITY_ID = 1;
+    private static final Long INTENSITY_ID = 1L;
 
     //Проверяет возвращаемое значение getIntensityId
     @Test
     public void testGetIntensityId() {
-        SportLogBook logBook = new SportLogBook(1, INTENSITY_ID, 30, LocalDateTime.now(), "Running", "Good run");
+        SportLogBook logBook = new SportLogBook(1L, INTENSITY_ID, 30, LocalDateTime.now(), "Running", "Good run");
         assertEquals(INTENSITY_ID, logBook.getIntensityId(), "getIntensityId вернул неверный результат");
     }
 

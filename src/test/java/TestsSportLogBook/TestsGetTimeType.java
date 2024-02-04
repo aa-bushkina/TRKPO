@@ -14,7 +14,7 @@ public class TestsGetTimeType {
     //Проверяет возвращаемое значение getTimeType
     @Test
     public void testGetTimeType() {
-        SportLogBook logBook = new SportLogBook(1, 2, 30, TIME_TYPE, "Running", "Good run");
+        SportLogBook logBook = new SportLogBook(1L, 2L, 30, TIME_TYPE, "Running", "Good run");
         assertEquals(TIME_TYPE, logBook.getTimeType(), "getTimeType вернул неверный результат");
     }
 

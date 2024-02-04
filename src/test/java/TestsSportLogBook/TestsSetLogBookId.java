@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestsSetLogBookId {
 
-    private static final int LOGBOOK_ID_BEFORE = 1;
-    private static final int LOGBOOK_ID_AFTER = 2;
+    private static final Long LOGBOOK_ID_BEFORE = 1L;
+    private static final Long LOGBOOK_ID_AFTER = 2L;
 
     //Проверяет работу setLogBookId
     @Test
     public void testSetLogBookId() {
-        SportLogBook logBook = new SportLogBook(LOGBOOK_ID_BEFORE, 2, 30, LocalDateTime.now(), "Running", "Good run");
+        SportLogBook logBook = new SportLogBook(LOGBOOK_ID_BEFORE, 2L, 30, LocalDateTime.now(), "Running", "Good run");
         logBook.setLogBookId(LOGBOOK_ID_AFTER);
         assertEquals(LOGBOOK_ID_AFTER, logBook.getLogBookId(), "setLogBookId установил неверное значение");
     }

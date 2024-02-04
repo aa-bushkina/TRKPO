@@ -14,7 +14,7 @@ public class TestsGetComments {
     //Проверяет возвращаемое значение getComments
     @Test
     public void tesGetComments() {
-        SportLogBook logBook = new SportLogBook(1, 2, 30, LocalDateTime.now(), "Running", COMMENTS);
+        SportLogBook logBook = new SportLogBook(1L, 2L, 30, LocalDateTime.now(), "Running", COMMENTS);
         assertEquals(COMMENTS, logBook.getComments(), "getComments вернул неверный результат");
     }
 
