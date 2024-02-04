@@ -1,0 +1,21 @@
+package TestsSportLogBook;
+
+import com.cygans.database.sport_log_book.SportLogBook;
+import org.junit.Test;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class TestsGetActivity {
+
+    private static final String ACTIVITY = "Running";
+
+    //Проверяет возвращаемое значение getActivity
+    @Test
+    public void testGetActivity() {
+        SportLogBook logBook = new SportLogBook(1, 2, 30, LocalDateTime.now(), ACTIVITY, "Good run");
+        assertEquals(ACTIVITY, logBook.getActivity());
+    }
+
+}
