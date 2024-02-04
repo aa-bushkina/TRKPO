@@ -1,7 +1,7 @@
 package TestsSportLogBook.TestsSportLogBookModel;
 
 import com.cygans.database.sport_log_book.SportLogBook;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 

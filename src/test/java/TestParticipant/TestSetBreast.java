@@ -1,7 +1,7 @@
 package TestParticipant;
 
 import com.cygans.database.participant.Participant;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static TestParticipant.Variables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;

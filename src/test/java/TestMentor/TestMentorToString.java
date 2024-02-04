@@ -1,7 +1,7 @@
 package TestMentor;
 
 import com.cygans.database.mentor.Mentor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 

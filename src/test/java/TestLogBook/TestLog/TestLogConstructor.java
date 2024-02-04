@@ -2,7 +2,7 @@ package TestLogBook.TestLog;
 
 
 import com.cygans.database.log_book.Log;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
