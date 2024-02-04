@@ -22,6 +22,9 @@ public class NotificationType implements Serializable {
     }
 
     public NotificationType(String type) {
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("Обязательные поля при создании Типа нотификации не могут быть пустыми");
+        }
         this.type = type;
     }
 

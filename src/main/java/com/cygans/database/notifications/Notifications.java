@@ -43,6 +43,12 @@ public class Notifications implements Serializable, Comparable<Notifications> {
             Long mentorId,
             Long notificationTypeId,
             Long notificationStatusId) {
+        if (participantId == null
+                || mentorId == null
+                || notificationTypeId == null
+                || notificationStatusId == null) {
+            throw new IllegalArgumentException("Обязательные поля при создании Нотификации не могут быть пустыми");
+        }
         this.participantId = participantId;
         this.mentorId = mentorId;
         this.date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
