@@ -17,7 +17,7 @@ public class TestsSetLogBookId {
     public void testSetLogBookId() {
         SportLogBook logBook = new SportLogBook(LOGBOOK_ID_BEFORE, 2, 30, LocalDateTime.now(), "Running", "Good run");
         logBook.setLogBookId(LOGBOOK_ID_AFTER);
-        assertEquals(LOGBOOK_ID_AFTER, logBook.getLogBookId());
+        assertEquals(LOGBOOK_ID_AFTER, logBook.getLogBookId(), "setLogBookId установил неверное значение");
     }
 
 }

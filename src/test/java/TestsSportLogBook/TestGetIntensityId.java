@@ -15,7 +15,7 @@ public class TestGetIntensityId {
     @Test
     public void testGetIntensityId() {
         SportLogBook logBook = new SportLogBook(1, INTENSITY_ID, 30, LocalDateTime.now(), "Running", "Good run");
-        assertEquals(INTENSITY_ID, logBook.getIntensityId());
+        assertEquals(INTENSITY_ID, logBook.getIntensityId(), "getIntensityId вернул неверный результат");
     }
 
 }

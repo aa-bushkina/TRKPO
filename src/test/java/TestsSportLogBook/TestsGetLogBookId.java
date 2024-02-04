@@ -15,7 +15,7 @@ public class TestsGetLogBookId {
     @Test
     public void testGetLogBookId() {
         SportLogBook logBook = new SportLogBook(LOGBOOK_ID, 2, 30, LocalDateTime.now(), "Running", "Good run");
-        assertEquals(LOGBOOK_ID, logBook.getLogBookId());
+        assertEquals(LOGBOOK_ID, logBook.getLogBookId(), "getLogBookId вернул неверный результат");
     }
 
 }

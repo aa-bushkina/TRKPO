@@ -15,7 +15,7 @@ public class TestsGetTimeType {
     @Test
     public void testGetTimeType() {
         SportLogBook logBook = new SportLogBook(1, 2, 30, TIME_TYPE, "Running", "Good run");
-        assertEquals(TIME_TYPE, logBook.getTimeType());
+        assertEquals(TIME_TYPE, logBook.getTimeType(), "getTimeType вернул неверный результат");
     }
 
 }

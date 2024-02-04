@@ -17,7 +17,7 @@ public class TestsSetActivity {
     public void testSetActivity() {
         SportLogBook logBook = new SportLogBook(1, 2, 30, LocalDateTime.now(), ACTIVITY_BEFORE, "Good run");
         logBook.setActivity(ACTIVITY_AFTER);
-        assertEquals(ACTIVITY_AFTER, logBook.getActivity());
+        assertEquals(ACTIVITY_AFTER, logBook.getActivity(), "setActivity установил неверное значение");
     }
 
 }

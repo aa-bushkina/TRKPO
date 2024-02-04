@@ -17,7 +17,7 @@ public class TestSetIntensityId {
     public void testSetIntensityId() {
         SportLogBook logBook = new SportLogBook(1, INTENSITY_ID_BEFORE, 30, LocalDateTime.now(), "Running", "Good run");
         logBook.setIntensityId(INTENSITY_ID_AFTER);
-        assertEquals(INTENSITY_ID_AFTER, logBook.getIntensityId());
+        assertEquals(INTENSITY_ID_AFTER, logBook.getIntensityId(), "setIntensityId установил неверное значение");
     }
 
 }
