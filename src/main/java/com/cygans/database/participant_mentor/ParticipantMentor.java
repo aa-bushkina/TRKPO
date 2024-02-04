@@ -26,6 +26,9 @@ public class ParticipantMentor implements Serializable {
     }
 
     public ParticipantMentor(Long participantId, Long mentorId) {
+        if (participantId == null || mentorId == null) {
+            throw new IllegalArgumentException("Обязательные поля при создании Пары Участник-Ментор не могут быть пустыми");
+        }
         this.participantId = participantId;
         this.mentorId = mentorId;
     }
