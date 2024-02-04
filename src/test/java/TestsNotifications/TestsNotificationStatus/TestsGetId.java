@@ -1,4 +1,4 @@
-package TestsNotificationStatus;
+package TestsNotifications.TestsNotificationStatus;
 
 import com.cygans.database.notifications.notification_status.NotificationStatus;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;

@@ -1,4 +1,4 @@
-package TestsNotificationType;
+package TestsNotifications.TestsNotificationType;
 
 import com.cygans.database.notifications.notification_type.NotificationType;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
