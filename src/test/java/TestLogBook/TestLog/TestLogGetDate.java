@@ -1,4 +1,4 @@
-package LogBook.Log;
+package TestLogBook.TestLog;
 
 import com.cygans.database.log_book.Log;
 import org.testng.annotations.Test;

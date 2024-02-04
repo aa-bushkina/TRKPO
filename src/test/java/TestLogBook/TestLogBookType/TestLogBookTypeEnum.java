@@ -1,4 +1,4 @@
-package LogBook.LogBookType;
+package TestLogBook.TestLogBookType;
 
 
 import com.cygans.database.log_book.logs_type.LogBookType;
