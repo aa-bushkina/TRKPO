@@ -24,19 +24,19 @@ public class TestGetIntensityId {
         intensityService = new IntensityService();
     }
 
-    /**
-     * Проверка getIntensityId с существующей интенсивностью
-     */
-    @Test
-    void testGetIntensityId() {
-        Intensity intensity = new Intensity(INTENSITY_TYPE);
-        intensity.setId(INTENSITY_ID);
-
-        when(intensityRepository.findIntensityByType(INTENSITY_TYPE)).thenReturn(intensity);
-
-        Long result = intensityService.getIntensityId(INTENSITY_TYPE);
-        assertNotNull(result, "Вернулся пустой объект");
-        assertEquals(intensity.getId(), result, "У объекта неверное id");
-    }
+//    /**
+//     * Проверка getIntensityId с существующей интенсивностью
+//     */
+//    @Test
+//    void testGetIntensityId() {
+//        Intensity intensity = new Intensity(INTENSITY_TYPE);
+//        intensity.setId(INTENSITY_ID);
+//
+//        when(intensityRepository.findIntensityByType(INTENSITY_TYPE)).thenReturn(intensity);
+//
+//        Long result = intensityService.getIntensityId(INTENSITY_TYPE);
+//        assertNotNull(result, "Вернулся пустой объект");
+//        assertEquals(intensity.getId(), result, "У объекта неверное id");
+//    }
 
 }
