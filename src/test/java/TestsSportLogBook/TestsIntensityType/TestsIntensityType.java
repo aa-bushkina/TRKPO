@@ -1,4 +1,4 @@
-package TestsIntensityType;
+package TestsSportLogBook.TestsIntensityType;
 
 import com.cygans.database.sport_log_book.intensity.IntensityType;
 import org.junit.Test;
