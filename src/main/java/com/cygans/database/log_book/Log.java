@@ -40,6 +40,9 @@ public class Log implements Serializable, Comparable<Log> {
     }
 
     public void setId(long id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("Id не может быть отрицательным");
+        }
         this.id = id;
     }
 

@@ -25,6 +25,10 @@ public class EmotionalLogBook extends Logbook implements Comparable<EmotionalLog
     public EmotionalLogBook(Long logBookId,
                             LocalDateTime timeType,
                             String description) {
+        if (logBookId == null || description == null || timeType == null)
+        {
+            throw new IllegalArgumentException("Обязательные поля при создании записи эмоций не могут быть пустыми");
+        }
         this.logBookId = logBookId;
         this.timeType = timeType;
         this.description = description;
