@@ -1,4 +1,4 @@
-package TestsStatusOfNotification;
+package TestsNotifications.TestsStatusOfNotification;
 
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import org.junit.Test;
