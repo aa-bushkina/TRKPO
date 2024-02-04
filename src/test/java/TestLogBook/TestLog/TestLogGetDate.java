@@ -1,7 +1,7 @@
 package TestLogBook.TestLog;
 
 import com.cygans.database.log_book.Log;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.time.LocalDate;
 
