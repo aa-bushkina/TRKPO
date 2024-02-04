@@ -21,6 +21,9 @@ public class NotificationStatus implements Serializable {
     }
 
     public NotificationStatus(String status) {
+        if (status == null || status.isEmpty()) {
+            throw new IllegalArgumentException("Обязательные поля при создании Статуса нотификации не могут быть пустыми");
+        }
         this.status = status;
     }
 
