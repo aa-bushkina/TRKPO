@@ -2,7 +2,7 @@ package TestLogBook.TestLogsType;
 
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -1,10 +1,9 @@
 package TestsParticipantMentor;
 
 import com.cygans.database.participant_mentor.ParticipantMentor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestsSetParticipantId {
 

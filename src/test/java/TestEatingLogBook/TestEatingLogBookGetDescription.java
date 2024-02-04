@@ -1,9 +1,10 @@
 package TestEatingLogBook;
 
 import com.cygans.database.eating_log_book.EatingLogBook;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Тесты для метода getDescription() класса EatingLogBook
@@ -27,9 +28,18 @@ public class TestEatingLogBookGetDescription {
     @Test
     public void testGetDescriptionWithNull() {
         EatingLogBook eatingLogBook = new EatingLogBook();
-        eatingLogBook.setDescription(null);
+        assertThrows(IllegalArgumentException.class, () -> eatingLogBook.setDescription(null),
+                "Метод setDescription() должен бросить исключение для null значения description");
+    }
 
-        assertEquals(null, eatingLogBook.getDescription(), "Метод getDescription() возвращает неверное значение");
+    /**
+     * Проверяет, что метод возвращает null, если description установлен в null
+     */
+    @Test
+    public void testGetEmptyDescription() {
+        EatingLogBook eatingLogBook = new EatingLogBook();
+        assertThrows(IllegalArgumentException.class, () -> eatingLogBook.setDescription(""),
+                "Метод setDescription() должен бросить исключение для для пустого значения description");
     }
 
     /**
