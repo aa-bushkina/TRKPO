@@ -81,6 +81,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setId(long id) {
+        if (id < 0) {
+            throw new IllegalArgumentException("id должно иметь значение > 0");
+        }
         this.id = id;
     }
 
@@ -89,6 +92,9 @@ public class EatingLogBook extends Logbook implements Comparable<EatingLogBook> 
     }
 
     public void setDescription(String description) {
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException("description должно иметь значение от null и пустого");
+        }
         this.description = description;
     }
 
