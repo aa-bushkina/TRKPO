@@ -34,6 +34,12 @@ public class Participant extends Person implements Comparable<Participant> {
                        Integer waist,
                        Integer breast,
                        Long loginInfoId) {
+        if (firstName == null || lastName == null || login == null || phone == null || gender == null ||
+            birthday == null ||height == null || weight == null ||hips == null ||waist == null ||
+            breast == null || loginInfoId  == null || firstName.isEmpty() || login.isEmpty() || phone.isEmpty() || gender.isEmpty())
+        {
+            throw new IllegalArgumentException("Обязательные поля при создании записи эмоций не могут быть пустыми");
+        }
         this.firstname = firstName;
         this.lastname = lastName;
         this.login = login;
@@ -99,13 +105,19 @@ public class Participant extends Person implements Comparable<Participant> {
     @Override
     public String toString() {
         return "Participant{" +
-                "id=" + id +
-                ", firstname='" + firstname +
-                ", lastname='" + lastname +
-                ", login='" + login +
-                ", phone='" + phone +
-                ", gender='" + gender +
-                ", birthday=" + birthday +
-                '}';
+          "height=" + height +
+          ", weight=" + weight +
+          ", hips=" + hips +
+          ", waist=" + waist +
+          ", breast=" + breast +
+          ", id=" + id +
+          ", firstname=" + firstname +
+          ", lastname=" + lastname +
+          ", login=" + login +
+          ", phone=" + phone +
+          ", gender=" + gender +
+          ", birthday=" + birthday +
+          ", loginInfoId=" + loginInfoId +
+          '}';
     }
 }
