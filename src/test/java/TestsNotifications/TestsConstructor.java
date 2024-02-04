@@ -15,7 +15,9 @@ public class TestsConstructor {
     private static final Long NOTIFICATION_TYPE_ID = 3L;
     private static final Long NOTIFICATION_STATUS_ID = 4L;
 
-    //Проверяет работу конструктора с параметрами
+    /**
+     * Проверяет работу конструктора с параметрами
+     */
     @Test
     public void testConstructorWithParameters() {
         Notifications notifications = new Notifications(PARTICIPANT_ID, MENTOR_ID, NOTIFICATION_TYPE_ID, NOTIFICATION_STATUS_ID);
@@ -34,7 +36,9 @@ public class TestsConstructor {
         );
     }
 
-    //Проверяет работу конструктора без параметров
+    /**
+     * Проверяет работу конструктора без параметров
+     */
     @Test
     public void testConstructorWithoutParameters() {
         Notifications notifications = new Notifications();
@@ -51,6 +55,42 @@ public class TestsConstructor {
                 () -> assertNull(notifications.getQuestionId(), "QuestionId не пустой"),
                 () -> assertThrows(NullPointerException.class, notifications::getDateNoTime, "Неверный тип ошиби при вызове getDateNoTime")
         );
+    }
+
+    /**
+     * Проверяет работу конструктора с параметрами c participantId null
+     */
+    @Test
+    public void testConstructorWithParticipantIdNullValues() {
+        assertThrows(IllegalArgumentException.class, () -> new Notifications(null, MENTOR_ID, NOTIFICATION_TYPE_ID, NOTIFICATION_STATUS_ID),
+                "Не получили ожидаеме исключение при вызове метода с participantId null");
+    }
+
+    /**
+     * Проверяет работу конструктора с параметрами c mentorId null
+     */
+    @Test
+    public void testConstructorWithMentorIdNullValues() {
+        assertThrows(IllegalArgumentException.class, () -> new Notifications(PARTICIPANT_ID, null, NOTIFICATION_TYPE_ID, NOTIFICATION_STATUS_ID),
+                "Не получили ожидаеме исключение при вызове метода с mentorId null");
+    }
+
+    /**
+     * Проверяет работу конструктора с параметрами c notificationTypeId null
+     */
+    @Test
+    public void testConstructorWithNotificationTypeIdNullValues() {
+        assertThrows(IllegalArgumentException.class, () -> new Notifications(PARTICIPANT_ID, MENTOR_ID, null, NOTIFICATION_STATUS_ID),
+                "Не получили ожидаеме исключение при вызове метода с notificationTypeId null");
+    }
+
+    /**
+     * Проверяет работу конструктора с параметрами c notificationStatusId null
+     */
+    @Test
+    public void testConstructorWithNotificationStatusIdNullValues() {
+        assertThrows(IllegalArgumentException.class, () -> new Notifications(PARTICIPANT_ID, MENTOR_ID, NOTIFICATION_TYPE_ID, null),
+                "Не получили ожидаеме исключение при вызове метода с notificationStatusId null");
     }
 
 }

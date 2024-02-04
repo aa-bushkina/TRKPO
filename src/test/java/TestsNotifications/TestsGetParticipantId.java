@@ -13,7 +13,7 @@ public class TestsGetParticipantId {
      * Проверяет работу getParticipantId
      */
     @Test
-    public void testGetParticipantIdIWithoutSet() {
+    public void testGetParticipantId() {
         Notifications notifications = new Notifications(PARTICIPANT_ID, 2L, 3L, 4L);
         assertEquals(PARTICIPANT_ID, notifications.getParticipantId(), "Возвращается неверное значение");
     }

@@ -55,7 +55,7 @@ public class TestsConstructor {
     @Test
     public void testConstructorWithLogBookIdNullValues() {
         assertThrows(IllegalArgumentException.class, () -> new SportLogBook(null, INTENSITY_ID, DURATION, TIME_TYPE, ACTIVITY, COMMENTS),
-                "Не получили ожидаеме исключение при вызове метода logBookId null");
+                "Не получили ожидаеме исключение при вызове метода с logBookId null");
     }
 
     /**

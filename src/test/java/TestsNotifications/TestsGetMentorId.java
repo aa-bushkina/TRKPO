@@ -13,7 +13,7 @@ public class TestsGetMentorId {
      * Проверяет работу getMentorId
      */
     @Test
-    public void testGetMentorIdIWithoutSet() {
+    public void testGetMentorId() {
         Notifications notifications = new Notifications(1L, MENTOR_ID, 3L, 4L);
         assertEquals(MENTOR_ID, notifications.getMentorId(), "Возвращается неверное значение");
     }
