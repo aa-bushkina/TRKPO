@@ -21,7 +21,13 @@ public class LogsType implements Serializable {
     }
 
     public LogsType(String type) {
-        this.type = type;
+        for (LogBookType logBookType : LogBookType.values()) {
+            if (logBookType.getText().equals(type)) {
+                this.type = type;
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Недопустимое значение для типа: " + type);
     }
 
     public Long getId() {
