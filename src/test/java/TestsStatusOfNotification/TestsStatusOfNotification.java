@@ -59,9 +59,9 @@ public class TestsStatusOfNotification {
     @Test
     public void testEnumEquality() {
         assertEquals(StatusOfNotification.ANSWERED_NOT_SEEN, StatusOfNotification.ANSWERED_NOT_SEEN,
-                "Сравнение двух элементов ANSWERED_NOT_SEEN EMOTIONAL показало, что они не равны");
+                "Сравнение двух элементов ANSWERED_NOT_SEEN показало, что они не равны");
         assertEquals(StatusOfNotification.ANSWERED_SEEN, StatusOfNotification.ANSWERED_SEEN,
-                "Сравнение двух элементов ANSWERED_SEEN SPORT показало, что они не равны");
+                "Сравнение двух элементов ANSWERED_SEEN показало, что они не равны");
         assertEquals(StatusOfNotification.NO_ANSWER, StatusOfNotification.NO_ANSWER,
                 "Сравнение двух элементов типа NO_ANSWER показало, что они не равны");
     }
