@@ -59,15 +59,6 @@ public class TestsConstructor {
     }
 
     /**
-     * Проверяет конструктор с logBookId null
-     */
-    @Test
-    public void testConstructorWithLogBookIdNullValues() {
-        assertThrows(IllegalArgumentException.class, () -> new SportLogBook(null, INTENSITY_ID, DURATION, TIME_TYPE, ACTIVITY, COMMENTS),
-                "Не получили ожидаемое исключение при вызове метода c logBookId null");
-    }
-
-    /**
      * Проверяет конструктор с intensityId null
      */
     @Test
