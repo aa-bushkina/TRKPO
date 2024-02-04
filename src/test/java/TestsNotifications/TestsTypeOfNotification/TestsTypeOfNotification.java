@@ -1,7 +1,7 @@
 package TestsNotifications.TestsTypeOfNotification;
 
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 

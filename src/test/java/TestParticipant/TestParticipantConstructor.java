@@ -3,7 +3,7 @@ package TestParticipant;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.participant.Participant;
 import com.fasterxml.jackson.databind.node.BigIntegerNode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
