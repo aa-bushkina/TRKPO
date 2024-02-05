@@ -119,6 +119,10 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         this.shortMessage = shortMessage;
     }
 
+    public String getShortMessage() {
+        return shortMessage;
+    }
+
     public String getAllMessage() {
         return allMessage;
     }
