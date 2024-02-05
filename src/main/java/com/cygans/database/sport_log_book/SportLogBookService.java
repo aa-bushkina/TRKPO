@@ -8,8 +8,13 @@ import java.util.List;
 
 @Service
 public class SportLogBookService {
+    private final SportLogBookRepository repository;
+
     @Autowired
-    SportLogBookRepository repository;
+    public SportLogBookService(SportLogBookRepository sportLogBookRepository) {
+        this.repository = sportLogBookRepository;
+    }
+
 
     public void saveSportLog(SportLogBook sportLogBook) {
         repository.save(sportLogBook);

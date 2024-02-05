@@ -6,8 +6,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class IntensityService {
 
+
+    private final IntensityRepository intensityRepository;
+
     @Autowired
-    private IntensityRepository intensityRepository;
+    public IntensityService(IntensityRepository intensityRepository) {
+        this.intensityRepository = intensityRepository;
+    }
+
 
     public Long getIntensityId(String type) {
         return intensityRepository.findIntensityByType(type).getId();
