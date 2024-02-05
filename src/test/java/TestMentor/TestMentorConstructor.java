@@ -2,8 +2,12 @@ package TestMentor;
 
 import com.cygans.database.mentor.Mentor;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -63,58 +67,34 @@ public class TestMentorConstructor {
     /**
      * Проверяет конструктор с параметрами null
      */
-    @Test
-    public void testConstructorWithNullValues() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(null, null, null, null, null, null, null),
-                "Не получили ожидаеме исключение при вызове метода со всеми параметрами null");
-    }
-
-    /**
-     * Проверяет, что конструктор обрабатывает случай с недостаточным количеством значений
-     */
-    @Test
-    public void testConstructorWithMissingRequiredValues() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, null, null, null, GENDER, null, LOGIN_INFO_ID),
+    @ParameterizedTest(name = "[firstName: {0}, lastName: {1}, login: {2},phone: {3}, gender: {4}, birthday: {5}, loginInfoId: {6}")
+    @MethodSource("provideInvalidParams")
+    public void testConstructorWithMissingRequiredValues(String firstName,
+                                                         String lastName,
+                                                         String login,
+                                                         String phone,
+                                                         String gender,
+                                                         LocalDate birthday,
+                                                         Long loginInfoId) {
+        assertThrows(IllegalArgumentException.class, () -> new Mentor(firstName, lastName, login, phone, gender, birthday, loginInfoId),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-
-        assertThrows(IllegalArgumentException.class, () -> new Mentor("", "", "", "", "", BIRTHDAY, LOGIN_INFO_ID),
-                "Не получили ожидаеме исключение при вызове метода с пустыми обязательными параметрами");
     }
 
-    /**
-     * Проверяет конструктор с параметром lastname = null
-     */
-    @Test
-    public void testConstructorWithNullLastname() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                "Не получили ожидаеме исключение при вызове метода с параметром lastname = null");
-    }
-
-
-    /**
-     * Проверяет конструктор с параметром login = null
-     */
-    @Test
-    public void testConstructorWithNullLogin() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                "Не получили ожидаеме исключение при вызове метода с параметром login = null");
-    }
-
-    /**
-     * Проверяет конструктор с параметром phone = null
-     */
-    @Test
-    public void testConstructorWithNullPhone() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                "Не получили ожидаеме исключение при вызове метода с параметром phone = null");
-    }
-
-    /**
-     * Проверяет конструктор с параметром gender = null
-     */
-    @Test
-    public void testConstructorWithNullGender() {
-        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
-                "Не получили ожидаеме исключение при вызове метода с параметром gender = null");
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null),
+                Arguments.of(null, null, null, null, null, null, null),
+                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, LOGIN_INFO_ID)
+        );
     }
 }
