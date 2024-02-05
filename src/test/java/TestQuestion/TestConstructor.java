@@ -6,15 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static TestQuestion.Variables.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestConstructor {
-
-  private static final Long PARTICIPANT_ID = 1L;
-  private static final LocalDate DATE = LocalDate.of(1990, 1, 1);
-  private static final String QUESTION = "Question text";
-  private static final Long STATUS_ID = 1L;
 
   /**
    * Проверяет конструктор с параметрами
