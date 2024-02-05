@@ -1,5 +1,6 @@
 package com.cygans.database.mentor;
 
+import com.cygans.database.log_book.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +9,13 @@ import java.time.LocalDate;
 
 @Service
 public class MentorService {
+
+    private final MentorRepository repository;
+
     @Autowired
-    MentorRepository repository;
+    public MentorService(MentorRepository mentorRepository) {
+        this.repository = mentorRepository;
+    }
 
     public Boolean isNeedToAddHardcodedUser() {
         return repository.findAll().size() == 0;
@@ -62,4 +68,5 @@ public class MentorService {
     public void saveMentor(Mentor mentor) {
         repository.save(mentor);
     }
+
 }

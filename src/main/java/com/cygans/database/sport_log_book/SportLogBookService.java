@@ -1,5 +1,6 @@
 package com.cygans.database.sport_log_book;
 
+import com.cygans.database.sport_log_book.intensity.IntensityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +9,13 @@ import java.util.List;
 
 @Service
 public class SportLogBookService {
+    private final SportLogBookRepository repository;
+
     @Autowired
-    SportLogBookRepository repository;
+    public SportLogBookService(SportLogBookRepository sportLogBookRepository) {
+        this.repository = sportLogBookRepository;
+    }
+
 
     public void saveSportLog(SportLogBook sportLogBook) {
         repository.save(sportLogBook);
