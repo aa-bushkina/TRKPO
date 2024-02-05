@@ -80,4 +80,41 @@ public class TestMentorConstructor {
         assertThrows(IllegalArgumentException.class, () -> new Mentor("", "", "", "", "", BIRTHDAY, LOGIN_INFO_ID),
                 "Не получили ожидаеме исключение при вызове метода с пустыми обязательными параметрами");
     }
+
+    /**
+     * Проверяет конструктор с параметром lastname = null
+     */
+    @Test
+    public void testConstructorWithNullLastname() {
+        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                "Не получили ожидаеме исключение при вызове метода с параметром lastname = null");
+    }
+
+
+    /**
+     * Проверяет конструктор с параметром login = null
+     */
+    @Test
+    public void testConstructorWithNullLogin() {
+        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                "Не получили ожидаеме исключение при вызове метода с параметром login = null");
+    }
+
+    /**
+     * Проверяет конструктор с параметром phone = null
+     */
+    @Test
+    public void testConstructorWithNullPhone() {
+        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                "Не получили ожидаеме исключение при вызове метода с параметром phone = null");
+    }
+
+    /**
+     * Проверяет конструктор с параметром gender = null
+     */
+    @Test
+    public void testConstructorWithNullGender() {
+        assertThrows(IllegalArgumentException.class, () -> new Mentor(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
+                "Не получили ожидаеме исключение при вызове метода с параметром gender = null");
+    }
 }
