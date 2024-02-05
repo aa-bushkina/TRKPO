@@ -3,7 +3,9 @@ package TestsNotifications.TestsStatusOfNotificationEnum;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestsStatusOfNotification {
 
@@ -86,5 +88,5 @@ public class TestsStatusOfNotification {
     public void testValueOfWithInvalidString() {
         assertThrows(IllegalArgumentException.class, () -> StatusOfNotification.valueOf("INVALID_TYPE"));
     }
-    
+
 }

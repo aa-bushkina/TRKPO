@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestsGetId {
 
-    private static class TestLogbook extends Logbook {
-    }
-
-
     /**
      * Проверяет работу getId
      */
@@ -31,6 +27,9 @@ public class TestsGetId {
         assertEquals(1L, logbook.getId(), "Вернулось неверное значение до изменения");
         logbook.setId(2L);
         assertEquals(2L, logbook.getId(), "Вернулось неверное значение после изменения");
+    }
+
+    private static class TestLogbook extends Logbook {
     }
 
 }

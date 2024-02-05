@@ -4,6 +4,7 @@ import com.cygans.database.log_book.Log;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тест проверяет вызов метода setParticipantId() класса Log
@@ -31,7 +32,7 @@ public class TestLogSetParticipantId {
 
         log.setParticipantId(null);
 
-        assertEquals(null, log.getParticipantId(), "Метод setParticipantId() не устанавливает null в participantId");
+        assertNull(log.getParticipantId(), "Метод setParticipantId() не устанавливает null в participantId");
     }
 
     /**

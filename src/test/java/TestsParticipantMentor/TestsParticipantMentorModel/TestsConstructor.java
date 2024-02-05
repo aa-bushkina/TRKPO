@@ -2,7 +2,11 @@ package TestsParticipantMentor.TestsParticipantMentorModel;
 
 import com.cygans.database.participant_mentor.ParticipantMentor;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestsConstructor {
 

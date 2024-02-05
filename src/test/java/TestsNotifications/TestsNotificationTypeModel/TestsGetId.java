@@ -4,7 +4,7 @@ import com.cygans.database.notifications.notification_type.NotificationType;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestsGetId {
 

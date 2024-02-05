@@ -1,10 +1,7 @@
 package TestsParticipantMentor.TestsParticipantMentorModel;
 
 import com.cygans.database.participant_mentor.ParticipantMentor;
-import com.cygans.database.sport_log_book.SportLogBook;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,8 +14,8 @@ public class TestsToString {
     private static final Long PARTICIPANT_ID = 1L;
     private static final Long MENTOR_ID = 1L;
     private static final Long PARTICIPANT_ID_NEW = 2L;
-    private static final Long MENTOR_ID_NEW  = 2L;
-    private static final String NULL_STRING  = "null";
+    private static final Long MENTOR_ID_NEW = 2L;
+    private static final String NULL_STRING = "null";
 
     /**
      * Проверяет метод toString() на наличие обязательных полей

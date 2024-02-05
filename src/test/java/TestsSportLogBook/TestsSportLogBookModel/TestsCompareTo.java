@@ -12,7 +12,7 @@ public class TestsCompareTo {
 
 
     private static final LocalDateTime TIME_TYPE_1 = LocalDateTime.now();
-    private static final  LocalDateTime TIME_TYPE_2 = TIME_TYPE_1.plusHours(1);
+    private static final LocalDateTime TIME_TYPE_2 = TIME_TYPE_1.plusHours(1);
 
     //Сравнение, когда у вызывающий объект меньше
     @Test

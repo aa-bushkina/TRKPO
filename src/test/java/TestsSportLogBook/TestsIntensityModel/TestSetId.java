@@ -1,10 +1,7 @@
-package TestsSportLogBook.TestsIntensity;
+package TestsSportLogBook.TestsIntensityModel;
 
-import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.intensity.Intensity;
 import org.junit.Test;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

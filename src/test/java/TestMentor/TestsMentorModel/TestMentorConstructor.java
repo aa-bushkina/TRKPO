@@ -27,6 +27,24 @@ public class TestMentorConstructor {
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
     private static final Long LOGIN_INFO_ID = 1L;
 
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null),
+                Arguments.of(null, null, null, null, null, null, null),
+                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, LOGIN_INFO_ID)
+        );
+    }
+
     /**
      * Проверяет конструктор с параметрами
      */
@@ -78,23 +96,5 @@ public class TestMentorConstructor {
                                                          Long loginInfoId) {
         assertThrows(IllegalArgumentException.class, () -> new Mentor(firstName, lastName, login, phone, gender, birthday, loginInfoId),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-    }
-
-    private static Stream<Arguments> provideInvalidParams() {
-        return Stream.of(
-                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null),
-                Arguments.of(null, null, null, null, null, null, null),
-                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, LOGIN_INFO_ID)
-        );
     }
 }

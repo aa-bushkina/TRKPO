@@ -15,19 +15,21 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsFill {
 
-    @Mock
-    private NotificationTypeRepository repository;
-
-    @InjectMocks
-    private NotificationTypeService service;
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    @Mock
+    private NotificationTypeRepository repository;
+    @InjectMocks
+    private NotificationTypeService service;
 
     @BeforeEach
     public void setUpStreams() {
