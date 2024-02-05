@@ -1,4 +1,4 @@
-package TestsPerson;
+package TestParticipant;
 
 import com.cygans.database.participant.Participant;
 import org.junit.jupiter.api.Test;
