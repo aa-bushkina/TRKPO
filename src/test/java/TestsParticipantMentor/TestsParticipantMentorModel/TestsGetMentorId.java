@@ -1,4 +1,4 @@
-package TestsParticipantMentor;
+package TestsParticipantMentor.TestsParticipantMentorModel;
 
 import com.cygans.database.participant_mentor.ParticipantMentor;
 import org.junit.jupiter.api.Test;
