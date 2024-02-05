@@ -2,8 +2,12 @@ package TestEmotionalLogBook;
 
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDateTime;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,50 +53,19 @@ public class TestConstructor {
     /**
      * Проверяет конструктор с параметрами null
      */
-    @Test
-    public void testConstructorWithNullValues() {
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(null, null, null),
-                "Не получили ожидаеме исключение при вызове метода со всеми параметрами null");
-    }
-
-    /**
-     * Проверяет конструктор с параметром LogBookId = null
-     */
-    @Test
-    public void testConstructorWithNullLogBookId() {
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(null, LOCAL_DATE_TIME, DESCRIPTION),
-                "Не получили ожидаеме исключение при вызове метода с параметром LogBookId = null");
-    }
-
-    /**
-     * Проверяет конструктор с параметром Description = null
-     */
-    @Test
-    public void testConstructorWithNullDescription() {
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(LOG_BOOK_ID, LOCAL_DATE_TIME, null),
-                "Не получили ожидаеме исключение при вызове метода с параметром Description = null");
-    }
-
-    /**
-     * Проверяет конструктор с параметром TimeType = null
-     */
-    @Test
-    public void testConstructorWithNullTimeType() {
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(LOG_BOOK_ID, null, DESCRIPTION),
-                "Не получили ожидаеме исключение при вызове метода с параметром TimeType = null");
-    }
-
-    /**
-     * Проверяет, что конструктор обрабатывает случай с недостаточным количеством значений
-     */
-    @Test
-    public void testConstructorWithMissingRequiredValues() {
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(null, null, DESCRIPTION),
+    @ParameterizedTest(name = "[logBookId: {0}, timeType: {1}, description: {2}")
+    @MethodSource("provideInvalidParams")
+    public void testConstructorWithMissingRequiredValues(Long logBookId, LocalDateTime timeType, String description) {
+        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(logBookId, timeType, description),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-
-        assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(LOG_BOOK_ID, null, null),
-                "Не получили ожидаеме исключение при вызове метода с пустыми обязательными параметрами");
     }
 
-
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, LOCAL_DATE_TIME, DESCRIPTION),
+                Arguments.of(LOG_BOOK_ID, LOCAL_DATE_TIME, null),
+                Arguments.of(LOG_BOOK_ID, null, DESCRIPTION),
+                Arguments.of(null, null, null)
+        );
+    }
 }
