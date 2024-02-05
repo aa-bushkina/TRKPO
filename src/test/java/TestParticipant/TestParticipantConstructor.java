@@ -78,15 +78,6 @@ public class TestParticipantConstructor {
         );
     }
 
-    /**
-     * Проверяет конструктор с параметрами null
-     */
-    @Test
-    public void testConstructorWithNullValues() {
-        assertThrows(IllegalArgumentException.class, () -> new Participant(null, null, null, null, null, null, null, null, null, null, null, null),
-                "Не получили ожидаеме исключение при вызове метода со всеми параметрами null");
-    }
-
     @ParameterizedTest(name = "[firstName: {0}, lastName: {1}, login: {2}, phone: {3}, gender: {4}, birthday: {5}" +
             ", height: {6}, weight: {7}, hips: {8}, waist: {9}, breast: {10}, loginInfoId: {11}")
     @MethodSource("provideInvalidParams")
@@ -112,7 +103,19 @@ public class TestParticipantConstructor {
                 Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, null, WAIST, BREAST, LOGIN_INFO_ID),
                 Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, null, BREAST, LOGIN_INFO_ID),
                 Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, null, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, null)
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, null),
+                Arguments.of(null, null, null, null, null, null, null, null, null, null, null, null),
+                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, "", HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, "", WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, "", HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, "", WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, "", BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, "", LOGIN_INFO_ID)
         );
     }
 }
