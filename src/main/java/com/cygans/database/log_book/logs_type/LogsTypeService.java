@@ -1,5 +1,6 @@
 package com.cygans.database.log_book.logs_type;
 
+import com.cygans.database.emotional_log_book.EmotionalLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +10,12 @@ import java.util.List;
 @Service
 public class LogsTypeService {
 
+    private final LogsTypeRepository logsTypeRepository;
+
     @Autowired
-    private LogsTypeRepository logsTypeRepository;
+    public LogsTypeService(LogsTypeRepository logsTypeRepository) {
+        this.logsTypeRepository = logsTypeRepository;
+    }
 
     public Long getLogTypeId(String type) {
         return logsTypeRepository.findLogsTypeByType(type).getId();
@@ -36,4 +41,5 @@ public class LogsTypeService {
                 LogBookType.SPORT.getText(),
                 LogBookType.EATING.getText()));
     }
+
 }

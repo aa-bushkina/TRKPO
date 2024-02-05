@@ -1,5 +1,6 @@
 package com.cygans.database.participant;
 
+import com.cygans.database.notifications.notification_type.NotificationTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,8 +8,13 @@ import java.time.LocalDate;
 
 @Service
 public class ParticipantService {
+
+    private final ParticipantRepository repository;
+
     @Autowired
-    ParticipantRepository repository;
+    public ParticipantService(ParticipantRepository participantRepository) {
+        this.repository = participantRepository;
+    }
 
     public Boolean isNeedToAddHardcodedUser() {
         return repository.findAll().size() == 0;
