@@ -297,7 +297,7 @@
                 <configuration>
                     <excludes>
                         <exclude>com/cygans/views/**</exclude>
-                        <exclude>com/cygans/views/**</exclude>
+                        <exclude>com/cygans/database/controllers/**</exclude>
                         <exclude>com/cygans/Application.java</exclude>
                     </excludes>
                 </configuration>

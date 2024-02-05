@@ -15,6 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Тест проверяет вызов конструкторов класса EatingLogBook
  */
 public class TestEatingLogBookConstructor {
+    private static final long LOG_BOOK_ID = 1L;
+    private static final LocalTime TIME_EAT = LocalTime.NOON;
+    private static final String DESCRIPTION = "Test description";
+    private static final long MEAL_ID = 2L;
+
     /**
      * Проверяет вызов конструктора без параметров
      */
@@ -35,19 +40,15 @@ public class TestEatingLogBookConstructor {
      */
     @Test
     public void testConstructorWithParameters() {
-        long logBookId = 1L;
-        LocalTime timeEat = LocalTime.NOON;
-        String description = "Test description";
-        long mealId = 2L;
         LocalDateTime timeType = LocalDateTime.now();
 
-        EatingLogBook eatingLogBook = new EatingLogBook(logBookId, timeEat, description, mealId, timeType);
+        EatingLogBook eatingLogBook = new EatingLogBook(LOG_BOOK_ID, TIME_EAT, DESCRIPTION, MEAL_ID, timeType);
 
         assertNotNull(eatingLogBook.getId(), "Id не должен быть null");
-        assertEquals(logBookId, eatingLogBook.getLogBookId(), "LogBookId не соответствует ожидаемому значению");
-        assertEquals(timeEat, eatingLogBook.getTimeEat(), "TimeEat не соответствует ожидаемому значению");
-        assertEquals(description, eatingLogBook.getDescription(), "Description не соответствует ожидаемому значению");
-        assertEquals(mealId, eatingLogBook.getMealId(), "MealId не соответствует ожидаемому значению");
+        assertEquals(LOG_BOOK_ID, eatingLogBook.getLogBookId(), "LogBookId не соответствует ожидаемому значению");
+        assertEquals(TIME_EAT, eatingLogBook.getTimeEat(), "TimeEat не соответствует ожидаемому значению");
+        assertEquals(DESCRIPTION, eatingLogBook.getDescription(), "Description не соответствует ожидаемому значению");
+        assertEquals(MEAL_ID, eatingLogBook.getMealId(), "MealId не соответствует ожидаемому значению");
         assertEquals(timeType, eatingLogBook.getTimeType(), "TimeType не соответствует ожидаемому значению");
     }
 
@@ -56,7 +57,27 @@ public class TestEatingLogBookConstructor {
      */
     @Test
     public void testConstructorWithEmptyValues() {
-        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(0, null, "", 0, null), "Конструктор должен бросить исключение для пустых значений полей");
+        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(0, null, "", 0, null),
+                "Конструктор должен бросить исключение для пустых значений полей");
+    }
+
+    /**
+     * Проверяет конструктор с параметром MealId = null
+     */
+    @Test
+    public void testConstructorWithNullMealId() {
+        LocalDateTime timeType = LocalDateTime.now();
+        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(LOG_BOOK_ID, TIME_EAT, DESCRIPTION, -1, timeType),
+                "Не получили ожидаеме исключение при вызове метода с параметром MealId = null");
+    }
+
+    /**
+     * Проверяет конструктор с параметром TimeType = null
+     */
+    @Test
+    public void testConstructorWithNullTimeType() {
+        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(LOG_BOOK_ID, TIME_EAT, DESCRIPTION, MEAL_ID, null),
+                "Не получили ожидаеме исключение при вызове метода с параметром TimeType = null");
     }
 
     /**
@@ -64,7 +85,8 @@ public class TestEatingLogBookConstructor {
      */
     @Test
     public void testConstructorWithNegativeValues() {
-        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(-1, LocalTime.NOON, "Test", -2, LocalDateTime.now()), "Конструктор должен бросить исключение для отрицательных значений LogBookId и MealId");
+        assertThrows(IllegalArgumentException.class, () -> new EatingLogBook(-1, LocalTime.NOON, "Test", -2, LocalDateTime.now()),
+                "Конструктор должен бросить исключение для отрицательных значений LogBookId и MealId");
     }
 
     /**
