@@ -33,7 +33,7 @@ public class NotificationTypeService {
             repository.save(new NotificationType(TypeOfNotification.ANSWER_ON_QUESTION.getValue()));
             repository.save(new NotificationType(TypeOfNotification.DECLINE_MENTOR.getValue()));
         } else if (repository.count() > 7) {
-            System.out.println("Что-то идет не так, почистите таблицу notification_type!!! В ней должно быть только 4 заранее добавленные записи!!!");
+            System.out.println("Что-то идет не так, почистите таблицу notification_type!!! В ней должно быть только 7 заранее добавленные записи!!!");
         }
     }
 
