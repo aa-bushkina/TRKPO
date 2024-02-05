@@ -1,33 +1,73 @@
 package TestsSportLogBook.TestIntensityService;
 
-import static org.mockito.Mockito.*;
-
 import com.cygans.database.sport_log_book.intensity.IntensityRepository;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class TestsFill {
 
+    @Mock
     private IntensityRepository intensityRepository;
 
+    @InjectMocks
     private IntensityService intensityService;
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
     @BeforeEach
-    void setUp() {
-        intensityRepository = mock(IntensityRepository.class);
-//        intensityService = new IntensityService();
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    public void restoreStreams() {
+        System.setOut(originalOut);
     }
 
     /**
-     * Проверка метода, когда в БД больше 3 записей
+     *  Тест проверяет, что метод fill() вызывает save() три раза, когда репозиторий пуст.
      */
     @Test
-    void testFillWhenRepositoryHasMoreThanThreeRecords() {
-        when(intensityRepository.count()).thenReturn(4L);
+    public void testFillWhenRepositoryIsEmpty() {
+        when(intensityRepository.count()).thenReturn(0L);
         intensityService.fill();
-        verify(intensityRepository, never()).save(any());
+        verify(intensityRepository, times(3)).save(any());
     }
 
+    /**
+     * Тест проверяет, что при наличии более чем трех записей в репозитории выводится сообщение об ошибке в консоль.
+     */
+    @Test
+    public void testFillWhenRepositoryHasMoreThanThreeRecords() {
+        when(intensityRepository.count()).thenReturn(4L);
+        intensityService.fill();
+        assertTrue(outContent.toString().contains("Что-то идет не так, почистите таблицу intensity!!! В ней должно быть только 3 заранее добавленные записи!!!"), "В консоли неверное сообщение");
+    }
+
+    /**
+     * Тест проверяет, что метод fill() не вызывает save(), когда в репозитории уже три записи.
+     */
+    @Test
+    public void testFillWhenRepositoryHasThreeRecords() {
+        when(intensityRepository.count()).thenReturn(3L);
+
+        intensityService.fill();
+
+        verify(intensityRepository, never()).save(any());
+    }
 }
+
