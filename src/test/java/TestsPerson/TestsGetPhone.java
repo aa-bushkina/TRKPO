@@ -13,8 +13,8 @@ public class TestsGetPhone {
     @Test
     public void testGetPhone() {
         Person person = new PersonForTest();
-        person.setPhone("89563787635");
-        assertEquals("89563787635", person.getPhone(), "Верунлся неверный номер телефона");
+        person.setPhone("+79563787635");
+        assertEquals("+79563787635", person.getPhone(), "Верунлся неверный номер телефона");
     }
 
 }
