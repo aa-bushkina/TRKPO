@@ -1,4 +1,4 @@
-package TestsSportLogBook.TestsIntensityType;
+package TestsSportLogBook.TestsIntensityTypeModel;
 
 import com.cygans.database.sport_log_book.intensity.IntensityType;
 import org.junit.jupiter.api.Test;

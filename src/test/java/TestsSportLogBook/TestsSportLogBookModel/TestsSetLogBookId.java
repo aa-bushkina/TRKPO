@@ -1,4 +1,4 @@
-package TestsSportLogBook;
+package TestsSportLogBook.TestsSportLogBookModel;
 
 import com.cygans.database.sport_log_book.SportLogBook;
 import org.junit.jupiter.api.Test;

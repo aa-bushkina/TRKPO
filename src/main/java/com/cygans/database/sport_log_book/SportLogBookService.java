@@ -1,6 +1,5 @@
 package com.cygans.database.sport_log_book;
 
-import com.cygans.database.sport_log_book.intensity.IntensityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
