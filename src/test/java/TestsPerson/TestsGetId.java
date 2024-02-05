@@ -13,7 +13,7 @@ public class TestsGetId {
     @Test
     public void testGetId() {
         Person person = new PersonForTest();
-        assertEquals(0L, person.getId(),"Вернулся неверный id");
+        assertEquals(0L, person.getId(), "Вернулся неверный id");
     }
 
 }

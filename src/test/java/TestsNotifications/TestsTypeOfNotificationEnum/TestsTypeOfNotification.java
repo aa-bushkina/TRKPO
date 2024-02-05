@@ -3,7 +3,9 @@ package TestsNotifications.TestsTypeOfNotificationEnum;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestsTypeOfNotification {
 
@@ -32,7 +34,7 @@ public class TestsTypeOfNotification {
                 "Результат вызова getText() не совпадает с ожидаемым для ADD_REQUEST");
         assertEquals("Отказ в отслеживании", TypeOfNotification.DECLINE_MENTOR.getValue(),
                 "Результат вызова getText() не совпадает с ожидаемым для DECLINE_MENTOR");
-        assertEquals("Новая запись участника", TypeOfNotification. NEW_LOG.getValue(),
+        assertEquals("Новая запись участника", TypeOfNotification.NEW_LOG.getValue(),
                 "Результат вызова getText() не совпадает с ожидаемым для NEW_LOG");
         assertEquals("Удаление из отслеживания", TypeOfNotification.DELETE_REQUEST.getValue(),
                 "Результат вызова getText() не совпадает с ожидаемым для DELETE_REQUEST");
@@ -118,5 +120,5 @@ public class TestsTypeOfNotification {
     public void testValueOfWithInvalidString() {
         assertThrows(IllegalArgumentException.class, () -> TypeOfNotification.valueOf("INVALID_TYPE"));
     }
-    
+
 }

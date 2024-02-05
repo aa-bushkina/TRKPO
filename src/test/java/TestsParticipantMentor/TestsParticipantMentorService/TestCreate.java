@@ -1,7 +1,6 @@
 package TestsParticipantMentor.TestsParticipantMentorService;
 
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import org.junit.jupiter.api.Test;

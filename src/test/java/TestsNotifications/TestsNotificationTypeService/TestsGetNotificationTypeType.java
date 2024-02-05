@@ -3,7 +3,6 @@ package TestsNotifications.TestsNotificationTypeService;
 import com.cygans.database.notifications.notification_type.NotificationType;
 import com.cygans.database.notifications.notification_type.NotificationTypeRepository;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

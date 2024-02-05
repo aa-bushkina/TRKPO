@@ -1,7 +1,6 @@
 package TestEmotionalLogBook;
 
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
-import com.cygans.database.sport_log_book.SportLogBook;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

@@ -8,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class TestsSetId {
 
-    private static class TestLogbook extends Logbook {
-    }
-
     /**
      * Проверка установки значения
      */
@@ -55,6 +52,9 @@ public class TestsSetId {
         Logbook logbook2 = new TestLogbook();
         logbook2.setId(2L);
         assertNotEquals(logbook1.getId(), logbook2.getId(), "Объекты ID равны");
+    }
+
+    private static class TestLogbook extends Logbook {
     }
 
 }

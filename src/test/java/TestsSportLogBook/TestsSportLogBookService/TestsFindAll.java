@@ -3,7 +3,6 @@ package TestsSportLogBook.TestsSportLogBookService;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.SportLogBookRepository;
 import com.cygans.database.sport_log_book.SportLogBookService;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

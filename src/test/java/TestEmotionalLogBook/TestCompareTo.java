@@ -1,7 +1,6 @@
 package TestEmotionalLogBook;
 
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
-import com.cygans.database.sport_log_book.SportLogBook;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -13,7 +12,7 @@ public class TestCompareTo {
 
 
     private static final LocalDateTime TIME_TYPE_1 = LocalDateTime.now();
-    private static final  LocalDateTime TIME_TYPE_2 = TIME_TYPE_1.plusHours(1);
+    private static final LocalDateTime TIME_TYPE_2 = TIME_TYPE_1.plusHours(1);
 
     private static final String DESCRIPTION = "Emotional text";
 
