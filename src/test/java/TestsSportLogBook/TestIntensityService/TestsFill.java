@@ -17,7 +17,7 @@ public class TestsFill {
     @BeforeEach
     void setUp() {
         intensityRepository = mock(IntensityRepository.class);
-        intensityService = new IntensityService();
+//        intensityService = new IntensityService();
     }
 
     /**
