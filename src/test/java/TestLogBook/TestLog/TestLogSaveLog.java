@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Тест провеяет вызов getId класса Log
  */
-public class TestLogGetId {
+public class TestLogSaveLog {
     /**
      * Проверяет метод getId для объекта с установленным положительным id
      */
