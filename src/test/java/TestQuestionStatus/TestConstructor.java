@@ -19,7 +19,7 @@ public class TestConstructor {
   public void testConstructorWithoutParameters() {
     QuestionStatus questionStatus = new QuestionStatus();
     assertAll(
-      () -> assertNotNull(questionStatus.getId()),
+      () -> assertNull(questionStatus.getId()),
       () -> assertNull(questionStatus.getStatus())
     );
   }
