@@ -9,11 +9,17 @@ import java.util.List;
 
 @Service
 public class QuestionService {
-    @Autowired
-    QuestionRepository questionRepository;
+
+    private final QuestionRepository questionRepository;
+
+    private final QuestionStatusRepository questionStatusRepository;
 
     @Autowired
-    QuestionStatusRepository questionStatusRepository;
+    public QuestionService(QuestionRepository questionRepository,
+                           QuestionStatusRepository questionStatusRepository) {
+        this.questionStatusRepository = questionStatusRepository;
+        this.questionRepository = questionRepository;
+    }
 
     public void saveQuestion(Question question) {
         questionRepository.save(question);
@@ -33,5 +39,4 @@ public class QuestionService {
         question.setStatusId(questionStatusRepository.findQuestionStatusByStatus(StatusOfQuestion.YES_ANSWER.getText()).getId());
         questionRepository.save(question);
     }
-
 }

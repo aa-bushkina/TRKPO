@@ -1,5 +1,6 @@
 package com.cygans.database.eating_log_book;
 
+import com.cygans.database.eating_log_book.meal.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,13 @@ import java.util.List;
 
 @Service
 public class EatingLogBookService {
+
+    private final EatingLogBookRepository repository;
+
     @Autowired
-    EatingLogBookRepository repository;
+    public EatingLogBookService(EatingLogBookRepository eatingLogBookRepository) {
+        this.repository = eatingLogBookRepository;
+    }
 
     public void saveEatingLog(EatingLogBook EatingLogBook) {
         repository.save(EatingLogBook);

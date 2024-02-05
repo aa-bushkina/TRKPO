@@ -1,13 +1,19 @@
 package com.cygans.database.notifications.notification_status;
 
+import com.cygans.database.mentor.MentorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class NotificationStatusService {
+
+    private final NotificationStatusRepository repository;
+
     @Autowired
-    private NotificationStatusRepository repository;
+    public NotificationStatusService(NotificationStatusRepository notificationStatusRepository) {
+        this.repository = notificationStatusRepository;
+    }
 
     public Long getNotificationStatusId(StatusOfNotification type) {
         return repository.findNotificationStatusByStatus(type.getValue()).getId();
@@ -22,4 +28,5 @@ public class NotificationStatusService {
             System.out.println("Что-то идет не так, почистите таблицу notification_status!!! В ней должно быть только 3 заранее добавленные записи!!!");
         }
     }
+
 }

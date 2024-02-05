@@ -1,6 +1,5 @@
 package com.cygans.database.log_book;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,13 @@ import java.util.List;
 
 @Service
 public class LogService {
+
+    private final LogRepository repository;
+
     @Autowired
-    LogRepository repository;
+    public LogService(LogRepository logRepository) {
+        this.repository = logRepository;
+    }
 
     public void saveLog(Log logbook) {
         repository.save(logbook);

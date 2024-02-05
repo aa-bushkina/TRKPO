@@ -1,5 +1,6 @@
 package com.cygans.database.emotional_log_book;
 
+import com.cygans.database.eating_log_book.EatingLogBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +9,13 @@ import java.util.List;
 
 @Service
 public class EmotionalLogBookService {
+
+    private final EmotionalLogBookRepository repository;
+
     @Autowired
-    EmotionalLogBookRepository repository;
+    public EmotionalLogBookService(EmotionalLogBookRepository emotionalLogBookRepository) {
+        this.repository = emotionalLogBookRepository;
+    }
 
     public List<EmotionalLogBook> findAll() {
         return new ArrayList<>(repository.findAll());
