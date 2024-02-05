@@ -1,6 +1,7 @@
 package com.cygans.database.participant_mentor;
 
 import com.cygans.database.participant.Participant;
+import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,17 @@ import java.util.List;
 
 @Service
 public class ParticipantMentorService {
+    private final ParticipantMentorRepository participantMentorRepository;
+
+    private final ParticipantService participantService;
+
     @Autowired
-    ParticipantMentorRepository participantMentorRepository;
-    @Autowired
-    ParticipantService participantService;
+    public ParticipantMentorService(ParticipantMentorRepository participantMentorRepository,
+                                    ParticipantService participantService) {
+        this.participantMentorRepository = participantMentorRepository;
+        this.participantService = participantService;
+    }
+
 
     public Boolean isNeedToConnectUsers(long mentId, long partId) {
         List<ParticipantMentor> participantMentorList = participantMentorRepository.findAll();

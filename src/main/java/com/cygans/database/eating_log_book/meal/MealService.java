@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MealService {
 
+    private final MealRepository mealRepository;
+
     @Autowired
-    private MealRepository mealRepository;
+    public MealService(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
+    }
 
     public Long getMealId(String type) {
         return mealRepository.findMealByType(type).getId();

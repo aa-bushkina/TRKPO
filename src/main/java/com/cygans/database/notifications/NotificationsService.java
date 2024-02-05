@@ -11,12 +11,19 @@ import java.util.List;
 
 @Service
 public class NotificationsService {
+
+    private final NotificationsRepository notificationsRepository;
+    private final NotificationStatusRepository notificationStatusRepository;
+    private final NotificationTypeRepository notificationTypeRepository;
+
     @Autowired
-    private NotificationsRepository notificationsRepository;
-    @Autowired
-    private NotificationStatusRepository notificationStatusRepository;
-    @Autowired
-    private NotificationTypeRepository notificationTypeRepository;
+    public NotificationsService(NotificationsRepository notificationsRepository,
+                                NotificationStatusRepository notificationStatusRepository,
+                                NotificationTypeRepository notificationTypeRepository) {
+        this.notificationsRepository = notificationsRepository;
+        this.notificationStatusRepository = notificationStatusRepository;
+        this.notificationTypeRepository = notificationTypeRepository;
+    }
 
     public void resolveRequest(long id) {
         Notifications notification = notificationsRepository.getNotificationById(id);
