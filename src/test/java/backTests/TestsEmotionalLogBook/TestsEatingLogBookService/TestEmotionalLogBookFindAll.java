@@ -32,7 +32,7 @@ public class TestEmotionalLogBookFindAll {
     }
 
     @Test
-    void testFindAll_ReturnsEmptyList_WhenRepositoryReturnsEmptyList() {
+    void testFindAllReturnsEmptyListWhenRepositoryReturnsEmptyList() {
         when(repositoryMock.findAll()).thenReturn(new ArrayList<>());
         List<EmotionalLogBook> result = service.findAll();
 
@@ -40,7 +40,7 @@ public class TestEmotionalLogBookFindAll {
     }
 
     @Test
-    void testFindAll_ReturnsListWithOneItem_WhenRepositoryReturnsOneItem() {
+    void testFindAllReturnsListWithOneItemWhenRepositoryReturnsOneItem() {
         List<EmotionalLogBook> emotionalLogBooks = new ArrayList<>();
         emotionalLogBooks.add(new EmotionalLogBook());
         when(repositoryMock.findAll()).thenReturn(emotionalLogBooks);
@@ -50,7 +50,7 @@ public class TestEmotionalLogBookFindAll {
     }
 
     @Test
-    void testFindAll_ReturnsCorrectList_WhenRepositoryReturnsMultipleItems() {
+    void testFindAllReturnsCorrectListWhenRepositoryReturnsMultipleItems() {
         List<EmotionalLogBook> emotionalLogBooks = new ArrayList<>();
         emotionalLogBooks.add(new EmotionalLogBook());
         emotionalLogBooks.add(new EmotionalLogBook());
@@ -61,7 +61,7 @@ public class TestEmotionalLogBookFindAll {
     }
 
     @Test
-    void testFindAll_CallsRepositoryFindAllMethod() {
+    void testFindAllCallsRepositoryFindAllMethod() {
         service.findAll();
 
         verify(repositoryMock).findAll();

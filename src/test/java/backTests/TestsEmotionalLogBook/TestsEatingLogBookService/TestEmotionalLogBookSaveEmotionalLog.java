@@ -27,7 +27,7 @@ public class TestEmotionalLogBookSaveEmotionalLog {
     }
 
     @Test
-    void testSaveEmotionalLog_CallsRepositorySaveMethod() {
+    void testSaveEmotionalLogCallsRepositorySaveMethod() {
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
         service.saveEmotionalLog(emotionalLogBook);
 
@@ -35,7 +35,7 @@ public class TestEmotionalLogBookSaveEmotionalLog {
     }
 
     @Test
-    void testSaveEmotionalLog_CallsRepositorySaveMethodOnce() {
+    void testSaveEmotionalLogCallsRepositorySaveMethodOnce() {
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
         service.saveEmotionalLog(emotionalLogBook);
 
@@ -43,7 +43,7 @@ public class TestEmotionalLogBookSaveEmotionalLog {
     }
 
     @Test
-    void testSaveEmotionalLog_CallsRepositorySaveMethodWithCorrectArgument() {
+    void testSaveEmotionalLogCallsRepositorySaveMethodWithCorrectArgument() {
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
         service.saveEmotionalLog(emotionalLogBook);
 
