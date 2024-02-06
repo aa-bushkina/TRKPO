@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestEmotionalLogBookFindByLogBookId {
@@ -27,26 +29,30 @@ public class TestEmotionalLogBookFindByLogBookId {
     }
 
     @Test
-    void testSaveEmotionalLogCallsRepositorySaveMethod() {
-        EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
-        service.saveEmotionalLog(emotionalLogBook);
+    void testFindByLogBookId_ReturnsEmotionalLogBook_WhenFound() {
+        Long logBookId = 1L;
+        EmotionalLogBook expectedEmotionalLogBook = new EmotionalLogBook();
+        when(repositoryMock.findByLogBookId(logBookId)).thenReturn(expectedEmotionalLogBook);
+        EmotionalLogBook result = service.findByLogBookId(logBookId);
 
-        verify(repositoryMock).save(emotionalLogBook);
+        assertEquals(expectedEmotionalLogBook, result);
     }
 
     @Test
-    void testSaveEmotionalLogCallsRepositorySaveMethodOnce() {
-        EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
-        service.saveEmotionalLog(emotionalLogBook);
+    void testFindByLogBookId_ReturnsNull_WhenNotFound() {
+        Long logBookId = 1L;
+        when(repositoryMock.findByLogBookId(logBookId)).thenReturn(null);
+        EmotionalLogBook result = service.findByLogBookId(logBookId);
 
-        verify(repositoryMock).save(emotionalLogBook);
+        assertEquals(null, result);
     }
 
     @Test
-    void testSaveEmotionalLogCallsRepositorySaveMethodWithCorrectArgument() {
-        EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
-        service.saveEmotionalLog(emotionalLogBook);
+    void testFindByLogBookId_CallsRepositoryFindByLogBookIdMethod() {
+        Long logBookId = 1L;
+        service.findByLogBookId(logBookId);
 
-        verify(repositoryMock).save(emotionalLogBook);
+        verify(repositoryMock).findByLogBookId(logBookId);
     }
 }
+
