@@ -1,4 +1,4 @@
-package backTests.TestsEatingLogBook.TestMeal;
+package backTests.TestsEatingLogBook.TestMealModel;
 
 
 import com.cygans.database.eating_log_book.meal.Meal;
