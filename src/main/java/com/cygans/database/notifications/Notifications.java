@@ -59,6 +59,10 @@ public class Notifications implements Serializable, Comparable<Notifications> {
     public Notifications() {
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public long getNotificationId() {
         return id;
     }
@@ -67,8 +71,16 @@ public class Notifications implements Serializable, Comparable<Notifications> {
         return participantId;
     }
 
+    public void setParticipantId(Long participantId) {
+        this.participantId = participantId;
+    }
+
     public Long getMentorId() {
         return mentorId;
+    }
+
+    public void setMentorId(Long mentorId) {
+        this.mentorId = mentorId;
     }
 
     public Long getQuestionId() {
