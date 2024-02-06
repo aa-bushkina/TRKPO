@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.never;
@@ -58,6 +59,17 @@ public class TestLogTypeFill {
         logsTypeService.fill();
 
         verify(logsTypeRepository, times(1)).count();
+    }
+
+    /**
+     * Тест на сообщение об ошибке при наличии более 3 записей в таблице
+     */
+    @Test
+    public void testFillTreeRecords() {
+        when(logsTypeRepository.count()).thenReturn(3L);
+        assertDoesNotThrow(() -> logsTypeService.fill());
+
+        verify(logsTypeRepository, never()).save(any(LogsType.class));
     }
 }
 
