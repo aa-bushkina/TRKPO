@@ -1,4 +1,4 @@
-package backTests.TestsEmotionalLogBook;
+package backTests.TestsEmotionalLogBook.TestsEatingLogBookModel;
 
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import org.junit.jupiter.api.Test;
