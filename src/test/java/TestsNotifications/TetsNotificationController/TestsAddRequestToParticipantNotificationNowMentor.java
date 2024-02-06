@@ -11,6 +11,7 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -19,6 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.mockito.Mockito.*;
 
@@ -55,18 +60,30 @@ public class TestsAddRequestToParticipantNotificationNowMentor {
      */
     @Test
     public void testAddRequestToParticipantNotificationNowMentor() {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                "login",
+                "password",
+                AuthorityUtils.createAuthorityList());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         String mentorLogin = "mentor123";
         Long mentorId = 1L;
+        Long participantId = 2L;
         Mentor mentor = new Mentor();
         mentor.setId(mentorId);
         mentor.setFirstName("Иван");
         mentor.setLastName("Иванов");
+        Long loginInfoId = 4L;
+        LoginInfo loginInfo = new LoginInfo();
+        loginInfo.setId(loginInfoId);
+        ParticipantMentor participantMentor = new ParticipantMentor();
+        participantMentor.setMentorId(mentorId);
         Participant participant = new Participant();
-        participant.setId(2L);
-        when(loginInfoService.findByLogin(mentorLogin)).thenReturn(new LoginInfo("", "", mentorId, (byte) 1));
+        participant.setId(participantId);
         when(mentorService.getMentorById(mentorId)).thenReturn(mentor);
         when(notificationTypeService.getNotificationTypeId(TypeOfNotification.ADD_REQUEST)).thenReturn(3L);
         when(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)).thenReturn(4L);
+        when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
+        when(mentorService.getMentorByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(mentor);
         controller.addRequestToParticipantNotificationNowMentor(participant);
         verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
     }

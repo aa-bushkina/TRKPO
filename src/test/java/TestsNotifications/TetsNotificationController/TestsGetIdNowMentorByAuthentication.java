@@ -1,16 +1,12 @@
 package TestsNotifications.TetsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -24,10 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class TestsAddNewQuestionNotification {
+public class TestsGetIdNowMentorByAuthentication {
 
     @Mock
     private NotificationsService notificationsService;
@@ -51,38 +48,31 @@ public class TestsAddNewQuestionNotification {
     private MentorService mentorService;
 
     @InjectMocks
-    private NotificationController controller;
+    private NotificationController notificationController;
 
     /**
-     * Тест проверяет, что метод addNewQuestionNotification правильно создает и сохраняет уведомление.
+     * Тестирование сценария, когда возвращается действительный идентификатор ментора.
      */
     @Test
-    public void testAddNewQuestionNotification() {
+    public void testGetIdNowMentorByAuthentication() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                "login",
+                "testUser",
                 "password",
                 AuthorityUtils.createAuthorityList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Long questionId = 1L;
-        String questionText = "Текст вопроса";
-        Long participantId = 2L;
-        Long mentorId = 3L;
-        Long loginInfoId = 4L;
+        String username = "testUser";
+        long loginInfoId = 123L;
+        long mentorId = 456L;
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setId(loginInfoId);
-        ParticipantMentor participantMentor = new ParticipantMentor();
-        participantMentor.setMentorId(mentorId);
-        Participant participant = new Participant();
-        participant.setId(participantId);
-        when(participantService.getFirstname(participantId)).thenReturn("Иван");
-        when(participantService.getLastname(participantId)).thenReturn("Иванов");
-        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION)).thenReturn(4L);
-        when(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)).thenReturn(5L);
-        when(participantMentorService.getMentorParticipantByParticipantId(participantId)).thenReturn(participantMentor);
+        Mentor mentor = new Mentor();
+        mentor.setId(mentorId);
         when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
-        when(participantService.getParticipantByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(participant);
-        controller.addNewQuestionNotification(questionId, questionText);
-        verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
+        when(mentorService.getMentorByLoginInfoId(loginInfo.getId())).thenReturn(mentor);
+        long result = notificationController.getIdNowMentorByAuthentication();
+        assertEquals(mentorId, result, "Неверный айди");
+        verify(loginInfoService, times(1)).findByLogin(username);
+        verify(mentorService, times(1)).getMentorByLoginInfoId(loginInfoId);
     }
 
 }
