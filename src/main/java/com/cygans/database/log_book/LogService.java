@@ -36,9 +36,4 @@ public class LogService {
         if (log != null) Collections.sort(log);
         return log;
     }
-
-    public List<Log> findByDateAndParticipantId(LocalDate date, Long participantId) {
-        return repository.findByDateAndParticipantId(date, participantId);
-    }
-
 }
