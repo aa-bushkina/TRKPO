@@ -51,21 +51,26 @@ public class TestsIsNeedToConnectUsers {
     }
 
     @Test
-    public void testIsNeedToConnectUsersExist() {
+    public void testIsNeedToConnectUsersMentorIdNotMatch() {
         Long mentId = 1L;
         Long partId = 2L;
 
         List<ParticipantMentor> participantMentorList = new ArrayList<>();
-        participantMentorList.add(new ParticipantMentor(partId, mentId));
+        participantMentorList.add(new ParticipantMentor(partId, mentId + 1));
         when(participantMentorRepository.findAll()).thenReturn(participantMentorList);
-        assertFalse(participantMentorService.isNeedToConnectUsers(mentId, partId), "Возвращен неверный результат");
+
+        assertTrue(participantMentorService.isNeedToConnectUsers(mentId, partId), "Возвращен неверный результат");
     }
 
     @Test
-    public void testIsNeedToConnectUsersNotExist() {
+    public void testIsNeedToConnectUsersParticipantIdNotMatch() {
         Long mentId = 1L;
         Long partId = 2L;
-        when(participantMentorRepository.findAll()).thenReturn(new ArrayList<>());
+
+        List<ParticipantMentor> participantMentorList = new ArrayList<>();
+        participantMentorList.add(new ParticipantMentor(partId + 1, mentId));
+        when(participantMentorRepository.findAll()).thenReturn(participantMentorList);
+
         assertTrue(participantMentorService.isNeedToConnectUsers(mentId, partId), "Возвращен неверный результат");
     }
 }
