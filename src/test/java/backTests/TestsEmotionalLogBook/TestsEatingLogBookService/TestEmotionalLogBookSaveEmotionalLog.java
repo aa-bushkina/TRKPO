@@ -35,14 +35,6 @@ public class TestEmotionalLogBookSaveEmotionalLog {
     }
 
     @Test
-    void testSaveEmotionalLogCallsRepositorySaveMethodOnce() {
-        EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
-        service.saveEmotionalLog(emotionalLogBook);
-
-        verify(repositoryMock).save(emotionalLogBook);
-    }
-
-    @Test
     void testSaveEmotionalLogCallsRepositorySaveMethodWithCorrectArgument() {
         EmotionalLogBook emotionalLogBook = new EmotionalLogBook();
         service.saveEmotionalLog(emotionalLogBook);
