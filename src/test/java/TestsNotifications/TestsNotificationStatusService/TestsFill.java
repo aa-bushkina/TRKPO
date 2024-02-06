@@ -1,9 +1,7 @@
 package TestsNotifications.TestsNotificationStatusService;
 
-import com.cygans.database.notifications.notification_status.NotificationStatus;
 import com.cygans.database.notifications.notification_status.NotificationStatusRepository;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,19 +15,21 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsFill {
 
-    @Mock
-    private NotificationStatusRepository repository;
-
-    @InjectMocks
-    private NotificationStatusService service;
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    @Mock
+    private NotificationStatusRepository repository;
+    @InjectMocks
+    private NotificationStatusService service;
 
     @BeforeEach
     public void setUpStreams() {

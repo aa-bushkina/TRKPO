@@ -4,6 +4,7 @@ import com.cygans.database.notifications.Notifications;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тест проверяет вызов метода getShortMessage() класса Notifications
@@ -26,7 +27,7 @@ public class TestsGetShortMessage {
     @Test
     public void testGetShortMessageWhenNotSet() {
         Notifications notifications = new Notifications();
-        assertEquals(null, notifications.getShortMessage());
+        assertNull(notifications.getShortMessage());
     }
 
     /**

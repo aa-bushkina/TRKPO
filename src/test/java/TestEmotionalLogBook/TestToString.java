@@ -1,7 +1,6 @@
 package TestEmotionalLogBook;
 
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
-import com.cygans.database.sport_log_book.SportLogBook;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -20,9 +19,9 @@ public class TestToString {
     private static final LocalDateTime TIME_TYPE = LocalDateTime.now();
     private static final LocalDateTime TIME_TYPE_MEW = TIME_TYPE.plusDays(5);
     private static final Long LOGBOOK_ID_NEW = 2L;
-    private static final String NULL_STRING  = "null";
-    private static final String DESCRIPTION_STRING  = "Emotional text";
-    private static final String DESCRIPTION_STRING_NEW  = "Too emotional text";
+    private static final String NULL_STRING = "null";
+    private static final String DESCRIPTION_STRING = "Emotional text";
+    private static final String DESCRIPTION_STRING_NEW = "Too emotional text";
 
     /**
      * Проверяет метод toString() на наличие обязательных полей
@@ -68,10 +67,10 @@ public class TestToString {
 
         String toStringResultUpdated = emotionalLogBook.toString();
         assertAll(
-          () -> assertTrue(toStringResultUpdated.contains(ID_FIELD + 0), "Неверное id"),
-          () -> assertTrue(toStringResultUpdated.contains(LOG_BOOK_ID_FIELD + LOGBOOK_ID_NEW), "Неверное LogBookId"),
-          () -> assertTrue(toStringResultUpdated.contains(TIME_TYPE_FIELD + TIME_TYPE_MEW), "Неверное timeType"),
-          () -> assertTrue(toStringResultUpdated.contains(DESCRIPTION_FIELD + DESCRIPTION_STRING_NEW), "Неверное description")
+                () -> assertTrue(toStringResultUpdated.contains(ID_FIELD + 0), "Неверное id"),
+                () -> assertTrue(toStringResultUpdated.contains(LOG_BOOK_ID_FIELD + LOGBOOK_ID_NEW), "Неверное LogBookId"),
+                () -> assertTrue(toStringResultUpdated.contains(TIME_TYPE_FIELD + TIME_TYPE_MEW), "Неверное timeType"),
+                () -> assertTrue(toStringResultUpdated.contains(DESCRIPTION_FIELD + DESCRIPTION_STRING_NEW), "Неверное description")
         );
     }
 
@@ -84,10 +83,10 @@ public class TestToString {
 
         String toStringResult = emotionalLogBook.toString();
         assertAll(
-          () -> assertTrue(toStringResult.contains(ID_FIELD + 0), "Неверное id"),
-          () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + NULL_STRING), "Неверное LogBookId"),
-          () -> assertTrue(toStringResult.contains(TIME_TYPE_FIELD + NULL_STRING), "Неверное timeType"),
-          () -> assertTrue(toStringResult.contains(DESCRIPTION_FIELD + NULL_STRING), "Неверное description")
+                () -> assertTrue(toStringResult.contains(ID_FIELD + 0), "Неверное id"),
+                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + NULL_STRING), "Неверное LogBookId"),
+                () -> assertTrue(toStringResult.contains(TIME_TYPE_FIELD + NULL_STRING), "Неверное timeType"),
+                () -> assertTrue(toStringResult.contains(DESCRIPTION_FIELD + NULL_STRING), "Неверное description")
         );
     }
 

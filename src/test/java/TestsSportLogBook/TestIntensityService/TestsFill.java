@@ -14,19 +14,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsFill {
 
-    @Mock
-    private IntensityRepository intensityRepository;
-
-    @InjectMocks
-    private IntensityService intensityService;
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    @Mock
+    private IntensityRepository intensityRepository;
+    @InjectMocks
+    private IntensityService intensityService;
 
     @BeforeEach
     public void setUpStreams() {
@@ -39,7 +41,7 @@ public class TestsFill {
     }
 
     /**
-     *  Тест проверяет, что метод fill() вызывает save() три раза, когда репозиторий пуст.
+     * Тест проверяет, что метод fill() вызывает save() три раза, когда репозиторий пуст.
      */
     @Test
     public void testFillWhenRepositoryIsEmpty() {

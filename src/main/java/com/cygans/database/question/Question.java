@@ -39,6 +39,10 @@ public class Question implements Serializable {
                     LocalDate date,
                     String question,
                     Long statusId) {
+        if (participantId == null || date  == null || question == null || statusId == null || question.isEmpty())
+        {
+            throw new IllegalArgumentException("Неверные или пустые аргументы");
+        }
         this.participantId = participantId;
         this.date = date;
         this.question = question;

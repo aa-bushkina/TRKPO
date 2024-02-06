@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestsToString {
 
@@ -24,11 +25,11 @@ public class TestsToString {
     private static final String ACTIVITY = "Running";
     private static final String COMMENTS = "Good run";
     private static final int LOGBOOK_ID_NEW = 2;
-    private static final int INTENSITY_ID_NEW  = 2;
-    private static final int DURATION_NEW  = 32;
-    private static final String ACTIVITY_NEW  = "Swimming";
-    private static final String COMMENTS_NEW  = "Bad run";
-    private static final String NULL_STRING  = "null";
+    private static final int INTENSITY_ID_NEW = 2;
+    private static final int DURATION_NEW = 32;
+    private static final String ACTIVITY_NEW = "Swimming";
+    private static final String COMMENTS_NEW = "Bad run";
+    private static final String NULL_STRING = "null";
 
     /**
      * Проверяет метод toString() на наличие обязательных полей
@@ -58,7 +59,7 @@ public class TestsToString {
         String toStringResult = logBook.toString();
         assertAll(
                 () -> assertTrue(toStringResult.contains(ID_FIELD + 0), "Неверное id"),
-                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD +LOGBOOK_ID), "Неверное LogBookId"),
+                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + LOGBOOK_ID), "Неверное LogBookId"),
                 () -> assertTrue(toStringResult.contains(TIME_TYPE_FIELD + TIME_TYPE), "Неверное timeType"),
                 () -> assertTrue(toStringResult.contains(INTENSITY_ID_FIELD + INTENSITY_ID), "Неверное IntensityId"),
                 () -> assertTrue(toStringResult.contains(DURATION_FIELD + DURATION), "Неверное Duration"),
@@ -76,7 +77,7 @@ public class TestsToString {
         String toStringResult = logBook.toString();
         assertAll(
                 () -> assertTrue(toStringResult.contains(ID_FIELD + 0), "Изначально неверное id"),
-                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD +LOGBOOK_ID), "Изначально неверное LogBookId"),
+                () -> assertTrue(toStringResult.contains(LOG_BOOK_ID_FIELD + LOGBOOK_ID), "Изначально неверное LogBookId"),
                 () -> assertTrue(toStringResult.contains(TIME_TYPE_FIELD + TIME_TYPE), "Изначально неверное timeType"),
                 () -> assertTrue(toStringResult.contains(INTENSITY_ID_FIELD + INTENSITY_ID), "Изначально неверное IntensityId"),
                 () -> assertTrue(toStringResult.contains(DURATION_FIELD + DURATION), "Изначально неверное Duration"),

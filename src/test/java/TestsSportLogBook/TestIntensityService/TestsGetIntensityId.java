@@ -1,7 +1,5 @@
 package TestsSportLogBook.TestIntensityService;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.cygans.database.sport_log_book.intensity.Intensity;
 import com.cygans.database.sport_log_book.intensity.IntensityRepository;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
@@ -12,6 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsGetIntensityId {

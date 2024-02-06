@@ -20,6 +20,10 @@ public class QuestionStatus implements Serializable {
     private String status;
 
     public QuestionStatus(String status) {
+        if (status == null || status.isEmpty())
+        {
+            throw new IllegalArgumentException("Illegal argument inconstuctor\n");
+        }
         this.status = status;
     }
 

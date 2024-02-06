@@ -21,6 +21,15 @@ public class TestConstructor {
     private static final LocalDateTime LOCAL_DATE_TIME = LocalDateTime.now();
     private static final String DESCRIPTION = "Emotional text.";
 
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, LOCAL_DATE_TIME, DESCRIPTION),
+                Arguments.of(LOG_BOOK_ID, LOCAL_DATE_TIME, null),
+                Arguments.of(LOG_BOOK_ID, null, DESCRIPTION),
+                Arguments.of(null, null, null)
+        );
+    }
+
     /**
      * Проверяет конструктор с параметрами
      */
@@ -58,14 +67,5 @@ public class TestConstructor {
     public void testConstructorWithMissingRequiredValues(Long logBookId, LocalDateTime timeType, String description) {
         assertThrows(IllegalArgumentException.class, () -> new EmotionalLogBook(logBookId, timeType, description),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-    }
-
-    private static Stream<Arguments> provideInvalidParams() {
-        return Stream.of(
-                Arguments.of(null, LOCAL_DATE_TIME, DESCRIPTION),
-                Arguments.of(LOG_BOOK_ID, LOCAL_DATE_TIME, null),
-                Arguments.of(LOG_BOOK_ID, null, DESCRIPTION),
-                Arguments.of(null, null, null)
-        );
     }
 }

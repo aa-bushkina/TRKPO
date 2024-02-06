@@ -31,6 +31,29 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class TestParticipantConstructor {
 
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, null, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, null, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, null, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, null, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, null),
+                Arguments.of(null, null, null, null, null, null, null, null, null, null, null, null),
+                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID)
+        );
+    }
+
     /**
      * Проверяет конструктор с параметрами
      */
@@ -88,28 +111,5 @@ public class TestParticipantConstructor {
         assertThrows(IllegalArgumentException.class, () -> new Participant(firstName, lastName, login, phone, gender,
                         birthday, height, weight, hips, waist, breast, loginInfoId),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-    }
-
-    private static Stream<Arguments> provideInvalidParams() {
-        return Stream.of(
-                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, null, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, null, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, null, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, null, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, null),
-                Arguments.of(null, null, null, null, null, null, null, null, null, null, null, null),
-                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, HEIGHT, WEIGHT, HIPS, WAIST, BREAST, LOGIN_INFO_ID)
-        );
     }
 }
