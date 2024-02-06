@@ -80,10 +80,13 @@ public class TestLogFindLogBooksBetweenDate {
         LocalDate end = LocalDate.of(2022, 12, 31);
         Long participantId = 1L;
 
-        when(repository.findByDateBetweenAndParticipantId(start, end, participantId)).thenReturn(null);
-
+        List<Log> log = new ArrayList<>();
+        log.add(new Log(null, start, 1L));
+        log.add(new Log(null, end, 2L));
+        when(repository.findByDateBetweenAndParticipantId(start, end, participantId)).thenReturn(log);
         List<Log> result = service.findLogBooksBetweenDate(start, end, participantId);
-
-        assertNull(result, "Should return null for no logs");
+        assertEquals(2, result.size(), "Размер возвращаемого списка должен быть равен 2");
     }
+
+
 }
