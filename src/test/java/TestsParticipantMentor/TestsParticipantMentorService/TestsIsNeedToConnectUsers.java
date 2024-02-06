@@ -1,6 +1,5 @@
 package TestsParticipantMentor.TestsParticipantMentorService;
 
-import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
@@ -19,12 +18,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsIsNeedToConnectUsers {
-
     @Mock
     private ParticipantMentorRepository participantMentorRepository;
-
-    @Mock
-    private ParticipantService participantService;
 
     @InjectMocks
     private ParticipantMentorService participantMentorService;
@@ -55,5 +50,22 @@ public class TestsIsNeedToConnectUsers {
         assertFalse(participantMentorService.isNeedToConnectUsers(mentId, partId), "Вернулся невеврный результат");
     }
 
+    @Test
+    public void testIsNeedToConnectUsersExist() {
+        Long mentId = 1L;
+        Long partId = 2L;
 
+        List<ParticipantMentor> participantMentorList = new ArrayList<>();
+        participantMentorList.add(new ParticipantMentor(partId, mentId));
+        when(participantMentorRepository.findAll()).thenReturn(participantMentorList);
+        assertFalse(participantMentorService.isNeedToConnectUsers(mentId, partId), "Возвращен неверный результат");
+    }
+
+    @Test
+    public void testIsNeedToConnectUsersNotExist() {
+        Long mentId = 1L;
+        Long partId = 2L;
+        when(participantMentorRepository.findAll()).thenReturn(new ArrayList<>());
+        assertTrue(participantMentorService.isNeedToConnectUsers(mentId, partId), "Возвращен неверный результат");
+    }
 }
