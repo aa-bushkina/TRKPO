@@ -30,7 +30,7 @@ public class LogsTypeService {
             logsTypeRepository.save(new LogsType(LogBookType.EMOTIONAL.getText()));
             logsTypeRepository.save(new LogsType(LogBookType.SPORT.getText()));
             logsTypeRepository.save(new LogsType(LogBookType.EATING.getText()));
-        } else if (logsTypeRepository.count() > 3) {
+        } else if (logsTypeRepository.count() != 3) {
             throw new RuntimeException("Что-то идет не так, почистите таблицу log_books_types! В ней должно быть только 3 заранее добавленные записи!!!");
         }
     }
