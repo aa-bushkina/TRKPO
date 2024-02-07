@@ -1,4 +1,4 @@
-package backTests.TestsEatingLogBook;
+package backTests.TestsEatingLogBook.TestEatingLogBookModel;
 
 import com.cygans.database.eating_log_book.EatingLogBook;
 import org.junit.jupiter.api.Test;
