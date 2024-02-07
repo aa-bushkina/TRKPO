@@ -30,7 +30,7 @@ public class TestsConstructor {
      */
     @Test
     public void testConstructor() {
-        // Assert
+        
         assertNotNull(signUpRolesView);
         assertTrue(signUpRolesView.getChildren().anyMatch(child -> child instanceof Toolbar));
         assertTrue(signUpRolesView.getChildren().anyMatch(child -> child instanceof H2));

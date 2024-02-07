@@ -37,7 +37,7 @@ public class TestsButton {
         // Act
         participantButton.click();
 
-        // Assert
+        
         verify(vaadinSession, times(1)).setAttribute("RoleEnum", RoleEnum.PARTICIPANT.getValue());
         verify(vaadinSession, never()).setAttribute("RoleEnum", RoleEnum.MENTOR.getValue());
     }
@@ -58,7 +58,7 @@ public class TestsButton {
         // Act
         mentorButton.click();
 
-        // Assert
+        
         verify(vaadinSession, times(1)).setAttribute("RoleEnum", RoleEnum.MENTOR.getValue());
         verify(vaadinSession, never()).setAttribute("RoleEnum", RoleEnum.PARTICIPANT.getValue());
     }
