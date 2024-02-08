@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TestEatingLogBookUpdateFoodTime {
+public class TestEatingLogBookUpdateMeal {
 
     @Mock
     private EatingLogBookRepository repository;
@@ -31,30 +30,30 @@ public class TestEatingLogBookUpdateFoodTime {
     private EatingLogBookService service;
 
     @Test
-    public void testUpdateFoodTime() {
+    public void testUpdateMeal() {
         Long logBookId = 1L;
-        LocalTime newTime = LocalTime.of(12, 30);
+        Long newMealId = 10L;
         EatingLogBook eatingLogBookToUpdate = new EatingLogBook();
-        eatingLogBookToUpdate.setTimeEat(LocalTime.NOON);
+        eatingLogBookToUpdate.setMealId(5L);
 
         when(repository.findById(logBookId)).thenReturn(Optional.of(eatingLogBookToUpdate));
 
-        service.updateFoodTime(logBookId, newTime);
+        service.updateMale(logBookId, newMealId);
 
         verify(repository, times(1)).findById(logBookId);
         verify(repository, times(1)).save(eatingLogBookToUpdate);
-        assertEquals(eatingLogBookToUpdate.getTimeEat(), newTime);
+        assertEquals(eatingLogBookToUpdate.getMealId(), newMealId);
     }
 
     @Test
-    public void testUpdateFoodTimeNotFound() {
+    public void testUpdateMealNotFound() {
         Long logBookId = 1L;
-        LocalTime newTime = LocalTime.of(12, 30);
+        Long newMealId = 10L;
 
         when(repository.findById(logBookId)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> {
-            service.updateFoodTime(logBookId, newTime);
+            service.updateMale(logBookId, newMealId);
         });
 
         verify(repository, never()).save(any());

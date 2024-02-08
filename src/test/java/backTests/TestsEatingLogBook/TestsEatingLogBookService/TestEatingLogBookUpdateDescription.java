@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.never;
@@ -41,7 +42,7 @@ public class TestEatingLogBookUpdateDescription {
 
         verify(repository, times(1)).findById(logBookId);
         verify(repository, times(1)).save(eatingLogBookToUpdate); // Проверяем, что метод save был вызван один раз для обновления
-        assert (eatingLogBookToUpdate.getDescription().equals(newDescription));
+        assertEquals(eatingLogBookToUpdate.getDescription(), newDescription);
     }
 
     @Test
