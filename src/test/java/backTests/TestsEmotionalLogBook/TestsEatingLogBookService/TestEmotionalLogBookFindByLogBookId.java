@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +45,7 @@ public class TestEmotionalLogBookFindByLogBookId {
         when(repositoryMock.findByLogBookId(logBookId)).thenReturn(null);
         EmotionalLogBook result = service.findByLogBookId(logBookId);
 
-        assertEquals(null, result);
+        assertNull(result);
     }
 
     @Test

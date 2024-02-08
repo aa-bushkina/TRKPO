@@ -4,6 +4,7 @@ import com.cygans.security.db.logInfo.LoginInfo;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TestLoginInfoGetLogin {
 
@@ -27,6 +28,6 @@ public class TestLoginInfoGetLogin {
     public void testGetNullLogin() {
         LoginInfo loginInfo = new LoginInfo(null, "password", 1L, (byte) 1);
 
-        assertEquals(null, loginInfo.getLogin(), "Метод getLogin() должен возвращать null, если логин установлен в null");
+        assertNull(loginInfo.getLogin(), "Метод getLogin() должен возвращать null, если логин установлен в null");
     }
 }

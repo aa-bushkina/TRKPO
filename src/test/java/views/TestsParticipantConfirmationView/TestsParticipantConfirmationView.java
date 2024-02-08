@@ -1,4 +1,5 @@
 package views.TestsParticipantConfirmationView;
+
 import com.cygans.views.participant.ParticipantHomeView;
 import com.cygans.views.participant.logbooks.ParticipantConfirmationView;
 import com.vaadin.flow.component.UI;
@@ -11,9 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 
-import static org.mockito.Mockito.*;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsParticipantConfirmationView {

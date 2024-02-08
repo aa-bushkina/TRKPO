@@ -2,24 +2,18 @@ package views.TestsEmotionalLogbookView;
 
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.views.StartView;
 import com.cygans.views.components.Toolbar;
 import com.cygans.views.participant.logbooks.EmotionalLogbookView;
-import com.cygans.views.util.Filler;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.Location;
-import com.vaadin.flow.router.QueryParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,8 +24,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsEmotionalLogbookView {
@@ -62,7 +59,9 @@ public class TestsEmotionalLogbookView {
         emotionalLogbookView = new EmotionalLogbookView(logController, notificationController);
     }
 
-    /** Тестирование конструктора */
+    /**
+     * Тестирование конструктора
+     */
     @Test
     void testConstructor() {
         assertNotNull(emotionalLogbookView);
@@ -71,7 +70,9 @@ public class TestsEmotionalLogbookView {
         assertTrue(emotionalLogbookView.getChildren().anyMatch(component -> component instanceof HorizontalLayout));
     }
 
-    /** Тестирование создания компонентов */
+    /**
+     * Тестирование создания компонентов
+     */
     @Test
     void testCreateFields() throws Exception {
         Class cl = EmotionalLogbookView.class;
@@ -89,7 +90,9 @@ public class TestsEmotionalLogbookView {
         assertTrue(verticalLayout.getChildren().anyMatch(component -> component instanceof Button));
     }
 
-    /** Тестирование отправки данных */
+    /**
+     * Тестирование отправки данных
+     */
     @Test
     void testSubmitData() throws Exception {
         Class cl = EmotionalLogbookView.class;
@@ -115,7 +118,9 @@ public class TestsEmotionalLogbookView {
         verify(notificationController, times(1)).addNewEmotionalLogNotification(0L, "Test Emotional Text");
     }
 
-    /** Тестирование недопустимого ввода данных */
+    /**
+     * Тестирование недопустимого ввода данных
+     */
     @Test
     void testInvalidData() throws Exception {
         Class cl = EmotionalLogbookView.class;
@@ -141,7 +146,9 @@ public class TestsEmotionalLogbookView {
         verify(notificationController, times(0)).addNewEmotionalLogNotification(0L, "Test Emotional Text");
     }
 
-    /** Тестирование пустого ввода данных */
+    /**
+     * Тестирование пустого ввода данных
+     */
     @Test
     void testEmptyData() throws Exception {
         Class cl = EmotionalLogbookView.class;
@@ -167,7 +174,9 @@ public class TestsEmotionalLogbookView {
         verify(notificationController, times(0)).addNewEmotionalLogNotification(0L, "Test Emotional Text");
     }
 
-    /** Тестирование ввода слишком длинных данных */
+    /**
+     * Тестирование ввода слишком длинных данных
+     */
     @Test
     void testLongData() throws Exception {
         Class cl = EmotionalLogbookView.class;

@@ -26,7 +26,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalTime;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsAddNewEatingLogNotification {

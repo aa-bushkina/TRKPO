@@ -2,9 +2,7 @@ package views.TestsParticipantHistoryView;
 
 
 import com.cygans.database.controllers.LogController;
-import com.cygans.database.log_book.Log;
 import com.cygans.views.participant.history.ParticipantHistoryView;
-import com.vaadin.flow.component.select.Select;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,12 +11,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 public class TestsConfigureHV {
 
