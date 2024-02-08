@@ -1,4 +1,4 @@
-package security.TestsAuthorities;
+package security.TestsAuthorities.TestsAuthoritiesModel;
 
 
 import com.cygans.security.db.authorities.Authorities;
