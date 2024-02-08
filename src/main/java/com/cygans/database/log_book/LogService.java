@@ -33,7 +33,7 @@ public class LogService {
 
     public List<Log> findLogBooksBetweenDate(LocalDate start, LocalDate end, Long participantId) {
         List<Log> log = repository.findByDateBetweenAndParticipantId(start, end, participantId);
-        if (log != null) Collections.sort(log);
+        Collections.sort(log);
         return log;
     }
 }
