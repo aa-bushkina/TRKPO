@@ -1,4 +1,4 @@
-package backTests.TestsQuestionStatus;
+package backTests.TestsQuestion.TestsQuestionStatusModel;
 
 import com.cygans.database.question.question_status.QuestionStatus;
 import org.junit.jupiter.api.Test;

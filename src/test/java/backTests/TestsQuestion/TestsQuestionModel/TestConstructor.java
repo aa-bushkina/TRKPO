@@ -1,8 +1,14 @@
-package backTests.TestsQuestion;
+package backTests.TestsQuestion.TestsQuestionModel;
 
 import com.cygans.database.question.Question;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.time.LocalDate;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -42,25 +48,28 @@ public class TestConstructor {
         );
     }
 
+
     /**
      * Проверяет конструктор с параметрами null
      */
-    @Test
-    public void testConstructorWithNullValues() {
-        assertThrows(IllegalArgumentException.class, () -> new Question(null, null, null, null),
-                "Не получили ожидаеме исключение при вызове метода со всеми параметрами null");
-    }
-
-    /**
-     * Проверяет, что конструктор обрабатывает случай с недостаточным количеством значений
-     */
-    @Test
-    public void testConstructorWithMissingRequiredValues() {
-        assertThrows(IllegalArgumentException.class, () -> new Question(Variables.PARTICIPANT_ID, Variables.DATE, null, null),
+    @ParameterizedTest(name = "[participantId: {0}, date: {1}, question: {2}, statusId: {3}")
+    @MethodSource("provideInvalidParams")
+    public void testConstructorWithMissingRequiredValues(Long participantId,
+                                                         LocalDate date,
+                                                         String question,
+                                                         Long statusId) {
+        assertThrows(IllegalArgumentException.class, () -> new Question(participantId, date, question, statusId),
                 "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
-
-        assertThrows(IllegalArgumentException.class, () -> new Question(Variables.PARTICIPANT_ID, Variables.DATE, "", null),
-                "Не получили ожидаеме исключение при вызове метода с пустыми обязательными параметрами");
     }
 
+    private static Stream<Arguments> provideInvalidParams() {
+        return Stream.of(
+                Arguments.of(null, Variables.DATE, Variables.QUESTION, Variables.STATUS_ID),
+                Arguments.of(Variables.PARTICIPANT_ID, null, Variables.QUESTION, Variables.STATUS_ID),
+                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, null, Variables.STATUS_ID),
+                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, "", Variables.STATUS_ID),
+                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, Variables.QUESTION, null),
+                Arguments.of(null, null, null, null)
+        );
+    }
 }
