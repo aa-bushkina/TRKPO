@@ -1,15 +1,16 @@
 package backTests.TestsQuestion.TestsQuestionService;
 
-import com.cygans.database.question.question_status.QuestionStatus;
-import com.cygans.database.question.question_status.QuestionStatusRepository;
-import com.cygans.database.question.question_status.QuestionStatusService;
-import com.cygans.database.question.question_status.StatusOfQuestion;
+
+import com.cygans.database.question.Question;
+import com.cygans.database.question.QuestionRepository;
+import com.cygans.database.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
@@ -17,19 +18,27 @@ import static org.mockito.Mockito.when;
 public class TestGetQuestionStatusId {
 
     @Mock
-    private QuestionStatusRepository questionStatusRepository;
+    private QuestionRepository questionRepository;
 
     @InjectMocks
-    private QuestionStatusService service;
+    private QuestionService service;
 
     @Test
-    public void testGetQuestionStatusIdWhenStatusExists() {
-        StatusOfQuestion status = StatusOfQuestion.NO_ANSWER;
-        QuestionStatus questionStatus = new QuestionStatus(status.getText());
-        when(questionStatusRepository.findQuestionStatusByStatus(status.getText())).thenReturn(questionStatus);
+    public void testGetQuestionByIdWhenQuestionExists() {
+        Question question = new Question();
+        when(questionRepository.getQuestionById(0L)).thenReturn(question);
 
-        Long actualId = service.geQuestionStatusId(status);
+        Question actualQuestion = service.getQuestionById(0L);
 
-        assertNull(actualId);
+        assertEquals(question, actualQuestion);
+    }
+
+    @Test
+    public void testGetQuestionByIdWhenQuestionDoesNotExist() {
+        Long nonExistentId = 999L;
+        when(questionRepository.getQuestionById(nonExistentId)).thenReturn(null);
+        Question actualQuestion = service.getQuestionById(nonExistentId);
+
+        assertNull(actualQuestion);
     }
 }

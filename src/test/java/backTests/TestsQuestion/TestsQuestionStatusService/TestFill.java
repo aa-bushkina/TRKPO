@@ -1,4 +1,4 @@
-package backTests.TestsQuestion.TestsQuestionService;
+package backTests.TestsQuestion.TestsQuestionStatusService;
 
 
 import com.cygans.database.question.question_status.QuestionStatus;
