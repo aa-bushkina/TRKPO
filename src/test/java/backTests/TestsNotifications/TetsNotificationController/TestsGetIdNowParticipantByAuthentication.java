@@ -1,7 +1,6 @@
 package backTests.TestsNotifications.TetsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
@@ -22,7 +21,9 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsGetIdNowParticipantByAuthentication {

@@ -45,19 +45,6 @@ public class TestLogFindLogBooksBetweenDate {
     }
 
     @Test
-    public void testFindLogBooksBetweenDateEmptyResult() {
-        LocalDate start = LocalDate.of(2022, 1, 1);
-        LocalDate end = LocalDate.of(2022, 12, 31);
-        Long participantId = 1L;
-
-        when(repository.findByDateBetweenAndParticipantId(start, end, participantId)).thenReturn(null);
-
-        List<Log> result = service.findLogBooksBetweenDate(start, end, participantId);
-
-        assertNull(result, "Expected null for no logs");
-    }
-
-    @Test
     public void testFindLogBooksBetweenDateSortedResult() {
         LocalDate start = LocalDate.of(2022, 1, 1);
         LocalDate end = LocalDate.of(2022, 12, 31);

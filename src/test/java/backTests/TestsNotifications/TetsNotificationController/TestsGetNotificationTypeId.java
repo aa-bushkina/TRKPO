@@ -2,10 +2,8 @@ package backTests.TestsNotifications.TetsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.ParticipantService;
@@ -18,8 +16,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsGetNotificationTypeId {

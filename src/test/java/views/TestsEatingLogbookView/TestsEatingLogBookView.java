@@ -3,15 +3,9 @@ package views.TestsEatingLogbookView;
 
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.views.StartView;
 import com.cygans.views.participant.logbooks.EatingLogbookView;
-import com.cygans.views.util.Filler;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.Location;
-import com.vaadin.flow.router.QueryParameters;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,10 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsEatingLogBookView {
@@ -40,7 +33,7 @@ public class TestsEatingLogBookView {
 
     /**
      * Тестирование init()
-     * */
+     */
     @Test
     void testInit() throws Exception {
         Class cl = EatingLogbookView.class;
@@ -63,7 +56,7 @@ public class TestsEatingLogBookView {
 
     /**
      * Тестирование установки видимости кнопки "Очистить" у поля описания
-     * */
+     */
     @Test
     void testSetClearButtonVisible() throws Exception {
         Class cl = EatingLogbookView.class;
@@ -80,7 +73,7 @@ public class TestsEatingLogBookView {
 
     /**
      * Тестирование создания компонентов
-     * */
+     */
     @Test
     void testCreateFields() throws Exception {
         Class cl = EatingLogbookView.class;

@@ -17,8 +17,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsParticipantQuestionDetailsView {
@@ -61,8 +65,8 @@ public class TestsParticipantQuestionDetailsView {
         field.setAccessible(true);
         Field field2 = c.getDeclaredField("answerText");
         field2.setAccessible(true);
-        assertFalse(((TextArea)field2.get(participantQuestionDetailsView)).isVisible());
-        assertEquals("Test question", ((TextArea)field.get(participantQuestionDetailsView)).getValue());
+        assertFalse(((TextArea) field2.get(participantQuestionDetailsView)).isVisible());
+        assertEquals("Test question", ((TextArea) field.get(participantQuestionDetailsView)).getValue());
     }
 
     /**
@@ -82,9 +86,9 @@ public class TestsParticipantQuestionDetailsView {
         field.setAccessible(true);
         Field field2 = c.getDeclaredField("answerText");
         field2.setAccessible(true);
-        assertTrue(((TextArea)field2.get(participantQuestionDetailsView)).isVisible());
-        assertEquals("Test question", ((TextArea)field.get(participantQuestionDetailsView)).getValue());
-        assertEquals("Test answer", ((TextArea)field2.get(participantQuestionDetailsView)).getValue());
+        assertTrue(((TextArea) field2.get(participantQuestionDetailsView)).isVisible());
+        assertEquals("Test question", ((TextArea) field.get(participantQuestionDetailsView)).getValue());
+        assertEquals("Test answer", ((TextArea) field2.get(participantQuestionDetailsView)).getValue());
     }
 
     /**
