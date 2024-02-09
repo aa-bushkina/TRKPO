@@ -1,9 +1,9 @@
-package backTests.TestsQuestion;
+package backTests.TestsQuestion.TestsQuestionModel;
 
 import com.cygans.database.question.Question;
 import org.junit.jupiter.api.Test;
 
-import static backTests.TestsQuestion.Variables.*;
+import static backTests.TestsQuestion.TestsQuestionModel.Variables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestSetQuestion

@@ -1,4 +1,4 @@
-package backTests.TestsQuestion;
+package backTests.TestsQuestion.TestsQuestionModel;
 
 import com.cygans.database.question.Question;
 import org.junit.jupiter.api.Assertions;
