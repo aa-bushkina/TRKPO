@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,5 +41,17 @@ public class TestsGetMentorIdByParticipant {
         assertEquals(mentorId, actualMentorId);
         verify(participantMentorService, times(1)).getMentorParticipantByParticipantId(participantId);
     }
-
+    /**
+     * Тест проверяет вызов метода getMentorIdByParticipant, когда Participant не найден
+     */
+    @Test
+    public void testGetMentorIdByParticipantNotExist() throws Exception {
+        Long participantId = 1L;
+        when(participantMentorService.getMentorParticipantByParticipantId(participantId)).thenReturn(null);
+        Method privateMethod = NotificationController.class.getDeclaredMethod("getMentorIdByParticipant", Long.class);
+        privateMethod.setAccessible(true);
+        Long actualMentorId = (Long) privateMethod.invoke(controller, participantId);
+        assertNull(actualMentorId);
+        verify(participantMentorService, times(1)).getMentorParticipantByParticipantId(participantId);
+    }
 }
