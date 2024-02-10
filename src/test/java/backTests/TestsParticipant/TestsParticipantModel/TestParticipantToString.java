@@ -1,9 +1,9 @@
-package backTests.TestsParticipant;
+package backTests.TestsParticipant.TestsParticipantModel;
 
 import com.cygans.database.participant.Participant;
 import org.junit.jupiter.api.Test;
 
-import static backTests.TestsParticipant.Variables.*;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

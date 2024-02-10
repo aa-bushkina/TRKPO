@@ -1,4 +1,4 @@
-package backTests.TestsParticipant;
+package backTests.TestsParticipant.TestsParticipantModel;
 
 import com.cygans.database.participant.Participant;
 import org.junit.jupiter.api.Test;
@@ -9,18 +9,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import static backTests.TestsParticipant.Variables.BIRTHDAY;
-import static backTests.TestsParticipant.Variables.BREAST;
-import static backTests.TestsParticipant.Variables.FIRST_NAME;
-import static backTests.TestsParticipant.Variables.GENDER;
-import static backTests.TestsParticipant.Variables.HEIGHT;
-import static backTests.TestsParticipant.Variables.HIPS;
-import static backTests.TestsParticipant.Variables.LAST_NAME;
-import static backTests.TestsParticipant.Variables.LOGIN;
-import static backTests.TestsParticipant.Variables.LOGIN_INFO_ID;
-import static backTests.TestsParticipant.Variables.PHONE;
-import static backTests.TestsParticipant.Variables.WAIST;
-import static backTests.TestsParticipant.Variables.WEIGHT;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.BIRTHDAY;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.BREAST;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.FIRST_NAME;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.GENDER;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.HEIGHT;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.HIPS;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.LAST_NAME;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.LOGIN;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.LOGIN_INFO_ID;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.PHONE;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.WAIST;
+import static backTests.TestsParticipant.TestsParticipantModel.Variables.WEIGHT;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -1,4 +1,4 @@
-package backTests.TestsParticipant;
+package backTests.TestsParticipant.TestsParticipantModel;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package backTests.TestsParticipant;
+package backTests.TestsParticipant.TestsParticipantModel;
 
 import com.cygans.database.participant.Participant;
 import org.junit.jupiter.api.Test;
