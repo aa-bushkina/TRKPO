@@ -1,10 +1,13 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
+import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
 import com.cygans.database.notifications.notification_status.NotificationStatusService;
+import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.NotificationTypeService;
+import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
@@ -20,13 +23,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TestsGetIdNowParticipantByAuthentication {
+public class TestsAddDeclineToMentorNotificationNowParticipant {
+
 
     @Mock
     private NotificationsService notificationsService;
@@ -43,38 +47,35 @@ public class TestsGetIdNowParticipantByAuthentication {
     @Mock
     private LoginInfoService loginInfoService;
 
-    @Mock
-    private ParticipantMentorService participantMentorService;
-
-    @Mock
-    private MentorService mentorService;
-
     @InjectMocks
-    private NotificationController notificationController;
+    private NotificationController controller;
 
     /**
-     * Тестирование сценария, когда возвращается действительный идентификатор участника.
+     * Тест проверяет, что метод addDeclineToMentorNotificationNowParticipant правильно создает и сохраняет уведомление.
      */
     @Test
-    public void testGetIdNowParticipantByAuthentication() {
+    public void testAddDeclineToMentorNotificationNowParticipant() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                "testUser",
+                "login",
                 "password",
                 AuthorityUtils.createAuthorityList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String username = "testUser";
-        long loginInfoId = 123L;
-        long participantId = 456L;
+        Long mentorId = 1L;
+        Long participantId = 2L;
+        Long loginInfoId = 4L;
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setId(loginInfoId);
         Participant participant = new Participant();
         participant.setId(participantId);
+        participant.setFirstName("Петр");
+        participant.setLastName("Петров");
+        when(participantService.getParticipantById(participantId)).thenReturn(participant);
+        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR)).thenReturn(3L);
+        when(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)).thenReturn(4L);
         when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
-        when(participantService.getParticipantByLoginInfoId(loginInfo.getId())).thenReturn(participant);
-        long result = notificationController.getIdNowParticipantByAuthentication();
-        assertEquals(participantId, result, "Неверный айди");
-        verify(loginInfoService, times(1)).findByLogin(username);
-        verify(participantService, times(1)).getParticipantByLoginInfoId(loginInfoId);
+        when(participantService.getParticipantByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(participant);
+        controller.addDeclineToMentorNotificationNowParticipant(mentorId);
+        verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
     }
 
 }

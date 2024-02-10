@@ -1,14 +1,8 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.mentor.MentorService;
-import com.cygans.database.notifications.NotificationsService;
-import com.cygans.database.notifications.notification_status.NotificationStatusService;
-import com.cygans.database.notifications.notification_type.NotificationTypeService;
-import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,28 +18,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsGetMentorIdByParticipant {
-
-
-    @Mock
-    private NotificationsService notificationsService;
-
-    @Mock
-    private NotificationTypeService notificationTypeService;
-
-    @Mock
-    private NotificationStatusService notificationStatusService;
-
-    @Mock
-    private ParticipantService participantService;
-
-    @Mock
-    private LoginInfoService loginInfoService;
-
     @Mock
     private ParticipantMentorService participantMentorService;
-
-    @Mock
-    private MentorService mentorService;
 
     @InjectMocks
     private NotificationController controller;

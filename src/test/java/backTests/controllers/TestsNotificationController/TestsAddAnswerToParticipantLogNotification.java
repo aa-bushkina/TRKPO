@@ -1,4 +1,4 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.Mentor;
@@ -11,8 +11,6 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentorService;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,12 +36,6 @@ public class TestsAddAnswerToParticipantLogNotification {
 
     @Mock
     private ParticipantService participantService;
-
-    @Mock
-    private LoginInfoService loginInfoService;
-
-    @Mock
-    private ParticipantMentorService participantMentorService;
 
     @Mock
     private MentorService mentorService;

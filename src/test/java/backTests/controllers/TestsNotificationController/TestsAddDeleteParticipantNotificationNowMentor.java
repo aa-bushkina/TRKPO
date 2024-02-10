@@ -1,6 +1,7 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorService;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.NotificationsService;
@@ -10,7 +11,6 @@ import com.cygans.database.notifications.notification_type.NotificationTypeServi
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
-import com.cygans.database.participant_mentor.ParticipantMentor;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TestsAddNewEmotionalLogNotification {
+public class TestsAddDeleteParticipantNotificationNowMentor {
 
     @Mock
     private NotificationsService notificationsService;
@@ -42,13 +42,7 @@ public class TestsAddNewEmotionalLogNotification {
     private NotificationStatusService notificationStatusService;
 
     @Mock
-    private ParticipantService participantService;
-
-    @Mock
     private LoginInfoService loginInfoService;
-
-    @Mock
-    private ParticipantMentorService participantMentorService;
 
     @Mock
     private MentorService mentorService;
@@ -57,34 +51,27 @@ public class TestsAddNewEmotionalLogNotification {
     private NotificationController controller;
 
     /**
-     * Тест проверяет, что метод addNewEmotionalLogNotification правильно создает и сохраняет уведомление.
+     * Тест проверяет, что метод addDeleteParticipantNotificationNowMentor правильно создает и сохраняет уведомление.
      */
     @Test
-    public void testAddNewEmotionalLogNotification() {
+    public void testAddDeleteParticipantNotificationNowMentor() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 "login",
                 "password",
                 AuthorityUtils.createAuthorityList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Long logId = 1L;
-        String emotionalText = "Текст эмоций";
-        Long participantId = 2L;
-        Long mentorId = 3L;
-        Long loginInfoId = 4L;
-        LoginInfo loginInfo = new LoginInfo();
-        loginInfo.setId(loginInfoId);
-        ParticipantMentor participantMentor = new ParticipantMentor();
-        participantMentor.setMentorId(mentorId);
+        Long mentorId = 1L;
+        Mentor mentor = new Mentor();
+        mentor.setId(mentorId);
+        mentor.setFirstName("Иван");
+        mentor.setLastName("Иванов");
         Participant participant = new Participant();
-        participant.setId(participantId);
-        when(participantService.getFirstname(participantId)).thenReturn("Иван");
-        when(participantService.getLastname(participantId)).thenReturn("Иванов");
-        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG)).thenReturn(4L);
-        when(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)).thenReturn(5L);
-        when(participantMentorService.getMentorParticipantByParticipantId(participantId)).thenReturn(participantMentor);
-        when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
-        when(participantService.getParticipantByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(participant);
-        controller.addNewEmotionalLogNotification(logId, emotionalText);
+        participant.setId(2L);
+        when(loginInfoService.findByLogin(any())).thenReturn(new LoginInfo("", "", mentorId, (byte) 1));
+        when(mentorService.getMentorByLoginInfoId(any())).thenReturn(mentor);
+        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.DELETE_REQUEST)).thenReturn(3L);
+        when(notificationStatusService.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN)).thenReturn(4L);
+        controller.addDeleteParticipantNotificationNowMentor(participant);
         verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
     }
 

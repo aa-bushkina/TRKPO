@@ -1,4 +1,4 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
@@ -24,15 +24,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalTime;
-
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TestsAddNewEatingLogNotification {
+public class TestsAddNewSportLogNotification {
 
     @Mock
     private NotificationsService notificationsService;
@@ -52,26 +50,24 @@ public class TestsAddNewEatingLogNotification {
     @Mock
     private ParticipantMentorService participantMentorService;
 
-    @Mock
-    private MentorService mentorService;
-
     @InjectMocks
     private NotificationController controller;
 
     /**
-     * Тест проверяет, что метод addNewEatingLogNotification правильно создает и сохраняет уведомление.
+     * Тест проверяет, что метод addNewSportLogNotification правильно создает и сохраняет уведомление.
      */
     @Test
-    public void testAddNewEatingLogNotification() {
+    public void testAddNewSportLogNotification() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 "login",
                 "password",
                 AuthorityUtils.createAuthorityList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Long logId = 1L;
-        LocalTime time = LocalTime.of(12, 30);
-        String description = "Завтрак";
-        String meal_type = "Breakfast";
+        String intensity = "High";
+        String duration = "30";
+        String activity = "Running";
+        String comments = "Good workout";
         Long participantId = 2L;
         Long mentorId = 3L;
         Long loginInfoId = 4L;
@@ -88,7 +84,7 @@ public class TestsAddNewEatingLogNotification {
         when(participantMentorService.getMentorParticipantByParticipantId(participantId)).thenReturn(participantMentor);
         when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
         when(participantService.getParticipantByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(participant);
-        controller.addNewEatingLogNotification(logId, time, description, meal_type);
+        controller.addNewSportLogNotification(logId, intensity, duration, activity, comments);
         verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
     }
 

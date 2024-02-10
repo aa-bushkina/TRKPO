@@ -1,4 +1,4 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
@@ -22,27 +22,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class TestsGetNotificationTypeId {
-
-    @Mock
-    private NotificationsService notificationsService;
-
     @Mock
     private NotificationTypeService notificationTypeService;
-
-    @Mock
-    private NotificationStatusService notificationStatusService;
-
-    @Mock
-    private ParticipantService participantService;
-
-    @Mock
-    private LoginInfoService loginInfoService;
-
-    @Mock
-    private ParticipantMentorService participantMentorService;
-
-    @Mock
-    private MentorService mentorService;
 
     @InjectMocks
     private NotificationController notificationController;
