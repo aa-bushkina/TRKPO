@@ -1,6 +1,7 @@
 package backTests.controllers.TestsLogController;
 
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.log_book.Log;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
@@ -33,6 +34,8 @@ import static org.mockito.Mockito.when;
 class TestSaveSportLog {
     @Mock
     private SportLogBookService sportLogBookService;
+    @Mock
+    private LogService logService;
     @Mock
     private LoginInfoService loginInfoService;
     @Mock
@@ -70,6 +73,7 @@ class TestSaveSportLog {
         when(intensityService.getIntensityId(intensity)).thenReturn(1L);
         when(participantService.getParticipantByLoginInfoId(null)).thenReturn(participant);
         doNothing().when(sportLogBookService).saveSportLog(any(SportLogBook.class));
+        doNothing().when(logService).saveLog(any(Log.class));
         Long result = logController.saveSportLog(intensity, duration, activity, comments);
 
         assertEquals(expectedId, result);

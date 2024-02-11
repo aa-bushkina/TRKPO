@@ -4,6 +4,8 @@ package backTests.controllers.TestsLogController;
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.emotional_log_book.EmotionalLogBookService;
+import com.cygans.database.log_book.Log;
+import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogBookType;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.participant.Participant;
@@ -30,6 +32,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TestSaveEmotionalLog {
+    @Mock
+    private LogService logService;
     @Mock
     private EmotionalLogBookService emotionalLogBookService;
     @Mock
@@ -63,6 +67,7 @@ class TestSaveEmotionalLog {
         when(logsTypeService.getLogTypeId(LogBookType.EMOTIONAL.getText())).thenReturn(0L);
         when(participantService.getParticipantByLoginInfoId(null)).thenReturn(participant);
         doNothing().when(emotionalLogBookService).saveEmotionalLog(any(EmotionalLogBook.class));
+        doNothing().when(logService).saveLog(any(Log.class));
 
         Long result = logController.saveEmotionalLog(comments);
 
