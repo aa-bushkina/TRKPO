@@ -1,4 +1,4 @@
-package backTests.TestsNotifications.TetsNotificationController;
+package backTests.controllers.TestsNotificationController;
 
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.mentor.MentorService;
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class TestsAddNewQuestionNotification {
+public class TestsAddNewEmotionalLogNotification {
 
     @Mock
     private NotificationsService notificationsService;
@@ -50,24 +50,21 @@ public class TestsAddNewQuestionNotification {
     @Mock
     private ParticipantMentorService participantMentorService;
 
-    @Mock
-    private MentorService mentorService;
-
     @InjectMocks
     private NotificationController controller;
 
     /**
-     * Тест проверяет, что метод addNewQuestionNotification правильно создает и сохраняет уведомление.
+     * Тест проверяет, что метод addNewEmotionalLogNotification правильно создает и сохраняет уведомление.
      */
     @Test
-    public void testAddNewQuestionNotification() {
+    public void testAddNewEmotionalLogNotification() {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 "login",
                 "password",
                 AuthorityUtils.createAuthorityList());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Long questionId = 1L;
-        String questionText = "Текст вопроса";
+        Long logId = 1L;
+        String emotionalText = "Текст эмоций";
         Long participantId = 2L;
         Long mentorId = 3L;
         Long loginInfoId = 4L;
@@ -79,12 +76,12 @@ public class TestsAddNewQuestionNotification {
         participant.setId(participantId);
         when(participantService.getFirstname(participantId)).thenReturn("Иван");
         when(participantService.getLastname(participantId)).thenReturn("Иванов");
-        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.QUESTION)).thenReturn(4L);
+        when(notificationTypeService.getNotificationTypeId(TypeOfNotification.NEW_LOG)).thenReturn(4L);
         when(notificationStatusService.getNotificationStatusId(StatusOfNotification.NO_ANSWER)).thenReturn(5L);
         when(participantMentorService.getMentorParticipantByParticipantId(participantId)).thenReturn(participantMentor);
         when(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName())).thenReturn(loginInfo);
         when(participantService.getParticipantByLoginInfoId(loginInfoService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getId())).thenReturn(participant);
-        controller.addNewQuestionNotification(questionId, questionText);
+        controller.addNewEmotionalLogNotification(logId, emotionalText);
         verify(notificationsService, times(1)).saveNotification(any(Notifications.class));
     }
 
