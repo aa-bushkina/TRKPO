@@ -53,7 +53,6 @@ public class TestsChangePasswordInit {
         changePassword.setAccessible(true);
         assertEquals("Изменить пароль", ((Button) changePassword.get(mentorSettings1View)).getText());
         assertEquals("primary", ((Button) changePassword.get(mentorSettings1View)).getThemeName());
-
         Field save = c.getDeclaredField("save");
         save.setAccessible(true);
         assertEquals("Изменить пароль", ((Button) changePassword.get(mentorSettings1View)).getText());

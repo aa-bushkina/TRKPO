@@ -3,7 +3,6 @@ package views.TestsMentorSettings1View;
 import backTests.TestsParticipant.TestsParticipantModel.Variables;
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.mentor.Mentor;
-import com.cygans.database.participant.Participant;
 import com.cygans.views.mentor.settings.MentorSettings1View;
 import com.cygans.views.participant.settings.ParticipantSettings1View;
 import com.vaadin.flow.component.UI;
@@ -47,7 +46,6 @@ public class TestsCancelInit {
      */
     @Test
     void test_cancelInit() throws Exception {
-
         Class c = MentorSettings1View.class;
         Method method = c.getDeclaredMethod("cancelInit");
         method.setAccessible(true);
