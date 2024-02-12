@@ -46,5 +46,6 @@ public class TestsCancelBtnInit {
         cancel.setAccessible(true);
         assertEquals("Отменить", ((Button) cancel.get(participantSettings2View)).getText());
         assertEquals("auto", ((Button) cancel.get(participantSettings2View)).getElement().getStyle().get("margin-right"));
+        ((Button) cancel.get(participantSettings2View)).click();
     }
 }

@@ -55,6 +55,7 @@ public class TestsChangePasswordInit {
         Field save = c.getDeclaredField("save");
         save.setAccessible(true);
         assertEquals("auto", ((Button) save.get(participantSettings1View)).getElement().getStyle().get("margin-right"));
+        ((Button) changePassword.get(participantSettings1View)).click();
     }
 
 
