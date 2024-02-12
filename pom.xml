@@ -323,13 +323,11 @@
                         </goals>
                     </execution>
                 </executions>
-<!--                <configuration>-->
-<!--                    <excludes>-->
-<!--                        <exclude>com/cygans/views/**</exclude>-->
-<!--                        <exclude>com/cygans/database/controllers/**</exclude>-->
-<!--                        <exclude>com/cygans/Application.java</exclude>-->
-<!--                    </excludes>-->
-<!--                </configuration>-->
+                <configuration>
+                    <excludes>
+                        <exclude>com/cygans/views/utils/**</exclude>>
+                    </excludes>
+                </configuration>
             </plugin>
 
             <plugin>
