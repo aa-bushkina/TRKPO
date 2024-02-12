@@ -4,6 +4,7 @@ import backTests.TestsParticipant.TestsParticipantModel.Variables;
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.views.participant.settings.ParticipantSettings1View;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,6 +24,9 @@ public class TestsSaveSetUp {
 
     @Mock
     private SettingsController settingsController;
+
+    @Mock
+    private UI ui;
 
     private ParticipantSettings1View participantSettings1View;
 
@@ -51,6 +55,26 @@ public class TestsSaveSetUp {
         assertFalse(((Button) save.get(participantSettings1View)).isVisible());
         assertEquals("primary", ((Button) save.get(participantSettings1View)).getThemeName());
         assertEquals("18em", ((Button) save.get(participantSettings1View)).getElement().getStyle().get("margin-left"));
+        UI.setCurrent(ui);
+        UI.getCurrent().access(() -> {
+            try {
+                ((Button) save.get(participantSettings1View)).click();
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        Field field = c.getDeclaredField("changeSetting");
+        field.setAccessible(true);
+        assertTrue(((Button) field.get(participantSettings1View)).isVisible());
+        field = c.getDeclaredField("changePassword");
+        field.setAccessible(true);
+        assertTrue(((Button) field.get(participantSettings1View)).isVisible());
+        field = c.getDeclaredField("save");
+        field.setAccessible(true);
+        assertFalse(((Button) field.get(participantSettings1View)).isVisible());
+        field = c.getDeclaredField("cancel");
+        field.setAccessible(true);
+        assertFalse(((Button) field.get(participantSettings1View)).isVisible());
     }
 
 }
