@@ -81,6 +81,10 @@ public class SportLogBook extends Logbook implements Comparable<SportLogBook> {
         return timeType;
     }
 
+    public void setTimeType(LocalDateTime timeType) {
+        this.timeType = timeType;
+    }
+
     public String getActivity() {
         return activity;
     }
