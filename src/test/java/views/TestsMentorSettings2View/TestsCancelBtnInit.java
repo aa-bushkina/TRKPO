@@ -4,6 +4,7 @@ import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.views.mentor.settings.MentorSettings2View;
 import com.cygans.views.participant.settings.ParticipantSettings2View;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class TestsCancelBtnInit {
 
     @Mock
     private SettingsController settingsController;
+
+    @Mock
+    private UI ui;
 
     private MentorSettings2View mentorSettings2View;
 
@@ -46,5 +50,6 @@ public class TestsCancelBtnInit {
         cancel.setAccessible(true);
         assertEquals("Отменить", ((Button) cancel.get(mentorSettings2View)).getText());
         assertEquals("auto", ((Button) cancel.get(mentorSettings2View)).getElement().getStyle().get("margin-right"));
+        ((Button) cancel.get(mentorSettings2View)).click();
     }
 }
