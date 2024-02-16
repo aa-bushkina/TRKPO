@@ -1,8 +1,10 @@
 package backTests.controllers.TestsParticipantAndMentorController;
 
+
 import com.cygans.database.controllers.ParticipantAndMentorController;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TestGetParticipantById {
+class TestGetParticipantByLogin {
 
     @InjectMocks
     private ParticipantAndMentorController controller;
@@ -23,30 +25,31 @@ class TestGetParticipantById {
 
 
     @Test
-    void testGetParticipantByIdWhenParticipantExists() {
+    void testGetParticipantByLoginWhenParticipantExists() {
         Participant expectedParticipant = new Participant();
         expectedParticipant.setId(123L);
+        String login = "testUser";
 
-        when(participantService.getParticipantById(expectedParticipant.getId())).thenReturn(expectedParticipant);
+        when(participantService.searchParticipantId(login)).thenReturn(expectedParticipant);
 
-        Participant result = controller.getParticipantById(expectedParticipant.getId());
+        Participant result = controller.getParticipantByLogin(login);
 
         assertNotNull(result);
         assertEquals(expectedParticipant, result);
 
-        verify(participantService).getParticipantById(expectedParticipant.getId());
+        verify(participantService).searchParticipantId(login);
     }
 
     @Test
-    void testGetParticipantByIdWhenParticipantDoesNotExist() {
-        Long id = 123L;
+    void testGetParticipantByLoginWhenParticipantDoesNotExist() {
+        String login = "nonExistingUser";
 
-        when(participantService.getParticipantById(id)).thenReturn(null);
+        when(participantService.searchParticipantId(login)).thenReturn(null);
 
-        Participant result = controller.getParticipantById(id);
+        Participant result = controller.getParticipantByLogin(login);
 
         assertNull(result);
 
-        verify(participantService).getParticipantById(id);
+        verify(participantService).searchParticipantId(login);
     }
 }
