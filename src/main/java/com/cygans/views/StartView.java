@@ -1,6 +1,6 @@
 package com.cygans.views;
 
-import com.cygans.views.util.Filler;
+//import com.cygans.views.util.Filler;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
@@ -21,8 +21,9 @@ public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
     private final Button signUpBtn;
 
-    public StartView(Filler filler) {
-        filler.createHardcodedUsers();
+    public StartView() {
+   // public StartView(Filler filler) {
+        //filler.createHardcodedUsers();
 
         Image logo = new Image("images/GC_logo.png", "logo");
         logo.setWidth("100px");

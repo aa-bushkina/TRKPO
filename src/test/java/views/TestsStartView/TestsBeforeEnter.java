@@ -1,7 +1,7 @@
 package views.TestsStartView;
 
 import com.cygans.views.StartView;
-import com.cygans.views.util.Filler;
+//import com.cygans.views.util.Filler;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.Location;
@@ -27,8 +27,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class TestsBeforeEnter {
 
-    @Mock
-    private Filler filler;
+//    @Mock
+//    private Filler filler;
 
     @InjectMocks
     private StartView startView;
