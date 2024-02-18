@@ -1,7 +1,7 @@
 package views.TestsStartView;
 
 import com.cygans.views.StartView;
-import com.cygans.views.util.Filler;
+//import com.cygans.views.util.Filler;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.login.LoginForm;
@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MockitoExtension.class)
 public class TestsConstructor {
 
-    @Mock
-    private Filler filler;
+//    @Mock
+//    private Filler filler;
 
     @InjectMocks
     private StartView startView;
