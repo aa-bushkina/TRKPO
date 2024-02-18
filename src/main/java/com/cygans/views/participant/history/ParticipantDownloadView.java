@@ -50,36 +50,36 @@ public class ParticipantDownloadView extends VerticalLayout {
 
         participant = participantAndMentorController.getNowParticipantByAuthentication();
 
-        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
-        Locale locale = new Locale("ru", "RU");
-        PrintStartDate.setLocale(locale);
-        PrintStartDate.setValue(LocalDate.now(ZoneId.systemDefault()));
-        PrintEndDate.setLocale(locale);
-        PrintEndDate.setValue(LocalDate.now(ZoneId.systemDefault()));
-
-        PrintStartDate.addValueChangeListener(e -> PrintEndDate.setMin(e.getValue()));
-        PrintEndDate.addValueChangeListener(e -> endDate = PrintEndDate.getValue());
-
-        Button exportData1 = new Button("Экспортировать");
-        exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
-
-        FileDownloadWrapper buttonWrapper = new FileDownloadWrapper(
-                new StreamResource("History" + ".csv", () -> {
-                    exportData = getData();
-                    return new ByteArrayInputStream(exportData.getBytes(StandardCharsets.UTF_8));
-                })
-        );
-
-        buttonWrapper.wrapComponent(exportData1);
-        exportData1.addFocusListener(event -> {
-            startDate = PrintStartDate.getValue();
-            endDate = PrintEndDate.getValue();
-        });
-
-        HorizontalLayout StartEndDate = new HorizontalLayout(PrintStartDate, PrintEndDate);
-        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать историю записей"), StartEndDate, buttonWrapper);
-        downLoadpage_layout.setAlignItems(Alignment.CENTER);
-        add(downLoadpage_layout);
+//        add(new Toolbar(ToolbarType.PARTICIPANT_PAGES));
+//        Locale locale = new Locale("ru", "RU");
+//        PrintStartDate.setLocale(locale);
+//        PrintStartDate.setValue(LocalDate.now(ZoneId.systemDefault()));
+//        PrintEndDate.setLocale(locale);
+//        PrintEndDate.setValue(LocalDate.now(ZoneId.systemDefault()));
+//
+//        PrintStartDate.addValueChangeListener(e -> PrintEndDate.setMin(e.getValue()));
+//        PrintEndDate.addValueChangeListener(e -> endDate = PrintEndDate.getValue());
+//
+//        Button exportData1 = new Button("Экспортировать");
+//        exportData1.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_PRIMARY);
+//
+//        FileDownloadWrapper buttonWrapper = new FileDownloadWrapper(
+//                new StreamResource("History" + ".csv", () -> {
+//                    exportData = getData();
+//                    return new ByteArrayInputStream(exportData.getBytes(StandardCharsets.UTF_8));
+//                })
+//        );
+//
+//        buttonWrapper.wrapComponent(exportData1);
+//        exportData1.addFocusListener(event -> {
+//            startDate = PrintStartDate.getValue();
+//            endDate = PrintEndDate.getValue();
+//        });
+//
+//        HorizontalLayout StartEndDate = new HorizontalLayout(PrintStartDate, PrintEndDate);
+//        VerticalLayout downLoadpage_layout = new VerticalLayout(new H3("Скачать историю записей"), StartEndDate, buttonWrapper);
+//        downLoadpage_layout.setAlignItems(Alignment.CENTER);
+//        add(downLoadpage_layout);
     }
 
     public String getData() {
@@ -88,79 +88,79 @@ public class ParticipantDownloadView extends VerticalLayout {
                         + "\nStart date: " + startDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
                         + "\nEnd date: " + endDate.toString() + "\n\n"
         );
-
-
-        List<Log> logs = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false, participant);
-
-        for (Log log : logs) {
-            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EMOTIONAL)) {
-                String simplestring = EmotionalOut(log);
-                str.append(simplestring).append("\n");
-            }
-            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.SPORT)) {
-                String comprehensivestring = SportOut(log);
-                str.append(comprehensivestring).append("\n");
-            }
-
-            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EATING)) {
-                String intensivestring = EatingOut(log);
-                str.append(intensivestring).append("\n");
-            }
-        }
+//
+//
+//        List<Log> logs = logController.getAllNowParticipantLogsBetweenDate(startDate, endDate, false, participant);
+//
+//        for (Log log : logs) {
+//            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EMOTIONAL)) {
+//                String simplestring = EmotionalOut(log);
+//                str.append(simplestring).append("\n");
+//            }
+//            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.SPORT)) {
+//                String comprehensivestring = SportOut(log);
+//                str.append(comprehensivestring).append("\n");
+//            }
+//
+//            if (log.getLogTypeId() == logController.getLogTypeIdByName(LogBookType.EATING)) {
+//                String intensivestring = EatingOut(log);
+//                str.append(intensivestring).append("\n");
+//            }
+//        }
 
         return str.toString();
     }
 
-    public String EmotionalOut(Log log) {
-        EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(log.getId());
-        return "Emotional log\n"
-                + "Date: " + log.getDate()
-                + "\nDescription: " + emotionalLogBook.getDescription() + "\n";
-    }
-
-    public String EatingOut(Log log) {
-        EatingLogBook eatingLogBook = logController.getEatingLogByLogbookId(log.getId());
-        String meal = logController.getMealEatingLog(eatingLogBook.getMealId());
-        switch (meal) {
-            case "Завтрак":
-                meal = "Breakfast";
-                break;
-            case "Обед":
-                meal = "Launch";
-                break;
-            case "Ужин":
-                meal = "Dinner";
-                break;
-            case "Другое":
-                meal = "Other";
-                break;
-        }
-        return "Eating log:\n"
-                + "Date: " + log.getDate()
-                + "\nTime eat: " + eatingLogBook.getTimeEat()
-                + "\nMeal: " + meal
-                + "\nDescription: " + eatingLogBook.getDescription() + "\n";
-    }
-
-    public String SportOut(Log log) {
-        SportLogBook sportLogBook = logController.getSportLogByLogbookId(log.getId());
-        String intensity = logController.getIntensitySportLog(sportLogBook.getIntensityId()).getType();
-        switch (intensity) {
-            case "Низкая":
-                intensity = "Low";
-                break;
-            case "Средняя":
-                intensity = "Middle";
-                break;
-            case "Высокая":
-                intensity = "High";
-                break;
-        }
-        return "Sport log:\n"
-                + "Date: " + log.getDate()
-                + "\nActivity: " + sportLogBook.getActivity()
-                + "\nIntensity: " + intensity
-                + "\nDuration: " + sportLogBook.getDuration() + " minute"
-                + "\nDescription: " + sportLogBook.getComments() + "\n";
-    }
+//    public String EmotionalOut(Log log) {
+//        EmotionalLogBook emotionalLogBook = logController.getEmotionalLogByLogbookId(log.getId());
+//        return "Emotional log\n"
+//                + "Date: " + log.getDate()
+//                + "\nDescription: " + emotionalLogBook.getDescription() + "\n";
+//    }
+//
+//    public String EatingOut(Log log) {
+//        EatingLogBook eatingLogBook = logController.getEatingLogByLogbookId(log.getId());
+//        String meal = logController.getMealEatingLog(eatingLogBook.getMealId());
+//        switch (meal) {
+//            case "Завтрак":
+//                meal = "Breakfast";
+//                break;
+//            case "Обед":
+//                meal = "Launch";
+//                break;
+//            case "Ужин":
+//                meal = "Dinner";
+//                break;
+//            case "Другое":
+//                meal = "Other";
+//                break;
+//        }
+//        return "Eating log:\n"
+//                + "Date: " + log.getDate()
+//                + "\nTime eat: " + eatingLogBook.getTimeEat()
+//                + "\nMeal: " + meal
+//                + "\nDescription: " + eatingLogBook.getDescription() + "\n";
+//    }
+//
+//    public String SportOut(Log log) {
+//        SportLogBook sportLogBook = logController.getSportLogByLogbookId(log.getId());
+//        String intensity = logController.getIntensitySportLog(sportLogBook.getIntensityId()).getType();
+//        switch (intensity) {
+//            case "Низкая":
+//                intensity = "Low";
+//                break;
+//            case "Средняя":
+//                intensity = "Middle";
+//                break;
+//            case "Высокая":
+//                intensity = "High";
+//                break;
+//        }
+//        return "Sport log:\n"
+//                + "Date: " + log.getDate()
+//                + "\nActivity: " + sportLogBook.getActivity()
+//                + "\nIntensity: " + intensity
+//                + "\nDuration: " + sportLogBook.getDuration() + " minute"
+//                + "\nDescription: " + sportLogBook.getComments() + "\n";
+//    }
 }
