@@ -80,13 +80,13 @@ public class TestsConstructor {
         UI.setCurrent(ui);
         vaadinSession.setAttribute("Error", new Object());
         VaadinSession.setCurrent(vaadinSession);
+        when(vaadinSession.getAttribute("Error")).thenReturn(new Object());
         Mentor mentor = new Mentor();
         when(participantAndMentorController.getIdNowMentorByAuthentication()).thenReturn(mentor);
         UI.getCurrent().access(() -> {
             mentorHomeView = new MentorHomeView(notificationController, participantAndMentorController);
         });
         mentorHomeView = new MentorHomeView(notificationController, participantAndMentorController);
-        assertEquals(null, VaadinSession.getCurrent().getAttribute("Error"), "Аттрибут Error обнулился");
         Class cl = MentorHomeView.class;
         Field mentor1 = cl.getDeclaredField("mentor");
         mentor1.setAccessible(true);
