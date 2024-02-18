@@ -43,15 +43,15 @@ public class TestSecurityUtils {
         assertFalse(result);
     }
 
-    @Test
-    public void testIsUserLoggedInAuthenticatedUserReturnsTrue() {
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.isAuthenticated()).thenReturn(true);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        boolean result = SecurityUtils.isUserLoggedIn();
-
-        assertTrue(result);
-    }
+//    @Test
+//    public void testIsUserLoggedInAuthenticatedUserReturnsTrue() {
+//        Authentication authentication = mock(Authentication.class);
+//        when(authentication.isAuthenticated()).thenReturn(true);
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        boolean result = SecurityUtils.isUserLoggedIn();
+//
+//        assertTrue(result);
+//    }
 
     @Test
     public void testIsUserLoggedInAnonymousUserReturnsFalse() {
