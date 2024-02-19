@@ -58,6 +58,6 @@ class TestCheckEqualsPassword {
 
         when(loginInfoService.findByLogin("username")).thenReturn(loginInfo);
 
-        assertFalse(settingsController.checkEqualsPassword(incorrectPassword));
+        assertFalse(settingsController.checkEqualsPassword(incorrectPassword), "Разные пароли были признаны методом одинаковыми");
     }
 }
