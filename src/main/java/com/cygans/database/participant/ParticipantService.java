@@ -75,7 +75,13 @@ public class ParticipantService {
 
     public void updateParticipantHeight(Long id, Integer height) {
         Participant participant = repository.getParticipantById(id);
-        participant.setHeight(height);
+        if (height < 67 || height > 250) {
+            participant.setHeight(null);
+        }
+        else
+        {
+            participant.setHeight(height);
+        }
         repository.save(participant);
     }
 

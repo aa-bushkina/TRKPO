@@ -6,6 +6,8 @@ import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -68,6 +70,38 @@ class TestUpdateParticipantHeight {
         verify(participantRepository).getParticipantById(participantId);
         verify(participantRepository).save(participant);
         assertNull(participant.getHeight());
+    }
+
+    @ParameterizedTest(name = "Тест неудовлетворяющих граничных значений")
+    @ValueSource(ints = {66, 251})
+    void testUpdateParticipantHeightBadPass(int height) {
+        Long participantId = 1L;
+
+        Participant participant = new Participant();
+        participant.setId(participantId);
+        when(participantRepository.getParticipantById(participantId)).thenReturn(participant);
+
+        participantService.updateParticipantHeight(participantId, height);
+
+        verify(participantRepository).getParticipantById(participantId);
+        verify(participantRepository).save(participant);
+        assertNull(participant.getHeight(), "Ожидалось пустое значение роста из-за неудовлетворяющего значения");
+    }
+
+    @ParameterizedTest(name = "Тест удовлетворяющих граничных значений")
+    @ValueSource(ints = {67, 250})
+    void testUpdateParticipantHeightGoodPass(int height) {
+        Long participantId = 1L;
+
+        Participant participant = new Participant();
+        participant.setId(participantId);
+        when(participantRepository.getParticipantById(participantId)).thenReturn(participant);
+
+        participantService.updateParticipantHeight(participantId, height);
+
+        verify(participantRepository).getParticipantById(participantId);
+        verify(participantRepository).save(participant);
+        assertEquals(height, participant.getHeight(), "Не совпадает установленный рост с ожидаемым");
     }
 }
 
