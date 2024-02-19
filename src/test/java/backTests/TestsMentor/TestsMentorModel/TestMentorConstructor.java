@@ -27,21 +27,30 @@ public class TestMentorConstructor {
     private static final LocalDate BIRTHDAY = LocalDate.of(1990, 1, 1);
     private static final Long LOGIN_INFO_ID = 1L;
 
-    private static Stream<Arguments> provideInvalidParams() {
+    private static Stream<Arguments> provideParams() {
         return Stream.of(
-                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, null, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, null, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, null, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, null, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null),
-                Arguments.of(null, null, null, null, null, null, null),
-                Arguments.of("", LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, "", LOGIN, PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, "", PHONE, GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, "", GENDER, BIRTHDAY, LOGIN_INFO_ID),
-                Arguments.of(FIRST_NAME, LAST_NAME, LOGIN, PHONE, "", BIRTHDAY, LOGIN_INFO_ID)
+                Arguments.of(FIRST_NAME, null, LOGIN, "", null, null, LOGIN_INFO_ID),
+                Arguments.of("", "", LOGIN, null, "", BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of("", null, "", PHONE, null, null, null),
+                Arguments.of("", LAST_NAME, null, "", GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(null, "", "", "", "", BIRTHDAY, null),
+                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, null, LOGIN_INFO_ID),
+                Arguments.of(null, "", "", "", "", BIRTHDAY, null),
+                Arguments.of(null, null, null, null, null, null, LOGIN_INFO_ID),
+                Arguments.of(null, LAST_NAME, LOGIN, PHONE, GENDER, BIRTHDAY, null),
+                Arguments.of(null, "", "", "", "", null, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", null, GENDER, null, null),//
+                Arguments.of(FIRST_NAME, "", null, PHONE, "", BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, null, LOGIN, "", null, null, null),
+                Arguments.of(FIRST_NAME, LAST_NAME, "", null, GENDER, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of(FIRST_NAME, "", null, PHONE, "", null, null),
+                Arguments.of(FIRST_NAME, null, LOGIN, "", null, BIRTHDAY, LOGIN_INFO_ID),
+                Arguments.of("", "", LOGIN, null, "", BIRTHDAY, null),
+                Arguments.of("", null, "", PHONE, null, null, LOGIN_INFO_ID),
+                Arguments.of("", LAST_NAME, null, "", GENDER, BIRTHDAY, null),
+                Arguments.of("", "", LOGIN, null, "", null, LOGIN_INFO_ID),
+                Arguments.of("", null, "", PHONE, null, BIRTHDAY, null),
+                Arguments.of("", LAST_NAME, null, "", GENDER, null, LOGIN_INFO_ID)
         );
     }
 
@@ -86,7 +95,7 @@ public class TestMentorConstructor {
      * Проверяет конструктор с параметрами null
      */
     @ParameterizedTest(name = "[firstName: {0}, lastName: {1}, login: {2},phone: {3}, gender: {4}, birthday: {5}, loginInfoId: {6}")
-    @MethodSource("provideInvalidParams")
+    @MethodSource("provideParams")
     public void testConstructorWithMissingRequiredValues(String firstName,
                                                          String lastName,
                                                          String login,

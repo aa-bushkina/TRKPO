@@ -53,23 +53,24 @@ public class TestConstructor {
      * Проверяет конструктор с параметрами null
      */
     @ParameterizedTest(name = "[participantId: {0}, date: {1}, question: {2}, statusId: {3}")
-    @MethodSource("provideInvalidParams")
+    @MethodSource("provideParams")
     public void testConstructorWithMissingRequiredValues(Long participantId,
                                                          LocalDate date,
                                                          String question,
                                                          Long statusId) {
         assertThrows(IllegalArgumentException.class, () -> new Question(participantId, date, question, statusId),
-                "Не получили ожидаеме исключение при вызове метода без всех обязательных параметров");
+                "Не получили ожидаеме исключение при вызове метода без обязательных параметров");
     }
 
-    private static Stream<Arguments> provideInvalidParams() {
+    private static Stream<Arguments> provideParams() {
         return Stream.of(
                 Arguments.of(null, Variables.DATE, Variables.QUESTION, Variables.STATUS_ID),
-                Arguments.of(Variables.PARTICIPANT_ID, null, Variables.QUESTION, Variables.STATUS_ID),
-                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, null, Variables.STATUS_ID),
-                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, "", Variables.STATUS_ID),
-                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, Variables.QUESTION, null),
-                Arguments.of(null, null, null, null)
+                Arguments.of(Variables.PARTICIPANT_ID, Variables.DATE, "", null),
+                Arguments.of(Variables.PARTICIPANT_ID, null, null, Variables.STATUS_ID),
+                Arguments.of(Variables.PARTICIPANT_ID, null, Variables.QUESTION, null),
+                Arguments.of(null, null, Variables.QUESTION, null),
+                Arguments.of(null, null, "", Variables.STATUS_ID),
+                Arguments.of(null, Variables.DATE, null, null)
         );
     }
 }
