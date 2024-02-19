@@ -25,7 +25,6 @@ public class TestMealServiceFill {
     @Test
     public void testFillNoRecords() {
         when(mealRepositoryMock.count()).thenReturn(0L);
-        mealService.fill();
 
         assertDoesNotThrow(() -> mealService.fill(), "Получили исключение при вызове метода fill(), хотя не должны были");
         verify(mealRepositoryMock, times(4)).save(any(Meal.class));

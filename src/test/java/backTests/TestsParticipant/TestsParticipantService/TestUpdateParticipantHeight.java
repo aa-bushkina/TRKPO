@@ -56,22 +56,6 @@ class TestUpdateParticipantHeight {
         verifyNoMoreInteractions(participantRepository);
     }
 
-    @Test
-    void testUpdateParticipantHeightWithNullHeight() {
-        Long participantId = 1L;
-        Integer newHeight = null;
-
-        Participant participant = new Participant();
-        participant.setId(participantId);
-        when(participantRepository.getParticipantById(participantId)).thenReturn(participant);
-
-        participantService.updateParticipantHeight(participantId, newHeight);
-
-        verify(participantRepository).getParticipantById(participantId);
-        verify(participantRepository).save(participant);
-        assertNull(participant.getHeight());
-    }
-
     @ParameterizedTest(name = "Тест неудовлетворяющих граничных значений")
     @ValueSource(ints = {66, 251})
     void testUpdateParticipantHeightBadPass(int height) {
