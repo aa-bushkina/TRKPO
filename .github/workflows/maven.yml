@@ -18,4 +18,4 @@ jobs:
         with:
           java-version: 17
       - name: Maven Verify
-        run: mvn clean install verify
+        run: mvn verify
