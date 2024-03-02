@@ -22,4 +22,4 @@ jobs:
           node-version: 12.13.0 
         
       - name: Maven Verify
-        run: mvn verify
+        run: mvn clean install verify
