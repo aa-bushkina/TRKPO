@@ -23,6 +23,9 @@ public class Meal implements Serializable {
     }
 
     public Meal(String type) {
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("timeEat должно иметь значение отличное от null и пустого");
+        }
         this.type = type;
     }
 

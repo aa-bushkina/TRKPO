@@ -1,13 +1,19 @@
 package com.cygans.database.question.question_status;
 
+import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuestionStatusService {
 
+
+    private final QuestionStatusRepository questionStatusRepository;
+
     @Autowired
-    private QuestionStatusRepository questionStatusRepository;
+    public QuestionStatusService(QuestionStatusRepository questionStatusRepository) {
+        this.questionStatusRepository = questionStatusRepository;
+    }
 
     public Long geQuestionStatusId(StatusOfQuestion status) {
         return questionStatusRepository.findQuestionStatusByStatus(status.getText()).getId();

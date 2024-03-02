@@ -1,13 +1,19 @@
 package com.cygans.database.notifications.notification_type;
 
+import com.cygans.database.notifications.notification_status.NotificationStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class NotificationTypeService {
+
+    private final NotificationTypeRepository repository;
+
     @Autowired
-    private NotificationTypeRepository repository;
+    public NotificationTypeService(NotificationTypeRepository notificationTypeRepository) {
+        this.repository = notificationTypeRepository;
+    }
 
     public Long getNotificationTypeId(TypeOfNotification type) {
         return repository.findNotificationTypeByType(type.getValue()).getId();
@@ -27,7 +33,8 @@ public class NotificationTypeService {
             repository.save(new NotificationType(TypeOfNotification.ANSWER_ON_QUESTION.getValue()));
             repository.save(new NotificationType(TypeOfNotification.DECLINE_MENTOR.getValue()));
         } else if (repository.count() > 7) {
-            System.out.println("Что-то идет не так, почистите таблицу notification_type!!! В ней должно быть только 4 заранее добавленные записи!!!");
+            System.out.println("Что-то идет не так, почистите таблицу notification_type!!! В ней должно быть только 7 заранее добавленные записи!!!");
         }
     }
+
 }

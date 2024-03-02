@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MealService {
 
+    private final MealRepository mealRepository;
+
     @Autowired
-    private MealRepository mealRepository;
+    public MealService(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
+    }
 
     public Long getMealId(String type) {
         return mealRepository.findMealByType(type).getId();
@@ -23,8 +27,8 @@ public class MealService {
             mealRepository.save(new Meal(MealType.LAUNCH.getText()));
             mealRepository.save(new Meal(MealType.DINNER.getText()));
             mealRepository.save(new Meal(MealType.OTHER.getText()));
-        } else if (mealRepository.count() > 4) {
-            System.out.println("Что-то идет не так, почистите таблицу meal!!! В ней должно быть только 4 заранее добавленные записи!!!");
+        } else if (mealRepository.count() != 4) {
+            throw new IllegalArgumentException("Что-то идет не так, почистите таблицу meal!!! В ней должно быть только 4 заранее добавленные записи!!!");
         }
     }
 

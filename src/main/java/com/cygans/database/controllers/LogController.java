@@ -54,7 +54,7 @@ public class LogController {
     @Autowired
     private NotificationsService notificationsService;
 
-    private Long saveGeneralLog(LogBookType type) {
+    public Long saveGeneralLog(LogBookType type) {
         Long participantId = participantService.getParticipantByLoginInfoId(
                 loginInfoService.findByLogin(
                         SecurityContextHolder.getContext().getAuthentication().getName()

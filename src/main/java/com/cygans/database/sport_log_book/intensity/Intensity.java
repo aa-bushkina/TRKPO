@@ -21,6 +21,9 @@ public class Intensity implements Serializable {
     }
 
     public Intensity(String type) {
+        if (type == null || type.isEmpty()) {
+            throw new IllegalArgumentException("Обязательные поля при создании Интенсивности не могут быть пустыми");
+        }
         this.type = type;
     }
 
@@ -28,7 +31,16 @@ public class Intensity implements Serializable {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }
