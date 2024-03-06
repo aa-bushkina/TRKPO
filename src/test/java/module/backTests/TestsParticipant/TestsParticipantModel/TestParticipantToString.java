@@ -3,7 +3,7 @@ package module.backTests.TestsParticipant.TestsParticipantModel;
 import com.cygans.database.participant.Participant;
 import org.junit.jupiter.api.Test;
 
-import static backTests.TestsParticipant.TestsParticipantModel.Variables.*;
+import static module.backTests.TestsParticipant.TestsParticipantModel.Variables.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
