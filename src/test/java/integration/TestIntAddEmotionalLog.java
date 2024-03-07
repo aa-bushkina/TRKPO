@@ -3,11 +3,15 @@ package integration;
 import com.cygans.Application;
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
+import com.cygans.database.log_book.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -17,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddEmotionalLog extends BaseTest {
-    private static final String COMMENTS = "Я плакала всю ночь";
+    private static final String COMMENTS = "Я плакала сильно, поэтому хотела есть, только чикенбургерами спасаюсь";
 
     @Autowired
     private LogController logController;
@@ -33,10 +37,16 @@ public class TestIntAddEmotionalLog extends BaseTest {
         logger.info("Проверяем, что id записи существует");
         assertNotNull(logId, "Id записи null");
 
-        logger.info("Получаем запись об эмоциональном состоянии по id");
-        EmotionalLogBook retrievedEmotionalLog = logController.getEmotionalLogByLogbookId(logId);
 
-        logger.info("Проверяем, что запись существует");
+        logger.info("Получаем все записи участника и проверяем, что среди них есть добавленная запись");
+        List<Log> allLogs = logController.getAllNowParticipantLogs(true);
+        assertAll(
+                () -> assertEquals(1, allLogs.size(), "У пользователя нет записей"),
+                () -> assertEquals(logId, allLogs.get(0).getId(), "Записи нет среди всех записей пользователя")
+        );
+
+        logger.info("Получаем запись о спорте по id и проверяем, что запись существует");
+        EmotionalLogBook retrievedEmotionalLog = logController.getEmotionalLogByLogbookId(logId);
         assertNotNull(retrievedEmotionalLog, "Запись, полученная по id не существует");
 
         logger.info("Проверяем, что поля записи соответствуют ожидаемым значениям");
