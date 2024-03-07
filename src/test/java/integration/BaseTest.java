@@ -32,7 +32,6 @@ public class BaseTest {
     protected LogService logService;
     @Mock
     protected LoginInfoService loginInfoService;
-
     @Mock
     protected LogsTypeService logsTypeService;
     @Mock

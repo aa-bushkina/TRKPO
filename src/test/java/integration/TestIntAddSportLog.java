@@ -4,10 +4,8 @@ import com.cygans.Application;
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
-import com.cygans.security.db.logInfo.LoginInfo;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -64,5 +62,10 @@ public class TestIntAddSportLog extends BaseTest {
         );
 
         logger.info("Тест успешно пройден");
+    }
+
+    @AfterEach
+    public void tearDown() {
+        //почистить БД
     }
 }
