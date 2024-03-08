@@ -6,13 +6,10 @@ import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -32,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class TestIntSettingsParticipant extends BaseTest {
     private static final String FIRSTNAME = "Катька";
     private static final String LASTNAME = "Волосова";
-    private static final String LOGIN = "sdj";
+    private static final String LOGIN = "skdjm";
     private static final String PHONE = "+79383170126";
     private static final String GENDER = "Жен";
     private static final LocalDate BIRTHDAY = LocalDate.now();
@@ -52,7 +49,6 @@ public class TestIntSettingsParticipant extends BaseTest {
     private static final int NEW_BREAST = 70;
     private static final int NEW_WAIST = 70;
     private static final int NEW_HIPS = 70;
-    private LoginInfo loginInfo;
 
     @Autowired
     private RegistrationAndLoginController registrationAndLoginController;
@@ -62,8 +58,6 @@ public class TestIntSettingsParticipant extends BaseTest {
 
     @Autowired
     private ParticipantRepository participantRepository;
-    @Mock
-    private LoginInfoService loginInfoService;
 
     @BeforeEach
     public void setUp() {
@@ -94,10 +88,6 @@ public class TestIntSettingsParticipant extends BaseTest {
                 .thenReturn(WAIST);
         when(VaadinSession.getCurrent().getAttribute("Hip"))
                 .thenReturn(HIPS);
-        loginInfo = new LoginInfo();
-        loginInfo.setId(1L);
-        when(loginInfoService.findByLogin(any()))
-                .thenReturn(loginInfo);
     }
 
     @Test

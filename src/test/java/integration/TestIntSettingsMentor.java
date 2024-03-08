@@ -6,13 +6,10 @@ import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.mentor.Mentor;
 import com.cygans.database.mentor.MentorRepository;
 import com.cygans.security.db.RoleEnum;
-import com.cygans.security.db.logInfo.LoginInfo;
-import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,7 +17,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +28,7 @@ import static org.mockito.Mockito.when;
 public class TestIntSettingsMentor extends BaseTest {
     private static final String FIRSTNAME = "Катька";
     private static final String LASTNAME = "Волосова";
-    private static final String LOGIN = "sdj";
+    private static final String LOGIN = "sdkfsdj";
     private static final String PHONE = "+79383170126";
     private static final String GENDER = "Жен";
     private static final LocalDate BIRTHDAY = LocalDate.now();
@@ -42,7 +38,6 @@ public class TestIntSettingsMentor extends BaseTest {
     private static final String NEW_PHONE = "+79383178273";
     private static final String NEW_GENDER = "Муж";
     private static final LocalDate NEW_BIRTHDAY = LocalDate.now().minusYears(5);
-    private LoginInfo loginInfo;
 
     @Autowired
     private RegistrationAndLoginController registrationAndLoginController;
@@ -52,8 +47,6 @@ public class TestIntSettingsMentor extends BaseTest {
 
     @Autowired
     private MentorRepository mentorRepository;
-    @Mock
-    private LoginInfoService loginInfoService;
 
     @BeforeEach
     public void setUp() {
@@ -74,10 +67,6 @@ public class TestIntSettingsMentor extends BaseTest {
                 .thenReturn(GENDER);
         when(VaadinSession.getCurrent().getAttribute("Date"))
                 .thenReturn(BIRTHDAY);
-        loginInfo = new LoginInfo();
-        loginInfo.setId(1L);
-        when(loginInfoService.findByLogin(any()))
-                .thenReturn(loginInfo);
     }
 
     @Test
