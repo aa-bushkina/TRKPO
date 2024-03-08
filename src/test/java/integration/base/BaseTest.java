@@ -1,4 +1,4 @@
-package integration;
+package integration.base;
 
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
@@ -7,6 +7,7 @@ import com.cygans.database.participant.ParticipantService;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -54,5 +55,11 @@ public class BaseTest {
                 .thenReturn(loginInfo);
         when(participantService.getParticipantByLoginInfoId(any()))
                 .thenReturn(participant);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        logger.info("Удаляем из БД добавленные записи");
+        //TODO
     }
 }

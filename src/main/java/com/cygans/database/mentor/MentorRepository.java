@@ -9,6 +9,7 @@ public interface MentorRepository extends CrudRepository<Mentor, Long> {
     List<Mentor> findAll();
 
     Mentor getMentorById(Long id);
+    Mentor getMentorByLogin(String login);
 
     Mentor getMentorByLoginInfoId(Long id);
 

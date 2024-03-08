@@ -3,6 +3,7 @@ package integration;
 import com.cygans.Application;
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.notifications.Notifications;
+import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,11 +68,5 @@ public class TestIntAddEmotionalNotification extends BaseTest {
         );
 
         logger.info("Тест успешно пройден");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
     }
 }

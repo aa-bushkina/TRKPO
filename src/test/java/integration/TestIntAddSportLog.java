@@ -5,6 +5,7 @@ import com.cygans.database.controllers.LogController;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
+import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,11 +80,5 @@ public class TestIntAddSportLog extends BaseTest {
         );
 
         logger.info("Тест успешно пройден");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
     }
 }

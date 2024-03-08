@@ -3,6 +3,7 @@ package integration;
 import com.cygans.Application;
 import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.question.Question;
+import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,11 +58,5 @@ public class TestIntAddQuestion extends BaseTest {
         assertEquals(QUESTION, allQuestions.get(0).getQuestion(), "Не сопадает значение question");
 
         logger.info("Тест успешно пройден");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
     }
 }

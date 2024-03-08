@@ -5,6 +5,7 @@ import com.cygans.database.controllers.LogController;
 import com.cygans.database.eating_log_book.EatingLogBook;
 import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.log_book.Log;
+import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +77,5 @@ public class TestIntAddEatingLog extends BaseTest {
                         "Не сопадает значение mealTypeId")
         );
         logger.info("Тест успешно пройден");
-    }
-
-    @AfterEach
-    public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
     }
 }
