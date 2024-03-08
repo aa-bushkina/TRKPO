@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddEmotionalLog extends BaseTest {
+    private static final Long PARTICIPANT_ID = 1L;
     private static final String COMMENTS = "Я плакала сильно, поэтому хотела есть, только чикенбургерами спасаюсь";
 
     @Autowired
@@ -41,8 +44,15 @@ public class TestIntAddEmotionalLog extends BaseTest {
         logger.info("Получаем все записи участника и проверяем, что среди них есть добавленная запись");
         List<Log> allLogs = logController.getAllNowParticipantLogs(true);
         assertAll(
-                () -> assertEquals(1, allLogs.size(), "У пользователя нет записей"),
-                () -> assertEquals(logId, allLogs.get(0).getId(), "Записи нет среди всех записей пользователя")
+                () -> assertEquals(1, allLogs.size(),
+                        "У пользователя нет записей"),
+                () -> assertEquals(logId, allLogs.get(0).getId(),
+                        "Записи нет среди всех записей пользователя"),
+                () -> assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        allLogs.get(0).getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        "Не совпадает значение date"),
+                () -> assertEquals(PARTICIPANT_ID, allLogs.get(0).getParticipantId(),
+                        "Не совпадает значение participant_id")
         );
 
         logger.info("Получаем запись о спорте по id и проверяем, что запись существует");
