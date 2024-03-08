@@ -73,6 +73,7 @@ public class TestIntAddSportLog extends BaseTest {
 
     @AfterEach
     public void tearDown() {
-        //почистить БД
+        logger.info("Удаляем из БД добавленные записи");
+        //TODO
     }
 }
