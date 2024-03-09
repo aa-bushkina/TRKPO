@@ -1,12 +1,10 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,9 +15,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что при вызове метода обновления личных данных в контроллере с валидными полями
@@ -27,18 +22,6 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntSettingsParticipant extends BaseTest {
-    private static final String FIRSTNAME = "Катька";
-    private static final String LASTNAME = "Волосова";
-    private static final String LOGIN = "skdjm";
-    private static final String PHONE = "+79383170126";
-    private static final String GENDER = "Жен";
-    private static final LocalDate BIRTHDAY = LocalDate.now();
-    private static final String HEIGHT = "123";
-    private static final String WEIGHT = "123";
-    private static final String BREAST = "123";
-    private static final String PASSWORD = "Qu_ntum_42";
-    private static final String WAIST = "123";
-    private static final String HIPS = "123";
     private static final String NEW_FIRSTNAME = "Марина";
     private static final String NEW_LASTNAME = "Коротаева";
     private static final String NEW_PHONE = "+79383178273";
@@ -51,9 +34,6 @@ public class TestIntSettingsParticipant extends BaseTest {
     private static final int NEW_HIPS = 70;
 
     @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
-
-    @Autowired
     private SettingsController settingsController;
 
     @Autowired
@@ -61,42 +41,14 @@ public class TestIntSettingsParticipant extends BaseTest {
 
     @BeforeEach
     public void setUp() {
-        VaadinSession vaadinSessionMock = mock(VaadinSession.class);
-        VaadinSession.setCurrent(vaadinSessionMock);
-
-        when(VaadinSession.getCurrent().getAttribute("FirstName"))
-                .thenReturn(FIRSTNAME);
-        when(VaadinSession.getCurrent().getAttribute("LastName"))
-                .thenReturn(LASTNAME);
-        when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN);
-        when(VaadinSession.getCurrent().getAttribute("Password"))
-                .thenReturn(PASSWORD);
-        when(VaadinSession.getCurrent().getAttribute("Phone"))
-                .thenReturn(PHONE);
-        when(VaadinSession.getCurrent().getAttribute("Gender"))
-                .thenReturn(GENDER);
-        when(VaadinSession.getCurrent().getAttribute("Date"))
-                .thenReturn(BIRTHDAY);
-        when(VaadinSession.getCurrent().getAttribute("Height"))
-                .thenReturn(HEIGHT);
-        when(VaadinSession.getCurrent().getAttribute("Weight"))
-                .thenReturn(WEIGHT);
-        when(VaadinSession.getCurrent().getAttribute("Breast"))
-                .thenReturn(BREAST);
-        when(VaadinSession.getCurrent().getAttribute("Waist"))
-                .thenReturn(WAIST);
-        when(VaadinSession.getCurrent().getAttribute("Hip"))
-                .thenReturn(HIPS);
+        logger.info("Создаем участника");
+        registerParticipant();
     }
 
     @Test
     public void testIntSettingsParticipant() {
         logger.info("Тест проверяет, что при вызове метода обновления личных данных в контроллере " +
                 "с валидными полями для роли участник – данные изменяются в БД");
-
-        logger.info("Вызываем метод регистрации участника");
-        registrationAndLoginController.registrationUser(RoleEnum.PARTICIPANT);
 
         logger.info("Вызываем метод обновления данных участника");
         settingsController.updateInfoUser(RoleEnum.PARTICIPANT, NEW_FIRSTNAME, NEW_LASTNAME, LOGIN, NEW_PHONE,

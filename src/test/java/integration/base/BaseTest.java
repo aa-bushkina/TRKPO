@@ -1,9 +1,12 @@
 package integration.base;
 
+import com.cygans.Application;
+import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
@@ -14,10 +17,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -26,9 +33,12 @@ import static org.mockito.Mockito.when;
 /**
  * Базовый класс интеграционного теста в залогине
  */
+@SpringBootTest(classes = Application.class)
 @ExtendWith(MockitoExtension.class)
 public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+    @Autowired
+    private RegistrationAndLoginController registrationAndLoginController;
     @Mock
     protected LogService logService;
     @Mock
@@ -37,6 +47,18 @@ public class BaseTest {
     protected LogsTypeService logsTypeService;
     @Mock
     protected ParticipantService participantService;
+    protected static final String FIRSTNAME = "Катька";
+    protected static final String LASTNAME = "Волосова";
+    protected static final String LOGIN = "hsddjbkkj";
+    protected static final String PHONE = "+79383170126";
+    protected static final String GENDER = "Жен";
+    protected static final LocalDate BIRTHDAY = LocalDate.now();
+    protected static final String HEIGHT = "123";
+    protected static final String WEIGHT = "123";
+    protected static final String BREAST = "123";
+    protected static final String WAIST = "123";
+    protected static final String HIPS = "123";
+    protected static final String PASSWORD = "Qu_ntum_42";
 
     @BeforeEach
     public void setUp() {
@@ -55,6 +77,64 @@ public class BaseTest {
                 .thenReturn(loginInfo);
         when(participantService.getParticipantByLoginInfoId(any()))
                 .thenReturn(participant);
+    }
+
+    protected void registerParticipant() {
+        logger.info("Мокируем аттрибуты сессии участника");
+        VaadinSession vaadinSessionMock = mock(VaadinSession.class);
+        VaadinSession.setCurrent(vaadinSessionMock);
+
+        when(VaadinSession.getCurrent().getAttribute("FirstName"))
+                .thenReturn(FIRSTNAME);
+        when(VaadinSession.getCurrent().getAttribute("LastName"))
+                .thenReturn(LASTNAME);
+        when(VaadinSession.getCurrent().getAttribute("Login"))
+                .thenReturn(LOGIN);
+        when(VaadinSession.getCurrent().getAttribute("Password"))
+                .thenReturn(PASSWORD);
+        when(VaadinSession.getCurrent().getAttribute("Phone"))
+                .thenReturn(PHONE);
+        when(VaadinSession.getCurrent().getAttribute("Gender"))
+                .thenReturn(GENDER);
+        when(VaadinSession.getCurrent().getAttribute("Date"))
+                .thenReturn(BIRTHDAY);
+        when(VaadinSession.getCurrent().getAttribute("Height"))
+                .thenReturn(HEIGHT);
+        when(VaadinSession.getCurrent().getAttribute("Weight"))
+                .thenReturn(WEIGHT);
+        when(VaadinSession.getCurrent().getAttribute("Breast"))
+                .thenReturn(BREAST);
+        when(VaadinSession.getCurrent().getAttribute("Waist"))
+                .thenReturn(WAIST);
+        when(VaadinSession.getCurrent().getAttribute("Hip"))
+                .thenReturn(HIPS);
+
+        logger.info("Вызываем метод регистрации участника");
+        registrationAndLoginController.registrationUser(RoleEnum.PARTICIPANT);
+    }
+
+    protected void registerMentor() {
+        logger.info("Мокируем аттрибуты сессии ментора");
+        VaadinSession vaadinSessionMock = mock(VaadinSession.class);
+        VaadinSession.setCurrent(vaadinSessionMock);
+
+        when(VaadinSession.getCurrent().getAttribute("FirstName"))
+                .thenReturn(FIRSTNAME);
+        when(VaadinSession.getCurrent().getAttribute("LastName"))
+                .thenReturn(LASTNAME);
+        when(VaadinSession.getCurrent().getAttribute("Login"))
+                .thenReturn(LOGIN);
+        when(VaadinSession.getCurrent().getAttribute("Password"))
+                .thenReturn(PASSWORD);
+        when(VaadinSession.getCurrent().getAttribute("Phone"))
+                .thenReturn(PHONE);
+        when(VaadinSession.getCurrent().getAttribute("Gender"))
+                .thenReturn(GENDER);
+        when(VaadinSession.getCurrent().getAttribute("Date"))
+                .thenReturn(BIRTHDAY);
+
+        logger.info("Вызываем метод регистрации ментора");
+        registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
     }
 
     @AfterEach

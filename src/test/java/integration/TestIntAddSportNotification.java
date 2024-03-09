@@ -4,7 +4,6 @@ import com.cygans.Application;
 import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.notifications.Notifications;
 import integration.base.BaseTest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
