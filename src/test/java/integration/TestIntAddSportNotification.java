@@ -24,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddSportNotification extends BaseTest {
-    private static final Long PARTICIPANT_ID = 1L;
-    private static final Long MENTOR_ID = 2L;
     private static final String INTENSITY = "Низкая";
     private static final String DURATION = "25";
     private static final String ACTIVITY = "Утренняя зарядка";

@@ -1,8 +1,6 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.LogController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.Log;
 import com.vaadin.flow.server.VaadinSession;
@@ -10,7 +8,6 @@ import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;

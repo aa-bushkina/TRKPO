@@ -1,18 +1,13 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.QuestionController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.question.Question;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,7 +15,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера добавления вопроса – вопрос может быть получена

@@ -1,14 +1,11 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.participant.Participant;
-import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.security.db.RoleEnum;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
