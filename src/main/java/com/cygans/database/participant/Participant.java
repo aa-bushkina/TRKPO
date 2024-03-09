@@ -46,7 +46,7 @@ public class Participant extends Person implements Comparable<Participant> {
                 waist == null ||
                 breast == null ||
                 loginInfoId == null) {
-            throw new IllegalArgumentException("Обязательные поля при создании записи эмоций не могут быть пустыми");
+            throw new IllegalArgumentException("Обязательные поля при создании участника не могут быть пустыми");
         }
         this.firstname = firstName;
         this.lastname = lastName;
