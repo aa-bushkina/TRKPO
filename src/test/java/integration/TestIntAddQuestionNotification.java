@@ -63,7 +63,7 @@ public class TestIntAddQuestionNotification extends BaseTest {
                 "записи об эмоциональном состоянии участником нотификация может быть получена в списке всех нотификаций " +
                 "прикрепленным к участнику ментором, и все поля совпадают с установленными");
 
-        logger.info("Вызываем метод сохранения нотификации об эмоциональном состоянии");
+        logger.info("Вызываем метод сохранения нотификации о вопросе");
         when(VaadinSession.getCurrent().getAttribute("Login"))
                 .thenReturn(LOGIN_PARTICIPANT);
         registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
