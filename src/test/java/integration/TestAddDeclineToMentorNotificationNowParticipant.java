@@ -49,8 +49,7 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
         mentorId = settingsController.getAuthoritiesMentor().getId();
 
         logger.info("Отправляем запрос на отслеживание");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         notificationController.addRequestToParticipantNotificationNowMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
         statusId = notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER);
@@ -63,8 +62,7 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
                 "участником не создается запись о связи участника и ментора в БД");
 
         logger.info("Вызваем метод для отклонения запроса на отслеживание");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         notificationController.addDeclineToMentorNotificationNowParticipant(mentorId);
 
         logger.info("Проверяем, что не создалась пара");
@@ -72,8 +70,7 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
         assertNull(id, "Ментор прикрепился к участнику");
 
         logger.info("Проверяем, что появилась нотификация отклонения запроса");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications notification = allNotifications.get(0);

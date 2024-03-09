@@ -52,14 +52,12 @@ public class TestAddAnswerToQuestion extends BaseTest {
                 " и все поля совпадают с установленными");
 
         logger.info("Создаем вопрос и нотификацию о нем");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         Long logId = questionController.addNewQuestionForNowParticipant(QUESTION);
         notificationController.addNewQuestionNotification(logId, QUESTION);
 
         logger.info("Достаем нотификацию о нотификации вопроса");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();;
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications notifications = allNotifications.get(0);
@@ -68,8 +66,7 @@ public class TestAddAnswerToQuestion extends BaseTest {
         questionController.addAnswerToQuestion(logId, notifications.getNotificationId(), ANSWER);
 
         logger.info("Проверяем состояние вопроса");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         List<Question> questions = questionController.getAllQuestionNowParticipant();
         assertEquals(1, questions.size(), "У пользователя нет вопросов");
         Question question = questions.get(0);
@@ -79,8 +76,7 @@ public class TestAddAnswerToQuestion extends BaseTest {
         );
 
         logger.info("Проверяем состояние уведомления");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications fNotifications = allNotifications.get(0);

@@ -60,14 +60,11 @@ public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
                 "участника – в списке уведомлений участника появляется уведомление");
 
         logger.info("Вызываем метод создания запроса на отслеживание участника ментором");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         notificationController.addRequestToParticipantNotificationNowMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
         logger.info("Получаем все нотификации пользователя");
-        when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         List<Notifications> allNotifications = notificationController.getNotificationWithAnswerNotSeenParticipant(true, null);
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
 

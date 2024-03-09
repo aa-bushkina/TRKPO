@@ -53,8 +53,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
         mentorId = settingsController.getAuthoritiesMentor().getId();
 
         logger.info("Отправляем запрос на отслеживание");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         notificationController.addRequestToParticipantNotificationNowMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
         statusId = notificationController.getNotificationStatusId(StatusOfNotification.ANSWERED_NOT_SEEN);
@@ -68,9 +67,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
 
 
         logger.info("Получаем участником уведомление о запросе на отслеживание");
-        when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         List<Notifications> allNotifications = notificationController.getNotificationWithAnswerNotSeenParticipant(true, null);
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
         Notifications notification = allNotifications.get(0);

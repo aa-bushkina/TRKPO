@@ -58,15 +58,11 @@ public class TestIntAddSportNotification extends BaseTest {
                 "прикрепленным к участнику ментором, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения нотификации о спорте");
-        when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN_PARTICIPANT);
-        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+        loginParticipant();
         notificationController.addNewSportLogNotification(1L, INTENSITY, DURATION, ACTIVITY, COMMENTS);
 
         logger.info("Получаем все нотификации ментора и проверяем, что среди них есть добавленная нотификация");
-        when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
 

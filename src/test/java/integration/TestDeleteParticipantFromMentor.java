@@ -1,16 +1,12 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что при удалении ментором участника из отслеживания исчезает связь участника и ментора в БД
@@ -37,8 +33,7 @@ public class TestDeleteParticipantFromMentor extends BaseTest {
                 "исчезает связь участника и ментора в БД");
 
         logger.info("Удаляем участника ментором");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         participantAndMentorController.deleteParticipantFromMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
         logger.info("Проверяем, что пары больше нет");

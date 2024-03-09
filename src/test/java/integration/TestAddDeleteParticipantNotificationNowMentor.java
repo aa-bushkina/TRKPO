@@ -49,8 +49,7 @@ public class TestAddDeleteParticipantNotificationNowMentor extends BaseTest {
         logger.info("Тест проверяет, что при удалении ментором участника из отслеживания у участника создается нотификация");
 
         logger.info("Удаляем участника ментором");
-        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
-        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+        loginMentor();
         participantAndMentorController.deleteParticipantFromMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
         notificationController.addDeleteParticipantNotificationNowMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
