@@ -46,31 +46,4 @@ public class TestDeleteParticipantFromMentor extends BaseTest {
         assertNull(id, "Пара ещё есть");
     }
 
-    @AfterEach
-    public void tearDown() {
-        logger.info("Чистим БД");
-        Long participantId = null;
-        if (participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT) != null) {
-            participantId = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT).getId();
-            participantRepository.delete(participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT));
-        }
-        if (loginInfoRepository.findByLogin(LOGIN_PARTICIPANT) != null) {
-            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN_PARTICIPANT));
-        }
-        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_PARTICIPANT) != null) {
-            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_PARTICIPANT));
-        }
-        if (mentorRepository.getMentorByLogin(LOGIN_MENTOR) != null) {
-            mentorRepository.delete(mentorRepository.getMentorByLogin(LOGIN_MENTOR));
-        }
-        if (loginInfoRepository.findByLogin(LOGIN_MENTOR) != null) {
-            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN_MENTOR));
-        }
-        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR) != null) {
-            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR));
-        }
-        if (participantId != null && participantMentorRepository.findByParticipantId(participantId) != null) {
-            participantMentorRepository.delete(participantMentorRepository.findByParticipantId(participantId));
-        }
-    }
 }

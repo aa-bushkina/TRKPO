@@ -85,6 +85,7 @@ public class TestAddAnswerToQuestion extends BaseTest {
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications fNotifications = allNotifications.get(0);
         assertTrue(fNotifications.getAllMessage().contains(ALL_MESSAGE), "Нотификация не содержит нужного all_message");
+
         logger.info("Тест успешно пройден");
     }
 

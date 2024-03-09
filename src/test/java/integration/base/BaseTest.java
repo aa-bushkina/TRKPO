@@ -178,6 +178,16 @@ public class BaseTest {
         registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
     }
 
+    protected void loginParticipant() {
+        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_PARTICIPANT);
+        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+    }
+
+    protected void loginMentor() {
+        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
+        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
+    }
+
     protected void linkParticipantMentor(Long participantId, Long mentorId) {
         logger.info("Связываем ментора и участника");
         participantMentorService.create(participantId, mentorId);
@@ -185,7 +195,33 @@ public class BaseTest {
 
     @AfterEach
     public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
+        logger.info("Удаляем из БД участника");
+        Long participantId = null;
+        if (participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT) != null) {
+            participantId = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT).getId();
+            participantRepository.delete(participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT));
+        }
+        if (loginInfoRepository.findByLogin(LOGIN_PARTICIPANT) != null) {
+            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN_PARTICIPANT));
+        }
+        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_PARTICIPANT) != null) {
+            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_PARTICIPANT));
+        }
+
+        logger.info("Удаляем из БД ментора");
+        if (mentorRepository.getMentorByLogin(LOGIN_MENTOR) != null) {
+            mentorRepository.delete(mentorRepository.getMentorByLogin(LOGIN_MENTOR));
+        }
+        if (loginInfoRepository.findByLogin(LOGIN_MENTOR) != null) {
+            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN_MENTOR));
+        }
+        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR) != null) {
+            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR));
+        }
+
+        logger.info("Удаляем из БД пару участник-ментор");
+        if (participantId != null && participantMentorRepository.findByParticipantId(participantId) != null) {
+            participantMentorRepository.delete(participantMentorRepository.findByParticipantId(participantId));
+        }
     }
 }
