@@ -11,6 +11,7 @@ import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.security.db.RoleEnum;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,7 @@ public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
     private Long mentorId;
     private Long statusId;
     private Long typeId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -70,6 +72,7 @@ public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
 
         logger.info("Проверяем, что текст нотификации содержит все нужные значения");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(ALL_MESSAGE), "Уведомление не содержит нужного основного текста"),
                 () -> assertEquals(DATE.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), notification.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), "Не совпадает значение date"),
@@ -83,6 +86,14 @@ public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
                 () -> assertNull(notification.getQuestionId(), "Поле questionId не пустое")
         );
         logger.info("Тест успешно пройден");
+    }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
     }
 
 }

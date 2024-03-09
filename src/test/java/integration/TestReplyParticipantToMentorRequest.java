@@ -11,6 +11,7 @@ import com.cygans.database.notifications.notification_type.TypeOfNotification;
 import com.cygans.security.db.RoleEnum;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
     private Long mentorId;
     private Long statusId;
     private Long typeId;
-
-    @Autowired
-    private NotificationController notificationController;
-    @Autowired
-    private SettingsController settingsController;
-    @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
-    @Autowired
-    private ParticipantAndMentorController participantAndMentorController;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -71,6 +64,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
         List<Notifications> allNotifications = notificationController.getNotificationWithAnswerNotSeenParticipant(true, null);
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
 
         logger.info("Вызваем метод для принятия запроса на отслеживание");
         notificationController.replyParticipantToMentorRequest(notification);
@@ -91,5 +85,14 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
         );
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
+    }
+
 
 }

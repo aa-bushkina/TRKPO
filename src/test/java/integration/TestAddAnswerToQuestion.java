@@ -1,24 +1,16 @@
 package integration;
 
-import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.controllers.QuestionController;
-import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.question.Question;
-import com.cygans.database.question.question_status.QuestionStatus;
 import com.cygans.database.question.question_status.StatusOfQuestion;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера создания ответа на вопрос ментором нотификация может
@@ -32,8 +24,8 @@ public class TestAddAnswerToQuestion extends BaseTest {
     private static final String ALL_MESSAGE = "Ваш вопрос: Что мне съесть?";
     private Long participantId;
     private Long mentorId;
-    private Long typeId;
-
+    private Long questionId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -53,17 +45,18 @@ public class TestAddAnswerToQuestion extends BaseTest {
 
         logger.info("Создаем вопрос и нотификацию о нем");
         loginParticipant();
-        Long logId = questionController.addNewQuestionForNowParticipant(QUESTION);
-        notificationController.addNewQuestionNotification(logId, QUESTION);
+        questionId = questionController.addNewQuestionForNowParticipant(QUESTION);
+        notificationController.addNewQuestionNotification(questionId, QUESTION);
 
         logger.info("Достаем нотификацию о нотификации вопроса");
         loginMentor();;
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications notifications = allNotifications.get(0);
+        notificationId = notifications.getNotificationId();
 
         logger.info("Отвечаем на вопрос ментором");
-        questionController.addAnswerToQuestion(logId, notifications.getNotificationId(), ANSWER);
+        questionController.addAnswerToQuestion(questionId, notifications.getNotificationId(), ANSWER);
 
         logger.info("Проверяем состояние вопроса");
         loginParticipant();
@@ -85,4 +78,14 @@ public class TestAddAnswerToQuestion extends BaseTest {
         logger.info("Тест успешно пройден");
     }
 
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем вопрос и уведолмения о нем");
+        if (questionRepository.getQuestionById(questionId) != null) {
+            questionRepository.delete(questionRepository.getQuestionById(questionId));
+        }
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
+    }
 }

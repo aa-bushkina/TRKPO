@@ -1,19 +1,13 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.controllers.ParticipantAndMentorController;
-import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -21,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что при вызове метода контроллера отклонения запроса на менторство участником не создается
@@ -39,6 +32,8 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
     private Long mentorId;
     private Long statusId;
     private Long typeId;
+    private Long notificationId1;
+    private Long notificationId2;
 
     @BeforeEach
     public void setUp() {
@@ -52,6 +47,8 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
         loginMentor();
         notificationController.addRequestToParticipantNotificationNowMentor(participantAndMentorController.getParticipantByLogin(LOGIN_PARTICIPANT));
 
+        loginParticipant();
+        notificationId1 = notificationController.getNotificationWithAnswerNotSeenParticipant(true, null).get(0).getNotificationId();
         statusId = notificationController.getNotificationStatusId(StatusOfNotification.NO_ANSWER);
         typeId = notificationController.getNotificationTypeId(TypeOfNotification.DECLINE_MENTOR);
     }
@@ -74,6 +71,7 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications notification = allNotifications.get(0);
+        notificationId2 = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(ALL_MESSAGE), "Уведомление не содержит нужного основного текста"),
                 () -> assertEquals(DATE.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), notification.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), "Не совпадает значение date"),
@@ -89,5 +87,15 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
         logger.info("Тест успешно пройден");
     }
 
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификации");
+        if (notificationsRepository.getNotificationById(notificationId1) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId1));
+        }
+        if (notificationsRepository.getNotificationById(notificationId2) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId2));
+        }
+    }
 
 }

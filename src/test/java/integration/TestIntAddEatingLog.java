@@ -1,16 +1,13 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.LogController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.eating_log_book.EatingLogBook;
-import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.log_book.Log;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -34,6 +31,7 @@ public class TestIntAddEatingLog extends BaseTest {
     private static final String DESCRIPTION = "Мне было очень грустно и я съела весь Буше";
     private static final String MEAL_TYPE = "Завтрак";
     private static final LocalDate DATE = LocalDate.now();
+    private Long logId;
 
     @BeforeEach
     public void setUp() {
@@ -51,7 +49,7 @@ public class TestIntAddEatingLog extends BaseTest {
                 "быть получена при получении записей участника и по id, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения записи о приеме пищи состоянии");
-        Long logId = logController.saveEatingLog(TIME, DESCRIPTION, MEAL_TYPE);
+        logId = logController.saveEatingLog(TIME, DESCRIPTION, MEAL_TYPE);
 
         logger.info("Проверяем, что id записи существует");
         assertNotNull(logId, "Id записи null");
@@ -74,7 +72,7 @@ public class TestIntAddEatingLog extends BaseTest {
                         "Не совпадает значение participant_id")
         );
 
-        logger.info("Получаем запись о спорте по id и проверяем, что запись существует");
+        logger.info("Получаем запись о еде по id и проверяем, что запись существует");
         EatingLogBook retrievedEatingLog = logController.getEatingLogByLogbookId(logId);
         assertNotNull(retrievedEatingLog, "Запись, полученная по id не существует");
 
@@ -90,4 +88,13 @@ public class TestIntAddEatingLog extends BaseTest {
         );
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем запись");
+        if (eatingLogBookRepository.findByLogBookId(logId) != null) {
+            eatingLogBookRepository.delete(eatingLogBookRepository.findByLogBookId(logId));
+        }
+    }
+
 }

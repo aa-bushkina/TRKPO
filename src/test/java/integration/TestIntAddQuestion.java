@@ -6,6 +6,7 @@ import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.question.Question;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddQuestion extends BaseTest {
-    private static final LocalDate DATE = LocalDate.now();
     private static final String QUESTION = "Надоело писать тесты, как перестать заедать этот стресс";
+    private Long questionId;
 
     @BeforeEach
     public void setUp() {
@@ -42,10 +43,10 @@ public class TestIntAddQuestion extends BaseTest {
                 "быть получена при получении всех вопросов участника, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения вопроса");
-        Long logId = questionController.addNewQuestionForNowParticipant(QUESTION);
+        questionId = questionController.addNewQuestionForNowParticipant(QUESTION);
 
         logger.info("Проверяем, что id вопроса существует");
-        assertNotNull(logId, "Id вопроса null");
+        assertNotNull(questionId, "Id вопроса null");
 
         logger.info("Получаем все вопросы участника и проверяем, что среди них есть добавленный вопрос");
         List<Question> allQuestions = questionController.getAllQuestionNowParticipant();
@@ -53,10 +54,10 @@ public class TestIntAddQuestion extends BaseTest {
         assertAll(
                 () -> assertEquals(1, allQuestions.size(),
                         "У пользователя нет вопросов"),
-                () -> assertEquals(logId, allQuestions.get(0).getId(),
+                () -> assertEquals(questionId, allQuestions.get(0).getId(),
                         "Вопроса нет среди всех вопросов пользователя"),
                 () -> assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        allQuestions.stream().filter(log -> log.getId().equals(logId))
+                        allQuestions.stream().filter(log -> log.getId().equals(questionId))
                                 .findFirst()
                                 .get()
                                 .getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
@@ -69,5 +70,13 @@ public class TestIntAddQuestion extends BaseTest {
         assertEquals(QUESTION, allQuestions.get(0).getQuestion(), "Не сопадает значение question");
 
         logger.info("Тест успешно пройден");
+    }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем вопрос");
+        if (questionRepository.getQuestionById(questionId) != null) {
+            questionRepository.delete(questionRepository.getQuestionById(questionId));
+        }
     }
 }

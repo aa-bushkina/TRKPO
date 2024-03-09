@@ -1,16 +1,11 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -21,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера создания нотификации о добавлении
@@ -40,6 +34,7 @@ public class TestIntAddSportNotification extends BaseTest {
     private static final LocalDate DATE = LocalDate.now();
     private Long participantId;
     private Long mentorId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -68,6 +63,7 @@ public class TestIntAddSportNotification extends BaseTest {
 
         logger.info("Проверяем, что текст нотификации содержит все переданные значения");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(INTENSITY),
                         "В нотификации нет значения intensity"),
@@ -89,4 +85,13 @@ public class TestIntAddSportNotification extends BaseTest {
 
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
+    }
+
 }

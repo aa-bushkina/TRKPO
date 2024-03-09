@@ -47,7 +47,7 @@ public class TestIntRegisterMentor {
     private LoginInfo loginInfo;
 
     @Autowired
-    private RegistrationAndLoginController controller;
+    private RegistrationAndLoginController registrationAndLoginController;
 
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
@@ -91,7 +91,7 @@ public class TestIntRegisterMentor {
                 "для роли ментор юзер сохраняется в БД");
 
         logger.info("Вызываем метод регистрации ментора");
-        controller.registrationUser(RoleEnum.MENTOR);
+        registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
 
         logger.info("Проверяем, что в БД создались записи после регистрации в таблице Mentor");
         Mentor mentor = mentorRepository.getMentorByLogin(LOGIN);
@@ -131,7 +131,15 @@ public class TestIntRegisterMentor {
 
     @AfterEach
     public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
+        logger.info("Удаляем из БД ментора");
+        if (mentorRepository.getMentorByLogin(LOGIN) != null) {
+            mentorRepository.delete(mentorRepository.getMentorByLogin(LOGIN));
+        }
+        if (loginInfoRepository.findByLogin(LOGIN) != null) {
+            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN));
+        }
+        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN) != null) {
+            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN));
+        }
     }
 }

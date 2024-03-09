@@ -1,20 +1,14 @@
 package integration;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.NotificationController;
-import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.notifications.Notifications;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -22,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера создания нотификации о добавлении вопроса
@@ -31,12 +24,11 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddQuestionNotification extends BaseTest {
-    private static final Long PARTICIPANT_ID = 1L;
-    private static final Long MENTOR_ID = 2L;
     private static final String QUESTION = "Надоело писать тесты, как перестать заедать этот стресс";
     private static final LocalDate DATE = LocalDate.now();
     private Long participantId;
     private Long mentorId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -65,6 +57,7 @@ public class TestIntAddQuestionNotification extends BaseTest {
 
         logger.info("Проверяем, что текст нотификации содержит все переданные значения");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(QUESTION),
                         "В нотификации нет значения question"),
@@ -80,4 +73,13 @@ public class TestIntAddQuestionNotification extends BaseTest {
 
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
+    }
+
 }

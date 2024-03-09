@@ -7,6 +7,7 @@ import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.Log;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class TestIntAddEmotionalLog extends BaseTest {
     private static final LocalDate DATE = LocalDate.now();
     private static final String COMMENTS = "Я плакала сильно, поэтому хотела есть, только чикенбургерами спасаюсь";
-
+    private Long logId;
 
     @BeforeEach
     public void setUp() {
@@ -48,11 +49,10 @@ public class TestIntAddEmotionalLog extends BaseTest {
                 "быть получена при получении записей участника и по id, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения записи об эмоциональном состоянии");
-        Long logId = logController.saveEmotionalLog(COMMENTS);
+        logId = logController.saveEmotionalLog(COMMENTS);
 
         logger.info("Проверяем, что id записи существует");
         assertNotNull(logId, "Id записи null");
-
 
         logger.info("Получаем все записи участника и проверяем, что среди них есть добавленная запись");
         List<Log> allLogs = logController.getAllNowParticipantLogs(true);
@@ -72,7 +72,7 @@ public class TestIntAddEmotionalLog extends BaseTest {
                         "Не совпадает значение participant_id")
         );
 
-        logger.info("Получаем запись о спорте по id и проверяем, что запись существует");
+        logger.info("Получаем запись об эмоциях по id и проверяем, что запись существует");
         EmotionalLogBook retrievedEmotionalLog = logController.getEmotionalLogByLogbookId(logId);
         assertNotNull(retrievedEmotionalLog, "Запись, полученная по id не существует");
 
@@ -81,4 +81,13 @@ public class TestIntAddEmotionalLog extends BaseTest {
 
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем запись");
+        if (emotionalLogBookRepository.findByLogBookId(logId) != null) {
+            emotionalLogBookRepository.delete(emotionalLogBookRepository.findByLogBookId(logId));
+        }
+    }
+
 }

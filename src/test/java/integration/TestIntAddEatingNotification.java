@@ -8,6 +8,7 @@ import com.cygans.database.notifications.Notifications;
 import com.cygans.security.db.RoleEnum;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class TestIntAddEatingNotification extends BaseTest {
     private static final LocalDate DATE = LocalDate.now();
     private Long participantId;
     private Long mentorId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -65,6 +67,7 @@ public class TestIntAddEatingNotification extends BaseTest {
 
         logger.info("Проверяем, что текст нотификации содержит все переданные значения");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(TIME.toString()),
                         "В нотификации нет значения time"),
@@ -84,4 +87,13 @@ public class TestIntAddEatingNotification extends BaseTest {
 
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
+    }
+
 }

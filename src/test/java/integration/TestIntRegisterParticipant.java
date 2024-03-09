@@ -52,7 +52,7 @@ public class TestIntRegisterParticipant {
     private LoginInfo loginInfo;
 
     @Autowired
-    private RegistrationAndLoginController controller;
+    private RegistrationAndLoginController registrationAndLoginController;
 
     @Autowired
     private AuthoritiesRepository authoritiesRepository;
@@ -106,7 +106,7 @@ public class TestIntRegisterParticipant {
                 "для роли участник юзер сохраняется в БД");
 
         logger.info("Вызываем метод регистрации участника");
-        controller.registrationUser(RoleEnum.PARTICIPANT);
+        registrationAndLoginController.registrationUser(RoleEnum.PARTICIPANT);
 
         logger.info("Проверяем, что в БД создались записи после регистрации в таблице Participant");
         Participant participant = participantRepository.getParticipantByLogin(LOGIN);
@@ -156,7 +156,15 @@ public class TestIntRegisterParticipant {
 
     @AfterEach
     public void tearDown() {
-        logger.info("Удаляем из БД добавленные записи");
-        //TODO
+        logger.info("Удаляем из БД участника");
+        if (participantRepository.getParticipantByLogin(LOGIN) != null) {
+            participantRepository.delete(participantRepository.getParticipantByLogin(LOGIN));
+        }
+        if (loginInfoRepository.findByLogin(LOGIN) != null) {
+            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN));
+        }
+        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN) != null) {
+            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN));
+        }
     }
 }

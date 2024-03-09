@@ -8,6 +8,7 @@ import com.cygans.database.sport_log_book.SportLogBook;
 import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class TestIntAddSportLog extends BaseTest {
     private static final String DURATION = "25";
     private static final String ACTIVITY = "Утренняя зарядка";
     private static final String COMMENTS = "Простые упражнения";
+    private Long logId;
 
     @BeforeEach
     public void setUp() {
@@ -51,7 +53,7 @@ public class TestIntAddSportLog extends BaseTest {
                 "быть получена при получении записей участника и по id, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения записи о спорте");
-        Long logId = logController.saveSportLog(INTENSITY, DURATION, ACTIVITY, COMMENTS);
+        logId = logController.saveSportLog(INTENSITY, DURATION, ACTIVITY, COMMENTS);
 
         logger.info("Проверяем, что id записи существует");
         assertNotNull(logId, "Id записи null");
@@ -93,4 +95,13 @@ public class TestIntAddSportLog extends BaseTest {
 
         logger.info("Тест успешно пройден");
     }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем запись");
+        if (sportLogBookRepository.findByLogBookId(logId) != null) {
+            sportLogBookRepository.delete(sportLogBookRepository.findByLogBookId(logId));
+        }
+    }
+
 }

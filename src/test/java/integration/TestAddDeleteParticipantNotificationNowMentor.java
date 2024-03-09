@@ -3,9 +3,8 @@ package integration;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import com.cygans.security.db.RoleEnum;
-import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что при удалении ментором участника из отслеживания у участника создается нотификация
@@ -31,6 +29,7 @@ public class TestAddDeleteParticipantNotificationNowMentor extends BaseTest {
     private Long mentorId;
     private Long statusId;
     private Long typeId;
+    private Long notificationId;
 
     @BeforeEach
     public void setUp() {
@@ -58,6 +57,7 @@ public class TestAddDeleteParticipantNotificationNowMentor extends BaseTest {
         List<Notifications> allNotifications = notificationController.getNotificationWithAnswerNotSeenParticipant(true, null);
         assertEquals(1, allNotifications.size(), "У участника нет нотификаций");
         Notifications notification = allNotifications.get(0);
+        notificationId = notification.getNotificationId();
         assertAll(
                 () -> assertTrue(notification.getAllMessage().contains(ALL_MESSAGE), "Уведомление не содержит нужного основного текста"),
                 () -> assertEquals(DATE.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), notification.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), "Не совпадает значение date"),
@@ -71,6 +71,14 @@ public class TestAddDeleteParticipantNotificationNowMentor extends BaseTest {
                 () -> assertNull(notification.getQuestionId(), "Поле questionId не пустое")
         );
         logger.info("Тест успешно пройден");
+    }
+
+    @AfterEach
+    public void clear() {
+        logger.info("Удаляем нотификацию");
+        if (notificationsRepository.getNotificationById(notificationId) != null) {
+            notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
+        }
     }
 
 }
