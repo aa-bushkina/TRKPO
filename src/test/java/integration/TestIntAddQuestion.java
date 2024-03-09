@@ -30,12 +30,6 @@ public class TestIntAddQuestion extends BaseTest {
     private static final LocalDate DATE = LocalDate.now();
     private static final String QUESTION = "Надоело писать тесты, как перестать заедать этот стресс";
 
-    @Autowired
-    private QuestionController questionController;
-
-    @Autowired
-    private SettingsController settingsController;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника");

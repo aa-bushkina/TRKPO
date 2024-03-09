@@ -2,6 +2,7 @@ package integration.base;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.*;
+import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.mentor.MentorRepository;
@@ -10,6 +11,7 @@ import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
+import com.cygans.database.sport_log_book.intensity.IntensityService;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.authorities.AuthoritiesRepository;
 import com.cygans.security.db.logInfo.LoginInfo;
@@ -47,6 +49,8 @@ public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @Autowired
+    protected LogController logController;
+    @Autowired
     protected RegistrationAndLoginController registrationAndLoginController;
     @Autowired
     protected SettingsController settingsController;
@@ -69,6 +73,11 @@ public class BaseTest {
     protected LoginInfoRepository loginInfoRepository;
     @Autowired
     protected ParticipantMentorRepository participantMentorRepository;
+
+    @Autowired
+    protected MealService mealService;
+    @Autowired
+    protected IntensityService intensityService;
 
     @Mock
     protected LogService logService;

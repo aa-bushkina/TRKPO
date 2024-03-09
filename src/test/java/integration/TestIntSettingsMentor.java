@@ -28,12 +28,6 @@ public class TestIntSettingsMentor extends BaseTest {
     private static final String NEW_GENDER = "Муж";
     private static final LocalDate NEW_BIRTHDAY = LocalDate.now().minusYears(5);
 
-    @Autowired
-    private SettingsController settingsController;
-
-    @Autowired
-    private MentorRepository mentorRepository;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем ментора");

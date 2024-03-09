@@ -31,11 +31,6 @@ public class TestIntAddEmotionalLog extends BaseTest {
     private static final LocalDate DATE = LocalDate.now();
     private static final String COMMENTS = "Я плакала сильно, поэтому хотела есть, только чикенбургерами спасаюсь";
 
-    @Autowired
-    private LogController logController;
-
-    @Autowired
-    private SettingsController settingsController;
 
     @BeforeEach
     public void setUp() {

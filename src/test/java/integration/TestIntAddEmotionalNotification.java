@@ -37,15 +37,6 @@ public class TestIntAddEmotionalNotification extends BaseTest {
     private Long participantId;
     private Long mentorId;
 
-    @Autowired
-    private NotificationController notificationController;
-
-    @Autowired
-    private SettingsController settingsController;
-
-    @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника, ментора и связываем их");

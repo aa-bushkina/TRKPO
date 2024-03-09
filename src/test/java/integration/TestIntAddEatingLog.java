@@ -35,15 +35,6 @@ public class TestIntAddEatingLog extends BaseTest {
     private static final String MEAL_TYPE = "Завтрак";
     private static final LocalDate DATE = LocalDate.now();
 
-    @Autowired
-    private LogController logController;
-
-    @Autowired
-    private MealService mealService;
-
-    @Autowired
-    private SettingsController settingsController;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника");

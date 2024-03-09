@@ -21,12 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestIntSettingsPassword extends BaseTest {
     private static final String NEW_PASSWORD = "Qu_ntum_55";
 
-    @Autowired
-    private SettingsController settingsController;
-
-    @Autowired
-    private LoginInfoRepository loginInfoRepository;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника");

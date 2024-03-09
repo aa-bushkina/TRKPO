@@ -32,13 +32,6 @@ public class TestIntSettingsParticipant extends BaseTest {
     private static final int NEW_BREAST = 70;
     private static final int NEW_WAIST = 70;
     private static final int NEW_HIPS = 70;
-
-    @Autowired
-    private SettingsController settingsController;
-
-    @Autowired
-    private ParticipantRepository participantRepository;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника");

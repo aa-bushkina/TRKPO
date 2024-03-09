@@ -35,15 +35,6 @@ public class TestIntAddSportLog extends BaseTest {
     private static final String ACTIVITY = "Утренняя зарядка";
     private static final String COMMENTS = "Простые упражнения";
 
-    @Autowired
-    private LogController logController;
-
-    @Autowired
-    private IntensityService intensityService;
-
-    @Autowired
-    private SettingsController settingsController;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника");
