@@ -37,7 +37,6 @@ public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
             "\n" +
             "Напоминание: Принимая запрос, ты соглашаешься с тем, что твой ментор будет видеть все твои записи и вопросы\n";
     private static final LocalDate DATE = LocalDate.now();
-    private static final LocalTime TIME = LocalTime.now();
     private Long participantId;
     private Long mentorId;
     private Long statusId;
