@@ -33,17 +33,6 @@ public class TestAddAnswerToQuestion extends BaseTest {
     private Long participantId;
     private Long mentorId;
     private Long typeId;
-    @Autowired
-    private QuestionController questionController;
-
-    @Autowired
-    private NotificationController notificationController;
-
-    @Autowired
-    private SettingsController settingsController;
-
-    @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
 
 
     @BeforeEach

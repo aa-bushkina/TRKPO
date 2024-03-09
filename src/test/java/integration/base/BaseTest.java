@@ -1,15 +1,19 @@
 package integration.base;
 
 import com.cygans.Application;
-import com.cygans.database.controllers.RegistrationAndLoginController;
-import com.cygans.database.controllers.SettingsController;
+import com.cygans.database.controllers.*;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
+import com.cygans.database.mentor.MentorRepository;
 import com.cygans.database.participant.Participant;
+import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.RoleEnum;
+import com.cygans.security.db.authorities.AuthoritiesRepository;
 import com.cygans.security.db.logInfo.LoginInfo;
+import com.cygans.security.db.logInfo.LoginInfoRepository;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
 import org.junit.jupiter.api.AfterEach;
@@ -43,13 +47,29 @@ public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
     @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
+    protected RegistrationAndLoginController registrationAndLoginController;
+    @Autowired
+    protected SettingsController settingsController;
+    @Autowired
+    protected ParticipantMentorService participantMentorService;
+    @Autowired
+    protected NotificationController notificationController;
+    @Autowired
+    protected ParticipantAndMentorController participantAndMentorController;
+    @Autowired
+    protected QuestionController questionController;
 
     @Autowired
-    private SettingsController settingsController;
-
+    protected ParticipantRepository participantRepository;
     @Autowired
-    private ParticipantMentorService participantMentorService;
+    protected MentorRepository mentorRepository;
+    @Autowired
+    protected AuthoritiesRepository authoritiesRepository;
+    @Autowired
+    protected LoginInfoRepository loginInfoRepository;
+    @Autowired
+    protected ParticipantMentorRepository participantMentorRepository;
+
     @Mock
     protected LogService logService;
     @Mock

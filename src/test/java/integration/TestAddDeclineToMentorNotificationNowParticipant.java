@@ -40,15 +40,6 @@ public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
     private Long statusId;
     private Long typeId;
 
-    @Autowired
-    private NotificationController notificationController;
-    @Autowired
-    private SettingsController settingsController;
-    @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
-    @Autowired
-    private ParticipantAndMentorController participantAndMentorController;
-
     @BeforeEach
     public void setUp() {
         logger.info("Создаем участника и ментора");
