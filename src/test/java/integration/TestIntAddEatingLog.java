@@ -40,6 +40,7 @@ public class TestIntAddEatingLog extends BaseTest {
 
     @Autowired
     private MealService mealService;
+
     @Autowired
     private SettingsController settingsController;
 

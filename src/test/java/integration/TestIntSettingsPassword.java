@@ -41,7 +41,7 @@ public class TestIntSettingsPassword extends BaseTest {
         settingsController.changePassword(NEW_PASSWORD, RoleEnum.PARTICIPANT);
 
         logger.info("Проверяем, что в БД изменился пароль участника в таблице Participant");
-        LoginInfo loginInfo = loginInfoRepository.findByLogin(LOGIN);
+        LoginInfo loginInfo = loginInfoRepository.findByLogin(LOGIN_PARTICIPANT);
         assertTrue(new BCryptPasswordEncoder().matches(NEW_PASSWORD, loginInfo.getPassword()),
                 "Не совпадает значение password");
 

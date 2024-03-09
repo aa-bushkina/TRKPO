@@ -40,6 +40,7 @@ public class TestIntAddSportLog extends BaseTest {
 
     @Autowired
     private IntensityService intensityService;
+
     @Autowired
     private SettingsController settingsController;
 

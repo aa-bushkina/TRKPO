@@ -32,6 +32,7 @@ public class TestIntAddQuestion extends BaseTest {
 
     @Autowired
     private QuestionController questionController;
+
     @Autowired
     private SettingsController settingsController;
 

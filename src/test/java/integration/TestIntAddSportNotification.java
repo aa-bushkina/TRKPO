@@ -2,20 +2,26 @@ package integration;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.RegistrationAndLoginController;
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.notifications.Notifications;
+import com.cygans.security.db.RoleEnum;
+import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера создания нотификации о добавлении
@@ -31,13 +37,27 @@ public class TestIntAddSportNotification extends BaseTest {
     private static final String ACTIVITY = "Утренняя зарядка";
     private static final String COMMENTS = "Простые упражнения";
 
+    private static final LocalDate DATE = LocalDate.now();
+    private Long participantId;
+    private Long mentorId;
+
     @Autowired
     private NotificationController notificationController;
 
+    @Autowired
+    private SettingsController settingsController;
+
+    @Autowired
+    private RegistrationAndLoginController registrationAndLoginController;
+
     @BeforeEach
     public void setUp() {
-        logger.info("Мокируем связь участника и ментора");
-        //TODO
+        logger.info("Создаем участника, ментора и связываем их");
+        registerParticipant();
+        participantId = settingsController.getAuthoritiesParticipant().getId();
+        registerMentor();
+        mentorId = settingsController.getAuthoritiesMentor().getId();
+        linkParticipantMentor(participantId, mentorId);
     }
 
     @Test
@@ -47,9 +67,15 @@ public class TestIntAddSportNotification extends BaseTest {
                 "прикрепленным к участнику ментором, и все поля совпадают с установленными");
 
         logger.info("Вызываем метод сохранения нотификации о спорте");
+        when(VaadinSession.getCurrent().getAttribute("Login"))
+                .thenReturn(LOGIN_PARTICIPANT);
+        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
         notificationController.addNewSportLogNotification(1L, INTENSITY, DURATION, ACTIVITY, COMMENTS);
 
         logger.info("Получаем все нотификации ментора и проверяем, что среди них есть добавленная нотификация");
+        when(VaadinSession.getCurrent().getAttribute("Login"))
+                .thenReturn(LOGIN_MENTOR);
+        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
 
@@ -64,14 +90,13 @@ public class TestIntAddSportNotification extends BaseTest {
                         "В нотификации нет значения activity"),
                 () -> assertTrue(notification.getAllMessage().contains(COMMENTS),
                         "В нотификации нет значения comments"),
-                () -> assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        notification.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                () -> assertEquals(DATE.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")), notification.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         "Не совпадает значение date"),
-                () -> assertEquals(PARTICIPANT_ID, notification.getParticipantId(),
+                () -> assertEquals(participantId, notification.getParticipantId(),
                         "Не совпадает значение participantId"),
-                () -> assertEquals(MENTOR_ID, notification.getMentorId(),
+                () -> assertEquals(mentorId, notification.getMentorId(),
                         "Не совпадает значение mentorId"),
-                () -> assertTrue(notification.getReplyMessage().isEmpty(),
+                () -> assertNull(notification.getReplyMessage(),
                         "Поле replyMessage не пустое")
         );
 

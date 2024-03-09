@@ -46,11 +46,11 @@ public class TestIntSettingsMentor extends BaseTest {
                 "с валидными полями для роли ментор – данные изменяются в БД");
 
         logger.info("Вызываем метод обновления данных ментор");
-        settingsController.updateInfoUser(RoleEnum.MENTOR, NEW_FIRSTNAME, NEW_LASTNAME, LOGIN, NEW_PHONE,
+        settingsController.updateInfoUser(RoleEnum.MENTOR, NEW_FIRSTNAME, NEW_LASTNAME, LOGIN_MENTOR, NEW_PHONE,
                 NEW_BIRTHDAY, NEW_GENDER, null, null, null, null, null);
 
         logger.info("Проверяем, что в БД изменились данные участника в таблице Participant");
-        Mentor participant = mentorRepository.getMentorByLogin(LOGIN);
+        Mentor participant = mentorRepository.getMentorByLogin(LOGIN_MENTOR);
         assertAll(
                 () -> assertEquals(NEW_FIRSTNAME, participant.getFirstName(),
                         "Значение firstname не совпадает с установленным"),

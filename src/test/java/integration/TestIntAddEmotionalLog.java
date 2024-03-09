@@ -33,6 +33,7 @@ public class TestIntAddEmotionalLog extends BaseTest {
 
     @Autowired
     private LogController logController;
+
     @Autowired
     private SettingsController settingsController;
 

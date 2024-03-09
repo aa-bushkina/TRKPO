@@ -2,10 +2,12 @@ package integration.base;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.RegistrationAndLoginController;
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantService;
+import com.cygans.database.participant_mentor.ParticipantMentorService;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoService;
@@ -38,8 +40,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+
     @Autowired
     private RegistrationAndLoginController registrationAndLoginController;
+
+    @Autowired
+    private SettingsController settingsController;
+
+    @Autowired
+    private ParticipantMentorService participantMentorService;
     @Mock
     protected LogService logService;
     @Mock
@@ -50,7 +59,8 @@ public class BaseTest {
     protected ParticipantService participantService;
     protected static final String FIRSTNAME = "Катька";
     protected static final String LASTNAME = "Волосова";
-    protected static final String LOGIN = UUID.randomUUID().toString();
+    protected static final String LOGIN_PARTICIPANT = UUID.randomUUID().toString();
+    protected static final String LOGIN_MENTOR = UUID.randomUUID().toString();
     protected static final String PHONE = "+79383170126";
     protected static final String GENDER = "Жен";
     protected static final LocalDate BIRTHDAY = LocalDate.now();
@@ -90,7 +100,7 @@ public class BaseTest {
         when(VaadinSession.getCurrent().getAttribute("LastName"))
                 .thenReturn(LASTNAME);
         when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN);
+                .thenReturn(LOGIN_PARTICIPANT);
         when(VaadinSession.getCurrent().getAttribute("Password"))
                 .thenReturn(PASSWORD);
         when(VaadinSession.getCurrent().getAttribute("Phone"))
@@ -124,7 +134,7 @@ public class BaseTest {
         when(VaadinSession.getCurrent().getAttribute("LastName"))
                 .thenReturn(LASTNAME);
         when(VaadinSession.getCurrent().getAttribute("Login"))
-                .thenReturn(LOGIN);
+                .thenReturn(LOGIN_MENTOR);
         when(VaadinSession.getCurrent().getAttribute("Password"))
                 .thenReturn(PASSWORD);
         when(VaadinSession.getCurrent().getAttribute("Phone"))
@@ -136,6 +146,11 @@ public class BaseTest {
 
         logger.info("Вызываем метод регистрации ментора");
         registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
+    }
+
+    protected void linkParticipantMentor(Long participantId, Long mentorId) {
+        logger.info("Связываем ментора и участника");
+        participantMentorService.create(participantId, mentorId);
     }
 
     @AfterEach

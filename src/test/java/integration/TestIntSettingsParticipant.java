@@ -51,11 +51,11 @@ public class TestIntSettingsParticipant extends BaseTest {
                 "с валидными полями для роли участник – данные изменяются в БД");
 
         logger.info("Вызываем метод обновления данных участника");
-        settingsController.updateInfoUser(RoleEnum.PARTICIPANT, NEW_FIRSTNAME, NEW_LASTNAME, LOGIN, NEW_PHONE,
+        settingsController.updateInfoUser(RoleEnum.PARTICIPANT, NEW_FIRSTNAME, NEW_LASTNAME, LOGIN_PARTICIPANT, NEW_PHONE,
                 NEW_BIRTHDAY, NEW_GENDER, NEW_HEIGHT, NEW_WEIGHT, NEW_BREAST, NEW_WAIST, NEW_HIPS);
 
         logger.info("Проверяем, что в БД изменились данные участника в таблице Participant");
-        Participant participant = participantRepository.getParticipantByLogin(LOGIN);
+        Participant participant = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT);
         assertAll(
                 () -> assertEquals(NEW_HEIGHT, participant.getHeight(),
                         "Значение height не совпадает с установленным"),

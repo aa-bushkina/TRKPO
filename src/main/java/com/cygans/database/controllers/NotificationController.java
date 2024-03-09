@@ -242,6 +242,7 @@ public class NotificationController {
     }
 
     public Long getIdNowParticipantByAuthentication() {
+        var a = SecurityContextHolder.getContext().getAuthentication().getName();
         return participantService
                 .getParticipantByLoginInfoId(
                         loginInfoService.findByLogin(
