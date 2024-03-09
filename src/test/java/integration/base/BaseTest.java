@@ -25,6 +25,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -49,7 +50,7 @@ public class BaseTest {
     protected ParticipantService participantService;
     protected static final String FIRSTNAME = "Катька";
     protected static final String LASTNAME = "Волосова";
-    protected static final String LOGIN = "hsddjbkkj";
+    protected static final String LOGIN = UUID.randomUUID().toString();
     protected static final String PHONE = "+79383170126";
     protected static final String GENDER = "Жен";
     protected static final LocalDate BIRTHDAY = LocalDate.now();

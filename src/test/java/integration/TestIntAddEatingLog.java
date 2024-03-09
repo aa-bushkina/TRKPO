@@ -2,15 +2,18 @@ package integration;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.eating_log_book.EatingLogBook;
 import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.log_book.Log;
+import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера добавления записи  о приеме пищи запись может быть получена
@@ -26,16 +30,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddEatingLog extends BaseTest {
-    private static final Long PARTICIPANT_ID = 1L;
     private static final LocalTime TIME = LocalTime.of(10, 0);
     private static final String DESCRIPTION = "Мне было очень грустно и я съела весь Буше";
     private static final String MEAL_TYPE = "Завтрак";
+    private static final LocalDate DATE = LocalDate.now();
 
     @Autowired
     private LogController logController;
 
     @Autowired
     private MealService mealService;
+    @Autowired
+    private SettingsController settingsController;
+
+    @BeforeEach
+    public void setUp() {
+        logger.info("Создаем участника");
+        registerParticipant();
+
+        logger.info("Мокируем аттрибут даты");
+        when(VaadinSession.getCurrent().getAttribute("date"))
+                .thenReturn(DATE);
+    }
 
     @Test
     public void testIntAddEmotionalLog() {
@@ -50,15 +66,19 @@ public class TestIntAddEatingLog extends BaseTest {
 
         logger.info("Получаем все записи участника и проверяем, что среди них есть добавленная запись");
         List<Log> allLogs = logController.getAllNowParticipantLogs(true);
+        long participantId = settingsController.getAuthoritiesParticipant().getId();
         assertAll(
                 () -> assertEquals(1, allLogs.size(),
                         "У пользователя нет записей"),
                 () -> assertEquals(logId, allLogs.get(0).getId(),
                         "Записи нет среди всех записей пользователя"),
                 () -> assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        allLogs.get(0).getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        allLogs.stream().filter(log -> log.getId() == logId)
+                                .findFirst()
+                                .get()
+                                .getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         "Не совпадает значение date"),
-                () -> assertEquals(PARTICIPANT_ID, allLogs.get(0).getParticipantId(),
+                () -> assertEquals(participantId, allLogs.get(0).getParticipantId(),
                         "Не совпадает значение participant_id")
         );
 

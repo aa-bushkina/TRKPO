@@ -2,14 +2,17 @@ package integration;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.SettingsController;
 import com.cygans.database.emotional_log_book.EmotionalLogBook;
 import com.cygans.database.log_book.Log;
+import com.vaadin.flow.server.VaadinSession;
 import integration.base.BaseTest;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Тест проверяет, что после вызова метода контроллера добавления записи об эмоциональном состоянии запись может быть получена
@@ -24,11 +28,23 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 @SpringBootTest(classes = Application.class)
 public class TestIntAddEmotionalLog extends BaseTest {
-    private static final Long PARTICIPANT_ID = 1L;
+    private static final LocalDate DATE = LocalDate.now();
     private static final String COMMENTS = "Я плакала сильно, поэтому хотела есть, только чикенбургерами спасаюсь";
 
     @Autowired
     private LogController logController;
+    @Autowired
+    private SettingsController settingsController;
+
+    @BeforeEach
+    public void setUp() {
+        logger.info("Создаем участника");
+        registerParticipant();
+
+        logger.info("Мокируем аттрибут даты");
+        when(VaadinSession.getCurrent().getAttribute("date"))
+                .thenReturn(DATE);
+    }
 
     @Test
     public void testIntAddEmotionalLog() {
@@ -44,15 +60,19 @@ public class TestIntAddEmotionalLog extends BaseTest {
 
         logger.info("Получаем все записи участника и проверяем, что среди них есть добавленная запись");
         List<Log> allLogs = logController.getAllNowParticipantLogs(true);
+        long participantId = settingsController.getAuthoritiesParticipant().getId();
         assertAll(
                 () -> assertEquals(1, allLogs.size(),
                         "У пользователя нет записей"),
                 () -> assertEquals(logId, allLogs.get(0).getId(),
                         "Записи нет среди всех записей пользователя"),
                 () -> assertEquals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        allLogs.get(0).getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        allLogs.stream().filter(log -> log.getId() == logId)
+                                .findFirst()
+                                .get()
+                                .getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                         "Не совпадает значение date"),
-                () -> assertEquals(PARTICIPANT_ID, allLogs.get(0).getParticipantId(),
+                () -> assertEquals(participantId, allLogs.get(0).getParticipantId(),
                         "Не совпадает значение participant_id")
         );
 
