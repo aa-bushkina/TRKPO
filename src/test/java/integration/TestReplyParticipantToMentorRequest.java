@@ -67,7 +67,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
                 "отслеживание создается нотификация для ментора и связь участника и ментора в БД");
 
 
-        logger.info("Получаем участником уведомление о запросе не отслеживание");
+        logger.info("Получаем участником уведомление о запросе на отслеживание");
         when(VaadinSession.getCurrent().getAttribute("Login"))
                 .thenReturn(LOGIN_PARTICIPANT);
         registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
@@ -75,7 +75,7 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
         assertEquals(1, allNotifications.size(), "У пользователя нет нотификаций");
         Notifications notification = allNotifications.get(0);
 
-        logger.info("Вызваем метод для принятия запрос на отслеживание");
+        logger.info("Вызваем метод для принятия запроса на отслеживание");
         notificationController.replyParticipantToMentorRequest(notification);
 
         logger.info("Проверяем, что создалась пара");
