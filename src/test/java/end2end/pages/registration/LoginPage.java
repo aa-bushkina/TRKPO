@@ -1,7 +1,7 @@
 package end2end.pages.registration;
 
 import end2end.pages.utils.PageBase;
-import end2end.pages.utils.IStartPage;
+import end2end.pages.IStartPage;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;

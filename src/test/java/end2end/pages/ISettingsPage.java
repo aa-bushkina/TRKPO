@@ -1,4 +1,4 @@
-package end2end.pages.utils;
+package end2end.pages;
 
 import end2end.pages.mentor.SettingsMentorPage;
 import end2end.pages.participant.SettingsParticipantPage;

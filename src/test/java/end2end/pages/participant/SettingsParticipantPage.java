@@ -1,6 +1,6 @@
 package end2end.pages.participant;
 
-import end2end.pages.utils.SettingsPage;
+import end2end.pages.SettingsPage;
 
 /**
  * Страница насктроек участника

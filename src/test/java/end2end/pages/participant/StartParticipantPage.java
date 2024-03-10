@@ -1,8 +1,8 @@
 package end2end.pages.participant;
 
 import end2end.pages.registration.LoginPage;
-import end2end.pages.utils.ISettingsPage;
-import end2end.pages.utils.IStartPage;
+import end2end.pages.ISettingsPage;
+import end2end.pages.IStartPage;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 

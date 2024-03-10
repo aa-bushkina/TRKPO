@@ -1,6 +1,7 @@
 package end2end.tests;
 
 import end2end.pages.mentor.SettingsMentorPage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -9,10 +10,15 @@ import org.junit.jupiter.api.Test;
 public class TestEnd2EndChangePasswordMentor extends TestBase {
     private static final String NEW_PASSWORD = "654321Aa_";
 
+    @BeforeEach
+    public void setUp() {
+        logger.info("Регистрируем ментора");
+        registerMentor();
+    }
+
     @Test
     public void registrationParticipantTest() {
         logger.info("Тест проверяет смену пароля ментором");
-        registerMentor();
 
         logger.info("Логинимся ментором и меняем в настройках пароль");
         getLoginPage()
