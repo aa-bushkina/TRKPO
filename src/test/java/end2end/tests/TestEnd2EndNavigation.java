@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Тест проверяет вход/выход с портала участника/ментора
+ * Тест проверяет навигацию по разделам участника/ментора
  */
-public class TestEnd2EndLoginLogout extends TestBase {
+public class TestEnd2EndNavigation extends TestBase {
 
     @BeforeEach
     public void setUp() {
@@ -16,19 +16,27 @@ public class TestEnd2EndLoginLogout extends TestBase {
     }
 
     @Test
-    public void testEnd2EndLoginLogout() {
-        logger.info("Тест проверяет вход/выход с портала участника/ментора");
+    public void testEnd2EndNavigation() {
+        logger.info("Тест проверяет навигацию по разделам участника/ментора");
 
         logger.info("Логинимся участником и выходим из аккаунта");
         getLoginPage()
                 .login(LOGIN_PARTICIPANT, PASSWORD)
                 .andReturnStartParticipantPage()
+                .goToNotifications()
+                .goToStartPage()
+                .goToSettings()
+                .goToStartPage()
                 .logout();
 
         logger.info("Логинимся ментором и выходим из аккаунта");
         getLoginPage()
                 .login(LOGIN_MENTOR, PASSWORD)
                 .andReturnStartMentorPage()
+                .goToNotifications()
+                .goToStartPage()
+                .goToSettings()
+                .goToStartPage()
                 .logout();
 
         logger.info("Тест прошел успешно");

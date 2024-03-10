@@ -1,6 +1,5 @@
 package end2end.pages.participant;
 
-import end2end.pages.SettingsPageFactory;
 import end2end.pages.utils.PageBase;
 import end2end.pages.utils.Sex;
 import org.openqa.selenium.By;
@@ -38,10 +37,10 @@ public class SettingsActiveParticipantPage extends PageBase {
         logger.info("Загрузилась страница настроек с возможностью редактирования");
     }
 
-    public SettingsPageFactory saveChanges() {
+    public SettingsParticipantPage saveChanges() {
         logger.info("Кликаем на кнопку 'Сохранить'");
         $(SAVE_BTN).shouldBe(visible.because("Нет кнопки 'Сохранить'")).click();
-        return new SettingsPageFactory();
+        return new SettingsParticipantPage();
     }
 
     public SettingsActiveParticipantPage typeFirstname(String name) {

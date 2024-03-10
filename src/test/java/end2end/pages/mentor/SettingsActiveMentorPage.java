@@ -1,6 +1,5 @@
 package end2end.pages.mentor;
 
-import end2end.pages.SettingsPageFactory;
 import end2end.pages.utils.PageBase;
 import end2end.pages.utils.Sex;
 import org.openqa.selenium.By;
@@ -33,10 +32,10 @@ public class SettingsActiveMentorPage extends PageBase {
         logger.info("Загрузилась страница настроек с возможностью редактирования");
     }
 
-    public SettingsPageFactory saveChanges() {
+    public SettingsMentorPage saveChanges() {
         logger.info("Кликаем на кнопку 'Сохранить'");
         $(SAVE_BTN).shouldBe(visible.because("Нет кнопки 'Сохранить'")).click();
-        return new SettingsPageFactory();
+        return new SettingsMentorPage();
     }
 
     public SettingsActiveMentorPage typeFirstname(String name) {

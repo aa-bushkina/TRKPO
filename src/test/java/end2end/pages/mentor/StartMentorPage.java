@@ -1,8 +1,6 @@
 package end2end.pages.mentor;
 
 import end2end.pages.registration.LoginPage;
-import end2end.pages.SettingsPageFactory;
-import end2end.pages.IStartPage;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
@@ -12,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 /**
  * Стартовая страница ментора
  */
-public class StartMentorPage extends PageBase implements IStartPage {
+public class StartMentorPage extends PageBase {
     private static final By TITLE = By.xpath(".//h3[text()='Мои участники']");
     private static final By TABLE = By.xpath(".//vaadin-grid[@theme='column-borders no-border']");
     private static final By ADD_PARTICIPANT_BTN = By.xpath(".//h3[text()='Мои участники']/..//vaadin-button[@theme='icon']");
@@ -27,14 +25,22 @@ public class StartMentorPage extends PageBase implements IStartPage {
         logger.info("Загрузилась стартовая страница ментора");
     }
 
-    @Override
-    public SettingsPageFactory goToSettings() {
+    public SettingsMentorPage goToSettings() {
         logger.info("Кликаем на кнопку настроек");
         $(NAVBAR).$$(NAVBAR_BUTTONS)
                 .get(2)
                 .shouldBe(visible.because("Не отобразилась кнопка настроек"))
                 .click();
-        return new SettingsPageFactory();
+        return new SettingsMentorPage();
+    }
+
+    public NotificationsMentorPage goToNotifications() {
+        logger.info("Кликаем на кнопку уведомлений");
+        $(NAVBAR).$$(NAVBAR_BUTTONS)
+                .get(1)
+                .shouldBe(visible.because("Не отобразилась кнопка уведомлений"))
+                .click();
+        return new NotificationsMentorPage();
     }
 
     public LoginPage logout() {

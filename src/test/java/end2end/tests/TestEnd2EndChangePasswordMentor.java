@@ -23,8 +23,8 @@ public class TestEnd2EndChangePasswordMentor extends TestBase {
         logger.info("Логинимся ментором и меняем в настройках пароль");
         getLoginPage()
                 .login(LOGIN_MENTOR, PASSWORD)
+                .andReturnStartMentorPage()
                 .goToSettings()
-                .andReturnMentorSettingsPage()
                 .changePassword()
                 .typeOldPass(PASSWORD)
                 .typeNewPass(NEW_PASSWORD)

@@ -1,7 +1,7 @@
 package end2end.pages.participant;
 
 import end2end.pages.ChangePasswordPage;
-import end2end.pages.IStartPage;
+import end2end.pages.StartPageFactory;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * Страница настроек участника
@@ -50,12 +49,12 @@ public class SettingsParticipantPage extends PageBase {
         return new SettingsActiveParticipantPage();
     }
 
-    public IStartPage goToStartPage() {
+    public StartParticipantPage goToStartPage() {
         logger.info("Кликаем на кнопку домой");
         $(HOME_BTN).parent()
                 .shouldBe(visible.because("Нет кнопки домой"))
                 .click();
-        return IStartPage.get();
+        return new StartParticipantPage();
     }
 
     public String getFirstname() {

@@ -1,7 +1,6 @@
 package end2end.pages.mentor;
 
 import end2end.pages.ChangePasswordPage;
-import end2end.pages.IStartPage;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
@@ -15,7 +14,7 @@ public class SettingsMentorPage extends PageBase {
     private static final By TITLE = By.xpath(".//*[text()='Настройки']");
     private static final By CHANGE_PASS_BTN = By.xpath(".//*[text()='Изменить пароль']");
     private static final By CHANGE_INFO_BTN = By.xpath(".//*[text()='Редактировать']");
-    private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/..");
+    private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/../..");
 
     @Override
     protected void checkPage() {
@@ -37,11 +36,9 @@ public class SettingsMentorPage extends PageBase {
         return new SettingsActiveMentorPage();
     }
 
-    public IStartPage goToStartPage() {
+    public StartMentorPage goToStartPage() {
         logger.info("Кликаем на кнопку домой");
-        $(HOME_BTN).parent()
-                .shouldBe(visible.because("Нет кнопки домой"))
-                .click();
-        return IStartPage.get();
+        $(HOME_BTN).shouldBe(visible.because("Нет кнопки домой")).click();
+        return new StartMentorPage();
     }
 }

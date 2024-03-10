@@ -1,6 +1,5 @@
 package end2end.tests;
 
-import end2end.pages.SettingsPageFactory;
 import end2end.pages.participant.SettingsParticipantPage;
 import end2end.pages.utils.Sex;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
     protected static final String NEW_FIRSTNAME = "Мария";
     protected static final String NEW_LASTNAME = "Кротова";
     protected static final String NEW_PHONE = "+79383177777";
-    protected static final String NEW_GENDER = "Муж";
     protected static final String NEW_BIRTHDAY = "10.03.1992";
     protected static final String NEW_HEIGHT = "100";
     protected static final String NEW_WEIGHT = "101";
@@ -35,10 +33,10 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
         logger.info("Тест проверяет регистрацию и залогин под участником");
 
         logger.info("Логинимся участником и меняем в настройках пароль");
-        SettingsPageFactory settingsPage = getLoginPage()
+        SettingsParticipantPage settingsParticipantPage = getLoginPage()
                 .login(LOGIN_PARTICIPANT, PASSWORD)
+                .andReturnStartParticipantPage()
                 .goToSettings()
-                .andReturnParticipantSettingsPage()
                 .changeInfo()
                 .typeBreast(NEW_BREAST)
                 .typeHeight(NEW_HEIGHT)
@@ -53,10 +51,9 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
                 .saveChanges();
 
         logger.info("Перезаходим в настройки и проверяем значения полей");
-        SettingsParticipantPage participantSettingsPage = settingsPage.andReturnParticipantSettingsPage()
+        SettingsParticipantPage participantSettingsPage = settingsParticipantPage
                 .goToStartPage()
-                .goToSettings()
-                .andReturnParticipantSettingsPage();
+                .goToSettings();
 
         assertAll(
                 () -> assertEquals(NEW_FIRSTNAME, participantSettingsPage.getFirstname(),
