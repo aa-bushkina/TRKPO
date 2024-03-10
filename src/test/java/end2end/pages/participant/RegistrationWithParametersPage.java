@@ -60,10 +60,10 @@ public class RegistrationWithParametersPage extends PageBase {
         return this;
     }
 
-    public StartPageParticipantPage endRegistration() {
+    public StartParticipantPage endRegistration() {
         logger.info("Нажимаем на 'Завершить'");
         $(END_REGISTRATION_BUTTON).shouldBe(visible.because("Нет кнопки 'Завершить'")).click();
-        return new StartPageParticipantPage();
+        return new StartParticipantPage();
     }
 
 }

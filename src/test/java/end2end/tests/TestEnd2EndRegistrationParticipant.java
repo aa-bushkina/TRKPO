@@ -4,17 +4,14 @@ import end2end.pages.participant.RegistrationWithParametersPage;
 import end2end.pages.registration.SecondRegistrationPage;
 import end2end.pages.registration.ThirdRegistrationPage;
 import end2end.pages.utils.Sex;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Тест проверяет регистрацию и залогин под участником
  */
 public class TestEnd2EndRegistrationParticipant extends TestBase {
-
     private static final String FIRST_NAME = "Эльза";
     private static final String SECOND_NAME = "Белая";
-    private static final String LOGIN = "elsa";
     private static final String PASSWORD = "123456Aa_";
     private static final String PHONE = "+79458697969";
     private static final String DATE = "10.03.1994";
@@ -34,7 +31,7 @@ public class TestEnd2EndRegistrationParticipant extends TestBase {
         logger.info("Заполняем информацию на странице регистрации (имя, фамилия, логин и пароль)");
         ThirdRegistrationPage thirdRegistrationPage = secondRegistrationPage.typeName(FIRST_NAME)
                 .typeSecondName(SECOND_NAME)
-                .typeLogin(LOGIN)
+                .typeLogin(LOGIN_PARTICIPANT)
                 .typePassword(PASSWORD)
                 .doContinue();
 
@@ -54,19 +51,4 @@ public class TestEnd2EndRegistrationParticipant extends TestBase {
 
         logger.info("Тест прошел успешно");
     }
-
-    @AfterEach
-    public void deleteUser() {
-        logger.info("Удаляем записи о пользователе в БД");
-        if (mentorRepository.getMentorByLogin(LOGIN) != null) {
-            mentorRepository.delete(mentorRepository.getMentorByLogin(LOGIN));
-        }
-        if (loginInfoRepository.findByLogin(LOGIN) != null) {
-            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN));
-        }
-        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN) != null) {
-            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN));
-        }
-    }
-
 }

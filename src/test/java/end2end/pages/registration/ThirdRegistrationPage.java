@@ -1,7 +1,6 @@
 package end2end.pages.registration;
 
-import end2end.pages.mentor.StartPageMentorPage;
-import end2end.pages.participant.StartPageParticipantPage;
+import end2end.pages.mentor.StartMentorPage;
 import end2end.pages.utils.PageBase;
 import end2end.pages.participant.RegistrationWithParametersPage;
 import end2end.pages.utils.Sex;
@@ -65,10 +64,10 @@ public class ThirdRegistrationPage extends PageBase {
         return new RegistrationWithParametersPage();
     }
 
-    public StartPageMentorPage endRegistration() {
+    public StartMentorPage endRegistration() {
         logger.info("Нажимаем на 'Завершить'");
         $(END_REGISTRATION_BUTTON).shouldBe(visible.because("Нет кнопки 'Завершить'")).click();
-        return new StartPageMentorPage();
+        return new StartMentorPage();
     }
 
 }
