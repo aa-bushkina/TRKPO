@@ -1,4 +1,4 @@
-package end2end.pages;
+package end2end.pages.utils;
 
 
 import org.slf4j.Logger;

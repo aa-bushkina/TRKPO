@@ -1,5 +1,6 @@
-package end2end.pages;
+package end2end.pages.registration;
 
+import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
