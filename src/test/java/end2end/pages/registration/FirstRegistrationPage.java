@@ -26,5 +26,9 @@ public class FirstRegistrationPage extends PageBase {
         $(PARTICIPANT_BUTTON).shouldBe(visible.because("Не видна кнопка для выбора участника")).click();
         return new SecondRegistrationPage();
     }
-
+    public SecondRegistrationPage clickMentor() {
+        logger.info("Выбираем ментора");
+        $(MENTOR_BUTTON).shouldBe(visible.because("Не видна кнопка для выбора ментора")).click();
+        return new SecondRegistrationPage();
+    }
 }
