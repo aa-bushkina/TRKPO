@@ -1,7 +1,7 @@
 package end2end.pages.mentor;
 
 import end2end.pages.registration.LoginPage;
-import end2end.pages.ISettingsPage;
+import end2end.pages.SettingsPageFactory;
 import end2end.pages.IStartPage;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
@@ -28,13 +28,13 @@ public class StartMentorPage extends PageBase implements IStartPage {
     }
 
     @Override
-    public ISettingsPage goToSettings() {
+    public SettingsPageFactory goToSettings() {
         logger.info("Кликаем на кнопку настроек");
         $(NAVBAR).$$(NAVBAR_BUTTONS)
                 .get(2)
                 .shouldBe(visible.because("Не отобразилась кнопка настроек"))
                 .click();
-        return ISettingsPage.get();
+        return new SettingsPageFactory();
     }
 
     public LoginPage logout() {

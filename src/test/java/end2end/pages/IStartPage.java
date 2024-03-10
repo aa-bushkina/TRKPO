@@ -20,7 +20,7 @@ public interface IStartPage {
         return new StartParticipantPage();
     }
 
-    ISettingsPage goToSettings();
+    SettingsPageFactory goToSettings();
 
     LoginPage logout();
 }
