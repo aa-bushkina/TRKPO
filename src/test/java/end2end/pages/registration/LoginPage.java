@@ -1,7 +1,7 @@
 package end2end.pages.registration;
 
 import end2end.pages.utils.PageBase;
-import end2end.pages.utils.StartPageFactory;
+import end2end.pages.utils.IStartPage;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -28,12 +28,12 @@ public class LoginPage extends PageBase {
         return new FirstRegistrationPage();
     }
 
-    public StartPageFactory login(String login, String password) {
+    public IStartPage login(String login, String password) {
         logger.info("Логинимся с логином: " + login + " и паролем: " + password);
-        $(LOGIN_FIELD).shouldBe(visible.because("Нет поля ввода логина")).click();
-        $(PASSWORD_FIELD).shouldBe(visible.because("Нет поля ввода пароля")).click();
+        $(LOGIN_FIELD).shouldBe(visible.because("Нет поля ввода логина")).sendKeys(login);
+        $(PASSWORD_FIELD).shouldBe(visible.because("Нет поля ввода пароля")).sendKeys(password);
         $(LOGIN_BTN).shouldBe(visible.because("Нет кнопки входа")).click();
-        return StartPageFactory.get();
+        return IStartPage.get();
     }
 
 }

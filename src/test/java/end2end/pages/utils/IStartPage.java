@@ -7,13 +7,15 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public interface StartPageFactory {
+public interface IStartPage {
     By TITLE = By.xpath(".//h3[text()='Мои участники']");
 
-    public static StartPageFactory get() {
+    static IStartPage get() {
         if ($(TITLE).is(visible)) {
             return new StartMentorPage();
         }
         return new StartParticipantPage();
     }
+
+    ISettingsPage goToSettings();
 }
