@@ -1,8 +1,9 @@
 package end2end.pages.participant;
 
+import end2end.pages.registration.LoginPage;
 import end2end.pages.utils.ISettingsPage;
-import end2end.pages.utils.PageBase;
 import end2end.pages.utils.IStartPage;
+import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -29,10 +30,20 @@ public class StartParticipantPage extends PageBase implements IStartPage {
 
     @Override
     public ISettingsPage goToSettings() {
+        logger.info("Кликаем на кнопку настроек");
         $(NAVBAR).$$(NAVBAR_BUTTONS)
                 .get(4)
                 .shouldBe(visible.because("Не отобразилась кнопка настроек"))
                 .click();
         return ISettingsPage.get();
+    }
+
+    public LoginPage logout() {
+        $(NAVBAR).$$(NAVBAR_BUTTONS)
+                .get(5)
+                .parent()
+                .shouldBe(visible.because("Нет кнопки выхода"))
+                .click();
+        return new LoginPage();
     }
 }

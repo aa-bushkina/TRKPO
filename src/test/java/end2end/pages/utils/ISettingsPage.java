@@ -16,4 +16,6 @@ public interface ISettingsPage {
         }
         return new SettingsMentorPage();
     }
+
+    ChangePasswordPage changePassword();
 }

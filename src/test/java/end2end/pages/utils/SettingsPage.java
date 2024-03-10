@@ -9,6 +9,7 @@ public class SettingsPage extends PageBase implements ISettingsPage {
     private static final By TITLE = By.xpath(".//*[text()='Настройки']");
     private static final By CHANGE_PASS_BTN = By.xpath(".//*[text()='Изменить пароль']");
     private static final By CHANGE_INFO_BTN = By.xpath(".//*[text()='Редактировать']");
+    private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/..");
 
     @Override
     protected void checkPage() {
@@ -16,5 +17,19 @@ public class SettingsPage extends PageBase implements ISettingsPage {
         $(CHANGE_PASS_BTN).shouldBe(visible.because("Нет кнопки 'Изменить пароль'"));
         $(CHANGE_INFO_BTN).shouldBe(visible.because("Нет кнопки 'Редактировать'"));
         logger.info("Загрузилась страница настроек");
+    }
+
+    public ChangePasswordPage changePassword() {
+        logger.info("Кликаем на 'Изменить пароль'");
+        $(CHANGE_PASS_BTN).shouldBe(visible.because("Нет кнопки 'Изменить пароль'")).click();
+        return new ChangePasswordPage();
+    }
+
+    public IStartPage goToStartPage() {
+        logger.info("Кликаем на кнопку домой");
+        $(HOME_BTN).parent()
+                .shouldBe(visible.because("Нет кнопки домой"))
+                .click();
+        return IStartPage.get();
     }
 }

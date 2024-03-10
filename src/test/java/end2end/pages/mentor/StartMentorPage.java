@@ -1,5 +1,6 @@
 package end2end.pages.mentor;
 
+import end2end.pages.registration.LoginPage;
 import end2end.pages.utils.ISettingsPage;
 import end2end.pages.utils.IStartPage;
 import end2end.pages.utils.PageBase;
@@ -28,10 +29,20 @@ public class StartMentorPage extends PageBase implements IStartPage {
 
     @Override
     public ISettingsPage goToSettings() {
+        logger.info("Кликаем на кнопку настроек");
         $(NAVBAR).$$(NAVBAR_BUTTONS)
                 .get(2)
                 .shouldBe(visible.because("Не отобразилась кнопка настроек"))
                 .click();
         return ISettingsPage.get();
+    }
+
+    public LoginPage logout() {
+        logger.info("Кликаем на кнопку выхода");
+        $(NAVBAR).$$(NAVBAR_BUTTONS)
+                .get(3)
+                .shouldBe(visible.because("Нет кнопки выхода"))
+                .click();
+        return new LoginPage();
     }
 }
