@@ -18,4 +18,6 @@ public interface ISettingsPage {
     }
 
     ChangePasswordPage changePassword();
+
+    SettingsActivePage changeInfo();
 }

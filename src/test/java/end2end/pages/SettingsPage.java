@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
+/**
+ * Страница настроек
+ */
 public class SettingsPage extends PageBase implements ISettingsPage {
     private static final By TITLE = By.xpath(".//*[text()='Настройки']");
     private static final By CHANGE_PASS_BTN = By.xpath(".//*[text()='Изменить пароль']");
@@ -24,6 +27,12 @@ public class SettingsPage extends PageBase implements ISettingsPage {
         logger.info("Кликаем на 'Изменить пароль'");
         $(CHANGE_PASS_BTN).shouldBe(visible.because("Нет кнопки 'Изменить пароль'")).click();
         return new ChangePasswordPage();
+    }
+
+    public SettingsActivePage changeInfo() {
+        logger.info("Кликаем на 'Редактировать'");
+        $(CHANGE_INFO_BTN).shouldBe(visible.because("Нет кнопки 'Редактировать'")).click();
+        return new SettingsActivePage();
     }
 
     public IStartPage goToStartPage() {
