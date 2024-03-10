@@ -31,7 +31,7 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
     }
 
     @Test
-    public void registrationParticipantTest() {
+    public void testEnd2EndSettingsParticipant() {
         logger.info("Тест проверяет регистрацию и залогин под участником");
 
         logger.info("Логинимся участником и меняем в настройках пароль");

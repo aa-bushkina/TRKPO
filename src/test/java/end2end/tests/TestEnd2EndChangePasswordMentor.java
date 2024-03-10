@@ -17,7 +17,7 @@ public class TestEnd2EndChangePasswordMentor extends TestBase {
     }
 
     @Test
-    public void registrationParticipantTest() {
+    public void testEnd2EndChangePasswordMentor() {
         logger.info("Тест проверяет смену пароля ментором");
 
         logger.info("Логинимся ментором и меняем в настройках пароль");

@@ -22,7 +22,7 @@ public class TestEnd2EndRegistrationParticipant extends TestBase {
     public static final String WIDTH_HIPS = "120";
 
     @Test
-    public void registrationParticipantTest() {
+    public void testEnd2EndRegistrationParticipant() {
         logger.info("Тест проверяет регистрацию и залогин под участником");
 
         logger.info("Переходим к выбору типа юзера и выбираем участника");

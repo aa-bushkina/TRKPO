@@ -17,7 +17,7 @@ public class TestEnd2EndRegistrationMentor extends TestBase {
     private static final String DATE = "10.03.1994";
 
     @Test
-    public void registrationParticipantTest() {
+    public void testEnd2EndRegistrationMentor() {
         logger.info("Тест проверяет регистрацию и залогин под ментором");
 
         logger.info("Переходим к выбору типа юзера и выбираем ментора");
