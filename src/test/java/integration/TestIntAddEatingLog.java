@@ -1,14 +1,11 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.eating_log_book.EatingLogBook;
 import com.cygans.database.log_book.Log;
 import com.vaadin.flow.server.VaadinSession;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,8 +22,7 @@ import static org.mockito.Mockito.when;
  * Тест проверяет, что после вызова метода контроллера добавления записи  о приеме пищи запись может быть получена
  * при получении записей участника и по id, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddEatingLog extends BaseTest {
+public class TestIntAddEatingLog extends TestIntBase {
     private static final LocalTime TIME = LocalTime.of(10, 0);
     private static final String DESCRIPTION = "Мне было очень грустно и я съела весь Буше";
     private static final String MEAL_TYPE = "Завтрак";

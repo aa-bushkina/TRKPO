@@ -1,14 +1,11 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,13 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * Тест проверяет, что при вызове метода контроллера отклонения запроса на менторство участником не создается
  * запись о связи участника и ментора в БД
  */
-@SpringBootTest(classes = Application.class)
-public class TestAddDeclineToMentorNotificationNowParticipant extends BaseTest {
-
-    private static String ALL_MESSAGE = "Участник Катька Волосова отказал в отслеживании.\n\n" +
+public class TestIntAddDeclineToMentorNotificationNowParticipant extends TestIntBase {
+    private static final String ALL_MESSAGE = "Участник Катька Волосова отказал в отслеживании.\n\n" +
             "Если вы считаете, что отказ ошибочен, или у вас возникли проблемы с участником, то обратитетсь в поддержку";
-    private static String SHORT_MESSAGE = "Катька Волосова отказал в отслеживании";
-    private static String ANSWER = "Катька Волосова принял запрос на менторство.";
+    private static final String SHORT_MESSAGE = "Катька Волосова отказал в отслеживании";
     private static final LocalDate DATE = LocalDate.now();
     private Long participantId;
     private Long mentorId;

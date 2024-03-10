@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.participant.Participant;
 import com.cygans.security.db.RoleEnum;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
@@ -17,8 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Тест проверяет, что при вызове метода обновления личных данных в контроллере с валидными полями
  * для роли участник – данные изменяются в БД
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntSettingsParticipant extends BaseTest {
+public class TestIntSettingsParticipant extends TestIntBase {
     private static final String NEW_FIRSTNAME = "Марина";
     private static final String NEW_LASTNAME = "Коротаева";
     private static final String NEW_PHONE = "+79383178273";

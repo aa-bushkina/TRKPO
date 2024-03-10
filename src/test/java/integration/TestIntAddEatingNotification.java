@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -23,8 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * записи о приеме пищи участником нотификация может быть получена в списке всех нотификаций
  * прикрепленным к участнику ментором, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddEatingNotification extends BaseTest {
+public class TestIntAddEatingNotification extends TestIntBase {
     private static final LocalTime TIME = LocalTime.of(10, 0);
     private static final String DESCRIPTION = "Мне было очень грустно и я съела весь Буше";
     private static final String MEAL_TYPE = "Завтрак";

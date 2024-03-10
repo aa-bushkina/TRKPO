@@ -1,11 +1,10 @@
-package integration.base;
+package integration;
 
 import com.cygans.Application;
 import com.cygans.database.controllers.*;
 import com.cygans.database.eating_log_book.EatingLogBookRepository;
 import com.cygans.database.eating_log_book.meal.MealService;
 import com.cygans.database.emotional_log_book.EmotionalLogBookRepository;
-import com.cygans.database.log_book.LogService;
 import com.cygans.database.log_book.logs_type.LogsTypeService;
 import com.cygans.database.mentor.MentorRepository;
 import com.cygans.database.notifications.NotificationsRepository;
@@ -37,7 +36,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.mail.Part;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -50,8 +48,8 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(classes = Application.class)
 @ExtendWith(MockitoExtension.class)
-public class BaseTest {
-    protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+public class TestIntBase {
+    protected static final Logger logger = LoggerFactory.getLogger(TestIntBase.class);
 
     @Autowired
     protected LogController logController;

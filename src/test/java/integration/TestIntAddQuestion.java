@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.question.Question;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,8 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * Тест проверяет, что после вызова метода контроллера добавления вопроса – вопрос может быть получена
  * при получении всех вопросов участника, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddQuestion extends BaseTest {
+public class TestIntAddQuestion extends TestIntBase {
     private static final String QUESTION = "Надоело писать тесты, как перестать заедать этот стресс";
     private Long questionId;
 

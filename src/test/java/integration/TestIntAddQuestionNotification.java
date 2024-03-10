@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * участником нотификация может быть получена в списке всех нотификаций прикрепленным к участнику
  * ментором, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddQuestionNotification extends BaseTest {
+public class TestIntAddQuestionNotification extends TestIntBase {
     private static final String QUESTION = "Надоело писать тесты, как перестать заедать этот стресс";
     private static final LocalDate DATE = LocalDate.now();
     private Long participantId;

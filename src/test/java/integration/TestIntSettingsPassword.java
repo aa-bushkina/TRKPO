@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.logInfo.LoginInfo;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Тест проверяет, что при вызове метода контролера изменения пароля – пароль изменяется в БД
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntSettingsPassword extends BaseTest {
+public class TestIntSettingsPassword extends TestIntBase {
     private static final String NEW_PASSWORD = "Qu_ntum_55";
 
     @BeforeEach

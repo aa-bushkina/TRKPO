@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тест проверяет регистрацию и залогин под участником
  */
-public class RegistrationParticipantTest extends TestBase {
+public class TestEnd2EndRegistrationParticipant extends TestBase {
 
     private static final String FIRST_NAME = "Эльза";
     private static final String SECOND_NAME = "Белая";

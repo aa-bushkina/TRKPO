@@ -1,19 +1,14 @@
 package integration;
 
-import com.cygans.Application;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тест проверяет, что при удалении ментором участника из отслеживания исчезает связь участника и ментора в БД
  */
-@SpringBootTest(classes = Application.class)
-public class TestDeleteParticipantFromMentor extends BaseTest {
-
+public class TestIntDeleteParticipantFromMentor extends TestIntBase {
     private Long participantId;
     private Long mentorId;
 

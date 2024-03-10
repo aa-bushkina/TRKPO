@@ -39,7 +39,7 @@ public class TestIntRegisterParticipant {
     private static final Logger logger = LoggerFactory.getLogger(TestIntRegisterParticipant.class);
     private static final String FIRSTNAME = "Катька";
     private static final String LASTNAME = "Волосова";
-    private static final String LOGIN = "sdj";
+    private static final String LOGIN = "loginForTestParticipant";
     private static final String PHONE = "+79383170126";
     private static final String GENDER = "Жен";
     private static final LocalDate BIRTHDAY = LocalDate.now();

@@ -1,14 +1,11 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,9 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Тест проверяет, что при вызове метода контроллера отправки запроса ментором на отслеживание участника –
  * в списке уведомлений участника появляется уведомление
  */
-@SpringBootTest(classes = Application.class)
-public class TestAddRequestToParticipantNotificationNowMentor extends BaseTest {
-
+public class TestIntAddRequestToParticipantNotificationNowMentor extends TestIntBase {
     private static final String SHORT_MESSAGE = "Катька Волосова хочет стать твоим ментором";
     private static final String ALL_MESSAGE = "Ментор Катька Волосова хочет стать твоим ментором.\n" +
             "\n" +

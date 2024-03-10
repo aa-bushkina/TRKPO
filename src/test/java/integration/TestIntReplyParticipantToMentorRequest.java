@@ -4,7 +4,6 @@ import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * на отслеживание создается нотификация для ментора и связь участника и ментора в БД
  */
 @SpringBootTest(classes = Application.class)
-public class TestReplyParticipantToMentorRequest extends BaseTest {
-
+public class TestIntReplyParticipantToMentorRequest extends TestIntBase {
     private static String ANSWER = "Катька Волосова принял запрос на менторство.";
     private Long participantId;
     private Long mentorId;
@@ -49,7 +47,6 @@ public class TestReplyParticipantToMentorRequest extends BaseTest {
     public void testReplyParticipantToMentorRequest() {
         logger.info("Тест проверяет, что при вызове метода контролера принятия участником запроса ментора на " +
                 "отслеживание создается нотификация для ментора и связь участника и ментора в БД");
-
 
         logger.info("Получаем участником уведомление о запросе на отслеживание");
         loginParticipant();

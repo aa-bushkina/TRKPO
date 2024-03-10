@@ -1,12 +1,9 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,8 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * записи о спорте участником нотификация может быть получена в списке всех нотификаций
  * прикрепленным к участнику ментором, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddSportNotification extends BaseTest {
+public class TestIntAddSportNotification extends TestIntBase {
     private static final String INTENSITY = "Низкая";
     private static final String DURATION = "25";
     private static final String ACTIVITY = "Утренняя зарядка";

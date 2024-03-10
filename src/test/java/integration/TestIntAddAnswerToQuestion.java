@@ -3,7 +3,6 @@ package integration;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.question.Question;
 import com.cygans.database.question.question_status.StatusOfQuestion;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Тест проверяет, что после вызова метода контроллера создания ответа на вопрос ментором нотификация может
  * быть получена в списке всех нотификаций прикрепленным к ментору участником, и все поля совпадают с установленными
  */
-public class TestAddAnswerToQuestion extends BaseTest {
-
-
+public class TestIntAddAnswerToQuestion extends TestIntBase {
     private static final String QUESTION = "Что мне съесть?";
     private static final String ANSWER = "Съешь пиццу";
     private static final String ALL_MESSAGE = "Ваш вопрос: Что мне съесть?";

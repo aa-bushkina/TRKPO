@@ -30,8 +30,7 @@ import static org.mockito.Mockito.when;
  * с пустым значением поля телефона не создается запись в БД
  */
 @SpringBootTest(classes = Application.class)
-public class TestRegistrationUserWithoutPhone {
-
+public class TestIntRegistrationUserWithoutPhone {
     private static final Logger logger = LoggerFactory.getLogger(TestIntRegisterParticipant.class);
     private static final String FIRSTNAME = "Катька";
     private static final String LASTNAME = "Волосова";

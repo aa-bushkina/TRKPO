@@ -3,7 +3,6 @@ package integration;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.notifications.notification_status.StatusOfNotification;
 import com.cygans.database.notifications.notification_type.TypeOfNotification;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Тест проверяет, что при удалении ментором участника из отслеживания у участника создается нотификация
  */
-public class TestAddDeleteParticipantNotificationNowMentor extends BaseTest {
-
+public class TestIntAddDeleteParticipantNotificationNowMentor extends TestIntBase {
     private static final String SHORT_MESSAGE = "Катька Волосова удалил тебя из отслеживания";
     private static final String ALL_MESSAGE = "Ментор Катька Волосова удалил тебя из отслеживания.\n" +
             "\n" +

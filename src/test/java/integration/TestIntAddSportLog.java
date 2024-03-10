@@ -1,14 +1,11 @@
 package integration;
 
-import com.cygans.Application;
 import com.cygans.database.log_book.Log;
 import com.cygans.database.sport_log_book.SportLogBook;
 import com.vaadin.flow.server.VaadinSession;
-import integration.base.BaseTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,8 +21,7 @@ import static org.mockito.Mockito.when;
  * Тест проверяет, что после вызова метода контроллера добавления записи о спорте запись может быть получена
  * при получении записей участника и по id, и все поля совпадают с установленными
  */
-@SpringBootTest(classes = Application.class)
-public class TestIntAddSportLog extends BaseTest {
+public class TestIntAddSportLog extends TestIntBase {
     private static final LocalDate DATE = LocalDate.now();
     private static final String INTENSITY = "Низкая";
     private static final String DURATION = "25";
