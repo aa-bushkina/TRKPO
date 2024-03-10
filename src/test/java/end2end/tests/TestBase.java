@@ -1,4 +1,4 @@
-package end2end;
+package end2end.tests;
 
 import com.cygans.Application;
 import com.cygans.database.mentor.MentorRepository;

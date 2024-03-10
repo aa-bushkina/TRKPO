@@ -1,6 +1,5 @@
 package end2end.tests;
 
-import end2end.TestBase;
 import end2end.pages.participant.RegistrationWithParametersPage;
 import end2end.pages.registration.SecondRegistrationPage;
 import end2end.pages.registration.ThirdRegistrationPage;
