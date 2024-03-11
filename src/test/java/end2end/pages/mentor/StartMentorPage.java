@@ -15,7 +15,9 @@ public class StartMentorPage extends PageBase {
     private static final By TABLE = By.xpath(".//vaadin-grid[@theme='column-borders no-border']");
     private static final By ADD_PARTICIPANT_BTN = By.xpath(".//h3[text()='Мои участники']/..//vaadin-button[@theme='icon']");
     private static final By NAVBAR = By.xpath(".//*[@slot='navbar']");
-    private static final By NAVBAR_BUTTONS = By.xpath(".//*[contains(@theme,'icon')]");
+    private static final By NOTIFICATIONS_BTN = By.xpath(".//*[@theme='icon'][1]/.");
+    private static final By SETTINGS_BTN = By.xpath(".//*[contains(@theme,'icon')][2]/.");
+    private static final By LOGOUT_BTN = By.xpath(".//*[contains(@theme,'icon')][3]/.");
 
     @Override
     protected void checkPage() {
@@ -27,8 +29,7 @@ public class StartMentorPage extends PageBase {
 
     public SettingsMentorPage goToSettings() {
         logger.info("Кликаем на кнопку настроек");
-        $(NAVBAR).$$(NAVBAR_BUTTONS)
-                .get(2)
+        $(NAVBAR).$(SETTINGS_BTN)
                 .shouldBe(visible.because("Не отобразилась кнопка настроек"))
                 .click();
         return new SettingsMentorPage();
@@ -36,8 +37,7 @@ public class StartMentorPage extends PageBase {
 
     public NotificationsMentorPage goToNotifications() {
         logger.info("Кликаем на кнопку уведомлений");
-        $(NAVBAR).$$(NAVBAR_BUTTONS)
-                .get(1)
+        $(NAVBAR).$(NOTIFICATIONS_BTN)
                 .shouldBe(visible.because("Не отобразилась кнопка уведомлений"))
                 .click();
         return new NotificationsMentorPage();
@@ -45,8 +45,7 @@ public class StartMentorPage extends PageBase {
 
     public LoginPage logout() {
         logger.info("Кликаем на кнопку выхода");
-        $(NAVBAR).$$(NAVBAR_BUTTONS)
-                .get(3)
+        $(NAVBAR).$(LOGOUT_BTN)
                 .shouldBe(visible.because("Нет кнопки выхода"))
                 .click();
         return new LoginPage();

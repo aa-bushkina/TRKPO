@@ -32,7 +32,7 @@ public class ParticipantNotificationView extends VerticalLayout {
         VerticalLayout vl = new VerticalLayout();
         setSizeFull();
         createGrid();
-        vl.add(new H3("Оповещения"));
+        vl.add(new H3("Уведомления"));
         vl.setPadding(true);
         vl.setMargin(true);
         vl.setAlignItems(Alignment.CENTER);

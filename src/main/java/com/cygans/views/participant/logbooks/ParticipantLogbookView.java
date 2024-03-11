@@ -109,118 +109,118 @@ public class ParticipantLogbookView extends VerticalLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.getElement().getStyle().set("margin-left", "1em");
 
-//        save.addClickListener(e -> {
-//            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-//                if (emotionalDesc.isInvalid() || emotionalDesc.isEmpty() || emotionalDesc.getValue().length() > 1000) {
-//                    Notification notification = Notification.show("Введите от 1 до 1000 символов!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else {
-//
-//                    emotionalDescText = emotionalDesc.getValue();
-//                    logController.updateEmotionalLog(logBookId, emotionalDescText);
-//
-//                    allSetReadOnly(true);
-//                    changeLog.setVisible(true);
-//                    back.setVisible(true);
-//                    save.setVisible(false);
-//                    cancel.setVisible(false);
-//                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-//                }
-//            } else if (logBookType.equals(LogBookType.EATING.getText())) {
-//                if (foodDesc.isEmpty()) {
-//                    Notification notification = Notification.show("Описание пустое", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (hourFood.isEmpty()) {
-//                    Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (minuteFood.isEmpty()) {
-//                    Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (meal_type.isEmpty()) {
-//                    Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else {
-//
-//                    mealTypeText = meal_type.getValue();
-//                    foodDescText = foodDesc.getValue();
-//                    hourFoodText = hourFood.getValue();
-//                    minuteFoodText = minuteFood.getValue();
-//
-//                    logController.updateEatingLog(
-//                            logBookId,
-//                            foodDesc.getValue(),
-//                            LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())),
-//                            meal_type.getValue()
-//                    );
-//
-//                    allSetReadOnly(true);
-//                    changeLog.setVisible(true);
-//                    back.setVisible(true);
-//                    save.setVisible(false);
-//                    cancel.setVisible(false);
-//                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-//                }
-//            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-//                if (intensity_type.isEmpty()) {
-//                    Notification notification = Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (activityField.isEmpty()) {
-//                    Notification notification = Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (durationField.getValue().isEmpty()) {
-//                    Notification notification = Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (Integer.parseInt(durationField.getValue()) < 0) {
-//                    Notification notification = Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else if (Integer.parseInt(durationField.getValue()) > 1440) {
-//                    Notification notification = Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER);
-//                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-//                } else {
-//
-//                    activityText = activityField.getValue();
-//                    sportDescText = sportDesc.getValue();
-//                    durationText = durationField.getValue();
-//                    intensityTypeText = intensity_type.getValue();
-//
-//                    logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
-//
-//                    allSetReadOnly(true);
-//                    changeLog.setVisible(true);
-//                    back.setVisible(true);
-//                    save.setVisible(false);
-//                    cancel.setVisible(false);
-//                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
-//                }
-//            }
-//        });
+        save.addClickListener(e -> {
+            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+                if (emotionalDesc.isInvalid() || emotionalDesc.isEmpty() || emotionalDesc.getValue().length() > 1000) {
+                    Notification notification = Notification.show("Введите от 1 до 1000 символов!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
+
+                    emotionalDescText = emotionalDesc.getValue();
+                    logController.updateEmotionalLog(logBookId, emotionalDescText);
+
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            } else if (logBookType.equals(LogBookType.EATING.getText())) {
+                if (foodDesc.isEmpty()) {
+                    Notification notification = Notification.show("Описание пустое", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (hourFood.isEmpty()) {
+                    Notification notification = Notification.show("Уточните час приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (minuteFood.isEmpty()) {
+                    Notification notification = Notification.show("Уточните минуты приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (meal_type.isEmpty()) {
+                    Notification notification = Notification.show("Уточните тип вашего приема пищи", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
+
+                    mealTypeText = meal_type.getValue();
+                    foodDescText = foodDesc.getValue();
+                    hourFoodText = hourFood.getValue();
+                    minuteFoodText = minuteFood.getValue();
+
+                    logController.updateEatingLog(
+                            logBookId,
+                            foodDesc.getValue(),
+                            LocalTime.of(Integer.parseInt(hourFood.getValue()), Integer.parseInt(minuteFood.getValue())),
+                            meal_type.getValue()
+                    );
+
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+                if (intensity_type.isEmpty()) {
+                    Notification notification = Notification.show("Выберите интенсивность тренировок!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (activityField.isEmpty()) {
+                    Notification notification = Notification.show("Уточните вашу активность!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (durationField.getValue().isEmpty()) {
+                    Notification notification = Notification.show("Введите продолжительность вашей активности!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (Integer.parseInt(durationField.getValue()) < 0) {
+                    Notification notification = Notification.show("Продолжительность не может быть отрицательной!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else if (Integer.parseInt(durationField.getValue()) > 1440) {
+                    Notification notification = Notification.show("Вы не можете заниматься активностью больше 24 часов (1440 минут) в сутки!", 3000, Notification.Position.TOP_CENTER);
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                } else {
+
+                    activityText = activityField.getValue();
+                    sportDescText = sportDesc.getValue();
+                    durationText = durationField.getValue();
+                    intensityTypeText = intensity_type.getValue();
+
+                    logController.updateSportLog(logBookId, sportDescText, activityText, intensity_type.getValue(), Integer.parseInt(durationText));
+
+                    allSetReadOnly(true);
+                    changeLog.setVisible(true);
+                    back.setVisible(true);
+                    save.setVisible(false);
+                    cancel.setVisible(false);
+                    Notification.show("Изменения сохранены", 2000, Notification.Position.TOP_CENTER);
+                }
+            }
+        });
     }
 
     private void cancelInit() {
         cancel = new Button("Отменить");
         cancel.setVisible(false);
         cancel.getElement().getStyle().set("margin-right", "auto");
-//        cancel.addClickListener(e -> {
-//            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
-//                emotionalDesc.setValue(emotionalDescText);
-//            } else if (logBookType.equals(LogBookType.EATING.getText())) {
-//                foodDesc.setValue(foodDescText);
-//                hourFood.setValue(hourFoodText);
-//                minuteFood.setValue(minuteFoodText);
-//                meal_type.setValue(mealTypeText);
-//            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
-//                activityField.setValue(activityText);
-//                durationField.setValue(durationText);
-//                sportDesc.setValue(sportDescText);
-//                intensity_type.setValue(intensityTypeText);
-//            }
-//            changeLog.setVisible(true);
-//            back.setVisible(true);
-//            save.setVisible(false);
-//            cancel.setVisible(false);
-//            allSetReadOnly(true);
-//            Notification.show("Изменения отменены", 2000, Notification.Position.TOP_CENTER);
-//        });
+        cancel.addClickListener(e -> {
+            if (logBookType.equals(LogBookType.EMOTIONAL.getText())) {
+                emotionalDesc.setValue(emotionalDescText);
+            } else if (logBookType.equals(LogBookType.EATING.getText())) {
+                foodDesc.setValue(foodDescText);
+                hourFood.setValue(hourFoodText);
+                minuteFood.setValue(minuteFoodText);
+                meal_type.setValue(mealTypeText);
+            } else if (logBookType.equals(LogBookType.SPORT.getText())) {
+                activityField.setValue(activityText);
+                durationField.setValue(durationText);
+                sportDesc.setValue(sportDescText);
+                intensity_type.setValue(intensityTypeText);
+            }
+            changeLog.setVisible(true);
+            back.setVisible(true);
+            save.setVisible(false);
+            cancel.setVisible(false);
+            allSetReadOnly(true);
+            Notification.show("Изменения отменены", 2000, Notification.Position.TOP_CENTER);
+        });
     }
 
     private void changeLogInit() {

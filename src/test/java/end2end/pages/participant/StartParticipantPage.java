@@ -15,7 +15,7 @@ public class StartParticipantPage extends PageBase {
     private static final By CHOICE_DATE = By.xpath(".//vaadin-date-picker");
     private static final By CHOICE_TYPE_LOG = By.xpath(".//vaadin-combo-box");
     private static final By NAVBAR = By.xpath(".//*[@slot='navbar']");
-    private static final By NOTIFICATIONS_BTN = By.xpath(".//*[contains(@theme,'icon')][1]/.");
+    private static final By NOTIFICATIONS_BTN = By.xpath(".//*[@theme='icon'][1]/.");
     private static final By LOGS_BTN = By.xpath(".//*[contains(@theme,'icon')][2]/.");
     private static final By QUESTIONS_BTN = By.xpath(".//*[contains(@theme,'icon')][3]/.");
     private static final By SETTINGS_BTN = By.xpath(".//*[contains(@theme,'icon')][4]/.");
