@@ -19,17 +19,21 @@ public class TestEnd2EndNavigation extends TestBase {
     public void testEnd2EndNavigation() {
         logger.info("Тест проверяет навигацию по разделам участника/ментора");
 
-        logger.info("Логинимся участником и выходим из аккаунта");
+        logger.info("Логинимся участником и проверяем навигацию в тулбаре");
         getLoginPage()
                 .login(LOGIN_PARTICIPANT, PASSWORD)
                 .andReturnStartParticipantPage()
+                .goToLogs()
+                .goToStartPage()
+                .goToQuestions()
+                .goToStartPage()
                 .goToNotifications()
                 .goToStartPage()
                 .goToSettings()
                 .goToStartPage()
                 .logout();
 
-        logger.info("Логинимся ментором и выходим из аккаунта");
+        logger.info("Логинимся ментором и проверяем навигацию в тулбаре");
         getLoginPage()
                 .login(LOGIN_MENTOR, PASSWORD)
                 .andReturnStartMentorPage()

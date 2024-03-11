@@ -30,21 +30,21 @@ public class StartParticipantPage extends PageBase {
         logger.info("Загрузилась стартовая страница участника");
     }
 
-//    public LogsParticipantPage goToLogs() {
-//        logger.info("Кликаем на кнопку журнала");
-//        $(NAVBAR).$(LOGS_BTN)
-//                .shouldBe(visible.because("Не отобразилась кнопка журнала"))
-//                .click();
-//        return new LogsParticipantPage();
-//    }
-//
-//    public QuestionsParticipantPage goToQuestions() {
-//        logger.info("Кликаем на кнопку вопросов");
-//        $(NAVBAR).$(QUESTIONS_BTN)
-//                .shouldBe(visible.because("Не отобразилась кнопка вопросов"))
-//                .click();
-//        return new QuestionsParticipantPage();
-//    }
+    public LogsParticipantPage goToLogs() {
+        logger.info("Кликаем на кнопку журнала");
+        $(NAVBAR).$(LOGS_BTN)
+                .shouldBe(visible.because("Не отобразилась кнопка журнала"))
+                .click();
+        return new LogsParticipantPage();
+    }
+
+    public QuestionsParticipantPage goToQuestions() {
+        logger.info("Кликаем на кнопку вопросов");
+        $(NAVBAR).$(QUESTIONS_BTN)
+                .shouldBe(visible.because("Не отобразилась кнопка вопросов"))
+                .click();
+        return new QuestionsParticipantPage();
+    }
 
     public SettingsParticipantPage goToSettings() {
         logger.info("Кликаем на кнопку настроек");
