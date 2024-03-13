@@ -30,7 +30,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.mockito.ArgumentMatchers.any;
@@ -145,8 +144,10 @@ public class TestBase {
         registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
     }
 
-    protected void linkParticipantMentor(Long participantId, Long mentorId) {
+    protected void linkParticipantMentor() {
         logger.info("Связываем ментора и участника");
+        Long participantId = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT).getId();
+        Long mentorId = mentorRepository.getMentorByLogin(LOGIN_MENTOR).getId();
         participantMentorService.create(participantId, mentorId);
     }
 

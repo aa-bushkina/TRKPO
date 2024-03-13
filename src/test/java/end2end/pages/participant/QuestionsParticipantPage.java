@@ -18,6 +18,9 @@ public class QuestionsParticipantPage extends PageBase {
     private static final By INPUT_AREA = By.xpath(".//vaadin-text-area");
     private static final By ASK_BTN = By.xpath(".//*[text()='Задать']");
     private static final By NOTIFICATION = By.xpath(".//*[@id='vaadin-notification-card']");
+    private static final By QUESTION_DATE = By.xpath(".//*[@slot='vaadin-grid-cell-content-1']");
+    private static final By QUESTION_TEXT = By.xpath(".//*[@slot='vaadin-grid-cell-content-2']");
+    private static final By QUESTION_STATUS = By.xpath(".//*[@slot='vaadin-grid-cell-content-3']");
 
     @Override
     protected void checkPage() {
@@ -56,6 +59,27 @@ public class QuestionsParticipantPage extends PageBase {
         logger.info("Получаем текст нотификации");
         return $(NOTIFICATION)
                 .shouldBe(visible.because("Нет нотификации"), Duration.ofSeconds(5))
+                .text();
+    }
+
+    public String getQuestionText() {
+        logger.info("Получаем текст вопроса из списка вопросов");
+        return $(QUESTION_TEXT)
+                .shouldBe(visible.because("Нет текста вопроса в списке вопросов"))
+                .text();
+    }
+
+    public String getQuestionDate() {
+        logger.info("Получаем текст вопроса из списка вопросов");
+        return $(QUESTION_DATE)
+                .shouldBe(visible.because("Нет даты вопроса в списке вопросов"))
+                .text();
+    }
+
+    public String getQuestionStatus() {
+        logger.info("Получаем текст вопроса из списка вопросов");
+        return $(QUESTION_STATUS)
+                .shouldBe(visible.because("Нет статуса вопроса в списке вопросов"))
                 .text();
     }
 }
