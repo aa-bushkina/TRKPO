@@ -27,7 +27,7 @@ public class TestEnd2EndAddQuestion extends TestBase {
     }
 
     @Test
-    public void testEnd2EndSettingsParticipant() {
+    public void testEnd2EndAddQuestion() {
         logger.info("Тест проверяет создание вопроса и отображение его у участника");
 
         logger.info("Логинимся участником и отправиляем вопрос");
@@ -37,6 +37,7 @@ public class TestEnd2EndAddQuestion extends TestBase {
                 .goToQuestions()
                 .typeQuestion(QUESTION_TEXT)
                 .clickSend();
+        logger.info("Проверяем, что вопрос отображаетсяна странице вопросов");
         assertAll(
                 () -> assertEquals(QUESTION_DATE, questionPage.getQuestionDate(),
                         "Не сопадает дата вопроса с ожидаемой"),

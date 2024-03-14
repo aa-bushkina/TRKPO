@@ -1,7 +1,6 @@
 package end2end.pages.participant;
 
 import end2end.pages.ChangePasswordPage;
-import end2end.pages.StartPageFactory;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 

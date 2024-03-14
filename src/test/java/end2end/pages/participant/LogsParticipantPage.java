@@ -14,6 +14,9 @@ public class LogsParticipantPage extends PageBase {
     private static final By TABLE = By.xpath(".//vaadin-grid");
     private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/..");
 
+    private static final By LOG_DATE = By.xpath(".//*[@slot='vaadin-grid-cell-content-1']");
+    private static final By LOG_TYPE = By.xpath(".//*[@slot='vaadin-grid-cell-content-2']");
+
     @Override
     protected void checkPage() {
         $(TITLE).shouldBe(visible.because("Нет заголовка страницы истории записей"));
@@ -27,5 +30,19 @@ public class LogsParticipantPage extends PageBase {
                 .shouldBe(visible.because("Нет кнопки домой"))
                 .click();
         return new StartParticipantPage();
+    }
+
+    public String getLogType() {
+        logger.info("Получаем тип записи из списка записей");
+        return $(LOG_TYPE)
+                .shouldBe(visible.because("Нет типа записи в списке записей"))
+                .text();
+    }
+
+    public String getLogDate() {
+        logger.info("Получаем дату записи из списка записей");
+        return $(LOG_DATE)
+                .shouldBe(visible.because("Нет даты записи в списке записей"))
+                .text();
     }
 }

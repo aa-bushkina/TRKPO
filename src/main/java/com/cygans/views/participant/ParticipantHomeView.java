@@ -15,6 +15,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
@@ -31,7 +32,7 @@ import java.util.Locale;
 @Route(value = "/participant/start-page")
 @RolesAllowed("PARTICIPANT")
 public class ParticipantHomeView extends VerticalLayout {
-    private final ComboBox<String> logbookType;
+    private final Select<String> logbookType;
     private final DatePicker datePicker;
     private final Button updateBtn;
 
@@ -46,7 +47,7 @@ public class ParticipantHomeView extends VerticalLayout {
         datePicker.setLocale(locale);
         datePicker.setValue(LocalDate.now(ZoneId.systemDefault()));
         datePicker.setMax(LocalDate.now());
-        logbookType = new ComboBox<>();
+        logbookType = new Select<>();
         logbookType.setWidth("25%");
         logbookType.setLabel("Тип записи");
         logbookType.setItems("Эмоциональное состояние", "Спортивная активность", "Приём пищи");

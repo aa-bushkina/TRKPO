@@ -70,14 +70,14 @@ public class QuestionsParticipantPage extends PageBase {
     }
 
     public String getQuestionDate() {
-        logger.info("Получаем текст вопроса из списка вопросов");
+        logger.info("Получаем дату вопроса из списка вопросов");
         return $(QUESTION_DATE)
                 .shouldBe(visible.because("Нет даты вопроса в списке вопросов"))
                 .text();
     }
 
     public String getQuestionStatus() {
-        logger.info("Получаем текст вопроса из списка вопросов");
+        logger.info("Получаем статус вопроса из списка вопросов");
         return $(QUESTION_STATUS)
                 .shouldBe(visible.because("Нет статуса вопроса в списке вопросов"))
                 .text();

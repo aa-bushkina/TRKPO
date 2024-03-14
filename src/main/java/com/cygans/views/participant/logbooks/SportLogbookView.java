@@ -18,6 +18,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -30,7 +31,7 @@ public class SportLogbookView extends Div {
     private final H3 title = new H3("Спортивная активность");
     private final LogController logController;
     private final NotificationController notificationController;
-    private ComboBox<String> intensity;
+    private Select<String> intensity;
     private TextField duration;
     private TextField activity;
     private TextArea comments;
@@ -47,7 +48,7 @@ public class SportLogbookView extends Div {
     }
 
     private void init() {
-        this.intensity = new ComboBox<>("Интенсивность");
+        this.intensity = new Select<>("Интенсивность");
         this.activity = new TextField("Вид деятельности");
         this.comments = new TextArea("Комментарии");
         this.duration = new TextField("Продолжительность (в минутах)");
