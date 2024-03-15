@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * История записей участника
@@ -13,9 +14,15 @@ public class LogsParticipantPage extends PageBase {
     private static final By TITLE = By.xpath(".//*[text()='История записей']");
     private static final By TABLE = By.xpath(".//vaadin-grid");
     private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/..");
-
     private static final By LOG_DATE = By.xpath(".//*[@slot='vaadin-grid-cell-content-1']");
     private static final By LOG_TYPE = By.xpath(".//*[@slot='vaadin-grid-cell-content-2']");
+    private static final By FILTER_TYPE = By.xpath(".//vaadin-select");
+    private static final By ALL_TYPE = By.xpath(".//vaadin-item[1]");
+    private static final By EMOTIONAL_TYPE = By.xpath(".//vaadin-item[2]");
+    private static final By SPORT_TYPE = By.xpath(".//vaadin-item[3]");
+    private static final By EAT_TYPE = By.xpath(".//vaadin-item[4]");
+    private static final By FILTER_DATE = By.xpath(".//vaadin-date-picker");
+    private static final By WATCH_BTN = By.xpath(".//*[text()='Смотреть']");
 
     @Override
     protected void checkPage() {
@@ -44,5 +51,54 @@ public class LogsParticipantPage extends PageBase {
         return $(LOG_DATE)
                 .shouldBe(visible.because("Нет даты записи в списке записей"))
                 .text();
+    }
+
+    public LogsParticipantPage chooseAllType() {
+        logger.info("Выбираем типа записей: все");
+        $(FILTER_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей"))
+                .click();
+        $(ALL_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей: все"))
+                .click();
+        return this;
+    }
+
+    public LogsParticipantPage chooseEmotionalType() {
+        logger.info("Выбираем типа записей: эмоциональное состояние");
+        $(FILTER_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей"))
+                .click();
+        $(EMOTIONAL_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей: эмоциональное состояние"))
+                .click();
+        return this;
+    }
+
+    public LogsParticipantPage chooseSportType() {
+        logger.info("Выбираем типа записей: спортивная активность");
+        $(FILTER_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей"))
+                .click();
+        $(SPORT_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей: спортивная активность"))
+                .click();
+        return this;
+    }
+
+    public LogsParticipantPage chooseEatType() {
+        logger.info("Выбираем типа записей: прием пищи");
+        $(FILTER_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей"))
+                .click();
+        $(EAT_TYPE)
+                .shouldBe(visible.because("Нет кнопки выбора типа записей: прием пищи"))
+                .click();
+        return this;
+    }
+
+    public int getLogsCount() {
+        logger.info("Получаем количество записей");
+        return $$(WATCH_BTN).filter(visible).size();
     }
 }

@@ -17,6 +17,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -32,10 +33,10 @@ public class EatingLogbookView extends Div {
     private final Button submitButton = new Button("Отправить");
     private final LogController logController;
     private final NotificationController notificationController;
-    private ComboBox<String> hourPicker;
-    private ComboBox<String> minutePicker;
+    private Select<String> hourPicker;
+    private Select<String> minutePicker;
     private TextArea description;
-    private ComboBox<String> meal_type;
+    private Select<String> meal_type;
     private LocalTime time;
 
     public EatingLogbookView(LogController logController,
@@ -49,13 +50,13 @@ public class EatingLogbookView extends Div {
     }
 
     private void init() {
-        this.hourPicker = new ComboBox<>("Часы");
-        this.minutePicker = new ComboBox<>("Минуты");
+        this.hourPicker = new Select<>("Часы");
+        this.minutePicker = new Select<>("Минуты");
 
         setTimePicker();
 
         this.description = new TextArea("Описание");
-        this.meal_type = new ComboBox<>("Приём пищи");
+        this.meal_type = new Select<>("Приём пищи");
         meal_type.setItems(MealType.BREAKFAST.getText(), MealType.LAUNCH.getText(), MealType.DINNER.getText(), MealType.OTHER.getText());
         setClearButtonVisible();
         setUnits();
@@ -97,7 +98,6 @@ public class EatingLogbookView extends Div {
 
     private void setClearButtonVisible() {
         description.setClearButtonVisible(true);
-        meal_type.setClearButtonVisible(true);
     }
 
     private Component createFields() {

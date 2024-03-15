@@ -73,15 +73,7 @@ public class StartParticipantPage extends PageBase {
         return new LoginPage();
     }
 
-    public SportLogPage clickAddLogButton() {
-        logger.info("Кликаем на кнопку добавления записи");
-        $(DO_LOG_BUTTON)
-                .shouldBe(visible.because("Нет кнопки добавления записи"))
-                .click();
-        return new SportLogPage();
-    }
-
-    public StartParticipantPage chooseSportType() {
+    public SportLogPage chooseSportType() {
         logger.info("Выбираем тип записи: спортивная активность");
         $(CHOICE_TYPE_LOG)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи"))
@@ -89,10 +81,14 @@ public class StartParticipantPage extends PageBase {
         $(SPORT_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи: спортивная активность"))
                 .click();
-        return this;
+        logger.info("Кликаем на кнопку добавления записи");
+        $(DO_LOG_BUTTON)
+                .shouldBe(visible.because("Нет кнопки добавления записи"))
+                .click();
+        return new SportLogPage();
     }
 
-    public StartParticipantPage chooseEatType() {
+    public EatLogPage chooseEatType() {
         logger.info("Выбираем тип записи: прием пищи");
         $(CHOICE_TYPE_LOG)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи"))
@@ -100,10 +96,14 @@ public class StartParticipantPage extends PageBase {
         $(EAT_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи: прием пищи"))
                 .click();
-        return this;
+        logger.info("Кликаем на кнопку добавления записи");
+        $(DO_LOG_BUTTON)
+                .shouldBe(visible.because("Нет кнопки добавления записи"))
+                .click();
+        return new EatLogPage();
     }
 
-    public StartParticipantPage chooseEmotionalType() {
+    public EmotionalLogPage chooseEmotionalType() {
         logger.info("Выбираем тип записи: эмоциональное состояние");
         $(CHOICE_TYPE_LOG)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи"))
@@ -111,6 +111,10 @@ public class StartParticipantPage extends PageBase {
         $(EMOTIONAL_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записи: эмоциональное состояние"))
                 .click();
-        return this;
+        logger.info("Кликаем на кнопку добавления записи");
+        $(DO_LOG_BUTTON)
+                .shouldBe(visible.because("Нет кнопки добавления записи"))
+                .click();
+        return new EmotionalLogPage();
     }
 }

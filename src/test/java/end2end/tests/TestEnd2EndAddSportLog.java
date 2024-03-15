@@ -35,7 +35,6 @@ public class TestEnd2EndAddSportLog extends TestBase {
                 .login(LOGIN_PARTICIPANT, PASSWORD)
                 .andReturnStartParticipantPage()
                 .chooseSportType()
-                .clickAddLogButton()
                 .typeDuration(DURATION)
                 .typeActivity(ACTIVITY)
                 .chooseMiddleIntensity()
