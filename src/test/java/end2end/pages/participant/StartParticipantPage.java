@@ -3,9 +3,11 @@ package end2end.pages.participant;
 import end2end.pages.registration.LoginPage;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * Стартовая страница участника
@@ -116,5 +118,13 @@ public class StartParticipantPage extends PageBase {
                 .shouldBe(visible.because("Нет кнопки добавления записи"))
                 .click();
         return new EmotionalLogPage();
+    }
+
+    public StartParticipantPage chooseDate(String date) {
+        logger.info("Выбираем дату рождения " + date);
+        executeJavaScript("arguments[0].value = '';", $(CHOICE_DATE));
+        $(CHOICE_DATE).shouldBe(visible.because("Нет инпута для ввода даты рождения")).sendKeys(date);
+        $(CHOICE_DATE).sendKeys(Keys.ENTER);
+        return this;
     }
 }

@@ -48,7 +48,7 @@ public class TestEnd2EndFilterLogByType extends TestBase {
                 .clickSend()
                 .clickOk()
                 .goToLogs();
-        logger.info("Проверяем, что запись отображаетсяна странице записей");
+        logger.info("Проверяем, что по фильтру отображается верное количество записей");
         assertAll(
                 () -> assertEquals(3, logsPage.getLogsCount(),
                         "Не сопадает количество записей с ожидаемым без фильтра"),

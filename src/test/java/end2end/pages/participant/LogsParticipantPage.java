@@ -2,10 +2,12 @@ package end2end.pages.participant;
 
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * История записей участника
@@ -65,7 +67,7 @@ public class LogsParticipantPage extends PageBase {
     }
 
     public LogsParticipantPage chooseEmotionalType() {
-        logger.info("Выбираем типа записей: эмоциональное состояние");
+        logger.info("Выбираем тип записей: эмоциональное состояние");
         $(FILTER_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записей"))
                 .click();
@@ -76,7 +78,7 @@ public class LogsParticipantPage extends PageBase {
     }
 
     public LogsParticipantPage chooseSportType() {
-        logger.info("Выбираем типа записей: спортивная активность");
+        logger.info("Выбираем тип записей: спортивная активность");
         $(FILTER_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записей"))
                 .click();
@@ -87,13 +89,21 @@ public class LogsParticipantPage extends PageBase {
     }
 
     public LogsParticipantPage chooseEatType() {
-        logger.info("Выбираем типа записей: прием пищи");
+        logger.info("Выбираем тип записей: прием пищи");
         $(FILTER_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записей"))
                 .click();
         $(EAT_TYPE)
                 .shouldBe(visible.because("Нет кнопки выбора типа записей: прием пищи"))
                 .click();
+        return this;
+    }
+
+    public LogsParticipantPage chooseDate(String date) {
+        logger.info("Выбираем дату записей: " + date);
+        executeJavaScript("arguments[0].value = '';", $(FILTER_DATE));
+        $(FILTER_DATE).shouldBe(visible.because("Нет кнопки выбора даты записей")).sendKeys(date);
+        $(FILTER_DATE).sendKeys(Keys.ENTER);
         return this;
     }
 
