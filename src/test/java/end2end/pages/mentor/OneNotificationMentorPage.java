@@ -24,7 +24,7 @@ public class OneNotificationMentorPage extends PageBase {
     @Override
     protected void checkPage() {
         $(MESSAGE).shouldBe(visible.because("Нет сообщения уведомления"));
-        $(ANSWER).shouldBe(visible.because("Нет поля для ответа на уведолмение"));
+        $(ANSWER).shouldBe(visible.because("Нет поля для ответа на уведомление"));
         $(BACK_BUTTON).shouldBe(visible.because("Нет кнопки Назад"));
         logger.info("Загрузилась страница просмотра уведолменяи ментора");
     }

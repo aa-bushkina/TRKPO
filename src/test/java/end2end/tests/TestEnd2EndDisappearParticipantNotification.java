@@ -2,6 +2,8 @@ package end2end.tests;
 
 import com.vaadin.flow.server.VaadinSession;
 import end2end.pages.mentor.NotificationsMentorPage;
+import end2end.pages.participant.NotificationsParticipantPage;
+import end2end.pages.participant.StartParticipantPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * Тест проверяет, что нотификации о записях у ментора исчезают только после ответа на них
+ * Тест проверяет, что нотификации об ответах ментора у участника исчезают после открытия нотификации
  */
-public class TestEnd2EndDisappearNotification extends TestBase {
+public class TestEnd2EndDisappearParticipantNotification extends TestBase {
 
     private static final int COUNT_NOTIFICATIONS = 1;
     private static final String COMMENT = "На улице rain на душе pain";
@@ -41,24 +43,28 @@ public class TestEnd2EndDisappearNotification extends TestBase {
     }
 
     @Test
-    public void testEnd2EndDisappearNotification() {
-        logger.info("Тест проверяет, что нотификации о записях у ментора исчезают только после ответа на них");
+    public void testEnd2EndDisappearParticipantNotification() {
+        logger.info("Тест проверяет, что нотификации об ответах ментора у участника исчезают после открытия нотификации");
 
-        logger.info("Логинимся ментором и заходим в оповещения");
+        logger.info("Логинимся ментором и отвечаем на оповещение");
         NotificationsMentorPage notificationsMentorPage = getLoginPage().login(LOGIN_MENTOR, PASSWORD)
                 .andReturnStartMentorPage()
-                .goToNotifications();
-        assertEquals(COUNT_NOTIFICATIONS, notificationsMentorPage.getCountNotifications(), "Неверное количество оповещений");
-
-        logger.info("Зайдем и выйдем из оповещения");
-        notificationsMentorPage = notificationsMentorPage.lookNotification().clickBack();
-        assertEquals(COUNT_NOTIFICATIONS, notificationsMentorPage.getCountNotifications(), "Неверное количество оповещений");
-
-        logger.info("Зайдем и ответим на оповещение");
-        notificationsMentorPage = notificationsMentorPage.lookNotification()
+                .goToNotifications()
+                .lookNotification()
                 .answerOnNotification(ANSWER)
                 .sendAnswer();
-        assertEquals(0, notificationsMentorPage.getCountNotifications(), "Оповещение не исчезло");
+
+        logger.info("Логинимся участником");
+        StartParticipantPage startParticipantPage = notificationsMentorPage.goToStartPage()
+                .logout()
+                .login(LOGIN_PARTICIPANT, PASSWORD)
+                .andReturnStartParticipantPage();
+
+        logger.info("Переходим в оповещения, открываем и закрываем необходимое");
+        NotificationsParticipantPage notificationsParticipantPage = startParticipantPage.goToNotifications();
+        assertEquals(COUNT_NOTIFICATIONS, notificationsParticipantPage.getCountNotifications(), "Неверное количество оповещений");
+        notificationsParticipantPage = notificationsParticipantPage.lookNotification().back();
+        assertEquals(0, notificationsParticipantPage.getCountNotifications(), "Оповещение не исчезло");
 
         logger.info("Тест прошел успешно");
     }
