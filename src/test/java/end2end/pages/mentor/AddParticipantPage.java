@@ -45,4 +45,8 @@ public class AddParticipantPage extends PageBase {
         return new StartMentorPage();
     }
 
+    public String getLoginInInput() {
+        return $(INPUT_LOGIN).getValue();
+    }
+
 }

@@ -63,6 +63,7 @@ public class TestBase {
     protected static final String LASTNAME = "Волосова";
     protected static final String LOGIN_PARTICIPANT = "elsa_participant";
     protected static final String LOGIN_MENTOR = "elsa_mentor";
+    protected static final String LOGIN_SECOND_MENTOR = "elsa_mentor_2";
     protected static final String PHONE = "+79383170126";
     protected static final String GENDER = "Жен";
     protected static final LocalDate BIRTHDAY = LocalDate.now();
@@ -144,6 +145,16 @@ public class TestBase {
         registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
     }
 
+    protected void registerSecondMentor() {
+        prepareSession();
+        logger.info("Мокируем аттрибуты сессии второго ментора");
+        when(VaadinSession.getCurrent().getAttribute("Login"))
+                .thenReturn(LOGIN_SECOND_MENTOR);
+
+        logger.info("Вызываем метод регистрации второго ментора");
+        registrationAndLoginController.registrationUser(RoleEnum.MENTOR);
+    }
+
     protected void linkParticipantMentor() {
         logger.info("Связываем ментора и участника");
         Long participantId = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT).getId();
@@ -180,6 +191,20 @@ public class TestBase {
         }
         if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR) != null) {
             authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_MENTOR));
+            logger.info("Удалили authorities ментора");
+        }
+
+        logger.info("Удаляем из БД второго ментора, если создавали");
+        if (mentorRepository.getMentorByLogin(LOGIN_SECOND_MENTOR) != null) {
+            mentorRepository.delete(mentorRepository.getMentorByLogin(LOGIN_SECOND_MENTOR));
+            logger.info("Удалили ментора");
+        }
+        if (loginInfoRepository.findByLogin(LOGIN_SECOND_MENTOR) != null) {
+            loginInfoRepository.delete(loginInfoRepository.findByLogin(LOGIN_SECOND_MENTOR));
+            logger.info("Удалили loginInfo ментора");
+        }
+        if (authoritiesRepository.getAuthoritiesByUsername(LOGIN_SECOND_MENTOR) != null) {
+            authoritiesRepository.delete(authoritiesRepository.getAuthoritiesByUsername(LOGIN_SECOND_MENTOR));
             logger.info("Удалили authorities ментора");
         }
 
