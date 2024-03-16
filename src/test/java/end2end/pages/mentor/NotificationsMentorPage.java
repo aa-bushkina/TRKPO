@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * Страница уведомлений ментора
@@ -35,6 +36,10 @@ public class NotificationsMentorPage extends PageBase {
         logger.info("Нажимаем Смотреть у единственного уведомления");
         $(LOOK_BTN).shouldBe(visible.because("Нет кнопки Смотреть")).click();
         return new OneNotificationMentorPage();
+    }
+
+    public int getCountNotifications() {
+        return $$(LOOK_BTN).size();
     }
 
 }

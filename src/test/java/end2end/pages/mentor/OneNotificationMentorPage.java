@@ -48,4 +48,10 @@ public class OneNotificationMentorPage extends PageBase {
         return new NotificationsMentorPage();
     }
 
+    public NotificationsMentorPage clickBack() {
+        logger.info("Нажимаем кнопку Назад");
+        $(BACK_BUTTON).shouldBe(visible.because("Нет кнопки Назад")).click();
+        return new NotificationsMentorPage();
+    }
+
 }
