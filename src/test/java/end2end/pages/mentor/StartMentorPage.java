@@ -67,4 +67,11 @@ public class StartMentorPage extends PageBase {
         $(By.xpath(String.format(LOGIN_PARTICIPANT, login))).shouldBe(visible.because("Нет участника с логином " + login));
         return this;
     }
+
+    public HistoryParticipantLogsPage clickParticipant(String login) {
+        logger.info("Открываем историю записей у " + login);
+        $(By.xpath(String.format(LOGIN_PARTICIPANT, login))).shouldBe(visible.because("Нет участника с логином " + login)).click();
+        return new HistoryParticipantLogsPage();
+    }
+
 }

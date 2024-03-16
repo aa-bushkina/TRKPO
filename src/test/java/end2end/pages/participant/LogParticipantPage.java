@@ -23,7 +23,7 @@ public class LogParticipantPage extends PageBase {
         $(TITLE).shouldBe(visible.because("Нет название записи"));
         $(DATE).shouldBe(visible.because("Нет даты записи"));
         $(DESC_TEXT).shouldBe(visible.because("Нет описания записи"));
-        logger.info("Загрузиласт страница просмотра записи");
+        logger.info("Загрузилась страница просмотра записи");
     }
 
 
