@@ -111,4 +111,11 @@ public class LogsParticipantPage extends PageBase {
         logger.info("Получаем количество записей");
         return $$(WATCH_BTN).filter(visible).size();
     }
+
+    public LogParticipantPage lookLog() {
+        logger.info("Открываем единствунную запись");
+        $(WATCH_BTN).shouldBe(visible.because("Нет кнопки Смотреть")).click();
+        return new LogParticipantPage();
+    }
+
 }

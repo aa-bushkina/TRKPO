@@ -1,8 +1,13 @@
 package end2end.tests;
 
 import com.cygans.Application;
+import com.cygans.database.controllers.LogController;
+import com.cygans.database.controllers.NotificationController;
 import com.cygans.database.controllers.RegistrationAndLoginController;
+import com.cygans.database.emotional_log_book.EmotionalLogBookRepository;
+import com.cygans.database.log_book.LogRepository;
 import com.cygans.database.mentor.MentorRepository;
+import com.cygans.database.notifications.NotificationsRepository;
 import com.cygans.database.participant.Participant;
 import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
@@ -52,13 +57,23 @@ public class TestBase {
     @Autowired
     protected LoginInfoRepository loginInfoRepository;
     @Autowired
-    private RegistrationAndLoginController registrationAndLoginController;
+    protected EmotionalLogBookRepository emotionalLogBookRepository;
+    @Autowired
+    protected NotificationsRepository notificationsRepository;
+    @Autowired
+    protected RegistrationAndLoginController registrationAndLoginController;
+    @Autowired
+    protected LogRepository logRepository;
+    @Autowired
+    protected LogController logController;
+    @Autowired
+    protected NotificationController notificationController;
     @Autowired
     protected ParticipantMentorService participantMentorService;
     @Mock
-    private LoginInfoService loginInfoService;
+    protected LoginInfoService loginInfoService;
     @Mock
-    private ParticipantService participantService;
+    protected ParticipantService participantService;
     protected static final String FIRSTNAME = "Катька";
     protected static final String LASTNAME = "Волосова";
     protected static final String LOGIN_PARTICIPANT = "elsa_participant";
@@ -160,6 +175,16 @@ public class TestBase {
         Long participantId = participantRepository.getParticipantByLogin(LOGIN_PARTICIPANT).getId();
         Long mentorId = mentorRepository.getMentorByLogin(LOGIN_MENTOR).getId();
         participantMentorService.create(participantId, mentorId);
+    }
+
+    protected void loginParticipant() {
+        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_PARTICIPANT);
+        registrationAndLoginController.authenticationUser(RoleEnum.PARTICIPANT);
+    }
+
+    protected void loginMentor() {
+        when(VaadinSession.getCurrent().getAttribute("Login")).thenReturn(LOGIN_MENTOR);
+        registrationAndLoginController.authenticationUser(RoleEnum.MENTOR);
     }
 
     @AfterEach

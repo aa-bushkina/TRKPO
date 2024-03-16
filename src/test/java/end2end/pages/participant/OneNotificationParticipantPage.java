@@ -1,7 +1,6 @@
 package end2end.pages.participant;
 
 import end2end.pages.utils.PageBase;
-import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
