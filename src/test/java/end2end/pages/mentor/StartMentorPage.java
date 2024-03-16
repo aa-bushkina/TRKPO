@@ -18,6 +18,9 @@ public class StartMentorPage extends PageBase {
     private static final By NOTIFICATIONS_BTN = By.xpath(".//*[@theme='icon'][1]/.");
     private static final By SETTINGS_BTN = By.xpath(".//*[contains(@theme,'icon')][2]/.");
     private static final By LOGOUT_BTN = By.xpath(".//*[contains(@theme,'icon')][3]/.");
+    private static final String NAME_PARTICIPANT = ".//vaadin-grid-cell-content[@slot='vaadin-grid-cell-content-1' and text()='%s']";
+    private static final String LASTNAME_PARTICIPANT = ".//vaadin-grid-cell-content[@slot='vaadin-grid-cell-content-2' and text()='%s']";
+    private static final String LOGIN_PARTICIPANT = ".//vaadin-grid-cell-content[@slot='vaadin-grid-cell-content-3' and text()='%s']";
 
     @Override
     protected void checkPage() {
@@ -49,5 +52,19 @@ public class StartMentorPage extends PageBase {
                 .shouldBe(visible.because("Нет кнопки выхода"))
                 .click();
         return new LoginPage();
+    }
+
+    public AddParticipantPage addParticipant() {
+        logger.info("Нажимаем на кнопку добавления участника");
+        $(ADD_PARTICIPANT_BTN).shouldBe(visible.because("Нет кнопки дабовления участника")).click();
+        return new AddParticipantPage();
+    }
+
+    public StartMentorPage checkParticipant(String name, String lastName, String login) {
+        logger.info("Проверяем, что есть участник " + name + " " + lastName + " " + login);
+        $(By.xpath(String.format(NAME_PARTICIPANT, name))).shouldBe(visible.because("Нет участника с именем " + name));
+        $(By.xpath(String.format(LASTNAME_PARTICIPANT, lastName))).shouldBe(visible.because("Нет участника с фамилией " + lastName));
+        $(By.xpath(String.format(LOGIN_PARTICIPANT, login))).shouldBe(visible.because("Нет участника с логином " + login));
+        return this;
     }
 }
