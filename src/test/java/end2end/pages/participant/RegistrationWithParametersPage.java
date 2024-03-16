@@ -3,6 +3,9 @@ package end2end.pages.participant;
 import end2end.pages.utils.PageBase;
 import org.openqa.selenium.By;
 
+import java.util.Objects;
+
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -18,6 +21,7 @@ public class RegistrationWithParametersPage extends PageBase {
     public static final By WIDTH_WAIST = By.xpath(".//vaadin-text-field[2]");
     public static final By WIDTH_HIPS = By.xpath(".//vaadin-text-field[3]");
     public static final By END_REGISTRATION_BUTTON = By.xpath(".//*[text()='Завершить']");
+    public static final String INVALID_ATTR = "invalid";
 
     @Override
     protected void checkPage() {
@@ -36,10 +40,31 @@ public class RegistrationWithParametersPage extends PageBase {
         return this;
     }
 
+    public RegistrationWithParametersPage clickHeight() {
+        logger.info("Нажимаем на поле роста");
+        $(HEIGHT).shouldBe(visible.because("Нет поля ввода для роста")).click();
+        return new RegistrationWithParametersPage();
+    }
+
+    public boolean heightIsInvalid() {
+        return Objects.equals($(HEIGHT).getAttribute(INVALID_ATTR), "true");
+    }
+
     public RegistrationWithParametersPage typeWeight(String weight) {
         logger.info("Вводим вес " + weight);
         $(WEIGHT).shouldBe(visible.because("Нет поля ввода для веса")).sendKeys(weight);
         return this;
+    }
+
+    public boolean weightIsInvalid() {
+        return Objects.equals($(WEIGHT).shouldBe(visible.because("Нет поля ввода для веса"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
+    public RegistrationWithParametersPage clickWeight() {
+        logger.info("Нажимаем на поле веса");
+        $(WEIGHT).shouldBe(visible.because("Нет поля ввода для веса")).click();
+        return new RegistrationWithParametersPage();
     }
 
     public RegistrationWithParametersPage typeBreast(String breast) {
@@ -48,16 +73,31 @@ public class RegistrationWithParametersPage extends PageBase {
         return this;
     }
 
+    public boolean breastIsInvalid() {
+        return Objects.equals($$(WIDTH_BREAST).get(1).shouldBe(visible.because("Нет поля ввода для обхвата груди"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
     public RegistrationWithParametersPage typeWaist(String waist) {
         logger.info("Вводим обхват талии " + waist);
         $$(WIDTH_WAIST).get(1).shouldBe(visible.because("Нет поля ввода для обхвата талии")).sendKeys(waist);
         return this;
     }
 
+    public boolean waistIsInvalid() {
+        return Objects.equals($$(WIDTH_WAIST).get(1).shouldBe(visible.because("Нет поля ввода для обхвата талии"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
     public RegistrationWithParametersPage typeHips(String hips) {
         logger.info("Вводим обхват бедер " + hips);
         $(WIDTH_HIPS).shouldBe(visible.because("Нет поля ввода для обхвата бедер")).sendKeys(hips);
         return this;
+    }
+
+    public boolean hipsIsInvalid() {
+        return Objects.equals($(WIDTH_HIPS).shouldBe(visible.because("Нет поля ввода для обхвата бедер"))
+                .getAttribute(INVALID_ATTR), "true");
     }
 
     public StartParticipantPage endRegistration() {
