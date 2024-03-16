@@ -7,8 +7,7 @@ import java.util.Objects;
 
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 /**
  * Страница ввода параметров участника при регистрации
@@ -36,6 +35,7 @@ public class RegistrationWithParametersPage extends PageBase {
 
     public RegistrationWithParametersPage typeHeight(String height) {
         logger.info("Вводим рост " + height);
+        executeJavaScript("arguments[0].value = '';", $(HEIGHT));
         $(HEIGHT).shouldBe(visible.because("Нет поля ввода для роста")).sendKeys(height);
         return this;
     }
@@ -52,6 +52,7 @@ public class RegistrationWithParametersPage extends PageBase {
 
     public RegistrationWithParametersPage typeWeight(String weight) {
         logger.info("Вводим вес " + weight);
+        executeJavaScript("arguments[0].value = '';", $(WEIGHT));
         $(WEIGHT).shouldBe(visible.because("Нет поля ввода для веса")).sendKeys(weight);
         return this;
     }
@@ -69,6 +70,7 @@ public class RegistrationWithParametersPage extends PageBase {
 
     public RegistrationWithParametersPage typeBreast(String breast) {
         logger.info("Вводим обхват груди " + breast);
+        executeJavaScript("arguments[0].value = '';", $$(WIDTH_BREAST).get(1));
         $$(WIDTH_BREAST).get(1).shouldBe(visible.because("Нет поля ввода для обхвата груди")).sendKeys(breast);
         return this;
     }
@@ -80,6 +82,7 @@ public class RegistrationWithParametersPage extends PageBase {
 
     public RegistrationWithParametersPage typeWaist(String waist) {
         logger.info("Вводим обхват талии " + waist);
+        executeJavaScript("arguments[0].value = '';", $$(WIDTH_WAIST).get(1));
         $$(WIDTH_WAIST).get(1).shouldBe(visible.because("Нет поля ввода для обхвата талии")).sendKeys(waist);
         return this;
     }
@@ -91,6 +94,7 @@ public class RegistrationWithParametersPage extends PageBase {
 
     public RegistrationWithParametersPage typeHips(String hips) {
         logger.info("Вводим обхват бедер " + hips);
+        executeJavaScript("arguments[0].value = '';", $(WIDTH_HIPS));
         $(WIDTH_HIPS).shouldBe(visible.because("Нет поля ввода для обхвата бедер")).sendKeys(hips);
         return this;
     }

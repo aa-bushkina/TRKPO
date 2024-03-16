@@ -5,6 +5,8 @@ import end2end.pages.utils.Sex;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.Objects;
+
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -28,6 +30,7 @@ public class SettingsActiveParticipantPage extends PageBase {
     private static final By GENDER_FIELD = By.xpath(".//vaadin-select");
     private static final By BIRTHDAY_FIELD = By.xpath(".//vaadin-date-picker");
     private static final By GENDER_VALUE = By.xpath(".//vaadin-item");
+    public static final String INVALID_ATTR = "invalid";
 
     @Override
     protected void checkPage() {
@@ -95,11 +98,27 @@ public class SettingsActiveParticipantPage extends PageBase {
         return this;
     }
 
+    public boolean breastIsInvalid() {
+        return Objects.equals( $(BREAST_FIELD).shouldBe(visible.because("Нет поля ввода для обхвата груди"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
+
     public SettingsActiveParticipantPage typeHeight(String height) {
         logger.info("Вводим рост: " + height);
         executeJavaScript("arguments[0].value = '';", $(HEIGHT_FIELD));
         $(HEIGHT_FIELD).shouldBe(visible.because("Нет поля ввода роста")).sendKeys(height);
         return this;
+    }
+
+    public boolean heightIsInvalid() {
+        return Objects.equals($(HEIGHT_FIELD).getAttribute(INVALID_ATTR), "true");
+    }
+
+    public SettingsActiveParticipantPage clickHeight() {
+        logger.info("Нажимаем на поле роста");
+        $(HEIGHT_FIELD).shouldBe(visible.because("Нет поля ввода для роста")).click();
+        return new SettingsActiveParticipantPage();
     }
 
     public SettingsActiveParticipantPage typeWaist(String waist) {
@@ -109,6 +128,11 @@ public class SettingsActiveParticipantPage extends PageBase {
         return this;
     }
 
+    public boolean waistIsInvalid() {
+        return Objects.equals($(WAIST_FIELD).shouldBe(visible.because("Нет поля ввода для обхвата талии"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
     public SettingsActiveParticipantPage typeWeight(String weight) {
         logger.info("Вводим вес: " + weight);
         executeJavaScript("arguments[0].value = '';", $(WEIGHT_FIELD));
@@ -116,10 +140,27 @@ public class SettingsActiveParticipantPage extends PageBase {
         return this;
     }
 
+    public boolean weightIsInvalid() {
+        return Objects.equals($(WEIGHT_FIELD).shouldBe(visible.because("Нет поля ввода для веса"))
+                .getAttribute(INVALID_ATTR), "true");
+    }
+
+    public SettingsActiveParticipantPage clickWeight() {
+        logger.info("Нажимаем на поле веса");
+        $(WEIGHT_FIELD).shouldBe(visible.because("Нет поля ввода для веса")).click();
+        return new SettingsActiveParticipantPage();
+    }
+
+
     public SettingsActiveParticipantPage typeHips(String hips) {
         logger.info("Вводим обхват бедер: " + hips);
         executeJavaScript("arguments[0].value = '';", $(HIPS_FIELD));
         $(HIPS_FIELD).shouldBe(visible.because("Нет поля ввода обхвата бедер")).sendKeys(hips);
         return this;
+    }
+
+    public boolean hipsIsInvalid() {
+        return Objects.equals($(HIPS_FIELD).shouldBe(visible.because("Нет поля ввода для обхвата бедер"))
+                .getAttribute(INVALID_ATTR), "true");
     }
 }

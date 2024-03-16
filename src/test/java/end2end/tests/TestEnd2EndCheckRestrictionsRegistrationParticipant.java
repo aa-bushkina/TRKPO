@@ -6,7 +6,6 @@ import end2end.pages.registration.ThirdRegistrationPage;
 import end2end.pages.utils.Sex;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.refresh;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -57,110 +56,90 @@ public class TestEnd2EndCheckRestrictionsRegistrationParticipant extends TestBas
                 .clickWeight();
         assertTrue(registrationWithParametersPage.heightIsInvalid(),
                 "Поле ввода роста не стало невалидным от значение меньше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHeight(NORMAL_HEIGHT)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.heightIsInvalid(),
                 "Поле ввода роста не стало валидным");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHeight(MORE_HEIGHT)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.heightIsInvalid(),
                 "Поле ввода роста не стало невалидным от значение больше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHeight(NORMAL_HEIGHT)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.heightIsInvalid(),
                 "Поле ввода роста не стало валидным");
-        refresh();
 
         logger.info("Проверяем ввод различного обхвата груди");
         registrationWithParametersPage = registrationWithParametersPage.typeBreast(LESS_BREAST)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.breastIsInvalid(),
                 "Поле ввода обхвата груди не стало невалидным от значение меньше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeBreast(NORMAL_BREAST)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.breastIsInvalid(),
                 "Поле ввода обхвата груди не стало валидным");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeBreast(MORE_BREAST)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.breastIsInvalid(),
                 "Поле ввода обхвата груди не стало невалидным от значение больше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeBreast(NORMAL_BREAST)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.breastIsInvalid(),
                 "Поле ввода обхвата груди не стало валидным");
-        refresh();
 
         logger.info("Проверяем ввод различного обхвата бедер");
         registrationWithParametersPage = registrationWithParametersPage.typeHips(LESS_HIPS)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.hipsIsInvalid(),
                 "Поле ввода обхвата бедер не стало невалидным от значение меньше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHips(NORMAL_HIPS)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.hipsIsInvalid(),
                 "Поле ввода обхвата бедер не стало валидным");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHips(MORE_HIPS)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.hipsIsInvalid(),
                 "Поле ввода обхвата бедер не стало невалидным от значение больше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeHips(NORMAL_HIPS)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.hipsIsInvalid(),
                 "Поле ввода обхвата бедер не стало валидным");
-        refresh();
 
         logger.info("Проверяем ввод различного обхвата талии");
         registrationWithParametersPage = registrationWithParametersPage.typeWaist(LESS_WAIST)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.waistIsInvalid(),
                 "Поле ввода обхвата талии не стало невалидным от значение меньше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWaist(NORMAL_WAIST)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.waistIsInvalid(),
                 "Поле ввода обхвата талии не стало валидным");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWaist(MORE_WAIST)
                 .clickWeight();
         assertTrue(registrationWithParametersPage.waistIsInvalid(),
                 "Поле ввода обхвата талии не стало невалидным от значение больше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWaist(NORMAL_WAIST)
                 .clickWeight();
         assertFalse(registrationWithParametersPage.waistIsInvalid(),
                 "Поле ввода обхвата талии не стало валидным");
-        refresh();
 
         logger.info("Проверяем ввод различного веса");
         registrationWithParametersPage = registrationWithParametersPage.typeWeight(LESS_WEIGHT)
                 .clickHeight();
         assertTrue(registrationWithParametersPage.weightIsInvalid(),
                 "Поле ввода веса не стало невалидным от значение меньше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWeight(NORMAL_WEIGHT)
                 .clickHeight();
         assertFalse(registrationWithParametersPage.weightIsInvalid(),
                 "Поле ввода веса не стало валидным");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWeight(MORE_WEIGHT)
                 .clickHeight();
         assertTrue(registrationWithParametersPage.weightIsInvalid(),
                 "Поле ввода веса не стало невалидным от значение больше границы");
-        refresh();
         registrationWithParametersPage = registrationWithParametersPage.typeWeight(NORMAL_WEIGHT)
                 .clickHeight();
         assertFalse(registrationWithParametersPage.weightIsInvalid(),
                 "Поле ввода веса не стало валидным");
-        refresh();
 
         logger.info("Тест прошел успешно");
     }
