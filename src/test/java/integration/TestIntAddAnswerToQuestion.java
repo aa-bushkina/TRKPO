@@ -45,8 +45,8 @@ public class TestIntAddAnswerToQuestion extends TestIntBase {
         questionId = questionController.addNewQuestionForNowParticipant(QUESTION);
         notificationController.addNewQuestionNotification(questionId, QUESTION);
 
-        logger.info("Достаем нотификацию о нотификации вопроса");
-        loginMentor();;
+        logger.info("Достаем нотификацию о вопросе");
+        loginMentor();
         List<Notifications> allNotifications = notificationController.getAllNowMentorNotifications();
         assertEquals(1, allNotifications.size(), "У ментора нет нотификаций");
         Notifications notifications = allNotifications.get(0);

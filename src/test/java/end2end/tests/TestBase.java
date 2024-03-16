@@ -3,6 +3,7 @@ package end2end.tests;
 import com.cygans.Application;
 import com.cygans.database.controllers.LogController;
 import com.cygans.database.controllers.NotificationController;
+import com.cygans.database.controllers.QuestionController;
 import com.cygans.database.controllers.RegistrationAndLoginController;
 import com.cygans.database.emotional_log_book.EmotionalLogBookRepository;
 import com.cygans.database.log_book.LogRepository;
@@ -13,6 +14,7 @@ import com.cygans.database.participant.ParticipantRepository;
 import com.cygans.database.participant.ParticipantService;
 import com.cygans.database.participant_mentor.ParticipantMentorRepository;
 import com.cygans.database.participant_mentor.ParticipantMentorService;
+import com.cygans.database.question.QuestionRepository;
 import com.cygans.security.db.RoleEnum;
 import com.cygans.security.db.authorities.AuthoritiesRepository;
 import com.cygans.security.db.logInfo.LoginInfo;
@@ -61,15 +63,19 @@ public class TestBase {
     @Autowired
     protected NotificationsRepository notificationsRepository;
     @Autowired
-    protected RegistrationAndLoginController registrationAndLoginController;
-    @Autowired
     protected LogRepository logRepository;
+    @Autowired
+    protected QuestionRepository questionRepository;
+    @Autowired
+    protected RegistrationAndLoginController registrationAndLoginController;
     @Autowired
     protected LogController logController;
     @Autowired
     protected NotificationController notificationController;
     @Autowired
     protected ParticipantMentorService participantMentorService;
+    @Autowired
+    protected QuestionController questionController;
     @Mock
     protected LoginInfoService loginInfoService;
     @Mock

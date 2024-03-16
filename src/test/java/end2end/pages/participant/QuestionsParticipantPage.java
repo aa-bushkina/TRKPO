@@ -17,6 +17,7 @@ public class QuestionsParticipantPage extends PageBase {
     private static final By HOME_BTN = By.xpath(".//*[@icon='vaadin:home']/..");
     private static final By INPUT_AREA = By.xpath(".//vaadin-text-area");
     private static final By ASK_BTN = By.xpath(".//*[text()='Задать']");
+    private static final By WATCH_BTN = By.xpath(".//*[text()='Смотреть']");
     private static final By NOTIFICATION = By.xpath(".//*[@id='vaadin-notification-card']");
     private static final By QUESTION_DATE = By.xpath(".//*[@slot='vaadin-grid-cell-content-1']");
     private static final By QUESTION_TEXT = By.xpath(".//*[@slot='vaadin-grid-cell-content-2']");
@@ -82,4 +83,11 @@ public class QuestionsParticipantPage extends PageBase {
                 .shouldBe(visible.because("Нет статуса вопроса в списке вопросов"))
                 .text();
     }
+
+    public QuestionParticipantPage clickWatch() {
+        logger.info("Нажимаем на Смотреть");
+        $(WATCH_BTN).shouldBe(visible.because("Нет кнопки Смотреть")).click();
+        return new QuestionParticipantPage();
+    }
+
 }

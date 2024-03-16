@@ -50,7 +50,7 @@ public class LogParticipantPage extends PageBase {
     }
 
     public StartParticipantPage home() {
-        logger.info("Возвращаеися на стартовую страницу");
+        logger.info("Возвращаемся на стартовую страницу");
         $(HOME).shouldBe(visible.because("Нет кнопки домой")).click();
         return new StartParticipantPage();
     }
