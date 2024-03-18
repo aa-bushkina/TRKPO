@@ -79,6 +79,9 @@ jobs:
   e2e_tests:
     needs: start_application
     runs-on: ubuntu-latest
+    container:
+      image: selenium/standalone-chrome:latest
+      options: --shm-size=2g
     services:
       postgres:
         image: postgres:latest
