@@ -79,9 +79,6 @@ jobs:
   e2e_tests:
     needs: start_application
     runs-on: ubuntu-latest
-    container:
-      image: selenium/standalone-chrome:latest
-      options: --shm-size=2g
     services:
       postgres:
         image: postgres:latest
@@ -92,6 +89,9 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    container:
+      image: selenium/standalone-chrome:latest
+      options: --shm-size=2g
     steps:
       - name: Install Chrome
         run: |
@@ -99,6 +99,10 @@ jobs:
           sudo apt install -y wget
           sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt update
+          sudo apt install -y postgresql-client
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
