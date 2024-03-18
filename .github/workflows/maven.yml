@@ -98,10 +98,12 @@ jobs:
           java-version: 17
       - name: Install dependencies
         run: mvn install -DskipTests
-      - name: Set up Chrome
-        uses: actions/setup-browser@v2
-        with:
-          browser-version: 'latest'
+      - name: Install Chrome
+        run: |
+          sudo apt update
+          sudo apt install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
