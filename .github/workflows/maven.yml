@@ -99,7 +99,9 @@ jobs:
       - name: Install dependencies
         run: mvn install -DskipTests
       - name: Set up Chrome
-        uses: actions/setup-chrome@v1
+        uses: actions/setup-browser@v2
+        with:
+          browser-version: 'latest'
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
