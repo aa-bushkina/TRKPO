@@ -100,6 +100,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+      - name: Install Maven
+        run: sudo apt update && sudo apt install -y maven
       - name: Install dependencies
         run: mvn install -DskipTests
       - name: Fill tables
