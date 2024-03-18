@@ -93,18 +93,6 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
-      - name: Install Java inside Selenium container
-        run: |
-          docker exec -i selenium/standalone-chrome:latest bash -c 'apt update && apt install -y wget && wget https://github.com/AdoptOpenJDK/openjdk17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_x64_linux_hotspot_17_35.tar.gz && tar -xvf OpenJDK17-jdk_x64_linux_hotspot_17_35.tar.gz && mv jdk-17+35 /opt/openjdk-17 && rm OpenJDK17-jdk_x64_linux_hotspot_17_35.tar.gz'
-      - name: set up JDK 17
-        run: |
-          echo "export JAVA_HOME=/opt/openjdk-17" >> $GITHUB_ENV
-          echo "export PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: mvn install -DskipTests
       - name: Install Chrome
         run: |
           sudo apt update
