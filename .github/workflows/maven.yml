@@ -21,13 +21,13 @@ jobs:
         with: 
           node-version: 12.13.0 
           
-      - name: Build
-        run: mvn --batch-mode -DskipTests package
+#      - name: Build
+#        run: mvn --batch-mode -DskipTests package
 
       - name: Test
         run: | 
           cd src/test/java/integration/
-          mvn -B test
+          mvn -B test --file ../../../../pom.xml
 
 #      - name: Coverage per Test Execution
 #        run: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
