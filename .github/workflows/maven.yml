@@ -98,6 +98,8 @@ jobs:
           java-version: 17
       - name: Install dependencies
         run: mvn install -DskipTests
+      - name: Set up Chrome
+        uses: actions/setup-chrome@v1
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
