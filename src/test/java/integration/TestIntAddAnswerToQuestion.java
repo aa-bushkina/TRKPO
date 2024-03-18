@@ -1,15 +1,20 @@
 package integration;
 
+import com.cygans.Application;
 import com.cygans.database.notifications.Notifications;
 import com.cygans.database.question.Question;
 import com.cygans.database.question.question_status.StatusOfQuestion;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest(classes = Application.class)
+
 
 /**
  * Тест проверяет, что после вызова метода контроллера создания ответа на вопрос ментором нотификация может
