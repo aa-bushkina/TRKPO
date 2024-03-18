@@ -81,7 +81,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: selenium/standalone-chrome:latest
-      options: --shm-size=2g
+      options: --shm-size=2g --user root
+
     services:
       postgres:
         image: postgres:latest
