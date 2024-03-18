@@ -102,10 +102,10 @@ jobs:
           sudo apt install -y wget
           sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
-#      - name: Install PostgreSQL client
-#        run: |
-#          sudo apt update
-#          sudo apt install -y postgresql-client
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt update
+          sudo apt install -y postgresql-client
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
