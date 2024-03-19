@@ -112,7 +112,8 @@ jobs:
           sudo unzip chromedriver_linux64.zip
           sudo chmod +x chromedriver
           sudo mv chromedriver /usr/local/bin/
-          sleep 1m
+          echo "export PATH=$PATH:/usr/local/bin/" >> $HOME/.bashrc
+          source $HOME/.bashrc
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests

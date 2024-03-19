@@ -98,6 +98,7 @@ public class TestBase {
     @BeforeEach
     public void startDriver() {
         WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromiumdriver().setup();
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }
