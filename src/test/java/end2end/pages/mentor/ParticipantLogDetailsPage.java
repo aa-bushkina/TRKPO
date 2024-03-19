@@ -33,11 +33,11 @@ public class ParticipantLogDetailsPage extends PageBase {
         return $(DATE).shouldBe(visible.because("Нет даты записи")).getText();
     }
 
-    public StartParticipantPage goToStartPage() {
+    public StartMentorPage goToStartPage() {
         logger.info("Кликаем на кнопку домой");
         $(HOME_BTN).parent()
                 .shouldBe(visible.because("Нет кнопки домой"))
                 .click();
-        return new StartParticipantPage();
+        return new StartMentorPage();
     }
 }
