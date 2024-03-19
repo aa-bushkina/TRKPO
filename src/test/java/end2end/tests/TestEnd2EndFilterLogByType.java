@@ -1,6 +1,7 @@
 package end2end.tests;
 
 import end2end.pages.participant.LogsParticipantPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,9 +63,11 @@ public class TestEnd2EndFilterLogByType extends TestBase {
                         "Не сопадает количество записей с ожидаемым по фильтру: все")
         );
 
-        logger.info("Выходим из аккаунта");
-        logsPage.goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
+    }
+
+    @AfterEach
+    public void logout() {
+        logoutParticipant();
     }
 }

@@ -60,14 +60,12 @@ public class TestEnd2EndDisappearMentorNotification extends TestBase {
                 .sendAnswer();
         assertEquals(0, notificationsMentorPage.getCountNotifications(), "Оповещение не исчезло");
 
-        logger.info("Выходим из аккаунта");
-        notificationsMentorPage.goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
     }
 
     @AfterEach
     public void clear() {
+        logoutMentor();
         logger.info("Удаляем запись");
         if (emotionalLogBookRepository.findByLogBookId(logId) != null) {
             emotionalLogBookRepository.delete(emotionalLogBookRepository.findByLogBookId(logId));

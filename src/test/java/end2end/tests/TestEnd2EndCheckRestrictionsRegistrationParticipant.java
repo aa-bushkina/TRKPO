@@ -143,5 +143,4 @@ public class TestEnd2EndCheckRestrictionsRegistrationParticipant extends TestBas
 
         logger.info("Тест прошел успешно");
     }
-
 }

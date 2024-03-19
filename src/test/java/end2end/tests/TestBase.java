@@ -21,6 +21,8 @@ import com.cygans.security.db.logInfo.LoginInfo;
 import com.cygans.security.db.logInfo.LoginInfoRepository;
 import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
+import end2end.pages.mentor.StartMentorPage;
+import end2end.pages.participant.StartParticipantPage;
 import end2end.pages.registration.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -100,6 +102,18 @@ public class TestBase {
         WebDriverManager.chromedriver().setup();
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
+    }
+
+    protected void logoutMentor() {
+        logger.info("Выходим из аккаунта ментора");
+        open("http://localhost:8080/mentor/my-participants");
+        new StartMentorPage().logout();
+    }
+
+    protected void logoutParticipant() {
+        logger.info("Выходим из аккаунта участника");
+        open("http://localhost:8080/participant/start-page");
+        new StartParticipantPage().logout();
     }
 
     protected LoginPage getLoginPage() {

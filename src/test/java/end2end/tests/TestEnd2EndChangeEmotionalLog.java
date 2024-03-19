@@ -73,14 +73,12 @@ public class TestEnd2EndChangeEmotionalLog extends TestBase {
         OneNotificationMentorPage oneNotificationMentorPage = notificationsMentorPage.lookNotification();
         assertTrue(oneNotificationMentorPage.getMessage().contains(COMMENT + NEW_COMMENT), "Тест не изменился в уведомлении");
 
-        logger.info("Выходим из аккаунта");
-        oneNotificationMentorPage.clickBack().goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
     }
 
     @AfterEach
     public void clear() {
+        logoutMentor();
         logger.info("Удаляем запись");
         if (emotionalLogBookRepository.findByLogBookId(logId) != null) {
             emotionalLogBookRepository.delete(emotionalLogBookRepository.findByLogBookId(logId));

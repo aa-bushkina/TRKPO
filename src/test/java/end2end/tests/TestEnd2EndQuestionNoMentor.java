@@ -1,6 +1,7 @@
 package end2end.tests;
 
 import end2end.pages.participant.QuestionsParticipantPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,9 +34,11 @@ public class TestEnd2EndQuestionNoMentor extends TestBase {
                 .getNotificationText();
         assertEquals(NOTIFICATION_TEXT, text, "Текст нотификации не совпадает с ожидаемым");
 
-        logger.info("Выходим из аккаунта");
-        new QuestionsParticipantPage().goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
+    }
+
+    @AfterEach
+    public void logout() {
+        logoutParticipant();
     }
 }

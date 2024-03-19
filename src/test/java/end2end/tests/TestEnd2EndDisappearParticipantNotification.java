@@ -66,14 +66,12 @@ public class TestEnd2EndDisappearParticipantNotification extends TestBase {
         notificationsParticipantPage = notificationsParticipantPage.lookNotification().back();
         assertEquals(0, notificationsParticipantPage.getCountNotifications(), "Оповещение не исчезло");
 
-        logger.info("Выходим из аккаунта");
-        notificationsParticipantPage.goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
     }
 
     @AfterEach
     public void clear() {
+        logoutParticipant();
         logger.info("Удаляем запись");
         if (emotionalLogBookRepository.findByLogBookId(logId) != null) {
             emotionalLogBookRepository.delete(emotionalLogBookRepository.findByLogBookId(logId));

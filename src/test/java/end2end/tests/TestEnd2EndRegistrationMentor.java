@@ -5,6 +5,7 @@ import end2end.pages.participant.QuestionsParticipantPage;
 import end2end.pages.registration.SecondRegistrationPage;
 import end2end.pages.registration.ThirdRegistrationPage;
 import end2end.pages.utils.Sex;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,9 +39,11 @@ public class TestEnd2EndRegistrationMentor extends TestBase {
                 .choiceDate(DATE)
                 .endRegistration();
 
-        logger.info("Выходим из аккаунта");
-        new StartMentorPage().logout();
-
         logger.info("Тест прошел успешно");
+    }
+
+    @AfterEach
+    public void logout() {
+        logoutMentor();
     }
 }

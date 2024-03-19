@@ -4,6 +4,7 @@ import end2end.pages.mentor.AddParticipantPage;
 import end2end.pages.mentor.StartMentorPage;
 import end2end.pages.participant.NotificationsParticipantPage;
 import end2end.pages.participant.StartParticipantPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,10 +53,11 @@ public class TestEnd2EndAcceptMentorTracking extends TestBase {
         logger.info("Проверяем, что в списке есть нужный отслеживаемый участник");
         startMentorPage.checkParticipant(FIRSTNAME, LASTNAME, LOGIN_PARTICIPANT);
 
-        logger.info("Выходим из аккаунта");
-        startMentorPage.logout();
-
         logger.info("Тест прошел успешно");
     }
 
+    @AfterEach
+    public void logout() {
+        logoutMentor();
+    }
 }

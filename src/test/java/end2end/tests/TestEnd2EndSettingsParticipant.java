@@ -2,6 +2,7 @@ package end2end.tests;
 
 import end2end.pages.participant.SettingsParticipantPage;
 import end2end.pages.utils.Sex;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -78,9 +79,11 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
                         "Не совпадает ожидаемое значение веса с установленным")
         );
 
-        logger.info("Выходим из аккаунта");
-        new SettingsParticipantPage().goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
+    }
+
+    @AfterEach
+    public void logout() {
+        logoutParticipant();
     }
 }

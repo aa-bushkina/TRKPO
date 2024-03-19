@@ -1,6 +1,7 @@
 package end2end.tests;
 
 import end2end.pages.participant.SettingsActiveParticipantPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -134,10 +135,11 @@ public class TestEnd2EndCheckRestrictionsSettingsParticipant extends TestBase {
         assertFalse(settingsActiveParticipantPage.weightIsInvalid(),
                 "Поле ввода веса не стало валидным");
 
-        logger.info("Выходим из аккаунта");
-        settingsActiveParticipantPage.saveChanges().goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
     }
 
+    @AfterEach
+    public void logout() {
+        logoutParticipant();
+    }
 }

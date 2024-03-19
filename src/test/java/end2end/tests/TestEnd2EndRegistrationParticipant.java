@@ -6,6 +6,7 @@ import end2end.pages.participant.StartParticipantPage;
 import end2end.pages.registration.SecondRegistrationPage;
 import end2end.pages.registration.ThirdRegistrationPage;
 import end2end.pages.utils.Sex;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,9 +43,11 @@ public class TestEnd2EndRegistrationParticipant extends TestBase {
                 .typeWaist(WAIST)
                 .endRegistration();
 
-        logger.info("Выходим из аккаунта");
-        new StartParticipantPage().logout();
-
         logger.info("Тест прошел успешно");
+    }
+
+    @AfterEach
+    public void logout() {
+        logoutParticipant();
     }
 }

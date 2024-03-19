@@ -62,14 +62,12 @@ public class TestEnd2EndMentorLookParticipantLogs extends TestBase {
         assertEquals(COMMENT, participantLogDetailsPage.getDescription(), "Неверное описание у записи");
         assertTrue(participantLogDetailsPage.getDate().contains(DATE_2), "Неверная дата записи");
 
-        logger.info("Выходим из аккаунта");
-        participantLogDetailsPage.goToStartPage().logout();
-
         logger.info("Тест прошел");
     }
 
     @AfterEach
     public void clear() {
+        logoutMentor();
         logger.info("Удаляем запись");
         if (emotionalLogBookRepository.findByLogBookId(logId) != null) {
             emotionalLogBookRepository.delete(emotionalLogBookRepository.findByLogBookId(logId));
@@ -82,6 +80,4 @@ public class TestEnd2EndMentorLookParticipantLogs extends TestBase {
             notificationsRepository.delete(notificationsRepository.getNotificationById(notificationId));
         }
     }
-
-
 }

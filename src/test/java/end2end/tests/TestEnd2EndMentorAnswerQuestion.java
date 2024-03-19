@@ -76,14 +76,12 @@ public class TestEnd2EndMentorAnswerQuestion extends TestBase {
         answer = questionsParticipantPage.clickWatch().getAnswer();
         assertEquals(ANSWER, answer, "Неверный ответ отображается");
 
-        logger.info("Выходим из аккаунта");
-        questionsParticipantPage.goToStartPage().logout();
-
         logger.info("Тест прошел успешно");
     }
 
     @AfterEach
     public void clear() {
+        logoutParticipant();
         logger.info("Удаляем вопрос и уведомления о нем");
         if (questionRepository.getQuestionById(questionId) != null) {
             questionRepository.delete(questionRepository.getQuestionById(questionId));
