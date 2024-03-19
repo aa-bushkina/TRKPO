@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * Вторая страница регистрации
@@ -32,25 +33,30 @@ public class SecondRegistrationPage extends PageBase {
 
     public SecondRegistrationPage typeName(String name) {
         logger.info("Вводим имя " + name);
+        executeJavaScript("arguments[0].value = '';", $(FIRST_NAME_INPUT));
         $(FIRST_NAME_INPUT).shouldBe(visible.because("Нет поля ввода для имени")).sendKeys(name);
         return this;
     }
 
     public SecondRegistrationPage typeSecondName(String name) {
         logger.info("Вводим фамилию " + name);
+        executeJavaScript("arguments[0].value = '';", $(SECOND_NAME_INPUT));
         $(SECOND_NAME_INPUT).shouldBe(visible.because("Нет поля ввода для фамилии")).sendKeys(name);
         return this;
     }
 
     public SecondRegistrationPage typeLogin(String login) {
         logger.info("Вводим логин " + login);
+        executeJavaScript("arguments[0].value = '';", $(LOGIN));
         $(LOGIN).shouldBe(visible.because("Нет поля ввода для логина")).sendKeys(login);
         return this;
     }
 
     public SecondRegistrationPage typePassword(String pass) {
         logger.info("Вводим пароль " + pass);
+        executeJavaScript("arguments[0].value = '';", $(PASSWORD));
         $(PASSWORD).shouldBe(visible.because("Нет поля ввода для пароля")).sendKeys(pass);
+        executeJavaScript("arguments[0].value = '';", $(REPEAT_PASSWORD));
         $(REPEAT_PASSWORD).shouldBe(visible.because("Нет поля повторного ввода для пароля")).sendKeys(pass);
         return this;
     }

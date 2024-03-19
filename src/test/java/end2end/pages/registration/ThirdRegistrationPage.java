@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 /**
  * Третья страница регистрации
@@ -47,12 +48,14 @@ public class ThirdRegistrationPage extends PageBase {
 
     public ThirdRegistrationPage typePhone(String phone) {
         logger.info("Вводим телефон " + phone);
+        executeJavaScript("arguments[0].value = '';", $(INPUT_PHONE));
         $(INPUT_PHONE).shouldBe(visible.because("Нет инпута для ввода телефона")).sendKeys(phone);
         return this;
     }
 
     public ThirdRegistrationPage choiceDate(String date) {
         logger.info("Выбираем дату рождения " + date);
+        executeJavaScript("arguments[0].value = '';", $(DATE_PICKER));
         $(DATE_PICKER).shouldBe(visible.because("Нет инпута для ввода даты рождения")).sendKeys(date);
         $(DATE_PICKER).sendKeys(Keys.ENTER);
         return this;

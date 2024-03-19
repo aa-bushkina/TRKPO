@@ -67,7 +67,7 @@ public class TestEnd2EndDisappearParticipantNotification extends TestBase {
         assertEquals(0, notificationsParticipantPage.getCountNotifications(), "Оповещение не исчезло");
 
         logger.info("Выходим из аккаунта");
-        notificationsMentorPage.goToStartPage().logout();
+        notificationsParticipantPage.goToStartPage().logout();
 
         logger.info("Тест прошел успешно");
     }
