@@ -62,6 +62,9 @@ public class TestEnd2EndFilterLogByType extends TestBase {
                         "Не сопадает количество записей с ожидаемым по фильтру: все")
         );
 
+        logger.info("Выходим из аккаунта");
+        logsPage.goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 }

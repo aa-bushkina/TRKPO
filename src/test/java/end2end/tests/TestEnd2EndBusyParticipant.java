@@ -36,6 +36,9 @@ public class TestEnd2EndBusyParticipant extends TestBase {
         logger.info("Проверяем, что страница не обновилась и логин остался в инпуте");
         assertEquals(LOGIN_PARTICIPANT, addParticipantPage.getLoginInInput(), "В инпуте неверный логин");
 
+        logger.info("Выходим из аккаунта");
+        addParticipantPage.goToStartPage().logout();
+
         logger.info("Тест прошел");
     }
 

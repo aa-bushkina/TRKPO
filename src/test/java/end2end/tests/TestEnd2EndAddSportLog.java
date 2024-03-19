@@ -50,6 +50,9 @@ public class TestEnd2EndAddSportLog extends TestBase {
                         "Не сопадает тип записи с ожидаемым")
         );
 
+        logger.info("Выходим из аккаунта");
+        logsPage.goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 }

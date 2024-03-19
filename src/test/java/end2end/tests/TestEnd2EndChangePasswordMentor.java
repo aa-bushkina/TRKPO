@@ -1,6 +1,7 @@
 package end2end.tests;
 
 import end2end.pages.mentor.SettingsMentorPage;
+import end2end.pages.mentor.StartMentorPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,10 +33,14 @@ public class TestEnd2EndChangePasswordMentor extends TestBase {
                 .clickSave();
 
         logger.info("Выходим из аккаунта и входим с новым паролем");
-        new SettingsMentorPage()
+        StartMentorPage startMentorPage = new SettingsMentorPage()
                 .goToStartPage()
                 .logout()
-                .login(LOGIN_MENTOR, NEW_PASSWORD);
+                .login(LOGIN_MENTOR, NEW_PASSWORD)
+                .andReturnStartMentorPage();
+
+        logger.info("Выходим из аккаунта");
+        startMentorPage.logout();
 
         logger.info("Тест прошел успешно");
     }

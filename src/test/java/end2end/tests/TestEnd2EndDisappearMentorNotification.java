@@ -60,6 +60,9 @@ public class TestEnd2EndDisappearMentorNotification extends TestBase {
                 .sendAnswer();
         assertEquals(0, notificationsMentorPage.getCountNotifications(), "Оповещение не исчезло");
 
+        logger.info("Выходим из аккаунта");
+        notificationsMentorPage.goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 

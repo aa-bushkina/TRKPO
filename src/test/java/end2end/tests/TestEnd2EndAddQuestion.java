@@ -47,6 +47,9 @@ public class TestEnd2EndAddQuestion extends TestBase {
                         "Не сопадает статус вопроса с ожидаемой")
         );
 
+        logger.info("Выходим из аккаунта");
+        questionPage.goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 }

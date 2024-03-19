@@ -1,6 +1,8 @@
 package end2end.tests;
 
+import end2end.pages.mentor.StartMentorPage;
 import end2end.pages.participant.RegistrationWithParametersPage;
+import end2end.pages.participant.StartParticipantPage;
 import end2end.pages.registration.SecondRegistrationPage;
 import end2end.pages.registration.ThirdRegistrationPage;
 import end2end.pages.utils.Sex;
@@ -39,6 +41,9 @@ public class TestEnd2EndRegistrationParticipant extends TestBase {
                 .typeHips(HIPS)
                 .typeWaist(WAIST)
                 .endRegistration();
+
+        logger.info("Выходим из аккаунта");
+        new StartParticipantPage().logout();
 
         logger.info("Тест прошел успешно");
     }

@@ -50,6 +50,9 @@ public class TestEnd2EndFilterLogByDate extends TestBase {
                         "Не сопадает количество записей с ожидаемым по фильтру: " + DATE_2)
         );
 
+        logger.info("Выходим из аккаунта");
+        logsPage.goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 }

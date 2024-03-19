@@ -78,6 +78,9 @@ public class TestEnd2EndSettingsParticipant extends TestBase {
                         "Не совпадает ожидаемое значение веса с установленным")
         );
 
+        logger.info("Выходим из аккаунта");
+        new SettingsParticipantPage().goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 }

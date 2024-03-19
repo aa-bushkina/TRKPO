@@ -1,8 +1,6 @@
 package end2end.pages.mentor;
 
 import end2end.pages.utils.PageBase;
-import org.apache.poi.ss.formula.functions.T;
-import org.checkerframework.checker.units.qual.A;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -39,7 +37,7 @@ public class AddParticipantPage extends PageBase {
         return new AddParticipantPage();
     }
 
-    public StartMentorPage home() {
+    public StartMentorPage goToStartPage() {
         logger.info("Возвращаеися на стартовую страницу");
         $(HOME).shouldBe(visible.because("Нет кнопки домой")).click();
         return new StartMentorPage();

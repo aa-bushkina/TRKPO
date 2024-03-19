@@ -49,7 +49,7 @@ public class LogParticipantPage extends PageBase {
         return $(DESC_TEXT).shouldBe(visible.because("Нет описания записи")).getValue();
     }
 
-    public StartParticipantPage home() {
+    public StartParticipantPage goToStartPage() {
         logger.info("Возвращаемся на стартовую страницу");
         $(HOME).shouldBe(visible.because("Нет кнопки домой")).click();
         return new StartParticipantPage();

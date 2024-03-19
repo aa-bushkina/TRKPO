@@ -20,7 +20,7 @@ public class TestEnd2EndCheckRestrictionsSettingsParticipant extends TestBase {
     private static final String LESS_WEIGHT = "1";
     private static final String NORMAL_BREAST = "100";
     private static final String MORE_BREAST = "251";
-    private static final String LESS_BREAST =  "29";
+    private static final String LESS_BREAST = "29";
     private static final String NORMAL_HIPS = "100";
     private static final String MORE_HIPS = "251";
     private static final String LESS_HIPS = "29";
@@ -133,7 +133,10 @@ public class TestEnd2EndCheckRestrictionsSettingsParticipant extends TestBase {
                 .clickHeight();
         assertFalse(settingsActiveParticipantPage.weightIsInvalid(),
                 "Поле ввода веса не стало валидным");
-        
+
+        logger.info("Выходим из аккаунта");
+        settingsActiveParticipantPage.saveChanges().goToStartPage().logout();
+
         logger.info("Тест прошел успешно");
     }
 

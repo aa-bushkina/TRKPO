@@ -62,6 +62,9 @@ public class TestEnd2EndMentorLookParticipantLogs extends TestBase {
         assertEquals(COMMENT, participantLogDetailsPage.getDescription(), "Неверное описание у записи");
         assertTrue(participantLogDetailsPage.getDate().contains(DATE_2), "Неверная дата записи");
 
+        logger.info("Выходим из аккаунта");
+        participantLogDetailsPage.goToStartPage().logout();
+
         logger.info("Тест прошел");
     }
 

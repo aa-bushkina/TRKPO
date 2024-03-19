@@ -33,7 +33,7 @@ public class TestEnd2EndAcceptMentorTracking extends TestBase {
         addParticipantPage = addParticipantPage.typeLogin(LOGIN_PARTICIPANT).sendRequest();
 
         logger.info("Выходим и логинимся участником");
-        StartParticipantPage startParticipantPage = addParticipantPage.home()
+        StartParticipantPage startParticipantPage = addParticipantPage.goToStartPage()
                 .logout()
                 .login(LOGIN_PARTICIPANT, PASSWORD)
                 .andReturnStartParticipantPage();
@@ -51,6 +51,9 @@ public class TestEnd2EndAcceptMentorTracking extends TestBase {
 
         logger.info("Проверяем, что в списке есть нужный отслеживаемый участник");
         startMentorPage.checkParticipant(FIRSTNAME, LASTNAME, LOGIN_PARTICIPANT);
+
+        logger.info("Выходим из аккаунта");
+        startMentorPage.logout();
 
         logger.info("Тест прошел успешно");
     }

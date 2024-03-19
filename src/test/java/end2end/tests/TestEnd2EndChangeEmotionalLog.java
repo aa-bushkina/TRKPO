@@ -63,7 +63,7 @@ public class TestEnd2EndChangeEmotionalLog extends TestBase {
         assertEquals(COMMENT + NEW_COMMENT, logParticipantPage.getDescription(), "Описание не изменилось");
 
         logger.info("Выходим, логинимся ментором и заходим в нотификации");
-        NotificationsMentorPage notificationsMentorPage = logParticipantPage.home()
+        NotificationsMentorPage notificationsMentorPage = logParticipantPage.goToStartPage()
                 .logout()
                 .login(LOGIN_MENTOR, PASSWORD)
                 .andReturnStartMentorPage()
@@ -72,6 +72,9 @@ public class TestEnd2EndChangeEmotionalLog extends TestBase {
         logger.info("Проверяем, что в нотификации текст изменился");
         OneNotificationMentorPage oneNotificationMentorPage = notificationsMentorPage.lookNotification();
         assertTrue(oneNotificationMentorPage.getMessage().contains(COMMENT + NEW_COMMENT), "Тест не изменился в уведомлении");
+
+        logger.info("Выходим из аккаунта");
+        oneNotificationMentorPage.clickBack().goToStartPage().logout();
 
         logger.info("Тест прошел успешно");
     }
