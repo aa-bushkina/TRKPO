@@ -98,10 +98,20 @@ jobs:
           java-version: 17
 #      - name: Install Maven
 #        run: sudo apt update && sudo apt install -y maven
-#      - name: Install dependencies
-#        run: mvn install -DskipTests
-#      - name: Install PostgreSQL client
-#        run: sudo apt update && sudo apt install -y postgresql-client
+      - name: Install dependencies
+        run: mvn install -DskipTests
+      - name: Set up Chrome
+        run: |
+          sudo apt update
+          sudo apt install -y wget
+          sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+      - name: Set up ChromeDriver
+        run: |
+          sudo wget https://chromedriver.storage.googleapis.com/$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
+          sudo unzip chromedriver_linux64.zip
+          sudo chmod +x chromedriver
+          sudo mv chromedriver /usr/local/bin/
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
