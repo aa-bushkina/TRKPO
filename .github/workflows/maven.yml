@@ -79,17 +79,6 @@ jobs:
   e2e_tests:
     needs: start_application
     runs-on: ubuntu-latest
-    env:
-      ACTIVE_PROFILE: default
-      CONFIG_URI: http://localhost:8088
-      SPRING_PROFILES_ACTIVE: native
-      EUREKA_HOSTNAME: localhost
-      DB_USER: postgres
-      DB_PASSWORD: root
-    container:
-      image: selenium/standalone-chrome:latest
-      options: --shm-size=2g --user root
-
     services:
       postgres:
         image: postgres:latest
@@ -100,7 +89,6 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -108,12 +96,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-      - name: Install Maven
-        run: sudo apt update && sudo apt install -y maven
-      - name: Install dependencies
-        run: mvn install -DskipTests
-      - name: Install PostgreSQL client
-        run: sudo apt update && sudo apt install -y postgresql-client
+#      - name: Install Maven
+#        run: sudo apt update && sudo apt install -y maven
+#      - name: Install dependencies
+#        run: mvn install -DskipTests
+#      - name: Install PostgreSQL client
+#        run: sudo apt update && sudo apt install -y postgresql-client
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
