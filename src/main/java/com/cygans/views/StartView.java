@@ -15,7 +15,7 @@ import com.vaadin.flow.theme.Theme;
 /**
  * Страница логина
  */
-@Route(value = "Вход")
+@Route(value = "login")
 @Theme(themeFolder = "styles")
 public class StartView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
