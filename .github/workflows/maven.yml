@@ -111,7 +111,8 @@ jobs:
 
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
+
       - name: Run E2E tests
-        run: mvn -B package test -Dtest=**/end2end/**
-
-
+        run: mvn clean test -Dtest=**/end2end/** -Dbrowser=chrome
+        env:
+          CLOUD_RUN_FLAG: "Yes"
