@@ -79,6 +79,7 @@ jobs:
           sleep 1m
 
   e2e_tests:
+    needs: start_application
     runs-on: ubuntu-latest
     services:
       postgres:
