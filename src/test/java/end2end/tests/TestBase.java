@@ -27,6 +27,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,8 +98,15 @@ public class TestBase {
 
     @BeforeEach
     public void startDriver() {
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+
         WebDriverManager.chromedriver().setup();
         WebDriverManager.chromiumdriver().setup();
+
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }

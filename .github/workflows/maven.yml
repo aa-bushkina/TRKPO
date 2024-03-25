@@ -77,7 +77,6 @@ jobs:
 #        run: mvn spring-boot:run
 
   e2e_tests:
-#    needs: start_application
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -103,27 +102,6 @@ jobs:
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
       - name: Run E2E tests
-        run: mvn test -Dtest=**/end2end/**
+        run: mvn -B package test -Dtest=**/end2end/**
 
-#      - name: Install Maven
-#        run: sudo apt update && sudo apt install -y maven
-#      - name: Install dependencies
-#        run: mvn install -DskipTests
-#      - name: Set up Chrome
-#        run: |
-#          sudo apt update
-#          sudo apt install -y wget
-#          sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-#      - name: Set up ChromeDriver
-#        run: |
-#          sudo wget https://chromedriver.storage.googleapis.com/$(curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip
-#          sudo unzip chromedriver_linux64.zip
-#          sudo chmod +x chromedriver
-#          sudo mv chromedriver /usr/local/bin/
-#          echo "export PATH=$PATH:/usr/local/bin/" >> $HOME/.bashrc
-#          source $HOME/.bashrc
-#      - name: Set permissions for Chrome
-#        run: sudo chown root:root /opt/google/chrome/chrome && sudo chmod 4755 /opt/google/chrome/chrome
-#      - name: Start Chrome
-#        run: google-chrome-stable --no-sandbox --disable-gpu --disable-software-rasterizer &
+
