@@ -124,7 +124,7 @@ jobs:
 
       - name: Start Spring Boot Application
         run: |
-          nohup java -jar target/cygans.jar &
+          nohup java -jar target/cygans-1.0-SNAPSHOT.jar &
           sleep 1m 
 
       - name: Run E2E tests
