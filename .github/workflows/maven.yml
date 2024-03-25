@@ -92,6 +92,13 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@v2
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: set up JDK 17
