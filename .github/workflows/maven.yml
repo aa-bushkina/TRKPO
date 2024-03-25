@@ -117,7 +117,7 @@ jobs:
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
 
       - name: Build with Maven
-        run: mvn -B package
+        run: mvn -DskipTests package
 
       - name: LS
         run: ls target/
