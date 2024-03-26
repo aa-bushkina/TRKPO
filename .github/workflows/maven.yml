@@ -66,7 +66,7 @@ jobs:
 
 
   e2e_tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     services:
       postgres:
         image: postgres:latest
@@ -93,7 +93,6 @@ jobs:
           sleep 5
 #          nohup /usr/bin/google-chrome-stable --remote-debugging-port=9222 --headless --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage --no-sandbox &
 #          sleep 5
-          
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -104,13 +103,6 @@ jobs:
 
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
-
-      - name: npm
-        run: |
-          npm install
-          npm run build
-          npm start
-          nvm use 16
 
       - name: Build with Maven
         run: mvn -DskipTests package
