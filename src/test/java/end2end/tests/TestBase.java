@@ -40,6 +40,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 
+import static com.codeborne.selenide.Selenide.open;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -99,13 +100,16 @@ public class TestBase {
 
     @BeforeEach
     public void startDriver() {
-        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+        options.addArguments("--disable-dev-shm-usage", "--headless");
+        WebDriverManager.chromedriver().capabilities(options).setup();
+        //ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--headless");
+        //driver = new ChromeDriver(options);
         logger.info("Переходим на страницу логина");
-        driver.get("http://localhost:8080/login");
-        //open("http://localhost:8080/login");
+        //driver.get("http://localhost:8080/login");
+        open("http://localhost:8080/login");
     }
 
     protected LoginPage getLoginPage() {
