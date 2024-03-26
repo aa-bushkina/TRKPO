@@ -107,7 +107,7 @@ public class TestBase {
 //        ChromeOptions chrome_options = new ChromeOptions();
 //        chrome_options.addArguments("--headless");
 //
-//        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().setup();
 //
 //        driver = new ChromeDriver(chrome_options);
 //

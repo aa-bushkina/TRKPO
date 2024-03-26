@@ -89,8 +89,8 @@ jobs:
 
       - name: Start Chrome
         run: |
-          nohup chromedriver --url-base=/wd/hub &
-          sleep 5
+#          nohup chromedriver --url-base=/wd/hub &
+#          sleep 5
           nohup /usr/bin/google-chrome-stable --remote-debugging-port=9222 --headless --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage --no-sandbox &
           sleep 5
           
