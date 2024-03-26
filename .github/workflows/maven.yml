@@ -85,8 +85,8 @@ jobs:
       - uses: nanasess/setup-chromedriver@v2
       - run: |
           export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+          nohup chromedriver --url-base=/wd/hub &
+          sudo nohup Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       - name: Start Chrome
         run: |
