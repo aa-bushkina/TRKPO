@@ -100,12 +100,14 @@ public class TestBase {
     protected ChromeDriver driver;
     private final static int MAX_RETRY_COUNT = 20;
 
-
     @BeforeEach
     public void startDriver() {
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
+        options.addArguments("--chromeoptions.args");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         WebDriverManager.chromedriver().capabilities(options).setup();
         logger.info("Переходим на страницу логина");
         int retryCount = 0;

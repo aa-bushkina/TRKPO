@@ -114,6 +114,6 @@ jobs:
           sleep 20s 
 
       - name: Run E2E tests
-        run: mvn clean test -Dselenide.headless=true -Dtest=**/end2end/** -Dselenide.browser=chrome
+        run: mvn clean test -Dselenide.headless=true -Dtest=**/end2end/** -Dselenide.browser=chrome -Dselenide.pageLoadStrategy=eager
         env:
           CLOUD_RUN_FLAG: "Yes"
