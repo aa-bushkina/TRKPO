@@ -100,11 +100,6 @@ public class TestBase {
     protected static final String PASSWORD = "Qu_ntum_42";
     @BeforeEach
     public void startDriver() {
-
-        WebDriverManager.chromedriver().browserInDocker().config().setServerPort(8080);
-        WebDriverManager.chromedriver().browserInDocker().config().setDockerBrowserPort(8080);
-        WebDriverManager.chromedriver().config().setServerPort(8080);
-        WebDriverManager.chromedriver().config().setDockerBrowserPort(8080);
         WebDriverManager.chromedriver().setup();
 
         logger.info("Переходим на страницу логина");
