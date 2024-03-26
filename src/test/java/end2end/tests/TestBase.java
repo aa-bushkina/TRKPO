@@ -100,7 +100,7 @@ public class TestBase {
     protected static final String PASSWORD = "Qu_ntum_42";
     @BeforeEach
     public void startDriver() {
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.firefoxdriver().setup();
 
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
