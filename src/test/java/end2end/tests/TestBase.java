@@ -98,15 +98,7 @@ public class TestBase {
 
     @BeforeEach
     public void startDriver() {
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-
         WebDriverManager.chromedriver().setup();
-        WebDriverManager.chromiumdriver().setup();
-
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }
