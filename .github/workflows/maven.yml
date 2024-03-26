@@ -80,7 +80,7 @@ jobs:
     steps:
 
       - name: setup Docker
-        uses: docker/setup-docker@v2
+        run: brew install docker
 
       - uses: browser-actions/setup-chrome@latest
       - run: chrome --version
