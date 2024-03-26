@@ -92,8 +92,6 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-
-
       - uses: actions/checkout@v2
       - uses: nanasess/setup-chromedriver@v2
       - run: |
@@ -112,7 +110,6 @@ jobs:
       - run: chrome --version
 
 
-
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
 
@@ -125,9 +122,9 @@ jobs:
       - name: Start Spring Boot Application
         run: |
           nohup java -jar target/cygans-1.0-SNAPSHOT.jar &
-          sleep 1m 
+          sleep 20s 
 
       - name: Run E2E tests
-        run: mvn clean test -Dtest=**/end2end/** -Dbrowser=chrome
+        run: mvn clean test -Dtest=**/end2end/**
         env:
           CLOUD_RUN_FLAG: "Yes"
