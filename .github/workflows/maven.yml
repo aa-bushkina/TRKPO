@@ -106,7 +106,7 @@ jobs:
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
 
       - name: npm
-      - run: |
+        run: |
           npm install
           npm run build
           npm start
