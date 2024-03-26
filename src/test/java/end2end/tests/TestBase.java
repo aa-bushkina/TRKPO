@@ -104,13 +104,13 @@ public class TestBase {
 
 
 
-        ChromeOptions chrome_options = new ChromeOptions();
-        chrome_options.addArguments("--headless");
-
-        WebDriverManager.chromedriver().setup();
-
-        driver = new ChromeDriver(chrome_options);
-
+//        ChromeOptions chrome_options = new ChromeOptions();
+//        chrome_options.addArguments("--headless");
+//
+//        WebDriverManager.chromedriver().setup();
+//
+//        driver = new ChromeDriver(chrome_options);
+//
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }
