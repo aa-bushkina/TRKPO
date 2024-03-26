@@ -98,7 +98,7 @@ jobs:
 #          sleep 5
 
       - name: set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v1
         with:
           java-version: 17
 
