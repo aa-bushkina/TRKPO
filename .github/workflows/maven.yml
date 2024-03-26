@@ -66,7 +66,7 @@ jobs:
 
 
   e2e_tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:latest
@@ -80,19 +80,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Install Docker (if necessary)
-        if: runner.os == 'macOS'
-        run: |
-          if ! docker --version &> /dev/null; then
-            echo "Docker is not installed. Installing..."
-            brew install docker
-          else
-            echo "Docker is already installed"
-          fi
-
-      - name: Add Docker to PATH
-        run: echo "$PATH" | grep -q "/usr/local/bin" || export PATH="/usr/local/bin:$PATH"
 
       - uses: browser-actions/setup-chrome@latest
       - run: chrome --version
@@ -109,7 +96,6 @@ jobs:
           sleep 5
 #          nohup /usr/bin/google-chrome-stable --remote-debugging-port=9222 --headless --disable-gpu --disable-software-rasterizer --disable-dev-shm-usage --no-sandbox &
 #          sleep 5
-
 
       - name: set up JDK 17
         uses: actions/setup-java@v4
