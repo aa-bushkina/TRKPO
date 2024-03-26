@@ -27,6 +27,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -97,6 +98,8 @@ public class TestBase {
     protected static final String HIPS = "123";
     protected static final String PASSWORD = "Qu_ntum_42";
     protected ChromeDriver driver;
+    private final static int MAX_RETRY_COUNT = 5;
+
 
     @BeforeEach
     public void startDriver() {
@@ -104,12 +107,35 @@ public class TestBase {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         WebDriverManager.chromedriver().capabilities(options).setup();
+        logger.info("Переходим на страницу логина");
+        int retryCount = 0;
+        while (true) {
+            try {
+                open("http://localhost:8080/login");
+                break;
+            } catch (WebDriverException e) {
+                if (retryCount > MAX_RETRY_COUNT) {
+                    throw new RuntimeException("Too many retries...", e);
+                }
+
+                logger.warn("encountered exception : ", e);
+                logger.warn("Trying again...");
+
+                retryCount++;
+                try {
+                    Thread.sleep(2_000);
+                } catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                }
+                continue;
+            }
+        }
         //ChromeOptions options = new ChromeOptions();
         //options.addArguments("--headless");
         //driver = new ChromeDriver(options);
-        logger.info("Переходим на страницу логина");
+       // logger.info("Переходим на страницу логина");
         //driver.get("http://localhost:8080/login");
-        open("http://localhost:8080/login");
+        //open("http://localhost:8080/login");
     }
 
     protected LoginPage getLoginPage() {
