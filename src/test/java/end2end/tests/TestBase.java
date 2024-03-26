@@ -23,10 +23,13 @@ import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
 import end2end.pages.registration.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,10 +98,19 @@ public class TestBase {
     protected static final String WAIST = "123";
     protected static final String HIPS = "123";
     protected static final String PASSWORD = "Qu_ntum_42";
-
+    WebDriver driver;
     @BeforeEach
     public void startDriver() {
+
+
+
+        ChromeOptions chrome_options = new ChromeOptions();
+        chrome_options.addArguments("--headless");
+
         WebDriverManager.chromedriver().setup();
+
+        driver = new ChromeDriver(chrome_options);
+
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }
@@ -245,5 +257,7 @@ public class TestBase {
             participantMentorRepository.delete(participantMentorRepository.findByParticipantId(participantId));
             logger.info("Удалили связь участника и ментора");
         }
+
+        driver.quit();
     }
 }
