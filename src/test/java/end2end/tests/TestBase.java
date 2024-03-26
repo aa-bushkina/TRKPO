@@ -102,7 +102,7 @@ public class TestBase {
     public void startDriver() {
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage", "--headless");
+        options.addArguments("--headless");
         WebDriverManager.chromedriver().capabilities(options).setup();
         //ChromeOptions options = new ChromeOptions();
         //options.addArguments("--headless");
