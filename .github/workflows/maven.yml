@@ -105,6 +105,13 @@ jobs:
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
 
+      - name: npm
+      - run: |
+          npm install
+          npm run build
+          npm start
+          nvm use 16
+
       - name: Build with Maven
         run: mvn -DskipTests package
 
