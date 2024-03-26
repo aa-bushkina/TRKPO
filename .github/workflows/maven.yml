@@ -82,7 +82,7 @@ jobs:
       - run: chrome --version
 
       - uses: actions/checkout@v2
-      - uses: nanasess/setup-chromedriver@latest
+      - uses: nanasess/setup-chromedriver@v2
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
