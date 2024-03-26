@@ -98,19 +98,15 @@ public class TestBase {
     protected static final String WAIST = "123";
     protected static final String HIPS = "123";
     protected static final String PASSWORD = "Qu_ntum_42";
-    WebDriver driver;
     @BeforeEach
     public void startDriver() {
 
-
-
-//        ChromeOptions chrome_options = new ChromeOptions();
-//        chrome_options.addArguments("--headless");
-//
+        WebDriverManager.chromedriver().browserInDocker().config().setServerPort(9222);
+        WebDriverManager.chromedriver().browserInDocker().config().setDockerBrowserPort(9222);
+        WebDriverManager.chromedriver().config().setServerPort(9222);
+        WebDriverManager.chromedriver().config().setDockerBrowserPort(9222);
         WebDriverManager.chromedriver().setup();
-//
-//        driver = new ChromeDriver(chrome_options);
-//
+
         logger.info("Переходим на страницу логина");
         open("http://localhost:8080/login");
     }
@@ -258,6 +254,5 @@ public class TestBase {
             logger.info("Удалили связь участника и ментора");
         }
 
-        driver.quit();
     }
 }
