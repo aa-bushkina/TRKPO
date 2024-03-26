@@ -78,12 +78,15 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-#      - uses: actions/checkout@v2
-#      - uses: nanasess/setup-chromedriver@v2
-#      - run: |
-#          export DISPLAY=:99
-#          chromedriver --url-base=/wd/hub &
-#          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@latest
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -92,8 +95,6 @@ jobs:
         with:
           java-version: 17
 
-#      - uses: browser-actions/setup-chrome@latest
-#      - run: chrome --version
 
 
       - name: Fill tables
@@ -101,26 +102,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn -DskipTests package
-
-      - name: Install Chrome, ChromeDriver, and Xvfb
-        run: |
-          # Установка Chrome и ChromeDriver
-          CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*}")
-          curl -o /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-          sudo unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
-
-          # Установка Xvfb
-          sudo apt-get update
-          sudo apt-get install -y xvfb
-
-          # Проверка версии Chrome и ChromeDriver
-          google-chrome --version
-          chromedriver --version
-
-          # Запуск Xvfb
-          sudo Xvfb :99 -ac -screen 0 1280x1024x16 &
 
       - name: Start Spring Boot Application
         run: |
