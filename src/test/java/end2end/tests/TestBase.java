@@ -98,7 +98,7 @@ public class TestBase {
     protected static final String HIPS = "123";
     protected static final String PASSWORD = "Qu_ntum_42";
     protected ChromeDriver driver;
-    private final static int MAX_RETRY_COUNT = 5;
+    private final static int MAX_RETRY_COUNT = 20;
 
 
     @BeforeEach
@@ -127,7 +127,6 @@ public class TestBase {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                continue;
             }
         }
         //ChromeOptions options = new ChromeOptions();
