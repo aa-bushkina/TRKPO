@@ -81,6 +81,11 @@ jobs:
       - uses: browser-actions/setup-chrome@latest
       - run: chrome --version
 
+      - name: Start Chrome
+        run: |
+          nohup /usr/bin/google-chrome-stable
+          sleep 5
+
       - uses: actions/checkout@v2
       - uses: nanasess/setup-chromedriver@v2
       - run: |
@@ -94,8 +99,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
-
-
 
       - name: Fill tables
         run: PGPASSWORD=root psql -h localhost -U postgres -d postgres -f fill-tables.sql
