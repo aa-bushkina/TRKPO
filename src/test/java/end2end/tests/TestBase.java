@@ -23,12 +23,10 @@ import com.cygans.security.db.logInfo.LoginInfoService;
 import com.vaadin.flow.server.VaadinSession;
 import end2end.pages.registration.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -42,7 +40,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDate;
 
-import static com.codeborne.selenide.Selenide.open;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -98,12 +95,17 @@ public class TestBase {
     protected static final String WAIST = "123";
     protected static final String HIPS = "123";
     protected static final String PASSWORD = "Qu_ntum_42";
+    protected ChromeDriver driver;
+
     @BeforeEach
     public void startDriver() {
-        WebDriverManager.firefoxdriver().setup();
-
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         logger.info("Переходим на страницу логина");
-        open("http://localhost:8080/login");
+        driver.get("http://localhost:8080/login");
+        //open("http://localhost:8080/login");
     }
 
     protected LoginPage getLoginPage() {
